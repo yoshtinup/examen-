@@ -1,19 +1,19 @@
-export class EstatusIndividual {
+export interface EstatusIndividual {
   nombre: string;
   estatus: string;
   rol: string;
   fecha: string;
   motivoRechazo?: string;
-}
+};
 
-export class Codirector {
+export interface Codirector {
   sNI: string;
   numPubArb: number;
   numEstMaestria: number;
   numEstDoc: number;
-}
+};
 
-export class IntegranteCT {
+export interface IntegranteCT {
   idTutorSinodal: number;
   nombre?: string;
   unidad?: string;
@@ -32,4 +32,4 @@ export class IntegranteCT {
   evaluadoPorCUP: boolean;
   estatusIndividual?: EstatusIndividual[];
   datosCodirector?: Codirector;
-}
+};

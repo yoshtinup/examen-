@@ -1,3 +1,3 @@
-export default class Message {
+export default interface Message {
   message: string;
 }

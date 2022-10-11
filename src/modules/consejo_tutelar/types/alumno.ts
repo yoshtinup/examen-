@@ -1,4 +1,4 @@
-class Alumno {
+interface Alumno {
   idPersonalAcademico?: number;
   matricula: number;
   Nombre?: string;
@@ -15,5 +15,5 @@ class Alumno {
   evaluadoPorIntegranteCT?: boolean;
   statusGeneral: number;
   leyendaEstatusGeneral?: string;
-}
+};
 export default Alumno;

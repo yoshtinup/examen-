@@ -1,4 +1,13 @@
-export { default as Alumno } from './alumno';
-export { EstatusIndividual, Codirector, IntegranteCT } from './integranteCT';
-export { AsesorExterno, IntegrantesCTList } from './registro'
-export { default as Message } from './message'
+export type { default as Alumno } from './alumno';
+export type {
+  EstatusIndividual,
+  Codirector,
+  IntegranteCT,
+} from './integranteCT';
+export type {
+  AsesorExterno,
+  IntegrantesCTList,
+  EvaluacionIntegrante,
+  EvaluacionComite,
+} from './registro';
+export type { default as Message } from './message';

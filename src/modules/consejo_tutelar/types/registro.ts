@@ -1,6 +1,6 @@
-import { Codirector } from './integrantesCT';
+import { Codirector } from './integranteCT';
 
-export class AsesorExterno {
+export interface AsesorExterno {
   id?: number;
   apellidoPaterno: string;
   apellidoMaterno: string;
@@ -12,9 +12,18 @@ export class AsesorExterno {
   argumentacion: string;
   codirectorInfo?: Codirector;
   fileName: string;
-}
+};
 
-export class IntegrantesCTList {
+export interface IntegrantesCTList {
   externos?: AsesorExterno[];
   internos: number[];
-}
+};
+
+export interface EvaluacionIntegrante {
+  aprobo: boolean;
+  comentario?: string;
+};
+
+export interface EvaluacionComite extends EvaluacionIntegrante {
+  id: number;
+};
