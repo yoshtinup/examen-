@@ -1,7 +1,14 @@
-import { Alumno, IntegranteCT, IntegrantesCTList, Message, EvaluacionIntegrante, EvaluacionComite } from '../types';
+import {
+  Alumno,
+  IntegranteCT,
+  IntegrantesCTList,
+  Message,
+  EvaluacionIntegrante,
+  EvaluacionComite,
+} from '../types';
 
 /**
-  * Clase que encapsula las consultas del Procesos de conformacion de CT
+ * Clase que encapsula las consultas del Procesos de conformacion de CT
  * @author Diego Cruz Aguilar
  * @constructor (string) recibe un token para realizar la solicitudes http
  */
@@ -19,17 +26,19 @@ class ConsejoTutelarQuerys {
    * @param requestProps - Propriedades de la solicitud
    * @returns (promise<T>) retorna el tipo de la template o un error
    */
-  private api<T>(
+  private async api<T>(
     endpoint: string,
-    requestProps: RequestInit = { method: 'GET', headers: { 'Authorization': this._token} },
+    requestProps: RequestInit = {
+      method: 'GET',
+      headers: { Authorization: this._token },
+    }
   ): Promise<T> {
     const url: string = this._baseUrl + endpoint;
-    return fetch(url, requestProps).then(response => {
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-      return response.json() as Promise<T>;
-    });
+    const response = await fetch(url, requestProps);
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return await (response.json() as Promise<T>);
   }
 
   /**
@@ -85,12 +94,11 @@ class ConsejoTutelarQuerys {
     return {
       method: 'PUT',
       headers: {
-        'Authorization': this._token,
-        'Content-Type': 'application/json;charset=utf-8'
+        Authorization: this._token,
+        'Content-Type': 'application/json;charset=utf-8',
       },
       body: JSON.stringify(data),
     };
-
   }
 
   /**
@@ -99,8 +107,14 @@ class ConsejoTutelarQuerys {
    * @param evaluacion - informacion de rechazo o aceptacion
    * @returns (Promise<Message>) Menaeje satisfactorio de error
    */
-  async integranteRevisar(matricula: number, evaluacion: EvaluacionIntegrante): Promise<Message> {
-    const integrantes = await this.api<Message>(`integrante/revisar/${matricula}`, this._getJsonRequest(evaluacion));
+  async integranteRevisar(
+    matricula: number,
+    evaluacion: EvaluacionIntegrante
+  ): Promise<Message> {
+    const integrantes = await this.api<Message>(
+      `integrante/revisar/${matricula}`,
+      this._getJsonRequest(evaluacion)
+    );
     return integrantes;
   }
 
@@ -120,8 +134,14 @@ class ConsejoTutelarQuerys {
    * @param evaluacion - informacion de rechazo o aceptacion por integrante de un CT
    * @returns (Promise<Message>) Menaeje satisfactorio de error
    */
-  async registrarEvaluacion(matricula: number, evaluacion: EvaluacionComite): Promise<Message> {
-    const msg = await this.api<Message>(`registrar/evaluacion/${matricula}`, this._getJsonRequest(evaluacion));
+  async registrarEvaluacion(
+    matricula: number,
+    evaluacion: EvaluacionComite
+  ): Promise<Message> {
+    const msg = await this.api<Message>(
+      `registrar/evaluacion/${matricula}`,
+      this._getJsonRequest(evaluacion)
+    );
     return msg;
   }
 }

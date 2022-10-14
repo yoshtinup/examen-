@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Roles from '../definitions/Roles';
+import Roles from '@definitions/Roles';
 
 // hook pra ocultar un comonente si no es su rol
 export const WithRol =
