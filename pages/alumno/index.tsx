@@ -1,9 +1,9 @@
-import MainLayout from '@shared/components/layouts/MainLayoutAlumno';
+import DashboardLayout from '@shared/components/layouts/dashboard-layout';
 const Example = () => {
   return (
-    <MainLayout>
+    <DashboardLayout>
       <h3>Holas como estas</h3>
-    </MainLayout>
+    </DashboardLayout>
   );
 };
 export default Example;
