@@ -4,6 +4,7 @@ import { StyledThemeProvider } from '@definitions/styled-components';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Hydrate } from 'react-query/hydration';
 import { RecoilRoot } from 'recoil';
+import { DataComponent } from '@modules/auth/components/data';
 
 function MyApp({
   Component,
@@ -12,15 +13,16 @@ function MyApp({
   const queryClient = new QueryClient();
 
   return (
-    <StyledThemeProvider>
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-          <RecoilRoot>
+    <RecoilRoot>
+      <StyledThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <Hydrate state={pageProps.dehydratedState}>
+            <DataComponent />
             <Component {...pageProps} />
-          </RecoilRoot>
-        </Hydrate>
-      </QueryClientProvider>
-    </StyledThemeProvider>
+          </Hydrate>
+        </QueryClientProvider>
+      </StyledThemeProvider>
+    </RecoilRoot>
   );
 }
 
