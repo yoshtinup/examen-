@@ -1,2 +1,3 @@
 import EcosurFullDialog from './EcosurFullDialog';
-export { EcosurFullDialog };
+import EcosurSectionTitle from './EcosurSectionTitle';
+export { EcosurFullDialog, EcosurSectionTitle };

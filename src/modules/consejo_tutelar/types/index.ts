@@ -2,12 +2,15 @@ export type { default as Alumno } from './alumno';
 export type {
   EstatusIndividual,
   Codirector,
+  IntegrantePerfil,
   IntegranteCT,
 } from './integranteCT';
 export type {
   PersonalAcademico,
+  PersonalAcademicoItem,
   AsesorExterno,
-  IntegrantesCTList,
+  AsesorExternoItem,
+  SetIntegrantesCTList,
   EvaluacionIntegrante,
   EvaluacionComite,
 } from './registro';

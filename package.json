@@ -14,6 +14,13 @@
     "create-module": "node ./create-module.js"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/icons-material": "^5.10.9",
+    "@mui/material": "^5.10.11",
+    "@mui/system": "^5.10.10",
+    "@mui/x-data-grid": "^5.17.8",
+    "@mui/x-date-pickers": "^5.0.5",
     "ecosur-ui": "git+http://AplicacionWeb:xZTsJXniM_a5oZdMrswY@utilitics.ecosur.mx:8087/infonomia/ecosur-ui.git",
     "formik": "^2.2.9",
     "graphql": "16.6.0",
@@ -27,7 +34,8 @@
     "react-dom": "18.2.0",
     "react-query": "3.39.2",
     "recoil": "0.7.5",
-    "styled-components": "5.3.6",
+    "sweetalert2": "^11.6.2",
+    "uuid": "^9.0.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {

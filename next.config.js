@@ -8,5 +8,7 @@ module.exports = withPlugins([], {
     LOGIN_REDIRECT_URI: process.env.LOGIN_REDIRECT_URI,
     LOGIN_SCOPE: process.env.LOGIN_SCOPE,
     JWT_SECRET: process.env.JWT_SECRET,
+    HASURA_URL: process.env.HASURA_URL,
+    HASURA_SECRET: process.env.HASURA_SECRET,
   },
 });
