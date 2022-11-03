@@ -10,5 +10,5 @@ export const userStateAtom = atom({
 
 export const rolStateAtom = atom({
   key: `rolState/${v1()}`,
-  default: [] as Roles[],
+  default: null as Roles,
 });

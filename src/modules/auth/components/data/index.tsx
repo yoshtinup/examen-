@@ -5,8 +5,10 @@ import Roles from '@definitions/Roles';
 import { jwtVerify } from 'jose';
 import Cookies from 'js-cookie';
 import Router from 'next/router';
+import { useRouter } from 'next/router';
 
 export const DataComponent: React.FC<React.PropsWithChildren<unknown>> = () => {
+  const router = useRouter();
   const [userInfo, setUserInfo] = useRecoilState(userStateAtom);
   const [rol, setRol] = useRecoilState(rolStateAtom);
 
@@ -39,15 +41,20 @@ export const DataComponent: React.FC<React.PropsWithChildren<unknown>> = () => {
       const user = decodeUser.payload.user as object;
       const userRoles = decodeUserRoles.payload.userRoles as Array<number>;
       const selectedRol = decodeselectedRolToken.payload.selectedRol as number;
-      const roles: any = userRoles.map((value: Roles) => {
+      /* const roles: any = userRoles.map((value: Roles) => {
         return Roles[value];
-      });
-      setUserInfo(user);
-      setRol(roles);
+      }); */
+      if (userRoles.indexOf(selectedRol) > -1) {
+        setRol(selectedRol);
+        setUserInfo(user);
+      } else {
+        throw 'Usuario con rol no permitido';
+      }
     } catch (error) {
       Cookies.remove('selectedRol');
       Cookies.remove('userRoles');
       Cookies.remove('user');
+      router.push('/login');
       // console.log('REMOVED');
     }
   };

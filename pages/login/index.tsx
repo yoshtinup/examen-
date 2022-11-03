@@ -5,17 +5,18 @@ import {
 } from '@modules/auth/components';
 import { authCode, tokenValidation } from '@modules/auth/queries';
 import React from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { userStateAtom, rolStateAtom } from '@modules/auth/recoil';
 import Roles from '@definitions/Roles';
 import {
   EcosurAuth,
   AuthCode,
 } from '@modules/auth/definitions/usuarioPosgrado';
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
-import Router from 'next/router';
+import { QueryClient } from 'react-query';
 import jwt from 'jsonwebtoken';
 import { jwtVerify } from 'jose';
+import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
 
 type TabsProperties = {
   title: string;
@@ -23,6 +24,7 @@ type TabsProperties = {
 };
 
 function Auth({ user }: { user: EcosurAuth }) {
+  const router = useRouter();
   const [userInfo, setUserInfo] = useRecoilState(userStateAtom);
   const [rol, setRol] = useRecoilState(rolStateAtom);
   const [loginComponent, setLoginComponent] = React.useState<TabsProperties[]>(
@@ -46,13 +48,37 @@ function Auth({ user }: { user: EcosurAuth }) {
     ]);
 
     if (user) {
-      setUserInfo(user);
+      setData(user);
+    }
+  }, [setUserInfo, setRol, setLoginComponent]);
+
+  const setData = async (user: EcosurAuth) => {
+    try {
       const roles: any = user?.personal?.roles.map((value: Roles) => {
         return Roles[value];
       });
+      const selectedRolToken = Cookies.get('selectedRol');
+
+      const decodeselectedRolToken = await jwtVerify(
+        selectedRolToken,
+        new TextEncoder().encode(process.env.JWT_SECRET)
+      );
+      const selectedRol = decodeselectedRolToken.payload.selectedRol as number;
+      if (roles.indexOf(selectedRol) > -1) {
+        setRol(selectedRol);
+        setUserInfo(user);
+      } else {
+        throw 'Usuario con rol no permitido';
+      }
       setRol(roles);
+    } catch (error) {
+      console.log(error);
+      Cookies.remove('selectedRol');
+      Cookies.remove('userRoles');
+      Cookies.remove('user');
+      router.push('/login');
     }
-  }, [setUserInfo, setRol, setLoginComponent]);
+  };
 
   return (
     <section id="login">
@@ -113,7 +139,6 @@ export async function getServerSideProps(context: any) {
         ]);
 
         const selectedRolToken = context.req.cookies.selectedRol;
-        console.log(selectedRolToken);
 
         const decodeSelected = await jwtVerify(
           selectedRolToken,
