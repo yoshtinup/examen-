@@ -1,15 +1,12 @@
-import React from 'react';
-import { Wrapper, Header, Main, Footer } from '@template/components';
-import GlobalStyle from '@styles/globalStyles';
+import { ReactElement } from 'react';
 
-const Home: React.FC<React.PropsWithChildren<unknown>> = () => {
-  return (
-    <Wrapper>
-      <GlobalStyle />
-      <Header />
-      <Main />
-      <Footer />
-    </Wrapper>
-  );
+import { Layout } from '@shared/components/layouts';
+
+const Page = () => {
+  return <h1>Hola mundo</h1>;
 };
-export default Home;
+
+Page.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+export default Page;

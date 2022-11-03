@@ -19,12 +19,14 @@ const Transition = React.forwardRef(function Transition(
 });
 
 type Props = {
+  id?: string;
   title: string;
   open: boolean;
   handleClose: () => void;
 };
 
 const EcosurFullDialog: React.FC<React.PropsWithChildren<Props>> = ({
+  id,
   title,
   open,
   handleClose,
@@ -33,6 +35,7 @@ const EcosurFullDialog: React.FC<React.PropsWithChildren<Props>> = ({
   return (
     <div>
       <Dialog
+        id={id ?? 'ecosur-full-modal'}
         fullScreen
         open={open}
         onClose={handleClose}

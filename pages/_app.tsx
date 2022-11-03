@@ -1,27 +1,37 @@
-import React from 'react';
-import { AppProps } from 'next/app';
-import { StyledThemeProvider } from '@definitions/styled-components';
+import type { ReactElement, ReactNode } from 'react';
+import type { NextPage } from 'next';
+import type { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Hydrate } from 'react-query/hydration';
 import { RecoilRoot } from 'recoil';
+import { EcosurTheme } from 'ecosur-ui';
 import { DataComponent } from '@modules/auth/components/data';
+
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type AppPropsWithLayout<T> = AppProps<T> & {
+  Component: NextPageWithLayout<T>;
+};
 
 function MyApp({
   Component,
   pageProps,
-}: AppProps<{ dehydratedState: unknown }>): JSX.Element {
+}: AppPropsWithLayout<{ dehydratedState: unknown }>): JSX.Element {
   const queryClient = new QueryClient();
+  const getLayout = Component.getLayout ?? (page => page);
 
   return (
     <RecoilRoot>
-      <StyledThemeProvider>
+      <DataComponent />
+      <EcosurTheme>
         <QueryClientProvider client={queryClient}>
           <Hydrate state={pageProps.dehydratedState}>
-            <DataComponent />
-            <Component {...pageProps} />
+            {getLayout(<Component {...pageProps} />)}
           </Hydrate>
         </QueryClientProvider>
-      </StyledThemeProvider>
+      </EcosurTheme>
     </RecoilRoot>
   );
 }

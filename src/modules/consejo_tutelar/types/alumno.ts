@@ -1,7 +1,7 @@
 interface Alumno {
   idPersonalAcademico?: number;
   matricula: number;
-  Nombre?: string;
+  nombre?: string;
   idOrientacion?: number;
   orientacion?: string;
   idPrograma?: number;

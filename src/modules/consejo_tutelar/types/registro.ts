@@ -6,6 +6,10 @@ export interface PersonalAcademico {
   apellidoMaterno: string;
 }
 
+export interface PersonalAcademicoItem extends PersonalAcademico {
+  aprobadoPorComite: boolean;
+}
+
 export interface AsesorExterno extends PersonalAcademico {
   email: string;
   institucion: string;
@@ -16,7 +20,11 @@ export interface AsesorExterno extends PersonalAcademico {
   fileName: string;
 }
 
-export interface IntegrantesCTList {
+export interface AsesorExternoItem extends AsesorExterno {
+  aprobadoPorComite: boolean;
+}
+
+export interface SetIntegrantesCTList {
   externos?: AsesorExterno[];
   internos: number[];
 }
