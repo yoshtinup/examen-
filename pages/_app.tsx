@@ -25,13 +25,13 @@ function MyApp({
   return (
     <RecoilRoot>
       <DataComponent />
-      <EcosurTheme>
         <QueryClientProvider client={queryClient}>
           <Hydrate state={pageProps.dehydratedState}>
+          <EcosurTheme>
             {getLayout(<Component {...pageProps} />)}
+          </EcosurTheme>
           </Hydrate>
         </QueryClientProvider>
-      </EcosurTheme>
     </RecoilRoot>
   );
 }

@@ -1,18 +1,10 @@
 import { useQuery } from 'react-query';
-import { GraphQLClient, gql } from 'graphql-request';
-
-const API_URL = `${process.env.HASURA_URL}`;
-const SECRET = `${process.env.HASURA_SECRET}`;
-
-const graphQLClient = new GraphQLClient(API_URL, {
-  headers: {
-    'x-hasura-admin-secret': SECRET,
-  },
-});
+import { hasuraClient } from '@shared/queries';
+import { gql } from 'graphql-request';
 
 export function useGetListaPersonalInterno(IdGrado: number) {
   return useQuery(['personal-interno', IdGrado], async () => {
-    const { personal } = await graphQLClient.request(
+    const { personal } = await hasuraClient.request(
       gql`
         query ObtenerAsesores($IdGrado: Int!) {
           personal: CTAsesores(
@@ -33,7 +25,7 @@ export function useGetListaPersonalInterno(IdGrado: number) {
 
 export function useGetListaPersonalExterno(IdGrado: number) {
   return useQuery(['personal-externo', IdGrado], async () => {
-    const { personal } = await graphQLClient.request(
+    const { personal } = await hasuraClient.request(
       gql`
         query ObtenerAsesores($IdGrado: Int!) {
           personal: CTAsesores(
@@ -49,5 +41,60 @@ export function useGetListaPersonalExterno(IdGrado: number) {
       { IdGrado }
     );
     return personal;
+  });
+}
+
+export function useGetAlumnoCT(matricula: number) {
+  return useQuery(['alumno-ct', matricula], async () => {
+    const { result } = await hasuraClient.request(
+      gql`
+        query getCT($matricula: Int!) {
+          result: AlumnoPrograma(where: { Matricula: { _eq: $matricula } }) {
+            AsesoresInternos: TutoresSinodales(
+              where: {
+                IdParticipacion: { _eq: 1 }
+                PersonalAcademico: {
+                  IdUnidad: { _nin: 6 }
+                  db17_TutoresSinodales: {}
+                }
+              }
+            ) {
+              id: IdTutorSinodal
+              nombres: PersonalAcademico {
+                nombre: Nombre_s_
+                ApellidoMaterno
+                ApellidoPaterno
+              }
+            }
+            AsesoresExternos: TutoresSinodales(
+              where: {
+                IdParticipacion: { _eq: 1 }
+                PersonalAcademico: { IdUnidad: { _in: 6 } }
+              }
+            ) {
+              id: IdTutorSinodal
+              nombres: PersonalAcademico {
+                nombre: Nombre_s_
+                ApellidoMaterno
+                ApellidoPaterno
+              }
+              idParticipacion: IdParticipacion
+              argumentacion: db18_CT_DatosExtrasAsesoresExterno {
+                value: Argumentacion
+              }
+
+              codirectorInfo: db18_CT_DatosExtrasCodirectore {
+                SNI
+                NumEstDoc
+                NumEstMaestria
+                NumPubArb
+              }
+            }
+          }
+        }
+      `,
+      { matricula }
+    );
+    return result;
   });
 }

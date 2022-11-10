@@ -136,6 +136,7 @@ export async function getServerSideProps(context: any) {
         context.res.setHeader('set-cookie', [
           `userRoles=${tokenRoles}; Max-Age=86400000`,
           `user=${tokenUser}; Max-Age=86400000`,
+          `ecosurToken=${auth.access_token}; Max-Age=86400000`,
         ]);
 
         const selectedRolToken = context.req.cookies.selectedRol;

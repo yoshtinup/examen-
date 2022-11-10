@@ -9,13 +9,13 @@ import Checkbox from '@mui/material/Checkbox';
 import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { AsesorExterno } from '@modules/consejo_tutelar/types';
-import { EcosurButtonFilePicker } from 'ecosur-ui';
-import { EcosurFullDialog } from '@shared/components';
 import {
+  EcosurFullDialog,
   EcosurFormSelect,
   EcosurFormTextField,
   EcosurFormAutocomplete,
-} from '@shared/components/form';
+  EcosurButtonFilePicker,
+} from 'ecosur-ui';
 import {
   validationSchemaAsesorExterno,
   initialValuesAsesorExterno,
