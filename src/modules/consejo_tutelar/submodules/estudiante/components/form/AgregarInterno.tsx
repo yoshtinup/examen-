@@ -1,7 +1,7 @@
 import React from 'react';
-import { FormAgregarProps } from './FormAgregarProps';
+import FormAgregarProps from './FormAgregarProps';
 import * as yup from 'yup';
-import { Formik, FormikProps, Form, Field } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -9,7 +9,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { EcosurFormAutocomplete } from '@shared/components/form';
+import { EcosurFormAutocomplete } from 'ecosur-ui';
 import { PersonalAcademico } from '@modules/consejo_tutelar/types';
 
 const validationSchema = yup.object({

@@ -10,5 +10,6 @@ module.exports = withPlugins([], {
     JWT_SECRET: process.env.JWT_SECRET,
     HASURA_URL: process.env.HASURA_URL,
     HASURA_SECRET: process.env.HASURA_SECRET,
+    API_URL: process.env.API_URL
   },
 });

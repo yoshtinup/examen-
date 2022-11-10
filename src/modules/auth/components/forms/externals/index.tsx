@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Image from 'next/image';
@@ -12,9 +13,8 @@ export const LoginExternals: React.FC<
     email: Yup.string()
       .required('Este campo es requerido')
       .email('Correo electrónico inválido'),
-    password: Yup.string()
-      .required('Este campo es requerido')
-      //.min(8, 'La contraseña debe tener al menos 8 caracteres'),
+    password: Yup.string().required('Este campo es requerido'),
+    //.min(8, 'La contraseña debe tener al menos 8 caracteres'),
   });
 
   /* const sumbitForm = (user: any) => {
@@ -59,7 +59,9 @@ export const LoginExternals: React.FC<
           `${process.env.LOGIN_API}/Autorizacion/Usuario/Externo/Posgrado`,
           result.token
         )
-          .then()
+          .then(() => {
+            Cookies.set('ecosurToken', result.token, { expires: 1 });
+          })
           .catch();
       })
       .catch(err => {

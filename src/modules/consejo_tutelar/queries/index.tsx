@@ -1,8 +1,9 @@
-import ApiQuerys from '@shared/classes/apiQuerys';
+import { ApiQuerys } from '@shared/queries';
+import Cookies from 'js-cookie';
 import {
   Alumno,
   IntegranteCT,
-  IntegrantesCTList,
+  SetIntegrantesCTList,
   Message,
   EvaluacionIntegrante,
   EvaluacionComite,
@@ -18,8 +19,10 @@ class ConsejoTutelarQuerys extends ApiQuerys {
    * Consulta la lista de alumnos que cuentan con un consejo tutelar
    * @returns (Promise<Alumno[]>) Retorna la lista de alumnos que cuentan con un ct
    */
-  async getAlumnos(): Promise<Alumno[]> {
-    const alumnos = await this.api<{ data: Alumno[] }>('alumnos');
+  async getAlumnos(isDirectorTesis: boolean): Promise<Alumno[]> {
+    const alumnos = await this.api<{ data: Alumno[] }>(
+      `alumnos?isDirectorTesis=${isDirectorTesis}`
+    );
     return alumnos.data;
   }
 
@@ -28,9 +31,12 @@ class ConsejoTutelarQuerys extends ApiQuerys {
    * @param  matricula - Matricula de un estudiante que cuenta con consejo tutelar
    * @returns (Promise<IntegranteCT[]>) Lista de personas integrantes del consejo tutelar de un alumno
    */
-  async getIntegrantes(matricula: number): Promise<IntegranteCT[]> {
+  async getIntegrantes(
+    matricula: number,
+    isDirectorTesis: boolean = false
+  ): Promise<IntegranteCT[]> {
     const integrantes = await this.api<{ data: IntegranteCT[] }>(
-      matricula.toString()
+      `${matricula.toString()}?isDirectorTesis=${isDirectorTesis}`
     );
     return integrantes.data;
   }
@@ -42,7 +48,7 @@ class ConsejoTutelarQuerys extends ApiQuerys {
    * @returns (Promise<Message>) Mensaje de error o correcto segun corresponda
    */
   async registrar(
-    integrantes: IntegrantesCTList,
+    integrantes: SetIntegrantesCTList,
     files: File[]
   ): Promise<Message> {
     const formData: FormData = new FormData();
@@ -93,7 +99,7 @@ class ConsejoTutelarQuerys extends ApiQuerys {
    */
   async registrarEvaluacion(
     matricula: number,
-    evaluacion: EvaluacionComite
+    evaluacion: EvaluacionComite[]
   ): Promise<Message> {
     const msg = await this.api<Message>(
       `registrar/evaluacion/${matricula}`,
@@ -106,5 +112,5 @@ class ConsejoTutelarQuerys extends ApiQuerys {
 /* const { isLoading, isSuccess, isError, data, error, refetch } = */
 /* useQuery<Tutorial[], Error>('query-tutorials', fetchTutorials, { enabled: false, retry: 2, onSuccess, onError }); */
 export default new ConsejoTutelarQuerys(
-  'https://localhost:7241/consejo_tutelar/'
+  process.env.API_URL + '/consejo_tutelar/'
 );

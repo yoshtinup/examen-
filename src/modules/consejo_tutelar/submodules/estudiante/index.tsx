@@ -1,5 +1,21 @@
 import React from 'react';
-import { Box, Stack, Container, Card, Button } from '@mui/material';
+import { useRecoilValue } from 'recoil';
+import { userStateAtom } from '@modules/auth/recoil';
+import { EcosurAuth } from '@modules/auth/definitions';
+import { useMutation } from 'react-query';
+import ConsejoTutelarQuerys from '@modules/consejo_tutelar/queries';
+import { useGetAlumnoCT } from './queries';
+import { PersonalAcademicoGql, AsesorExternoGql } from './types';
+import Swal from 'sweetalert2';
+import {
+  Alert,
+  CircularProgress,
+  Box,
+  Stack,
+  Container,
+  Card,
+  Button,
+} from '@mui/material';
 import {
   PersonalAcademico,
   AsesorExterno,
@@ -15,34 +31,45 @@ import {
 
 import { ConformacionCT } from './validations';
 
-const internosItems: PersonalAcademico[] = [
-  {
-    id: 333,
-    nombre: 'Diego',
-    apellidoPaterno: 'Cruz',
-    apellidoMaterno: 'Aguilar',
-  },
-  {
-    id: 334,
-    nombre: 'Diego',
-    apellidoPaterno: 'Cruz',
-    apellidoMaterno: 'Aguilar',
-  },
-  /* { */
-  /*   id: 335, */
-  /*   nombre: 'Diego', */
-  /*   apellidoPaterno: 'Cruz', */
-  /*   apellidoMaterno: 'Aguilar', */
-  /* }, */
-];
+type ConsejoTutelarData = {
+  integrantes: SetIntegrantesCTList;
+  files: File[];
+};
 
-const externosItems: AsesorExterno[] = [];
+type ConsejoTutelar = {
+  externosItems: AsesorExterno[];
+  internosItems: PersonalAcademico[];
+};
 
-const Estudiante = () => {
+const EstudiantePage: React.FC<ConsejoTutelar> = ({
+  externosItems,
+  internosItems,
+}) => {
+  const [disabled, setDisabled] = React.useState<boolean>(true);
+  const { mutate, isLoading } = useMutation(
+    async (ct: ConsejoTutelarData) =>
+      await ConsejoTutelarQuerys.registrar(ct.integrantes, ct.files),
+    {
+      onSuccess: () => {
+        Swal.fire({
+          icon: 'success',
+          title: 'El consejo tutelar',
+          text: 'Se guardo exitosamente',
+        });
+      },
+      onError: () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error en el consejo tutelar',
+          text: 'No se pudo guardar su consejo tutelar, intentelo nuevamente, o verfique a sus integrantes',
+        });
+        setDisabled(false);
+      },
+    }
+  );
   const [conformacionCT, setConformacionCT] = React.useState<ConformacionCT>(
     new ConformacionCT()
   );
-  const [disabled, setDisabled] = React.useState<boolean>(true);
   const [disabledBtnExternos, setDisabledBtnExternos] =
     React.useState<boolean>(false);
   const [disabledBtnInternos, setDisabledBtnInternos] =
@@ -110,8 +137,7 @@ const Estudiante = () => {
         .filter(interno => !interno.aprobadoPorComite)
         .map(interno => interno.id),
     };
-    console.log(consejoTutelar);
-    console.log(externosFiles);
+    mutate({ integrantes: consejoTutelar, files: externosFiles });
     setDisabled(true);
   };
 
@@ -170,6 +196,50 @@ const Estudiante = () => {
         </Button>
       </Box>
     </Container>
+  );
+};
+
+const Estudiante = () => {
+  const user: EcosurAuth = useRecoilValue(userStateAtom);
+  const { data, isError, isLoading, isSuccess } = useGetAlumnoCT(
+    user.estudiante?.matricula
+  );
+  if (isError)
+    return <Alert severity="error">No se pudo cargar su consejo tutelar</Alert>;
+  if (isLoading) return <CircularProgress />;
+  let integrantesInternos: PersonalAcademico[] = [];
+  let integrantesExternos: AsesorExterno[] = [];
+  if (isSuccess) {
+    integrantesInternos = data[0].AsesoresInternos.map(
+      (interno: PersonalAcademicoGql) => ({
+        id: interno.id,
+        nombre: interno.nombres.nombre,
+        apellidoMaterno: interno.nombres.ApellidoMaterno,
+        apellidoPaterno: interno.nombres.ApellidoPaterno,
+      })
+    );
+    integrantesExternos = data[0].AsesoresExternos.map(
+      (externo: AsesorExternoGql) => ({
+        id: externo.id,
+        nombre: externo.nombres.nombre,
+        apellidoMaterno: externo.nombres.ApellidoMaterno,
+        apellidoPaterno: externo.nombres.ApellidoPaterno,
+        idParticipacion: externo.idParticipacion,
+        argumentacion: externo.argumentacion.value,
+        codirectorInfo: {
+          sNI: externo.codirectorInfo.SNI,
+          numPubArb: externo.codirectorInfo.NumPubArb,
+          numEstMaestria: externo.codirectorInfo.NumEstMaestria,
+          numEstDoc: externo.codirectorInfo.NumEstDoc,
+        },
+      })
+    );
+  }
+  return (
+    <EstudiantePage
+      internosItems={integrantesInternos}
+      externosItems={integrantesExternos}
+    />
   );
 };
 export default Estudiante;

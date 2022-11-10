@@ -13,7 +13,7 @@ interface Alumno {
   evaluadoPorResponsableOrientacion?: boolean;
   evaluadoPorCordinacionUnidad?: boolean;
   evaluadoPorIntegranteCT?: boolean;
-  statusGeneral: number;
+  estatusGeneral: number;
   leyendaEstatusGeneral?: string;
-};
+}
 export default Alumno;
