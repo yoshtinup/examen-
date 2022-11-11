@@ -1,10 +1,10 @@
-import Cookies from 'js-cookie';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Image from 'next/image';
 import { login, tokenValidation } from '@modules/auth/queries';
 import { useQuery } from 'react-query';
 import { Box, Typography, Input, Button } from '@mui/material';
+import Cookies from 'js-cookie';
 
 export const LoginExternals: React.FC<
   React.PropsWithChildren<unknown>
@@ -13,8 +13,9 @@ export const LoginExternals: React.FC<
     email: Yup.string()
       .required('Este campo es requerido')
       .email('Correo electrónico inválido'),
-    password: Yup.string().required('Este campo es requerido'),
-    //.min(8, 'La contraseña debe tener al menos 8 caracteres'),
+    password: Yup.string()
+      .required('Este campo es requerido')
+      //.min(8, 'La contraseña debe tener al menos 8 caracteres'),
   });
 
   /* const sumbitForm = (user: any) => {

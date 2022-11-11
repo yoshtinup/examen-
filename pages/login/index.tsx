@@ -17,13 +17,14 @@ import jwt from 'jsonwebtoken';
 import { jwtVerify } from 'jose';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
+import Routes from '../../Routes';
 
 type TabsProperties = {
   title: string;
   component: React.ReactElement;
 };
 
-function Auth({ user }: { user: EcosurAuth }) {
+const Auth = ({ user }: { user: EcosurAuth }) => {
   const router = useRouter();
   const [userInfo, setUserInfo] = useRecoilState(userStateAtom);
   const [rol, setRol] = useRecoilState(rolStateAtom);
@@ -72,10 +73,10 @@ function Auth({ user }: { user: EcosurAuth }) {
       }
       setRol(roles);
     } catch (error) {
-      console.log(error);
       Cookies.remove('selectedRol');
       Cookies.remove('userRoles');
       Cookies.remove('user');
+      Cookies.remove('ecosurToken');
       router.push('/login');
     }
   };
@@ -87,13 +88,17 @@ function Auth({ user }: { user: EcosurAuth }) {
       </div>
     </section>
   );
-}
+};
 
 export async function getServerSideProps(context: any) {
   const queryClient = new QueryClient();
-  let isError = {
+  const isError = {
     message: '',
     check: false,
+  };
+  const check = {
+    isPermited: false,
+    index: -1,
   };
   let auth: AuthCode;
   let user: EcosurAuth;
@@ -125,6 +130,7 @@ export async function getServerSideProps(context: any) {
             auth.access_token
           )
         );
+
         const roles: any = user?.personal?.roles.map((value: Roles) => {
           return Roles[value];
         });
@@ -133,10 +139,10 @@ export async function getServerSideProps(context: any) {
           process.env.JWT_SECRET
         );
         const tokenUser = jwt.sign({ user: user }, process.env.JWT_SECRET);
-        context.res.setHeader('set-cookie', [
+        context.res.setHeader('Set-Cookie', [
           `userRoles=${tokenRoles}; Max-Age=86400000`,
           `user=${tokenUser}; Max-Age=86400000`,
-          `ecosurToken=${auth.access_token}; Max-Age=86400000`,
+          `ecosurToken=${auth.access_token}; Max-Age=${auth.expires_in}`, //The new token
         ]);
 
         const selectedRolToken = context.req.cookies.selectedRol;
@@ -146,39 +152,20 @@ export async function getServerSideProps(context: any) {
           new TextEncoder().encode(process.env.JWT_SECRET)
         );
 
-        const selectedRol = decodeSelected.payload.selectedRol as number;
+        const selectedRol = decodeSelected.payload.selectedRol as Roles;
 
-        const path = [
-          selectedRol === Roles.Academico ||
-            selectedRol === Roles.Responsable_Orientacion ||
-            selectedRol === Roles.Coordinador_Unidad ||
-            selectedRol === Roles.Coordinacion_General_Posgrado ||
-            selectedRol === Roles.Servicios_Escolares,
-          selectedRol === Roles.Externo,
-          selectedRol === Roles.Estudiante,
-        ];
+        Routes.forEach(values => {
+          check.index = values.roles.indexOf(selectedRol);
+        });
 
-        if (path[0])
-          return {
-            redirect: {
-              permanent: false,
-              destination: '/consejo_tutelar',
-            },
-          };
-        if (path[1])
-          return {
-            redirect: {
-              permanent: false,
-              destination: '/academicoexterno',
-            },
-          };
-        if (path[2])
-          return {
-            redirect: {
-              permanent: false,
-              destination: '/estudiante',
-            },
-          };
+        if (check.index === -1) throw 'Error en la redirección';
+
+        return {
+          redirect: {
+            permanent: false,
+            destination: Routes[check.index].path,
+          },
+        };
       } catch (error) {
         isError.check = true;
       }
