@@ -54,11 +54,15 @@ class ApiQuerys {
     };
   }
 
+  /**
+   * @param {FormData} data data de tipo formulario
+   * @param {string} method metodo para un fetch de datos
+   * @returns {RequestInit} retotorna un objeto request
+   */
   protected getFormRequest(
     data: FormData,
     method: 'POST' | 'PUT'
   ): RequestInit {
-    console.log(this._token);
     return {
       method: method,
       headers: {
