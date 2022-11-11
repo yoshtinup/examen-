@@ -73,11 +73,12 @@ const Auth = ({ user }: { user: EcosurAuth }) => {
       }
       setRol(roles);
     } catch (error) {
+      console.log(error);
       Cookies.remove('selectedRol');
       Cookies.remove('userRoles');
       Cookies.remove('user');
       Cookies.remove('ecosurToken');
-      router.push('/login');
+      //router.push('/login'); //Check
     }
   };
 
@@ -131,7 +132,11 @@ export async function getServerSideProps(context: any) {
           )
         );
 
-        const roles: any = user?.personal?.roles.map((value: Roles) => {
+        const studentRol = ['Estudiante'];
+
+        const dataUser: any = user?.personal?.roles || studentRol;
+
+        const roles = dataUser.map((value: Roles) => {
           return Roles[value];
         });
         const tokenRoles = jwt.sign(
@@ -154,11 +159,12 @@ export async function getServerSideProps(context: any) {
 
         const selectedRol = decodeSelected.payload.selectedRol as Roles;
 
-        Routes.forEach(values => {
-          check.index = values.roles.indexOf(selectedRol);
+        check.index = Routes.findIndex(data => {
+          const index = data.roles.indexOf(selectedRol);
+          return data.roles[index] === selectedRol;
         });
 
-        if (check.index === -1) throw 'Error en la redirección';
+        if (check.index === -1) throw 'Error en la redirección'; // Si no existe la configuración en Routes.ts también retorna un -1
 
         return {
           redirect: {
@@ -167,7 +173,14 @@ export async function getServerSideProps(context: any) {
           },
         };
       } catch (error) {
+        console.error(error);
         isError.check = true;
+        context.res.setHeader('Set-Cookie', [
+          `userRoles=; Max-Age=0`,
+          `user=; Max-Age=0`,
+          `selectedRol=; Max-Age=0`,
+          `ecosurToken=; Max-Age=0`, //The new token
+        ]);
       }
     }
   }

@@ -5,6 +5,7 @@ import { jwtVerify } from 'jose';
 import Routes from './Routes';
 
 export async function middleware(request: NextRequest) {
+  const response = NextResponse.next();
   const userCookie = request.cookies.get('user');
   const userRolesCookie = request.cookies.get('userRoles');
   const selectedRolCookie = request.cookies.get('selectedRol');
@@ -43,11 +44,11 @@ export async function middleware(request: NextRequest) {
         new URL(Routes[check.index].path, request.url) //to index
       );
     } catch (error) {
-      request.cookies.delete('user');
-      request.cookies.delete('userRoles');
-      request.cookies.delete('selectedRol');
-      request.cookies.delete('ecosurToken');
-      //request.cookies.delete('refreshToken');
+      response.cookies.set('user', '', { maxAge: 0 });
+      response.cookies.set('userRoles', '', { maxAge: 0 });
+      response.cookies.set('selectedRol', '', { maxAge: 0 });
+      response.cookies.set('ecosurToken', '', { maxAge: 0 });
+      //response.cookies.set('refreshToken', '', { maxAge: 0 });
       return;
     }
 
@@ -78,16 +79,17 @@ export async function middleware(request: NextRequest) {
       }
     });
 
+    // Si no existe la configuración en Routes.ts también retorna un falso
     if (check.isPermited === false)
       return NextResponse.redirect(new URL('/401', request.url));
 
     return NextResponse.next();
   } catch (error) {
-    request.cookies.delete('user');
-    request.cookies.delete('userRoles');
-    request.cookies.delete('selectedRol');
-    request.cookies.delete('ecosurToken');
-    //request.cookies.delete('refreshToken');
+    response.cookies.set('user', '', { maxAge: 0 });
+    response.cookies.set('userRoles', '', { maxAge: 0 });
+    response.cookies.set('selectedRol', '', { maxAge: 0 });
+    response.cookies.set('ecosurToken', '', { maxAge: 0 });
+    //response.cookies.set('refreshToken', '', { maxAge: 0 });
     return NextResponse.redirect(new URL('/login', request.url));
   }
 }

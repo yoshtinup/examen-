@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import { AuthCode } from '@modules/auth/definitions/usuarioPosgrado';
 import { QueryClient } from 'react-query';
 import { authCode } from '@modules/auth/queries';
+import Routes from 'Routes';
 
 const DataComponent = () => {
   const router = useRouter();
@@ -55,20 +56,47 @@ const DataComponent = () => {
       /* const roles: any = userRoles.map((value: Roles) => {
         return Roles[value];
       }); */
+
       if (userRoles.indexOf(selectedRol) > -1) {
+        const index = Routes.findIndex(data => {
+          const index = data.roles.indexOf(selectedRol);
+          return data.roles[index] === selectedRol;
+        });
+
+        if (index === -1)
+          throw {
+            message: 'Error en el index',
+            code: 1,
+            data: { selectedRol: selectedRol },
+          };
+
         setRol(selectedRol);
         setUserInfo(user);
+
+        /* if (router.asPath !== Routes[index].path) { //Check
+          setTimeout(() => {
+            router.push(Routes[index].path);
+          }, 10000);
+        } */
       } else {
-        throw 'Usuario con rol no permitido';
+        throw {
+          message: 'Usuario con rol no permitido',
+          code: 2,
+          data: { userRoles: userRoles },
+        };
       }
     } catch (error) {
+      console.error(error);
       Cookies.remove('selectedRol');
       Cookies.remove('userRoles');
       Cookies.remove('user');
       Cookies.remove('ecosurToken');
-      //Cookies.remove('refreshToken');
-      router.push('/login');
-      // console.log('REMOVED');
+      if (error?.code) {
+        setTimeout(() => {
+          router.push('/login');
+        }, 10000);
+        return;
+      }
     }
   };
 
