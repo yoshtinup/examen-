@@ -52,7 +52,9 @@ class ConsejoTutelarQuerys extends ApiQuerys {
     files: File[]
   ): Promise<Message> {
     const formData: FormData = new FormData();
-    formData.append('jsonData', JSON.stringify(integrantes));
+    const jsonData = JSON.stringify(integrantes);
+    console.log(jsonData);
+    formData.append('jsonData', jsonData);
     files.forEach((file: File) => {
       formData.append('files', file);
     });

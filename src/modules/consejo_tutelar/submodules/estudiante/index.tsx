@@ -4,7 +4,7 @@ import { userStateAtom } from '@modules/auth/recoil';
 import { EcosurAuth } from '@modules/auth/definitions';
 import { useMutation } from 'react-query';
 import ConsejoTutelarQuerys from '@modules/consejo_tutelar/queries';
-import { useGetAlumnoCT } from './queries';
+import { useGetAlumnoCT, getGrado } from './queries';
 import { PersonalAcademicoGql, AsesorExternoGql } from './types';
 import Swal from 'sweetalert2';
 import {
@@ -203,14 +203,6 @@ const EstudiantePage: React.FC<ConsejoTutelar> = ({
   );
 };
 
-function getGrado(grado: number): 'maestria' | 'doctorado' {
-  const maestria = [1, 4, 6];
-  // FIXME: Si se agregan mas doctorados descomentar esta linea y programar su validacion
-  /* const doctorado = [2] */
-  if (maestria.includes(grado)) return 'maestria';
-  return 'doctorado';
-}
-
 const Estudiante = () => {
   const user: EcosurAuth = useRecoilValue(userStateAtom);
   const { data, isError, isLoading, isSuccess } = useGetAlumnoCT(
@@ -226,24 +218,28 @@ const Estudiante = () => {
     integrantesInternos = data[0].AsesoresInternos.map(
       (interno: PersonalAcademicoGql) => ({
         id: interno.id,
-        nombre: interno.nombres.nombre,
-        apellidoMaterno: interno.nombres.ApellidoMaterno,
-        apellidoPaterno: interno.nombres.ApellidoPaterno,
+        nombre: interno.dataPersona.nombre,
+        apellidoMaterno: interno.dataPersona.ApellidoMaterno,
+        apellidoPaterno: interno.dataPersona.ApellidoPaterno,
       })
     );
     integrantesExternos = data[0].AsesoresExternos.map(
       (externo: AsesorExternoGql) => ({
         id: externo.id,
-        nombre: externo.nombres.nombre,
-        apellidoMaterno: externo.nombres.ApellidoMaterno,
-        apellidoPaterno: externo.nombres.ApellidoPaterno,
+        nombre: externo.dataPersona.nombre,
+        apellidoMaterno: externo.dataPersona.ApellidoMaterno,
+        apellidoPaterno: externo.dataPersona.ApellidoPaterno,
+        email: externo.dataPersona.Email,
+        institucion: externo.dataPersona.Institucion,
+        grado: externo.dataPersona.Grado,
         idParticipacion: externo.idParticipacion,
-        argumentacion: externo.argumentacion.value,
+        argumentacion: externo.datosExtra.Argumentacion,
+        fileName: externo.datosExtra.UrlCV,
         codirectorInfo: {
-          sNI: externo.codirectorInfo.SNI,
-          numPubArb: externo.codirectorInfo.NumPubArb,
-          numEstMaestria: externo.codirectorInfo.NumEstMaestria,
-          numEstDoc: externo.codirectorInfo.NumEstDoc,
+          sNI: externo.codirectorInfo?.SNI,
+          numPubArb: externo.codirectorInfo?.NumPubArb,
+          numEstMaestria: externo.codirectorInfo?.NumEstMaestria,
+          numEstDoc: externo.codirectorInfo?.NumEstDoc,
         },
       })
     );

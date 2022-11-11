@@ -29,6 +29,7 @@ export const ExternoContentCard: React.FC<AsesorExterno> = props => {
       </Stack>
       <Label label="Institucion:" value={props.institucion} />
       <Label label="Argumentacion:" value={props.argumentacion} />
+      <Label label="Curriculum:" value={props.fileName} />
       {props.idParticipacion == 33 && (
         <>
           <Label label="SNI:" value={props.codirectorInfo?.sNI} />

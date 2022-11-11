@@ -2,6 +2,14 @@ import { useQuery } from 'react-query';
 import { hasuraClient } from '@shared/queries';
 import { gql } from 'graphql-request';
 
+export function getGrado(grado: number): 'maestria' | 'doctorado' {
+  const maestria = [1, 4, 6];
+  // FIXME: Si se agregan mas doctorados descomentar esta linea y programar su validacion
+  /* const doctorado = [2] */
+  if (maestria.includes(grado)) return 'maestria';
+  return 'doctorado';
+}
+
 export function useGetListaPersonalInterno(IdGrado: number) {
   return useQuery(['personal-interno', IdGrado], async () => {
     const { personal } = await hasuraClient.request(
@@ -53,13 +61,11 @@ export function useGetAlumnoCT(matricula: number) {
             AsesoresInternos: TutoresSinodales(
               where: {
                 IdParticipacion: { _nin: 1 }
-                PersonalAcademico: {
-                  IdUnidad: { _nin: 6 }
-                }
+                PersonalAcademico: { IdUnidad: { _nin: 6 } }
               }
             ) {
               id: IdTutorSinodal
-              nombres: PersonalAcademico {
+              dataPersona: PersonalAcademico {
                 nombre: Nombre_s_
                 ApellidoMaterno
                 ApellidoPaterno
@@ -72,16 +78,19 @@ export function useGetAlumnoCT(matricula: number) {
               }
             ) {
               id: IdTutorSinodal
-              nombres: PersonalAcademico {
+              dataPersona: PersonalAcademico {
                 nombre: Nombre_s_
                 ApellidoMaterno
                 ApellidoPaterno
+                Institucion: Division
+                Email
+                Grado
               }
               idParticipacion: IdParticipacion
-              argumentacion: db18_CT_DatosExtrasAsesoresExterno {
-                value: Argumentacion
+              datosExtra: db18_CT_DatosExtrasAsesoresExterno {
+                Argumentacion: Argumentacion
+                UrlCV
               }
-
               codirectorInfo: db18_CT_DatosExtrasCodirectore {
                 SNI
                 NumEstDoc

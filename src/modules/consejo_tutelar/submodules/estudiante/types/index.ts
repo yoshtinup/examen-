@@ -1,16 +1,20 @@
-interface NombreGql {
+interface DataPersonaGql {
   nombre: string;
   ApellidoMaterno: string;
   ApellidoPaterno: string;
+  Institucion: string;
+  Email: string;
+  Grado: string;
 }
 
 interface PersonalAcademicoGql {
   id: number;
-  nombres: NombreGql;
+  dataPersona: DataPersonaGql;
 }
 
-interface ArgumentacionGql {
-  value: string;
+interface DatosExtraGql {
+  Argumentacion: string;
+  UrlCV: string;
 }
 interface CodirectorInfoGql {
   SNI: string;
@@ -21,7 +25,7 @@ interface CodirectorInfoGql {
 
 interface AsesorExternoGql extends PersonalAcademicoGql {
   idParticipacion: number;
-  argumentacion: ArgumentacionGql;
+  datosExtra: DatosExtraGql;
   codirectorInfo: CodirectorInfoGql;
 }
 
