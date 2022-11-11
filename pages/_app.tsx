@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { Hydrate } from 'react-query/hydration';
 import { RecoilRoot } from 'recoil';
 import { EcosurTheme } from 'ecosur-ui';
-import { DataComponent } from '@modules/auth/components/data';
+import DataComponent from '@modules/auth/components/data';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
