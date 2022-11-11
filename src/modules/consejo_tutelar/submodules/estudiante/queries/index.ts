@@ -52,10 +52,9 @@ export function useGetAlumnoCT(matricula: number) {
           result: AlumnoPrograma(where: { Matricula: { _eq: $matricula } }) {
             AsesoresInternos: TutoresSinodales(
               where: {
-                IdParticipacion: { _eq: 1 }
+                IdParticipacion: { _nin: 1 }
                 PersonalAcademico: {
                   IdUnidad: { _nin: 6 }
-                  db17_TutoresSinodales: {}
                 }
               }
             ) {
@@ -68,7 +67,7 @@ export function useGetAlumnoCT(matricula: number) {
             }
             AsesoresExternos: TutoresSinodales(
               where: {
-                IdParticipacion: { _eq: 1 }
+                IdParticipacion: { _nin: 1 }
                 PersonalAcademico: { IdUnidad: { _in: 6 } }
               }
             ) {

@@ -4,6 +4,7 @@ const Routes = [
   {
     path: '/consejo_tutelar',
     roles: [
+      Roles.Estudiante,
       Roles.Academico,
       Roles.Responsable_Orientacion,
       Roles.Coordinador_Unidad,

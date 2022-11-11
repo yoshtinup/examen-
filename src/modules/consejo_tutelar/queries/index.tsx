@@ -56,10 +56,7 @@ class ConsejoTutelarQuerys extends ApiQuerys {
     files.forEach((file: File) => {
       formData.append('files', file);
     });
-    const data: RequestInit = {
-      method: 'POST',
-      body: formData,
-    };
+    const data = this.getFormRequest(formData, 'POST');
     const msg = await this.api<Message>('registrar', data);
     return msg;
   }

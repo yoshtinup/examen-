@@ -11,13 +11,12 @@ class ApiQuerys {
 
   constructor(baseUrl: string) {
     this._baseUrl = baseUrl;
-    this.updateToken()
+    this.updateToken();
   }
 
   updateToken() {
-    const token =  Cookies.get('ecosurToken');
+    const token = Cookies.get('ecosurToken');
     this._token = `Bearer ${token}`;
-
   }
 
   /**
@@ -52,6 +51,20 @@ class ApiQuerys {
         'Content-Type': 'application/json;charset=utf-8',
       },
       body: JSON.stringify(data),
+    };
+  }
+
+  protected getFormRequest(
+    data: FormData,
+    method: 'POST' | 'PUT'
+  ): RequestInit {
+    console.log(this._token);
+    return {
+      method: method,
+      headers: {
+        Authorization: this._token,
+      },
+      body: data,
     };
   }
 }

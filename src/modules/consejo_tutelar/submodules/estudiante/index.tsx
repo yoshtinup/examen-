@@ -37,11 +37,13 @@ type ConsejoTutelarData = {
 };
 
 type ConsejoTutelar = {
+  grado: 'maestria' | 'doctorado';
   externosItems: AsesorExterno[];
   internosItems: PersonalAcademico[];
 };
 
 const EstudiantePage: React.FC<ConsejoTutelar> = ({
+  grado,
   externosItems,
   internosItems,
 }) => {
@@ -68,7 +70,7 @@ const EstudiantePage: React.FC<ConsejoTutelar> = ({
     }
   );
   const [conformacionCT, setConformacionCT] = React.useState<ConformacionCT>(
-    new ConformacionCT()
+    new ConformacionCT(grado)
   );
   const [disabledBtnExternos, setDisabledBtnExternos] =
     React.useState<boolean>(false);
@@ -87,7 +89,7 @@ const EstudiantePage: React.FC<ConsejoTutelar> = ({
       item.aprobadoPorComite = true;
       return item;
     });
-    const currentCT = new ConformacionCT('doctorado', internosMap, externosMap);
+    const currentCT = new ConformacionCT(grado, internosMap, externosMap);
     setDisabledAll(currentCT, currentCT.integrantesEstanCompletos());
     setConformacionCT(currentCT);
   }, [setConformacionCT]);
@@ -137,6 +139,8 @@ const EstudiantePage: React.FC<ConsejoTutelar> = ({
         .filter(interno => !interno.aprobadoPorComite)
         .map(interno => interno.id),
     };
+    if (consejoTutelar.externos.length === 0) consejoTutelar.externos = null;
+    console.log(consejoTutelar);
     mutate({ integrantes: consejoTutelar, files: externosFiles });
     setDisabled(true);
   };
@@ -199,6 +203,14 @@ const EstudiantePage: React.FC<ConsejoTutelar> = ({
   );
 };
 
+function getGrado(grado: number): 'maestria' | 'doctorado' {
+  const maestria = [1, 4, 6];
+  // FIXME: Si se agregan mas doctorados descomentar esta linea y programar su validacion
+  /* const doctorado = [2] */
+  if (maestria.includes(grado)) return 'maestria';
+  return 'doctorado';
+}
+
 const Estudiante = () => {
   const user: EcosurAuth = useRecoilValue(userStateAtom);
   const { data, isError, isLoading, isSuccess } = useGetAlumnoCT(
@@ -209,6 +221,7 @@ const Estudiante = () => {
   if (isLoading) return <CircularProgress />;
   let integrantesInternos: PersonalAcademico[] = [];
   let integrantesExternos: AsesorExterno[] = [];
+  let grado: 'maestria' | 'doctorado' = 'maestria';
   if (isSuccess) {
     integrantesInternos = data[0].AsesoresInternos.map(
       (interno: PersonalAcademicoGql) => ({
@@ -234,9 +247,11 @@ const Estudiante = () => {
         },
       })
     );
+    grado = getGrado(user.estudiante?.clavePrograma ?? 1);
   }
   return (
     <EstudiantePage
+      grado={grado}
       internosItems={integrantesInternos}
       externosItems={integrantesExternos}
     />
