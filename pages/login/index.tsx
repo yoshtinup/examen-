@@ -85,7 +85,7 @@ const Auth = ({ user }: { user: EcosurAuth }) => {
 
   return (
     <>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1 }} style={{ padding: '5px 0px' }}>
         <Container maxWidth="lg">
           <Grid
             container
@@ -138,7 +138,7 @@ const Auth = ({ user }: { user: EcosurAuth }) => {
                   style={{
                     display: 'flex',
                     justifyContent: 'center',
-                    boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 8px',
+                    backgroundColor: '#f8f9fb',
                   }}
                 >
                   <BasicTabs tabs={loginComponent} />
@@ -152,15 +152,15 @@ const Auth = ({ user }: { user: EcosurAuth }) => {
       <Box sx={{ flexGrow: 1 }} style={{ padding: '20px 0px 0px' }}>
         <Container maxWidth="lg">
           <Grid container justifyContent="flex-start" alignItems="center">
-            <Grid item xs={6} lg={5} sm={5}>
+            <Grid item xs={6} lg={4} sm={4}>
               <h3 style={{ color: '#6a6a6a' }}>
                 El Colegio de la Frontera Sur
               </h3>
             </Grid>
-            <Grid item xs={6} lg={7} sm={7}>
+            <Grid item xs={6} lg={8} sm={8}>
               <p style={{ color: '#6a6a6a' }}>
                 <b>Soporte técnico:</b> notificaciones.posgrado@ecosur.mx.{' '}
-                <b>Extensión:</b> 1771 y 1772
+                <b>Tel.</b> 967 67 49000 <b>Ext.</b> 1771 y 1772
               </p>
             </Grid>
           </Grid>
