@@ -6,6 +6,7 @@ import { Hydrate } from 'react-query/hydration';
 import { RecoilRoot } from 'recoil';
 import { EcosurTheme } from 'ecosur-ui';
 import DataComponent from '@modules/auth/components/data';
+import '../src/styles/global.css';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -25,13 +26,11 @@ function MyApp({
   return (
     <RecoilRoot>
       <DataComponent />
-        <QueryClientProvider client={queryClient}>
-          <Hydrate state={pageProps.dehydratedState}>
-          <EcosurTheme>
-            {getLayout(<Component {...pageProps} />)}
-          </EcosurTheme>
-          </Hydrate>
-        </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <EcosurTheme>{getLayout(<Component {...pageProps} />)}</EcosurTheme>
+        </Hydrate>
+      </QueryClientProvider>
     </RecoilRoot>
   );
 }

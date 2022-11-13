@@ -3,6 +3,7 @@ import {
   LoginInternals,
   LoginExternals,
 } from '@modules/auth/components';
+import { Grid, Box, Container } from '@mui/material';
 import { authCode, tokenValidation } from '@modules/auth/queries';
 import React from 'react';
 import { useRecoilState } from 'recoil';
@@ -83,11 +84,89 @@ const Auth = ({ user }: { user: EcosurAuth }) => {
   };
 
   return (
-    <section id="login">
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <BasicTabs tabs={loginComponent} />
-      </div>
-    </section>
+    <>
+      <Box sx={{ flexGrow: 1 }}>
+        <Container maxWidth="lg">
+          <Grid
+            container
+            direction="row"
+            justifyContent="flex-start"
+            alignItems="center"
+            id="SectionLogin"
+          >
+            <Grid item xs={6} lg={2} sm={2}>
+              <a>
+                <img
+                  id="logoEcosur"
+                  src="https://estancias-estudiantes-externos.ecosur.mx/static/media/logo-ecosur.1e134fb2163d7df4654a.png"
+                  alt="logo"
+                />
+              </a>
+            </Grid>
+            <Grid item xs={6} lg={10} sm={10}>
+              <h1 style={{ color: 'rgb(197, 107, 22) !important' }}>
+                Sistema de Información de Posgrado (SIP)
+              </h1>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
+      <Box
+        sx={{ flexGrow: 1 }}
+        style={{ backgroundColor: '#fff', padding: '80px 0px' }}
+      >
+        <Container maxWidth="lg">
+          <Grid container justifyContent="center">
+            <Grid item xs={6} lg={6} sm={6} style={{ paddingRight: '60px' }}>
+              <h3>Acerca de SIP</h3>
+              <p style={{ color: '#4a4a4a' }}>
+                SIP es el sistema de información de Posgrado el cual permite a
+                estudiantes activos, personal académico interno y externo,
+                personal de servicios escolares y a la coordinación de Posgrado
+                realizar la gestión de los procesos relacionados con el
+                Posgrado.
+              </p>
+              <p style={{ color: '#4a4a4a' }}>
+                El sistema da soporte a procesos como: inscripciones, evaluación
+                de cursos, asignación de calificaciones, evaluación de becarios
+                CONACYT, entre otros.
+              </p>
+            </Grid>
+            <Grid item xs={6} lg={6} sm={6}>
+              <section id="login">
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 8px',
+                  }}
+                >
+                  <BasicTabs tabs={loginComponent} />
+                </div>
+              </section>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
+
+      <Box sx={{ flexGrow: 1 }} style={{ padding: '20px 0px 0px' }}>
+        <Container maxWidth="lg">
+          <Grid container justifyContent="flex-start" alignItems="center">
+            <Grid item xs={6} lg={5} sm={5}>
+              <h3 style={{ color: '#6a6a6a' }}>
+                El Colegio de la Frontera Sur
+              </h3>
+            </Grid>
+            <Grid item xs={6} lg={7} sm={7}>
+              <p style={{ color: '#6a6a6a' }}>
+                <b>Soporte técnico:</b> notificaciones.posgrado@ecosur.mx.{' '}
+                <b>Extensión:</b> 1771 y 1772
+              </p>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
+    </>
   );
 };
 
