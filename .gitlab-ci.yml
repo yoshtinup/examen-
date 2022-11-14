@@ -18,7 +18,7 @@ build_prod:
 deploy_prod:
     stage: deploy
     script:
-        - docker stop sip && docker rm sip
+        #- docker stop sip && docker rm sip
         - docker run -d --name sip --network=paginaweb sip:latest
         - docker rmi $(docker images -f "dangling=true" -q)
     only:
