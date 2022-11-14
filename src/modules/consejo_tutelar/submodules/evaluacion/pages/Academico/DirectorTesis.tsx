@@ -41,7 +41,9 @@ const DirectorTesis = () => {
     },
     {
       titulo: 'Integrantes:',
-      componente: <LoadCT matricula={matricula} Component={ConsejoTutelar} />,
+      componente: (
+        <LoadCT matricula={matricula} isDirector Component={ConsejoTutelar} />
+      ),
     },
   ];
 

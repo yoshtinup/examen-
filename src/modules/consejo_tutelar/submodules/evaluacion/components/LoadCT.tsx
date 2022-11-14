@@ -6,12 +6,17 @@ import { IntegranteCT } from '@modules/consejo_tutelar/types';
 
 type LoadCTProps = {
   matricula: number;
+  isDirector?: boolean;
   Component: React.FC<{ integrantes: IntegranteCT[] }>;
 };
 
-const LoadCT: React.FC<LoadCTProps> = ({ matricula, Component }) => {
+const LoadCT: React.FC<LoadCTProps> = ({
+  matricula,
+  isDirector = false,
+  Component,
+}) => {
   const { data, error, isLoading } = useQuery('integrantesCT', async () =>
-    ConsejoTutelarQuerys.getIntegrantes(matricula)
+    ConsejoTutelarQuerys.getIntegrantes(matricula, isDirector)
   );
   if (isLoading) return <CircularProgress />;
   if (error)

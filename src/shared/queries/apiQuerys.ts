@@ -1,12 +1,12 @@
 import Cookies from 'js-cookie';
 
 /**
- * Clase que encapsula las consultas del Procesos de conformacion de CT
+ * Clase base para crear llamada a api rest
  * @author Diego Cruz Aguilar
- * @constructor (string) recibe un token para realizar la solicitudes http
+ * @constructor (string) recibe una url para realizar solicitudes http
  */
 class ApiQuerys {
-  private _baseUrl = 'https://localhost:7241/consejo_tutelar/';
+  private _baseUrl: string;
   private _token: string;
 
   constructor(baseUrl: string) {
@@ -41,7 +41,7 @@ class ApiQuerys {
   /**
    * Crear RequestInit para consulta
    * @param data - objeto a conversir en JSON
-   * @returns (RequestInit) informacion de la consulta PUT
+   * @returns {RequestInit} informacion de la consulta PUT
    */
   protected getJsonRequest(data: any, method: 'POST' | 'PUT'): RequestInit {
     return {
