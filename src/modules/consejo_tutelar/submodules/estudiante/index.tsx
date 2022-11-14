@@ -233,8 +233,8 @@ const Estudiante = () => {
         institucion: externo.dataPersona.Institucion,
         grado: externo.dataPersona.Grado,
         idParticipacion: externo.idParticipacion,
-        argumentacion: externo.datosExtra.Argumentacion,
-        fileName: externo.datosExtra.UrlCV,
+        argumentacion: externo.datosExtra?.Argumentacion ?? '',
+        fileName: externo.datosExtra?.UrlCV ?? '',
         codirectorInfo: {
           sNI: externo.codirectorInfo?.SNI,
           numPubArb: externo.codirectorInfo?.NumPubArb,
