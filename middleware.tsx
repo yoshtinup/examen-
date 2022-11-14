@@ -72,7 +72,10 @@ export async function middleware(request: NextRequest) {
     const userRoles = decodeUserRoles.payload.userRoles as Array<number>;
 
     Routes.forEach(values => {
-      if (request.nextUrl.pathname === values.path) {
+      const condicion: boolean = values.all_math
+        ? request.nextUrl.pathname.includes(values.path)
+        : request.nextUrl.pathname === values.path;
+      if (condicion) {
         userRoles.forEach(value => {
           check.isPermited = values.roles.includes(value);
         });

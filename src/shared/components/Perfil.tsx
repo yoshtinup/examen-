@@ -18,7 +18,7 @@ export const PerfilWithoutFetch: React.FC<{ estudiante: EstudianteGql }> = ({
     generacion: estudiante.Generacion.Value,
     programa: estudiante.Programa.NombreLargo,
     correo: estudiante.Datos.Email,
-    'Director de tesis': `${estudiante[0].Persona.Nombre}, ${estudiante[0].Persona.ApellidoPaterno} ${estudiante[0].Persona.ApellidoMaterno}`,
+    'Director de tesis': `${estudiante.DirectorTesis[0].Persona.Nombre}, ${estudiante.DirectorTesis[0].Persona.ApellidoPaterno} ${estudiante.DirectorTesis[0].Persona.ApellidoMaterno}`,
     Estatus: estudiante.Estatus,
   };
   return <EcosurProfileCard data={estudianteInfo} />;
