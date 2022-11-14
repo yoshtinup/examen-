@@ -1,0 +1,25 @@
+image: docker:19.03.12
+
+stages:
+    - build
+    - deploy
+
+build_prod:
+    stage: build
+    script:
+        - docker build --no-cache -t sip:latest --force-rm .
+    environment:
+        name: production
+    only:
+        - master
+    tags:
+        - prod-runner
+
+deploy_prod:
+    stage: deploy
+    script:
+        - docker stop sip && docker rm sip
+        - docker run -d --name sip --network=paginaweb sip:latest
+        - docker rmi $(docker images -f "dangling=true" -q)
+    only:
+        - master
