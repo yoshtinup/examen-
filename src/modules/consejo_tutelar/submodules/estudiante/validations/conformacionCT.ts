@@ -8,7 +8,7 @@ import {
 
 import Validadores from '././reglasConformacionCT';
 
-type ValidadorCT = {
+export type ValidadorCT = {
   maximoIntegrantes: number;
   maximoExternoOpcional: number;
   codirector: {
@@ -23,7 +23,11 @@ export class ConformacionCT {
   private _validador: ValidadorCT;
   public programa: 'maestria' | 'doctorado';
 
-  constructor(programa: 'maestria' | 'doctorado' = 'maestria', internosItems: PersonalAcademicoItem[] = [], externosItems: AsesorExternoItem[] = []) {
+  constructor(
+    programa: 'maestria' | 'doctorado' = 'maestria',
+    internosItems: PersonalAcademicoItem[] = [],
+    externosItems: AsesorExternoItem[] = []
+  ) {
     this._internosItems = internosItems;
     this._externosItems = externosItems;
     this._validador = programa === 'maestria' ? Validadores[0] : Validadores[1];
@@ -79,7 +83,7 @@ export class ConformacionCT {
     handleDisabled();
   }
 
-  addInterno(integrante: PersonalAcademico, handleDisabled: () => void){
+  addInterno(integrante: PersonalAcademico, handleDisabled: () => void) {
     const index = this._internosItems.findIndex(
       interno => interno.id === integrante.id
     );
@@ -87,7 +91,7 @@ export class ConformacionCT {
       const integranteItem = integrante as PersonalAcademicoItem;
       integranteItem.aprobadoPorComite = false;
       this._internosItems.push(integranteItem);
-      handleDisabled()
+      handleDisabled();
     }
   }
 
@@ -120,7 +124,7 @@ export class ConformacionCT {
     return false;
   }
 
-  addExterno(integrante: AsesorExterno): boolean{
+  addExterno(integrante: AsesorExterno): boolean {
     const index = this._externosItems.findIndex(
       externo => JSON.stringify(integrante) === JSON.stringify(externo)
     );
@@ -132,7 +136,7 @@ export class ConformacionCT {
       const integranteItem = integrante as AsesorExternoItem;
       integranteItem.aprobadoPorComite = false;
       this._externosItems.push(integranteItem);
-      return true
+      return true;
     }
   }
 }

@@ -5,7 +5,12 @@ import { Alumno } from '@modules/consejo_tutelar/types';
 import Roles from '@definitions/Roles';
 import { useRecoilValue } from 'recoil';
 import { rolStateAtom } from '@modules/auth/recoil';
-import { Alert, CircularProgress, FormControlLabel, Switch } from '@mui/material';
+import {
+  Alert,
+  CircularProgress,
+  FormControlLabel,
+  Switch,
+} from '@mui/material';
 import Table from './components';
 import { EcosurTabs } from 'ecosur-ui';
 
@@ -27,10 +32,13 @@ const filters = (rol: Roles, isDirector: boolean) => {
 };
 
 type PersonalProps = {
-  isDirector: boolean
-}
+  isDirector: boolean;
+};
 
-const PersonalIndex: React.FC<{ rows: Alumno[] } & PersonalProps> = ({ rows, isDirector }) => {
+const PersonalIndex: React.FC<{ rows: Alumno[] } & PersonalProps> = ({
+  rows,
+  isDirector,
+}) => {
   const currentRol: Roles = useRecoilValue(rolStateAtom);
   const filter: (alumnun: Alumno) => boolean = filters(currentRol, isDirector);
   const rows_historico = rows.filter(filter);
@@ -64,22 +72,28 @@ const PersonalIndex: React.FC<{ rows: Alumno[] } & PersonalProps> = ({ rows, isD
   );
 };
 
-
 const PersonalFetch: React.FC<PersonalProps> = ({ isDirector }) => {
   const { data, error, isLoading } = useQuery('AlumnosCT', async () =>
     ConsejoTutelarQuerys.getAlumnos(isDirector)
   );
   if (isLoading) return <CircularProgress />;
   if (error)
-    return <Alert severity="error">No se pudo acceder al consejo tutelar</Alert>;
+    return (
+      <Alert severity="error">No se pudo acceder al consejo tutelar</Alert>
+    );
 
-  return <PersonalIndex rows={data === undefined ? [] : data} isDirector={isDirector} />;
+  return (
+    <PersonalIndex
+      rows={data === undefined ? [] : data}
+      isDirector={isDirector}
+    />
+  );
 };
 
 const Personal = () => {
   const currentRol: Roles = useRecoilValue(rolStateAtom);
-  const needsSwictDirectorTesis: boolean = currentRol == Roles.Academico
-  const [asDirector, setAsDirector] = React.useState<boolean>(false)
+  const needsSwictDirectorTesis: boolean = currentRol == Roles.Academico;
+  const [asDirector, setAsDirector] = React.useState<boolean>(false);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAsDirector(event.target.checked);
   };
@@ -87,7 +101,8 @@ const Personal = () => {
     <div>
       {needsSwictDirectorTesis && (
         <FormControlLabel
-          control={<Switch
+          control={
+            <Switch
               checked={asDirector}
               onChange={handleChange}
               inputProps={{ 'aria-label': 'controlled' }}
@@ -98,7 +113,7 @@ const Personal = () => {
       )}
       <PersonalFetch isDirector={asDirector} />
     </div>
-  )
+  );
 };
 
 export default Personal;
