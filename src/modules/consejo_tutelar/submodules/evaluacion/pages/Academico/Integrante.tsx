@@ -59,6 +59,7 @@ const Integrante = () => {
     }
   );
   const handleSubmit = (evaluacion: EvaluacionIntegrante) => {
+    console.log(evaluacion);
     mutate({ matricula, evaluacion });
   };
 
