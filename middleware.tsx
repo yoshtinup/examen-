@@ -76,6 +76,7 @@ export async function middleware(request: NextRequest) {
         ? request.nextUrl.pathname.includes(values.path)
         : request.nextUrl.pathname === values.path;
       if (condicion) {
+      //if (request.nextUrl.pathname.startsWith(values.path)) {
         userRoles.forEach(value => {
           check.isPermited = values.roles.includes(value);
         });
