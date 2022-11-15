@@ -3,6 +3,7 @@ import Router from 'next/router';
 import PropTypes from 'prop-types';
 import { Box, MenuItem, MenuList, Popover, Typography } from '@mui/material';
 // import { auth, ENABLE_AUTH } from '../lib/auth';
+import Cookies from 'js-cookie';
 
 export const AccountPopover = props => {
   const { anchorEl, onClose, open, ...other } = props;
@@ -10,6 +11,14 @@ export const AccountPopover = props => {
 
   const handleSignOut = async () => {
     onClose?.();
+
+    Cookies.remove('selectedRol');
+    Cookies.remove('userRoles');
+    Cookies.remove('user');
+    Cookies.remove('ecosurToken');
+    
+    Router.push('/login').catch(console.error);
+    return;
 
     // Check if authentication with Zalter is enabled
     // If not enabled, then redirect is not required
@@ -28,7 +37,7 @@ export const AccountPopover = props => {
       globalThis.sessionStorage.removeItem('skip-auth');
 
       // Redirect to sign-in page
-      Router.push('/sign-in').catch(console.error);
+      Router.push('/login').catch(console.error);
       return;
     }
 
@@ -66,9 +75,9 @@ export const AccountPopover = props => {
           px: 2,
         }}
       >
-        <Typography variant="overline">Account</Typography>
+        <Typography variant="overline">Cuenta</Typography>
         <Typography color="text.secondary" variant="body2">
-          John Doe
+          Mis datos
         </Typography>
       </Box>
       <MenuList
@@ -84,7 +93,7 @@ export const AccountPopover = props => {
           },
         }}
       >
-        <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
+        <MenuItem onClick={handleSignOut}>Cerrar sesión</MenuItem>
       </MenuList>
     </Popover>
   );

@@ -34,6 +34,7 @@ export const LoginInternals: React.FC<React.PropsWithChildren<Props>> = ({
     'response_type=code&' +
     `redirect_uri=${process.env.LOGIN_REDIRECT_URI}/login&` +
     `scope=${process.env.LOGIN_SCOPE}&` +
+    `state=${router.query.redirect}&` +
     'response_mode=query';
 
   const handleRequest = (data: any) => {
