@@ -59,7 +59,9 @@ export async function middleware(request: NextRequest) {
     !jwtEcosurTokenCookie /* ||
     !refreshTokenCookie */
   )
-    return NextResponse.redirect(new URL('/login', request.url));
+    return NextResponse.redirect(
+      new URL(`/login?redirect=${request.nextUrl.pathname}`, request.url)
+    );
 
   if (request.nextUrl.pathname.includes('/401')) return;
 
@@ -76,7 +78,7 @@ export async function middleware(request: NextRequest) {
         ? request.nextUrl.pathname.includes(values.path)
         : request.nextUrl.pathname === values.path;
       if (condicion) {
-      //if (request.nextUrl.pathname.startsWith(values.path)) {
+        //if (request.nextUrl.pathname.startsWith(values.path)) {
         userRoles.forEach(value => {
           check.isPermited = values.roles.includes(value);
         });
@@ -94,7 +96,9 @@ export async function middleware(request: NextRequest) {
     response.cookies.set('selectedRol', '', { maxAge: 0 });
     response.cookies.set('ecosurToken', '', { maxAge: 0 });
     //response.cookies.set('refreshToken', '', { maxAge: 0 });
-    return NextResponse.redirect(new URL('/login', request.url));
+    return NextResponse.redirect(
+      new URL(`/login?redirect=${request.nextUrl.pathname}`, request.url)
+    );
   }
 }
 
