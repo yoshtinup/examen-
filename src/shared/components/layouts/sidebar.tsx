@@ -29,6 +29,11 @@ const items: ItemsNav[] = [
     icon: <Icon />,
     title: 'Consejo Tutelar',
   },
+  {
+    href: '/evaluacion_seminarios_investigacion',
+    icon: <Icon />,
+    title: 'Seminario Investigación',
+  },
 ];
 
 type SidebarProps = {
