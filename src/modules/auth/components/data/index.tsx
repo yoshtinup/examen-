@@ -81,7 +81,6 @@ const DataComponent = () => {
         };
       }
     } catch (error) {
-      console.error(error);
       Cookies.remove('selectedRol');
       Cookies.remove('userRoles');
       Cookies.remove('user');
@@ -131,7 +130,6 @@ const DataComponent = () => {
           auth = await queryClient.fetchQuery(['auth_refresh'], () =>
             authCode(data)
           );
-          console.log(auth);
           const refreshToken = jwt.sign(
             {
               refreshToken: auth.refresh_token,

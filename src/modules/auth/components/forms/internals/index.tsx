@@ -18,10 +18,12 @@ import jwt from 'jsonwebtoken';
 
 type Props = {
   rolesActive: boolean;
+  instructions: React.ReactNode;
 };
 
 export const LoginInternals: React.FC<React.PropsWithChildren<Props>> = ({
   rolesActive,
+  instructions,
 }) => {
   const schema = Yup.object().shape({
     rol: Yup.number()
@@ -63,23 +65,7 @@ export const LoginInternals: React.FC<React.PropsWithChildren<Props>> = ({
                 borderRadius: '2px',
               }}
             >
-              <p
-                style={{
-                  margin: '0px 0px 10px 0px',
-                  textAlign: 'justify',
-                }}
-              >
-                Para acceder debe ser:
-              </p>
-              <ul>
-                <li>Personal académico activo de ECOSUR</li>
-                <li>Contar con una cuenta de correo de ECOSUR</li>
-              </ul>
-              <p>
-                Primero seleccione el rol de acuerdo al proceso de Posgrado que
-                desea realizar y haga clic en el botón <b>"Microsoft"</b>
-              </p>
-
+              {instructions}
               <div
                 style={
                   rolesActive
