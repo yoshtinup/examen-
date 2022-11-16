@@ -3,10 +3,14 @@ import * as Yup from 'yup';
 import { login, tokenValidation } from '@modules/auth/queries';
 import { Box, Typography, Input, Button } from '@mui/material';
 import Cookies from 'js-cookie';
+import jwt from 'jsonwebtoken';
+import Roles from '@definitions/Roles';
+import { useRouter } from 'next/router';
 
 export const LoginExternals: React.FC<
   React.PropsWithChildren<unknown>
 > = () => {
+  const router = useRouter();
   const schema = Yup.object().shape({
     email: Yup.string()
       .required('Este campo es requerido')
@@ -57,8 +61,21 @@ export const LoginExternals: React.FC<
           `${process.env.LOGIN_API}/Autorizacion/Usuario/Externo/Posgrado`,
           result.token
         )
-          .then(() => {
+          .then(user => {
             Cookies.set('ecosurToken', result.token, { expires: 1 });
+            const userRolesToken = jwt.sign(
+              { userRoles: [Roles.Externo] },
+              process.env.JWT_SECRET
+            );
+            Cookies.set('userRoles', userRolesToken, { expires: 1 });
+            const userToken = jwt.sign({ user }, process.env.JWT_SECRET);
+            Cookies.set('user', userToken, { expires: 1 });
+            const selectedRolToken = jwt.sign(
+              { selectedRol: Roles.Externo },
+              process.env.JWT_SECRET
+            );
+            Cookies.set('selectedRol', selectedRolToken, { expires: 1 });
+            router.push('/consejo_tutelar');
           })
           .catch();
       })
