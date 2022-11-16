@@ -219,10 +219,12 @@ export async function getServerSideProps(context: any) {
         const roles = dataUser.map((value: Roles) => {
           return Roles[value];
         });
+
         const tokenRoles = jwt.sign(
           { userRoles: roles },
           process.env.JWT_SECRET
         );
+
         const tokenUser = jwt.sign({ user: user }, process.env.JWT_SECRET);
         context.res.setHeader('Set-Cookie', [
           `userRoles=${tokenRoles}; Max-Age=86400000`,
@@ -246,10 +248,13 @@ export async function getServerSideProps(context: any) {
 
         if (check.index === -1) throw 'Error en la redirección'; // Si no existe la configuración en Routes.ts también retorna un -1
 
+        const redirect = context.query.state;
+
         return {
           redirect: {
             permanent: false,
-            destination: Routes[check.index].path,
+            destination:
+              redirect !== 'undefined' ? redirect : Routes[check.index].path,
           },
         };
       } catch (error) {
@@ -259,7 +264,7 @@ export async function getServerSideProps(context: any) {
           `userRoles=; Max-Age=0`,
           `user=; Max-Age=0`,
           `selectedRol=; Max-Age=0`,
-          `ecosurToken=; Max-Age=0`, //The new token
+          `ecosurToken=; Max-Age=0`,
         ]);
       }
     }
