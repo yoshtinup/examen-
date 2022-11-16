@@ -28,11 +28,11 @@ const ButtonRedirect: React.FC<{ matricula: number }> = ({ matricula }) => {
 };
 
 const columnsDefault: GridColDef[] = [
-  { field: 'matricula', headerName: 'Matricula', width: 92 },
   { field: 'nombre', headerName: 'Nombre', width: 250 },
-  { field: 'orientacion', headerName: 'Orientacion', width: 250 },
+  { field: 'matricula', headerName: 'Matricula', width: 92 },
   { field: 'programa', headerName: 'Programa', width: 250 },
-  { field: 'generacion', headerName: 'Generacion' },
+  { field: 'orientacion', headerName: 'Orientación', width: 250 },
+  { field: 'generacion', headerName: 'Generación' },
   { field: 'leyendaEstatusGeneral', headerName: 'Estatus', width: 250 },
 ];
 
@@ -44,7 +44,7 @@ const Table: React.FC<{ rows: Alumno[]; actionColumn?: boolean }> = ({
   if (actionColumn) {
     columns.push({
       field: 'action',
-      headerName: 'Action',
+      headerName: '',
       sortable: false,
       renderCell: (params: GridCellParams) => (
         <ButtonRedirect matricula={params.row.matricula} />
@@ -53,8 +53,9 @@ const Table: React.FC<{ rows: Alumno[]; actionColumn?: boolean }> = ({
     });
   }
   return (
-    <div style={{ height: '80vh', width: '100%' }}>
+    <div style={{ height: '80vh', width: '100%', backgroundColor: '#fff' }}>
       <DataGrid
+        className="datagrid"
         /* checkboxSelection */
         getRowId={row => row.matricula}
         rows={rows}

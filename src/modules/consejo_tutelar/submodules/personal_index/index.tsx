@@ -1,5 +1,6 @@
 import React from 'react';
 import { useQuery } from 'react-query';
+import { Grid } from '@mui/material';
 import ConsejoTutelarQuerys from '@modules/consejo_tutelar/queries';
 import { Alumno } from '@modules/consejo_tutelar/types';
 import Roles from '@definitions/Roles';
@@ -13,6 +14,7 @@ import {
 } from '@mui/material';
 import Table from './components';
 import { EcosurTabs } from 'ecosur-ui';
+import InstruccionesEnlacesIndex from './InstruccionesEnlacesIndex';
 
 const filters = (rol: Roles, isDirector: boolean) => {
   if (isDirector) return (alumno: Alumno) => alumno.estatusGeneral > 3;
@@ -98,21 +100,33 @@ const Personal = () => {
     setAsDirector(event.target.checked);
   };
   return (
-    <div>
-      {needsSwictDirectorTesis && (
-        <FormControlLabel
-          control={
-            <Switch
-              checked={asDirector}
-              onChange={handleChange}
-              inputProps={{ 'aria-label': 'controlled' }}
+    <Grid
+      container
+      direction="row"
+      justifyContent="flex-start"
+      alignItems="center"
+      id="SectionLogin"
+      style={{ padding: '15px 50px' }}
+    >
+      <InstruccionesEnlacesIndex />
+      <Grid container>
+        <Grid item xs={12}>
+          {needsSwictDirectorTesis && (
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={asDirector}
+                  onChange={handleChange}
+                  inputProps={{ 'aria-label': 'controlled' }}
+                />
+              }
+              label="Ver datos como director de tesis"
             />
-          }
-          label="Ver datos como director de tesis"
-        />
-      )}
-      <PersonalFetch isDirector={asDirector} />
-    </div>
+          )}
+          <PersonalFetch isDirector={asDirector} />
+        </Grid>
+      </Grid>
+    </Grid>
   );
 };
 

@@ -36,6 +36,7 @@ export const Navbar: FC<NavbarProps> = ({ onSidebarOpen, ...other }) => {
   return (
     <>
       <NavbarRoot
+        id="HeaderDataPersona"
         sx={{
           left: {
             lg: 280,
@@ -65,11 +66,7 @@ export const Navbar: FC<NavbarProps> = ({ onSidebarOpen, ...other }) => {
           >
             <MenuIcon fontSize="small" />
           </IconButton>
-          <Tooltip title="Search">
-            <IconButton sx={{ ml: 1 }}>
-              <SearchIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>
+
           <Box sx={{ flexGrow: 1 }} />
           <InputLabel className='text-white'>{user?.personal?.nombreCompleto || user?.estudiante?.nombreCompleto}</InputLabel>
           <Avatar

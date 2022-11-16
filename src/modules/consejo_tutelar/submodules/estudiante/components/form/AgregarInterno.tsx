@@ -43,7 +43,7 @@ const FormAgregarInterno: React.FC<FormAgregarProps> = ({
       onClose={handleClose}
       aria-describedby="seleccionar-interno-dialog-description"
     >
-      <DialogTitle>{'Selecciona tu asesor interno'}</DialogTitle>
+      <DialogTitle>{'Agregar integrante interno'}</DialogTitle>
       <Formik
         initialValues={initialValues}
         onSubmit={handleSubmit}
@@ -53,7 +53,9 @@ const FormAgregarInterno: React.FC<FormAgregarProps> = ({
           <DialogContent>
             <Stack spacing={2}>
               <DialogContentText id="seleccionar-interno-dialog-description">
-                hola mundo
+                Para agregar a un integrante académico del personal de ECOSUR,
+                escriba su nombre en el siguiente cuadro, una vez localizado
+                seleccionelo y haga clic en el botón "Agregar"
               </DialogContentText>
               <Field
                 id="nombre"

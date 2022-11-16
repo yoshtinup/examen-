@@ -8,18 +8,19 @@ import * as yup from 'yup';
 import { Formik, FormikProps, Form, Field } from 'formik';
 import { EcosurFormSelect, EcosurFormTextField } from 'ecosur-ui';
 import { Button, Stack, Container } from '@mui/material';
-
+import { Grid } from '@mui/material';
 import { EvaluacionIntegrante } from '@modules/consejo_tutelar/types';
 import { Perfil } from '../../components';
+import InstruccionesEnlaces from './InstruccionesEnlacesIntegrante';
 
 const options = [
   {
     value: true,
-    label: 'Aprobar',
+    label: 'ACEPTAR ser parte del consejo tutelar',
   },
   {
     value: false,
-    label: 'No aprobar',
+    label: 'NO ACEPTAR ser parte del consejo tutelar',
   },
 ];
 
@@ -64,44 +65,64 @@ const Integrante = () => {
   };
 
   return (
-    <Container maxWidth="md">
-      {/* FIXME: @iocampo agregar instrucciones */}
-      <Perfil />
-      <Formik
-        initialValues={initialValues}
-        onSubmit={handleSubmit}
-        validationSchema={validationSchema}
+    <Container maxWidth="xl">
+      <Grid
+        container
+        direction="row"
+        justifyContent="flex-start"
+        alignItems="center"
+        id="SectionLogin"
+        style={{ padding: '15px 50px' }}
       >
-        {(formik: FormikProps<EvaluacionIntegrante>) => (
-          <Form>
-            <Stack spacing={2} sx={{ p: 5 }}>
-              <Field
-                fullWidth
-                name="aprobo"
-                label="Seleccionar opcion"
-                options={options}
-                component={EcosurFormSelect}
-              />
-              {!formik.values.aprobo && (
-                <Field
-                  fullWidth
-                  id="comentario"
-                  name="comentario"
-                  label="Comentario"
-                  multiline
-                  rows={10}
-                  variant="outlined"
-                  placeholder="Escriba a qui su comentario"
-                  component={EcosurFormTextField}
-                />
+        <InstruccionesEnlaces />
+        <h4>Datos del/la estudiante</h4>
+        <Perfil />
+        <h4>Aceptar/declinar ser parte del CT</h4>
+        <Grid container>
+          <Grid item xs={5}>
+            <Formik
+              initialValues={initialValues}
+              onSubmit={handleSubmit}
+              validationSchema={validationSchema}
+            >
+              {(formik: FormikProps<EvaluacionIntegrante>) => (
+                <Form>
+                  <Stack spacing={2} sx={{ p: 5 }}>
+                    <Field
+                      fullWidth
+                      name="aprobo"
+                      label="Seleccione una opción"
+                      options={options}
+                      component={EcosurFormSelect}
+                    />
+                    {!formik.values.aprobo && (
+                      <Field
+                        fullWidth
+                        id="comentario"
+                        name="comentario"
+                        label="Razón de no aceptación"
+                        multiline
+                        rows={10}
+                        variant="outlined"
+                        placeholder="Escriba la razón por la que no acepta ser parte del consejo tutelar del estudiante"
+                        component={EcosurFormTextField}
+                      />
+                    )}
+                    <Button
+                      variant="contained"
+                      style={{ marginTop: '60px' }}
+                      type="submit"
+                      sx={{ width: 250 }}
+                    >
+                      Guardar
+                    </Button>
+                  </Stack>
+                </Form>
               )}
-              <Button variant="contained" type="submit" sx={{ width: 250 }}>
-                Gruardar Evaluacion
-              </Button>
-            </Stack>
-          </Form>
-        )}
-      </Formik>
+            </Formik>
+          </Grid>
+        </Grid>
+      </Grid>
     </Container>
   );
 };

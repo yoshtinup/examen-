@@ -138,7 +138,8 @@ const Auth = ({ user }: { user: EcosurAuth }) => {
                   style={{
                     display: 'flex',
                     justifyContent: 'center',
-                    backgroundColor: '#f8f9fb',
+                    backgroundColor: 'rgb(243, 245, 247)',
+                    padding: '20px 0px',
                   }}
                 >
                   <BasicTabs tabs={loginComponent} />
