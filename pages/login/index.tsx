@@ -37,7 +37,31 @@ const Auth = ({ user }: { user: EcosurAuth }) => {
     setLoginComponent([
       {
         title: 'Internos',
-        component: <LoginInternals rolesActive={true} />,
+        component: (
+          <LoginInternals
+            rolesActive={true}
+            instructions={
+              <div>
+                <p
+                  style={{
+                    margin: '0px 0px 10px 0px',
+                    textAlign: 'justify',
+                  }}
+                >
+                  Para acceder debe ser:
+                </p>
+                <ul>
+                  <li>Personal académico activo de ECOSUR</li>
+                  <li>Contar con una cuenta de correo de ECOSUR</li>
+                </ul>
+                <p>
+                  Primero seleccione el rol de acuerdo al proceso de Posgrado
+                  que desea realizar y haga clic en el botón <b>"Microsoft"</b>
+                </p>
+              </div>
+            }
+          />
+        ),
       },
       {
         title: 'Externos',
@@ -45,7 +69,9 @@ const Auth = ({ user }: { user: EcosurAuth }) => {
       },
       {
         title: 'Estudiantes',
-        component: <LoginInternals rolesActive={false} />,
+        component: (
+          <LoginInternals rolesActive={false} instructions={<div></div>} />
+        ),
       },
     ]);
 
@@ -74,7 +100,6 @@ const Auth = ({ user }: { user: EcosurAuth }) => {
       }
       setRol(roles);
     } catch (error) {
-      console.log(error);
       Cookies.remove('selectedRol');
       Cookies.remove('userRoles');
       Cookies.remove('user');
@@ -258,7 +283,6 @@ export async function getServerSideProps(context: any) {
           },
         };
       } catch (error) {
-        console.error(error);
         isError.check = true;
         context.res.setHeader('Set-Cookie', [
           `userRoles=; Max-Age=0`,
