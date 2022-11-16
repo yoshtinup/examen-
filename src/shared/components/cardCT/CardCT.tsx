@@ -1,40 +1,35 @@
 import React from 'react';
+import EcosurCTCard from '.';
 
 import { Alert, CircularProgress, Container, Box, Stack, Card } from '@mui/material';
-import { EcosurProfileCard } from 'ecosur-ui';
 import { IntegrantesCTElement } from '../../types';
 import { useGetIntegrantesInfo } from '../../queries';
+import { integranteInfo } from '../,,/../../types/integranteCT';
 
 export const CardCTWithoutFetch: React.FC<{ integrante: IntegrantesCTElement[] }> = ({
   integrante,
 }) => {    
 
 let integrantesInfo = [];
-let integranteInfo = {
+
+let integranteInfo: integranteInfo = {
   nombre: '',
   participacion: '',
   evaluacion: '',
-  // email: '',
+  email: '',
 };
-
-console.log(integrante);
-
 
 integrante.forEach(function (integrante: any) {
     const nombre_completo = integrante.Datos.Persona.Nombre + ' ' + integrante.Datos.Persona.ApellidoPaterno  + ' ' + integrante.Datos.Persona.ApellidoMaterno;
-    const participacion = integrante.Datos.Participacion.Value;
-    const evaluacion = integrante.FechaFirmaTutor === null ? 'Pendiente por evaluar' : '- Evaluó el ' + integrante.FechaFirmaTutor;
-    // integrantesInfo[contador] = nombre_completo + ' (' + participacion + ') ' + evaluacion;
-    // contador++;
     integranteInfo.nombre = nombre_completo; 
-    integranteInfo.participacion = participacion; 
-    integranteInfo.evaluacion = evaluacion; 
-    // integranteInfo.email = email; 
+    integranteInfo.participacion = integrante.Datos.Participacion.Value; 
+    integranteInfo.evaluacion = integrante.FechaFirmaTutor; 
+    integranteInfo.email = integrante.Datos.Persona.Email; 
     integrantesInfo.push(integranteInfo);
   });   
   // console.log(integrantesInfo);
   
-  return <EcosurProfileCard data={integrantesInfo} sizeRow='all' color='white' />;
+  return <EcosurCTCard data={integrantesInfo} sizeRow='all' color='white' />;
 };
 
 export const CardCT: React.FC<{

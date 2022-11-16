@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import * as React from 'react';
+import { integranteInfo } from '../,,/../../types/integranteCT';
 
 import { Box, Grid, Typography } from '@mui/material';
 
@@ -20,52 +21,52 @@ interface NewGridProfileProps extends Color {
   /**
           Lista de datos que se mostrarán en la card
       */
-  data: object;
+  data: Array<integranteInfo>;
 } // NewGridProfileProps
 
 interface PropiedadesProps extends Color {
-  propertyKey: string;
-  value: number | string | boolean | null;
+  value: integranteInfo;
 }
-
-const Propiedad: React.FC<PropiedadesProps> = ({ propertyKey, value, textColor, titleColor }) => {
-  const valueAsString = `${value}`;
-  return (
-    <>
-      {value !== null && valueAsString !== ' ' && valueAsString !== '' && (
-        <Box sx={{ display: 'flex', flexDirection: 'row' }} alignItems='center'>
-          <Typography variant='body1' display='inline' color={titleColor} sx={{ ml: 2 }}>
-            <b>{capitalizeFirstLetter(propertyKey)}:</b>
-          </Typography>
-          <Typography variant='body1' display='inline' sx={{ ml: 1 }} color={textColor}>
-            {`${value}`}
-          </Typography>
-        </Box>
-      )}
-    </>
-  );
-};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const NewGridProfile = ({
-  data = {},
+  data = [],
   startIndex = 0,
   finalIndex = 0,
   textColor = '',
   titleColor = '',
 }: NewGridProfileProps) => {
+  let date: Date;
+  data.slice(startIndex, finalIndex)
+        .map((integrante, key) => {
+    date = new Date(integrante.evaluacion);
+    integrante.evaluacion = date.toDateString();
+  })
   return (
     <Grid item>
-      {Object.entries(data)
-        .slice(startIndex, finalIndex)
-        .map(([key, value], index) => (
-          <Propiedad
-            propertyKey={key}
-            key={`ecosur-profile-card-${key.replace(' ', '')}-${index}`}
-            value={value}
-            textColor={textColor}
-            titleColor={titleColor}
-          />
+      {data.slice(startIndex, finalIndex)
+        .map((integrante, key) => (
+            <Box key={`ecosur-ct-card-${key}`} alignItems='center' sx={{ mb: 1 }}>
+                <Typography variant='body1' display='inline' color={titleColor} sx={{ ml: 0.5 }}>
+                    <b>{key+1}.- </b> {integrante.nombre} 
+                </Typography>
+                <Typography variant='body2' display='inline' color={titleColor} sx={{ ml: 0.5 }}>
+                    (<b>{integrante.participacion}</b>)
+                </Typography>
+                {
+                  integrante.evaluacion === null ? 
+                    <Typography variant='body1' display='inline' color={titleColor} sx={{ ml: 0.5, color: "red"  }}>
+                      <b>-</b> Pendiente por evaluar
+                    </Typography>  
+                  :                 
+                    <Typography variant='body1' display='inline' color={titleColor} sx={{ ml: 0.5 }}>
+                    <b>-</b> {integrante.evaluacion.toString()}
+                    </Typography> 
+                }    
+                <Typography variant='body1' display='inline' color={titleColor} sx={{ ml: 0.5 }}>
+                  <b>-</b> {integrante.email}
+                </Typography>                             
+            </Box>
         ))}
     </Grid>
   );

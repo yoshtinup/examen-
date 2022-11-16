@@ -15,7 +15,7 @@ const EvaluacionSeminarioInvestigacion = () => {
           alignItems="center"
           justifyContent="center"
         >            
-          <CardCT IdEvaluacionSeminario={91} />
+          <CardCT IdEvaluacionSeminario={98} />
         </Box>
     </Container>
     </>

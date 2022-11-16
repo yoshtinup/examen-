@@ -28,3 +28,9 @@ export interface Persona {
   Email:           string;
 }
 
+export interface integranteInfo {
+  nombre: string,
+  participacion: string,
+  evaluacion: string | Date,
+  email: string,
+};

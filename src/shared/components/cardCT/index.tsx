@@ -3,9 +3,10 @@ import React from 'react';
 
 import { Box, CardMedia, Grid } from '@mui/material';
 import { NewGridProfile } from './newGrid';
+import { integranteInfo } from '../,,/../../types/integranteCT';
 
 export type EcosurProfileCardProps = {
-  data: object;
+  data: Array<integranteInfo>;
   img?: string;
   width?: number | string;
   height?: number | string;
@@ -15,12 +16,12 @@ export type EcosurProfileCardProps = {
   titleColor?: string;
 };
 
-const EcosurProfileCard = ({
-  data = {},
+const EcosurCTCard = ({
+  data = [],
   img = undefined,
   width = 'auto',
   height = '100%',
-  sizeRow = undefined,
+  sizeRow = 'all',
   color = 'background.default',
   textColor = 'text.secondary',
   titleColor = 'text.primary',
@@ -91,7 +92,7 @@ const EcosurProfileCard = ({
               textColor={textColor}
               titleColor={titleColor}
             />
-            {!(sizeRowSelected == Object.keys(data).length)
+            {!(sizeRowSelected == data.length)
               ? addNewGrid(data, sizeRowSelected, Object.keys(data).length, textColor, titleColor)
               : ''}
           </Grid>
@@ -102,7 +103,7 @@ const EcosurProfileCard = ({
 }; // ProfileCard
 
 const addNewGrid = (
-  data: object,
+  data: Array<integranteInfo>,
   startIndex: number,
   finalIndex: number,
   textColor: string,
@@ -153,4 +154,4 @@ const sizeRowFunction = (sizeRow: number | string | undefined, data: object): nu
   } // if-else
 }; // sizeRowFunction
 
-export default EcosurProfileCard;
+export default EcosurCTCard;
