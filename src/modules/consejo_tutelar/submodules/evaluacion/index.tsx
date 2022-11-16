@@ -1,7 +1,6 @@
 import React from 'react';
 import { useGetEstudianteInfo } from '@shared/queries';
 import { Alert, CircularProgress } from '@mui/material';
-import { EcosurSectionTitle } from 'ecosur-ui';
 import { Academico, Comite, Estudiante } from './pages';
 import { WithRol, WithRoles } from '@shared/hooks';
 import Roles from '@definitions/Roles';
@@ -34,7 +33,6 @@ const Evaluacion: React.FC<{ matricula: number }> = ({ matricula }) => {
   }
   return (
     <div>
-      <EcosurSectionTitle label="Consejo Tutelar" variant="h5" />
       <EstudiantePage />
       <ComitePage />
       <AcademicoPage />

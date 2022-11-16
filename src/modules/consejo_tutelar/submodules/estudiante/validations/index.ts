@@ -31,7 +31,7 @@ export const participacion = [
 export const sni = [
   {
     value: 'candidato',
-    label: 'Candidatato',
+    label: 'Candidato',
   },
   {
     value: 'nivel 1',

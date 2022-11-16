@@ -35,11 +35,14 @@ const BtnAgregarIntegrante: React.FC<BtnAgregarIntegranteProps> = ({
     ? useGetListaPersonalExterno
     : useGetListaPersonalInterno;
   const [open, setOpen] = React.useState<boolean>(false);
-  const label = externo ? 'externo' : 'interno';
+  const label = externo
+    ? 'Agregar integrante EXTERNO'
+    : 'Agregar integrante INTERNO';
   const FormAgregar = externo ? FormAgregarExterno : FormAgregarInterno;
   // Maestría = 1 y Doctorado = 2
   const user: EcosurAuth = useRecoilValue(userStateAtom);
-  const grado: 1 | 2 = getGrado(user.estudiante?.clavePrograma ?? 1) == 'maestria' ? 1 : 2;
+  const grado: 1 | 2 =
+    getGrado(user.estudiante?.clavePrograma ?? 1) == 'maestria' ? 1 : 2;
   const { data, error, isLoading, isSuccess } = useGetListaPersonal(grado);
   if (error)
     return (
@@ -63,6 +66,8 @@ const BtnAgregarIntegrante: React.FC<BtnAgregarIntegranteProps> = ({
           variant="outlined"
           onClick={handleClickOpen}
           startIcon={<AddIcon />}
+          style={{ marginRight: '10px' }}
+          className="BotonPrimary"
         >
           {label}
         </Button>

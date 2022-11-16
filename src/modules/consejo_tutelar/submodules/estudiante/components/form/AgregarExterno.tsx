@@ -70,11 +70,10 @@ const FormAgregarExterno: React.FC<FormAgregarProps> = ({
   return (
     <EcosurFullDialog
       id={formAgregarExternoId}
-      title="Selecciona a tu integrante externo"
+      title="Agregar integrante externo"
       open={open}
       handleClose={handleClose}
     >
-      {/* FIXME: @iocampo incluir instrucciones  */}
       <Formik
         initialValues={initialValuesAsesorExterno}
         onSubmit={handleSubmit}
@@ -83,34 +82,56 @@ const FormAgregarExterno: React.FC<FormAgregarProps> = ({
         {(formik: FormikProps<AsesorExterno>) => (
           <Form>
             <Stack spacing={2} sx={{ p: 5 }}>
-              <FormControlLabel
-                control={
-                  <Checkbox onChange={handleChange} checked={noExiste} />
-                }
-                label="No existe"
-              />
+              <p style={{ fontSize: '17px', fontWeight: 'lighter' }}>
+                <span>
+                  <b>INSTRUCCIONES:</b>
+                </span>{' '}
+                <span>
+                  Para agregar un integrante escriba su nombre en el listado{' '}
+                  <b>Asesores externos</b>, una vez localizado seleccionelo. En
+                  caso de que no exista, seleccione{' '}
+                  <b>No existe en el listado, registrar manualmente</b> y
+                  registre su nombre, apellido materno y paterno.
+                </span>
+              </p>
+
               {!noExiste && (
-                <Field
-                  id="nombre"
-                  name="nombre"
-                  label="Asesores Externos"
-                  options={personal}
-                  getOptionLabel={({
-                    id,
-                    nombre,
-                    apellidoPaterno,
-                    apellidoMaterno,
-                  }) =>
-                    `${id} - ${nombre} ${apellidoPaterno} ${apellidoMaterno}`
-                  }
-                  unstructured={[
-                    { key: 'id', defaultValue: null },
-                    { key: 'nombre', defaultValue: '' },
-                    { key: 'apellidoPaterno', defaultValue: '' },
-                    { key: 'apellidoMaterno', defaultValue: '' },
-                  ]}
-                  component={EcosurFormAutocomplete}
-                />
+                <>
+                  <Field
+                    id="nombre"
+                    name="nombre"
+                    label="Asesores Externos"
+                    options={personal}
+                    getOptionLabel={({
+                      id,
+                      nombre,
+                      apellidoPaterno,
+                      apellidoMaterno,
+                    }) =>
+                      `${id} - ${nombre} ${apellidoPaterno} ${apellidoMaterno}`
+                    }
+                    unstructured={[
+                      { key: 'id', defaultValue: null },
+                      { key: 'nombre', defaultValue: '' },
+                      { key: 'apellidoPaterno', defaultValue: '' },
+                      { key: 'apellidoMaterno', defaultValue: '' },
+                    ]}
+                    component={EcosurFormAutocomplete}
+                  />
+                  <FormControlLabel
+                    id="personaExternaNoExiste"
+                    style={{
+                      marginTop: '0px',
+                      color: '#4a4a4a',
+                      fontWeight: 'bold',
+                      fontSize: '10px',
+                    }}
+                    control={
+                      <Checkbox onChange={handleChange} checked={noExiste} />
+                    }
+                    label="No existe en el listado, registrar manualmente"
+                  />
+                </>
               )}
               {noExiste && (
                 <Stack
@@ -146,14 +167,14 @@ const FormAgregarExterno: React.FC<FormAgregarProps> = ({
                 style={{ width: '40vw' }}
                 id="email"
                 name="email"
-                label="Correo Electronico"
+                label="Correo electrónico"
                 component={EcosurFormTextField}
               />
               <Field
                 fullWidth
                 id="institucion"
                 name="institucion"
-                label="Institución"
+                label="Institución de adscripción"
                 component={EcosurFormTextField}
               />
               <Stack
@@ -164,14 +185,14 @@ const FormAgregarExterno: React.FC<FormAgregarProps> = ({
               >
                 <Field
                   fullWidth
-                  label="Grado"
+                  label="Grado académico actual"
                   name="grado"
                   options={grados}
                   component={EcosurFormSelect}
                 />
                 <Field
                   fullWidth
-                  label="Participacion"
+                  label="Nivel de participación en su CT"
                   name="idParticipacion"
                   options={participacion}
                   component={EcosurFormSelect}
@@ -187,7 +208,7 @@ const FormAgregarExterno: React.FC<FormAgregarProps> = ({
                   <Field
                     fullWidth
                     name="codirectorInfo.sNI"
-                    label="SNI"
+                    label="Nivel SNI"
                     options={sni}
                     component={EcosurFormSelect}
                   />
@@ -195,7 +216,7 @@ const FormAgregarExterno: React.FC<FormAgregarProps> = ({
                     fullWidth
                     id="codirectorInfo.numPubArb"
                     name="codirectorInfo.numPubArb"
-                    label="Numero Pub Arb"
+                    label="Número de PUBLICACIONES ARBITRADAS que ha publicado"
                     type="number"
                     component={EcosurFormTextField}
                   />
@@ -203,7 +224,7 @@ const FormAgregarExterno: React.FC<FormAgregarProps> = ({
                     fullWidth
                     id="codirectorInfo.numEstMaestria"
                     name="codirectorInfo.numEstMaestria"
-                    label="Numero Est Maestria"
+                    label="Número de estudiantes de MAESTRÍA que ha asesorado"
                     type="number"
                     component={EcosurFormTextField}
                   />
@@ -211,7 +232,7 @@ const FormAgregarExterno: React.FC<FormAgregarProps> = ({
                     fullWidth
                     id="codirectorInfo.numEstDoc"
                     name="codirectorInfo.numEstDoc"
-                    label="Numero Est Doc"
+                    label="Número de estudiantes de DOCTORADO que ha asesorado"
                     type="number"
                     component={EcosurFormTextField}
                   />
@@ -221,11 +242,11 @@ const FormAgregarExterno: React.FC<FormAgregarProps> = ({
                 fullWidth
                 id="argumentacion"
                 name="argumentacion"
-                label="Argumentacion"
+                label="Razón de porqué agrega a la persona como integrante de su CT"
                 multiline
-                rows={10}
+                rows={4}
                 variant="outlined"
-                placeholder="Escriba a qui su argumentacion"
+                placeholder="Escriba aquí la razón de porqué agrega a la persona como integrante de su CT"
                 component={EcosurFormTextField}
               />
               <EcosurButtonFilePicker

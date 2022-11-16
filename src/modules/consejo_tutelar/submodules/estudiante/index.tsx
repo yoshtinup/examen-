@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
+import { Grid } from '@mui/material';
 import { userStateAtom } from '@modules/auth/recoil';
 import { EcosurAuth } from '@modules/auth/definitions';
 import { useMutation } from 'react-query';
@@ -7,15 +8,10 @@ import ConsejoTutelarQuerys from '@modules/consejo_tutelar/queries';
 import { useGetAlumnoCT, getGrado } from './queries';
 import { PersonalAcademicoGql, AsesorExternoGql } from './types';
 import Swal from 'sweetalert2';
-import {
-  Alert,
-  CircularProgress,
-  Box,
-  Stack,
-  Container,
-  Card,
-  Button,
-} from '@mui/material';
+import { Alert, CircularProgress, Stack, Card, Button } from '@mui/material';
+import InstruccionesEnlaces from './InstruccionesEnlaces';
+import EstatusProceso from '../EstatusProceso';
+
 import {
   PersonalAcademico,
   AsesorExterno,
@@ -62,8 +58,8 @@ const EstudiantePage: React.FC<ConsejoTutelar> = ({
       onError: () => {
         Swal.fire({
           icon: 'error',
-          title: 'Error en el consejo tutelar',
-          text: 'No se pudo guardar su consejo tutelar, intentelo nuevamente, o verfique a sus integrantes',
+          title: 'Error',
+          text: 'No se pudo guardar su consejo tutelar, intentelo nuevamente, verfique la información registrada de sus integrantes',
         });
         setDisabled(false);
       },
@@ -146,60 +142,72 @@ const EstudiantePage: React.FC<ConsejoTutelar> = ({
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box
-        display="column"
-        alignItems="center"
-        justifyContent="center"
-        /* sx={{ width: '60vw' }} */
-      >
-        {/* FIXME: @iocampo agregar instrucciones */}
-        <BtnAgregarIntegrante
-          disabled={disabledBtnInternos}
-          onSubmit={addInterno}
-        />
-        <BtnAgregarIntegrante
-          disabled={disabledBtnExternos}
-          externo
-          onSubmit={addExterno}
-        />
-        <Stack spacing={1}>
-          {conformacionCT.internos.map((interno, index) => (
-            <Card sx={{ width: 600 }} key={`card-integrante-interno-${index}`}>
-              <IntegranteCTContentCard
-                index={index}
-                disabled={interno.aprobadoPorComite}
-                idParticipacion={2}
-                onRemoveItem={handleRemoveItem}
-                tipo="interno"
-                {...interno}
-              />
-            </Card>
-          ))}
-          {conformacionCT.externos.map((externo, index) => (
-            <Card sx={{ width: 600 }} key={`card-integrante-interno-${index}`}>
-              <IntegranteCTContentCard
-                index={index}
-                disabled={externo.aprobadoPorComite}
-                onRemoveItem={handleRemoveItem}
-                tipo="externo"
-                {...externo}
-              >
-                <ExternoContentCard {...externo} />
-              </IntegranteCTContentCard>
-            </Card>
-          ))}
-        </Stack>
-        <Button
-          sx={{ mt: 3 }}
-          onClick={handleClick}
-          disabled={disabled}
-          variant="contained"
-        >
-          Guardar
-        </Button>
-      </Box>
-    </Container>
+    <Grid
+      container
+      direction="row"
+      justifyContent="flex-start"
+      alignItems="center"
+      id="SectionLogin"
+      style={{ padding: '15px 50px' }}
+    >
+      <EstatusProceso Estatus="Pendiente de asignar consejo tutelar" />
+      <InstruccionesEnlaces />
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <h3>Lista de integrantes</h3>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <BtnAgregarIntegrante
+            disabled={disabledBtnInternos}
+            onSubmit={addInterno}
+          />
+          <BtnAgregarIntegrante
+            disabled={disabledBtnExternos}
+            externo
+            onSubmit={addExterno}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Stack spacing={1}>
+            {conformacionCT.internos.map((interno, index) => (
+              <Card key={`card-integrante-interno-${index}`}>
+                <IntegranteCTContentCard
+                  index={index}
+                  disabled={interno.aprobadoPorComite}
+                  idParticipacion={2}
+                  onRemoveItem={handleRemoveItem}
+                  tipo="interno"
+                  {...interno}
+                />
+              </Card>
+            ))}
+            {conformacionCT.externos.map((externo, index) => (
+              <Card key={`card-integrante-interno-${index}`}>
+                <IntegranteCTContentCard
+                  index={index}
+                  disabled={externo.aprobadoPorComite}
+                  onRemoveItem={handleRemoveItem}
+                  tipo="externo"
+                  {...externo}
+                >
+                  <ExternoContentCard {...externo} />
+                </IntegranteCTContentCard>
+              </Card>
+            ))}
+          </Stack>
+          <Button
+            sx={{ mt: 3 }}
+            onClick={handleClick}
+            disabled={disabled}
+            variant="contained"
+          >
+            Guardar consejo tutelar
+          </Button>
+        </Grid>
+      </Grid>
+    </Grid>
   );
 };
 

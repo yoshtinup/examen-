@@ -1,8 +1,6 @@
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import Image from 'next/image';
 import { login, tokenValidation } from '@modules/auth/queries';
-import { useQuery } from 'react-query';
 import { Box, Typography, Input, Button } from '@mui/material';
 import Cookies from 'js-cookie';
 
@@ -13,9 +11,8 @@ export const LoginExternals: React.FC<
     email: Yup.string()
       .required('Este campo es requerido')
       .email('Correo electrónico inválido'),
-    password: Yup.string()
-      .required('Este campo es requerido')
-      //.min(8, 'La contraseña debe tener al menos 8 caracteres'),
+    password: Yup.string().required('Este campo es requerido'),
+    //.min(8, 'La contraseña debe tener al menos 8 caracteres'),
   });
 
   /* const sumbitForm = (user: any) => {
@@ -95,20 +92,10 @@ export const LoginExternals: React.FC<
             }}
           >
             <form noValidate onSubmit={handleSubmit}>
-              <Image
-                src="/icons/ecosur.svg"
-                alt="ECOSUR"
-                width={110}
-                height={150}
-              />
-              <p style={{ margin: '0px 0px 20px 0px', textAlign: 'justify' }}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Vestibulum quis est ex. Quisque non maximus elit, in malesuada
-                lacus. Curabitur non ornare lacus. Ut id arcu a augue eleifend
-                molestie ut sed erat. Donec et pharetra neque, a imperdiet
-                dolor. Sed at elit eget nibh malesuada dignissim quis et odio.
-                Suspendisse vehicula justo id felis tempor, et efficitur orci
-                condimentum.
+              <p style={{ textAlign: 'justify', padding: '20px 0px' }}>
+                Para acceder debe contar con un usuario y contraseña provisto
+                por el Posgrado de ECOSUR. Escríbalos en los siguientes
+                recuadros.
               </p>
               <Input
                 type="email"
@@ -132,8 +119,12 @@ export const LoginExternals: React.FC<
               <Typography color="error" variant="caption" paragraph>
                 {errors.password && touched.password && errors.password}
               </Typography>
-              <Button type="submit" color="success" variant="contained">
-                Login
+              <Button
+                type="submit"
+                style={{ backgroundColor: '#fff', color: '#000' }}
+                variant="contained"
+              >
+                Ingresar
               </Button>
             </form>
           </div>
