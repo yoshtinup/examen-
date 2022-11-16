@@ -17,6 +17,7 @@ const Routes: RoutesProps[] = [
       Roles.Coordinador_Unidad,
       Roles.Coordinacion_General_Posgrado,
       Roles.Servicios_Escolares,
+      Roles.Externo
     ],
   }
 ];
