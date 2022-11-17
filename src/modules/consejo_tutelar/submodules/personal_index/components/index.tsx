@@ -53,7 +53,7 @@ const Table: React.FC<{ rows: Alumno[]; actionColumn?: boolean }> = ({
     });
   }
   return (
-    <div style={{ height: '80vh', width: '100%', backgroundColor: '#fff' }}>
+    <div style={{ width: '100%'}}>
       <DataGrid
         className="datagrid"
         /* checkboxSelection */

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from 'react-query';
-import ConsejoTutelarQuerys from '@modules/consejo_tutelar/queries';
+import { ConsejoTutelarQuerys } from '@modules/consejo_tutelar/queries';
 import { Alert, CircularProgress } from '@mui/material';
 import { IntegranteCT } from '@modules/consejo_tutelar/types';
 

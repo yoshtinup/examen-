@@ -14,4 +14,5 @@ export type {
   EvaluacionIntegrante,
   EvaluacionComite,
 } from './registro';
+export type { EstatusCTGql } from './status';
 export type { default as Message } from './message';

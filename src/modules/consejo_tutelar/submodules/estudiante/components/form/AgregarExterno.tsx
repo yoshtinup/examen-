@@ -53,8 +53,8 @@ const FormAgregarExterno: React.FC<FormAgregarProps> = ({
     Swal.fire({
       target: document.getElementById(formAgregarExternoId),
       icon: 'error',
-      title: 'No se selecciono curriculum',
-      text: 'Deve seleccionar un curriculum',
+      title: 'Error',
+      text: 'No selecciono curriculum vitae',
     });
   };
   const handleChange = () => {
@@ -102,42 +102,27 @@ const FormAgregarExterno: React.FC<FormAgregarProps> = ({
               </p>
 
               {!noExiste && (
-                <>
-                  <Field
-                    id="nombre"
-                    name="nombre"
-                    label="Asesores Externos"
-                    options={personal}
-                    getOptionLabel={({
-                      id,
-                      nombre,
-                      apellidoPaterno,
-                      apellidoMaterno,
-                    }) =>
-                      `${id} - ${nombre} ${apellidoPaterno} ${apellidoMaterno}`
-                    }
-                    unstructured={[
-                      { key: 'id', defaultValue: null },
-                      { key: 'nombre', defaultValue: '' },
-                      { key: 'apellidoPaterno', defaultValue: '' },
-                      { key: 'apellidoMaterno', defaultValue: '' },
-                    ]}
-                    component={EcosurFormAutocomplete}
-                  />
-                  <FormControlLabel
-                    id="personaExternaNoExiste"
-                    style={{
-                      marginTop: '0px',
-                      color: '#4a4a4a',
-                      fontWeight: 'bold',
-                      fontSize: '10px',
-                    }}
-                    control={
-                      <Checkbox onChange={handleChange} checked={noExiste} />
-                    }
-                    label="No existe en el listado, registrar manualmente"
-                  />
-                </>
+                <Field
+                  id="nombre"
+                  name="nombre"
+                  label="Asesores Externos"
+                  options={personal}
+                  getOptionLabel={({
+                    id,
+                    nombre,
+                    apellidoPaterno,
+                    apellidoMaterno,
+                  }) =>
+                    `${id} - ${nombre} ${apellidoPaterno} ${apellidoMaterno}`
+                  }
+                  unstructured={[
+                    { key: 'id', defaultValue: null },
+                    { key: 'nombre', defaultValue: '' },
+                    { key: 'apellidoPaterno', defaultValue: '' },
+                    { key: 'apellidoMaterno', defaultValue: '' },
+                  ]}
+                  component={EcosurFormAutocomplete}
+                />
               )}
               {noExiste && (
                 <Stack
@@ -169,6 +154,19 @@ const FormAgregarExterno: React.FC<FormAgregarProps> = ({
                   />
                 </Stack>
               )}
+              <FormControlLabel
+                id="personaExternaNoExiste"
+                style={{
+                  marginTop: '0px',
+                  color: '#4a4a4a',
+                  fontWeight: 'bold',
+                  fontSize: '10px',
+                }}
+                control={
+                  <Checkbox onChange={handleChange} checked={noExiste} />
+                }
+                label="No existe en el listado, registrar manualmente"
+              />
               <Field
                 style={{ width: '40vw' }}
                 id="email"
