@@ -37,6 +37,7 @@ COPY --from=builder /sip/public ./public
 COPY --from=builder /sip/.next ./.next
 COPY --from=builder /sip/node_modules ./node_modules
 COPY --from=builder /sip/package.json ./package.json
+COPY --from=builder /sip/.env ./.env
 
 EXPOSE 3000
 CMD ["yarn", "start"]
