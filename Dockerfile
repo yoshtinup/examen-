@@ -33,8 +33,8 @@ WORKDIR /sip
 ENV NODE_ENV production
 COPY --from=builder /sip/next.config.js ./
 COPY --from=builder /sip/public ./public
-COPY --from=builder /sip/.next ./.next
-COPY --from=builder /sip/node_modules ./node_modules
+#COPY --from=builder /sip/.next ./.next
+#COPY --from=builder /sip/node_modules ./node_modules
 COPY --from=builder /sip/package.json ./package.json
 COPY --from=builder /sip/.env ./.env
 
