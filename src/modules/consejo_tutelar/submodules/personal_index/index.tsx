@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery } from 'react-query';
 import { Grid } from '@mui/material';
-import ConsejoTutelarQuerys from '@modules/consejo_tutelar/queries';
+import { ConsejoTutelarQuerys } from '@modules/consejo_tutelar/queries';
 import { Alumno } from '@modules/consejo_tutelar/types';
 import Roles from '@definitions/Roles';
 import { useRecoilValue } from 'recoil';
@@ -20,6 +20,9 @@ const filters = (rol: Roles, isDirector: boolean) => {
   if (isDirector) return (alumno: Alumno) => alumno.estatusGeneral > 3;
   switch (rol) {
     case Roles.Academico:
+      return (alumno: Alumno) =>
+        alumno.evaluadoPorIntegrantesCT || alumno.evaluadoPorIntegranteCT;
+    case Roles.Externo:
       return (alumno: Alumno) =>
         alumno.evaluadoPorIntegrantesCT || alumno.evaluadoPorIntegranteCT;
     case Roles.Responsable_Orientacion:
@@ -69,13 +72,13 @@ const PersonalIndex: React.FC<{ rows: Alumno[] } & PersonalProps> = ({
   ];
 
   return (
-    <EcosurTabs data={tabs} />
+    <EcosurTabs align="left" data={tabs} />
     /*    <Table key='ct-table-list-2' rows={data} actionColumn={false} /> */
   );
 };
 
 const PersonalFetch: React.FC<PersonalProps> = ({ isDirector }) => {
-  const { data, error, isLoading } = useQuery('AlumnosCT', async () =>
+  const { data, error, isLoading } = useQuery('ct-alumnos-fetch', async () =>
     ConsejoTutelarQuerys.getAlumnos(isDirector)
   );
   if (isLoading) return <CircularProgress />;
@@ -93,40 +96,44 @@ const PersonalFetch: React.FC<PersonalProps> = ({ isDirector }) => {
 };
 
 const Personal = () => {
-  const currentRol: Roles = useRecoilValue(rolStateAtom);
-  const needsSwictDirectorTesis: boolean = currentRol == Roles.Academico;
-  const [asDirector, setAsDirector] = React.useState<boolean>(false);
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAsDirector(event.target.checked);
-  };
+  /* const currentRol: Roles = useRecoilValue(rolStateAtom); */
+  /* const needsSwictDirectorTesis: boolean = currentRol == Roles.Academico; */
+  /* const [asDirector, setAsDirector] = React.useState<boolean>(false); */
+  /* const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => { */
+  /*   setAsDirector(event.target.checked); */
+  /* }; */
   return (
-    <Grid
-      container
-      direction="row"
-      justifyContent="flex-start"
-      alignItems="center"
-      id="SectionLogin"
-      style={{ padding: '15px 50px' }}
-    >
-      <InstruccionesEnlacesIndex />
-      <Grid container>
-        <Grid item xs={12}>
-          {needsSwictDirectorTesis && (
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={asDirector}
-                  onChange={handleChange}
-                  inputProps={{ 'aria-label': 'controlled' }}
-                />
-              }
-              label="Ver datos como director de tesis"
-            />
-          )}
-          <PersonalFetch isDirector={asDirector} />
-        </Grid>
+    <>
+      <Grid
+        container
+        direction="row"
+        justifyContent="flex-start"
+        alignItems="center"
+        id="SectionLogin"
+        style={{ padding: '15px 50px' }}
+      >
+        <InstruccionesEnlacesIndex />
+        {/* <Grid container> */}
+        {/* <Grid item xs={12}> */}
+        {/* {needsSwictDirectorTesis && ( */}
+        {/*   <FormControlLabel */}
+        {/*     control={ */}
+        {/*       <Switch */}
+        {/*         checked={asDirector} */}
+        {/*         onChange={handleChange} */}
+        {/*         inputProps={{ 'aria-label': 'controlled' }} */}
+        {/*       /> */}
+        {/*     } */}
+        {/*     label="Ver datos como director de tesis" */}
+        {/*   /> */}
+        {/* )} */}
+        {/* {asDirector && <PersonalFetch isDirector={true} />} */}
+        {/* {!asDirector && <PersonalFetch isDirector={false} />} */}
+        {/* </Grid> */}
+        {/* </Grid> */}
       </Grid>
-    </Grid>
+      <PersonalFetch isDirector={false} />
+    </>
   );
 };
 

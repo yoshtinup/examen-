@@ -11,7 +11,7 @@ export function getGrado(grado: number): 'maestria' | 'doctorado' {
 }
 
 export function useGetListaPersonalInterno(IdGrado: number) {
-  return useQuery(['personal-interno', IdGrado], async () => {
+  return useQuery(['ct-personal-interno', IdGrado], async () => {
     const { personal } = await hasuraClient.request(
       gql`
         query ObtenerAsesores($IdGrado: Int!) {
@@ -32,7 +32,7 @@ export function useGetListaPersonalInterno(IdGrado: number) {
 }
 
 export function useGetListaPersonalExterno(IdGrado: number) {
-  return useQuery(['personal-externo', IdGrado], async () => {
+  return useQuery(['ct-personal-externo', IdGrado], async () => {
     const { personal } = await hasuraClient.request(
       gql`
         query ObtenerAsesores($IdGrado: Int!) {
@@ -53,7 +53,7 @@ export function useGetListaPersonalExterno(IdGrado: number) {
 }
 
 export function useGetAlumnoCT(matricula: number) {
-  return useQuery(['alumno-ct', matricula], async () => {
+  return useQuery(['ct-conformacion-alumno', matricula], async () => {
     const { result } = await hasuraClient.request(
       gql`
         query getCT($matricula: Int!) {
