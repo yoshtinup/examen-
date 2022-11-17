@@ -39,4 +39,4 @@ COPY --from=builder /sip/package.json ./package.json
 COPY --from=builder /sip/.env ./.env
 
 EXPOSE 3000
-CMD ["yarn", "start"]
+#CMD ["yarn", "start"]
