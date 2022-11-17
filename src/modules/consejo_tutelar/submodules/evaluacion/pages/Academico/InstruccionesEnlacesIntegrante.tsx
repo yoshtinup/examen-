@@ -13,27 +13,10 @@ const enlacesImportantes = () => {
         {' '}
         <h3>Instrucciones</h3>
         <p>
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-          accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae
-          ab illo inventore veritatis et quasi architecto beatae vitae dicta
-          sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
-          aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos
-          qui ratione voluptatem sequi nesciunt.
+          A continuación, se presenta la información del estudiante, por favor
+          seleccione su respuesta y asegúrese de dar clic en el botón{' '}
+          <b>“guardar”</b>.
         </p>
-        <p>
-          Para la conformación de su consejo tutelar realice los siguientes
-          pasos:
-        </p>
-        <ul>
-          <li>
-            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-            accusantium doloremque laudantium
-          </li>
-          <li>
-            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-            accusantium doloremque laudantium
-          </li>
-        </ul>
       </Grid>
     </Grid>
   );
