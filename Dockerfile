@@ -1,8 +1,8 @@
 FROM node:16-alpine as dependencies
 WORKDIR /sip
 COPY package.json yarn.lock ./
-RUN apk add --no-cache git openssh
-RUN yarn install --frozen-lockfile
+#RUN apk add --no-cache git openssh
+#RUN yarn install --frozen-lockfile
 
 FROM node:16-alpine as builder
 WORKDIR /sip
@@ -15,7 +15,7 @@ ARG JWT_SECRET
 ARG HASURA_URL
 ARG HASURA_SECRET
 ARG API_URL
-RUN printf 'LOGIN_API=${LOGIN_API} \n\
+RUN printf 'LOGIN_API=$LOGIN_API \n\
     LOGIN_MICROSOFT=${LOGIN_MICROSOFT} \n\
     LOGIN_CLIENT_ID=${LOGIN_CLIENT_ID} \n\
     LOGIN_REDIRECT_URI=${LOGIN_REDIRECT_URI} \n\
@@ -25,8 +25,8 @@ RUN printf 'LOGIN_API=${LOGIN_API} \n\
     HASURA_SECRET=${HASURA_SECRET} \n\
     API_URL=${API_URL}' > .env
 COPY . .
-COPY --from=dependencies /sip/node_modules ./node_modules
-RUN yarn build
+#COPY --from=dependencies /sip/node_modules ./node_modules
+#RUN yarn build
 
 FROM node:16-alpine as runner
 WORKDIR /sip
