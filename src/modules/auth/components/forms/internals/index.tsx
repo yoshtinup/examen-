@@ -40,8 +40,12 @@ export const LoginInternals: React.FC<React.PropsWithChildren<Props>> = ({
     'response_mode=query';
 
   const handleRequest = (data: any) => {
+    const today = new Date();
+    const beforeOneMonth = new Date().setMonth(today.getMonth() + 1);
+    const exp = beforeOneMonth - today.getTime();
+    const days = Math.ceil(exp / (1000 * 3600 * 24));
     const token = jwt.sign({ selectedRol: data.rol }, process.env.JWT_SECRET);
-    Cookies.set('selectedRol', token, { expires: 1 });
+    Cookies.set('selectedRol', token, { expires: days });
     router.push(`${process.env.LOGIN_MICROSOFT}/authorize?${params}`);
   };
 
