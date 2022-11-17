@@ -12,6 +12,7 @@ import Roles from '@definitions/Roles';
 import {
   EcosurAuth,
   AuthCode,
+  AuthToken,
 } from '@modules/auth/definitions/usuarioPosgrado';
 import { QueryClient } from 'react-query';
 import jwt from 'jsonwebtoken';
@@ -206,7 +207,8 @@ export async function getServerSideProps(context: any) {
     isPermited: false,
     index: -1,
   };
-  let auth: AuthCode;
+  let authC: AuthCode;
+  let authT: AuthToken;
   let user: EcosurAuth;
 
   if (context.query.code) {
@@ -220,7 +222,7 @@ export async function getServerSideProps(context: any) {
     };
 
     try {
-      auth = await queryClient.fetchQuery(['auth', context.query.code], () =>
+      authC = await queryClient.fetchQuery(['auth', context.query.code], () =>
         authCode(data)
       );
     } catch (error) {
@@ -230,10 +232,16 @@ export async function getServerSideProps(context: any) {
 
     if (!isError.check) {
       try {
+        authT = await queryClient.fetchQuery(['token'], () =>
+          tokenValidation(
+            `${process.env.LOGIN_API}/Autorizacion/Usuario/login`,
+            authC.access_token
+          )
+        );
         user = await queryClient.fetchQuery(['user'], () =>
           tokenValidation(
             `${process.env.LOGIN_API}/Autorizacion/Usuario/Posgrado`,
-            auth.access_token
+            authT.token
           )
         );
 
@@ -251,10 +259,14 @@ export async function getServerSideProps(context: any) {
         );
 
         const tokenUser = jwt.sign({ user: user }, process.env.JWT_SECRET);
+        const today = new Date();
+        const beforeOneMonth = new Date().setMonth(today.getMonth() + 1);
+        const exp = (beforeOneMonth - today.getTime()) / 1000;
+
         context.res.setHeader('Set-Cookie', [
-          `userRoles=${tokenRoles}; Max-Age=86400000`,
-          `user=${tokenUser}; Max-Age=86400000`,
-          `ecosurToken=${auth.access_token}; Max-Age=${auth.expires_in}`, //The new token
+          `userRoles=${tokenRoles}; Max-Age=${86400}`,
+          `user=${tokenUser}; Max-Age=${86400}`,
+          `ecosurToken=${authT.token}; Max-Age=${exp}`,
         ]);
 
         const selectedRolToken = context.req.cookies.selectedRol;
@@ -279,7 +291,9 @@ export async function getServerSideProps(context: any) {
           redirect: {
             permanent: false,
             destination:
-              redirect !== 'undefined' ? redirect : Routes[check.index].path,
+              redirect !== 'undefined' && redirect !== '/401'
+                ? redirect
+                : Routes[check.index].path,
           },
         };
       } catch (error) {

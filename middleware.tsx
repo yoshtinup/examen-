@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import Roles from '@definitions/Roles';
-import { jwtVerify } from 'jose';
+import { jwtVerify, SignJWT } from 'jose';
 import Routes from './Routes';
 
 export async function middleware(request: NextRequest) {
@@ -9,24 +9,18 @@ export async function middleware(request: NextRequest) {
   const userCookie = request.cookies.get('user');
   const userRolesCookie = request.cookies.get('userRoles');
   const selectedRolCookie = request.cookies.get('selectedRol');
-  const jwtEcosurTokenCookie = request.cookies.get('ecosurToken');
-  //const refreshTokenCookie = request.cookies.get('refreshToken');
+  const ecosurTokenCookie = request.cookies.get('ecosurToken');
 
   const check = {
     isPermited: false,
     index: -1,
   };
 
+  const redirect = request.nextUrl.searchParams.get('redirect');
+
   if (request.nextUrl.pathname.includes('/login'))
     try {
-      if (
-        !userCookie ||
-        !userRolesCookie ||
-        !selectedRolCookie ||
-        !jwtEcosurTokenCookie /* ||
-        !refreshTokenCookie */
-      )
-        throw 'Error en los tokens';
+      if (!ecosurTokenCookie || !selectedRolCookie) throw 'Error en los tokens';
 
       const decodeSelectedRoles = await jwtVerify(
         selectedRolCookie,
@@ -35,7 +29,9 @@ export async function middleware(request: NextRequest) {
       const selectedRol = decodeSelectedRoles.payload.selectedRol as Roles;
 
       Routes.forEach(values => {
-        check.index = values.roles.indexOf(selectedRol);
+        if (values.roles.includes(selectedRol)) {
+          check.index = Routes.indexOf(values);
+        }
       });
 
       if (check.index === -1) throw 'Error en los index';
@@ -44,28 +40,29 @@ export async function middleware(request: NextRequest) {
         new URL(Routes[check.index].path, request.url) //to index
       );
     } catch (error) {
-      response.cookies.set('user', '', { maxAge: 0 });
-      response.cookies.set('userRoles', '', { maxAge: 0 });
-      response.cookies.set('selectedRol', '', { maxAge: 0 });
-      response.cookies.set('ecosurToken', '', { maxAge: 0 });
-      //response.cookies.set('refreshToken', '', { maxAge: 0 });
       return;
     }
 
-  if (
-    !userCookie ||
-    !userRolesCookie ||
-    !selectedRolCookie ||
-    !jwtEcosurTokenCookie /* ||
-    !refreshTokenCookie */
-  )
+  if (!ecosurTokenCookie || !selectedRolCookie)
     return NextResponse.redirect(
-      new URL(`/login?redirect=${request.nextUrl.pathname}`, request.url)
+      new URL(
+        !redirect && redirect !== '/401' && request.nextUrl.pathname !== '/401'
+          ? `/login?redirect=${request.nextUrl.pathname}`
+          : '/login',
+        request.url
+      )
     );
 
   if (request.nextUrl.pathname.includes('/401')) return;
 
   try {
+    if (!userCookie || !userRolesCookie)
+      throw {
+        message: 'Sin roles de usuario',
+        code: 4,
+        data: { roles: userRolesCookie },
+      };
+
     const decodeUserRoles = await jwtVerify(
       userRolesCookie,
       new TextEncoder().encode(process.env.JWT_SECRET)
@@ -91,14 +88,18 @@ export async function middleware(request: NextRequest) {
 
     return NextResponse.next();
   } catch (error) {
-    response.cookies.set('user', '', { maxAge: 0 });
-    response.cookies.set('userRoles', '', { maxAge: 0 });
-    response.cookies.set('selectedRol', '', { maxAge: 0 });
-    response.cookies.set('ecosurToken', '', { maxAge: 0 });
-    //response.cookies.set('refreshToken', '', { maxAge: 0 });
-    return NextResponse.redirect(
-      new URL(`/login?redirect=${request.nextUrl.pathname}`, request.url)
-    );
+    if (!error.code) {
+      return NextResponse.redirect(
+        new URL(
+          !redirect &&
+          redirect !== '/401' &&
+          request.nextUrl.pathname !== '/401'
+            ? `/login?redirect=${request.nextUrl.pathname}`
+            : '/login',
+          request.url
+        )
+      );
+    }
   }
 }
 

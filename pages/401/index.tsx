@@ -2,13 +2,14 @@ import React from 'react';
 import Cookies from 'js-cookie';
 import Roles from '@definitions/Roles';
 import { jwtVerify } from 'jose';
-
+import { useRouter } from 'next/router';
 function Unauthorized() {
+  const router = useRouter();
   const [actualRol, setActualRol] = React.useState<string>(null);
   const [actualRoles, setActualRoles] = React.useState<string[]>(null);
 
   React.useEffect(() => {
-    checkRol()
+    checkRol();
   }, []);
 
   const checkRol = async () => {
@@ -32,7 +33,7 @@ function Unauthorized() {
       const roles: any = userRoles.map((value: Roles) => {
         return Roles[value];
       });
-      
+
       listRoles.forEach(dataRoles => {
         if (selectedRol === dataRoles[1]) {
           setActualRol(dataRoles[0]);
@@ -44,7 +45,19 @@ function Unauthorized() {
         });
       });
       setActualRoles(roles);
+      throw {
+        message: 'No autorizado',
+        code: 3,
+        data: { selectedRol: selectedRol, roles: roles },
+      };
     } catch (error) {
+      setTimeout(() => {
+        Cookies.remove('selectedRol');
+        Cookies.remove('userRoles');
+        Cookies.remove('user');
+        Cookies.remove('ecosurToken');
+        //router.push('/login');
+      }, 1000);
       console.log('REMOVED');
     }
   };

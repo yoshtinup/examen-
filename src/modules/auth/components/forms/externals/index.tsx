@@ -6,6 +6,8 @@ import Cookies from 'js-cookie';
 import jwt from 'jsonwebtoken';
 import Roles from '@definitions/Roles';
 import { useRouter } from 'next/router';
+import { useRecoilState } from 'recoil';
+import { userStateAtom, rolStateAtom } from '@modules/auth/recoil';
 
 export const LoginExternals: React.FC<
   React.PropsWithChildren<unknown>
@@ -18,6 +20,8 @@ export const LoginExternals: React.FC<
     password: Yup.string().required('Este campo es requerido'),
     //.min(8, 'La contraseña debe tener al menos 8 caracteres'),
   });
+  const [userInfo, setUserInfo] = useRecoilState(userStateAtom);
+  const [rol, setRol] = useRecoilState(rolStateAtom);
 
   /* const sumbitForm = (user: any) => {
     const {
@@ -58,23 +62,34 @@ export const LoginExternals: React.FC<
           return alert(result.message);
         }
         tokenValidation(
-          `${process.env.LOGIN_API}/Autorizacion/Usuario/Externo/Posgrado`,
+          `${process.env.LOGIN_API}/Autorizacion/Usuario/Posgrado`,
           result.token
         )
           .then(user => {
-            Cookies.set('ecosurToken', result.token, { expires: 1 });
+            const today = new Date();
+            const beforeOneMonth = new Date().setMonth(today.getMonth() + 1);
+            const exp = beforeOneMonth - today.getTime();
+            const days = Math.ceil(exp / (1000 * 3600 * 24));
+
+            Cookies.set('ecosurToken', result.token, { expires: days });
+
             const userRolesToken = jwt.sign(
               { userRoles: [Roles.Externo] },
               process.env.JWT_SECRET
             );
             Cookies.set('userRoles', userRolesToken, { expires: 1 });
+
             const userToken = jwt.sign({ user }, process.env.JWT_SECRET);
             Cookies.set('user', userToken, { expires: 1 });
+
             const selectedRolToken = jwt.sign(
               { selectedRol: Roles.Externo },
               process.env.JWT_SECRET
             );
-            Cookies.set('selectedRol', selectedRolToken, { expires: 1 });
+            Cookies.set('selectedRol', selectedRolToken, { expires: days });
+
+            setRol(Roles.Externo);
+            setUserInfo(user);
             router.push('/consejo_tutelar');
           })
           .catch();
