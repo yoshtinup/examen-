@@ -58,7 +58,7 @@ function Unauthorized() {
         Cookies.remove('ecosurToken');
         //router.push('/login');
       }, 1000);
-      console.log('REMOVED');
+      //console.log('REMOVED');
     }
   };
 

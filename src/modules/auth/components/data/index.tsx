@@ -131,7 +131,6 @@ const DataComponent = () => {
         };
       }
     } catch (error) {
-      console.log(error);
       Cookies.remove('selectedRol');
       Cookies.remove('userRoles');
       Cookies.remove('user');

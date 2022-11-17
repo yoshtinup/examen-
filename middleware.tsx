@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import Roles from '@definitions/Roles';
-import { jwtVerify, SignJWT } from 'jose';
+import { jwtVerify } from 'jose';
 import Routes from './Routes';
 
 export async function middleware(request: NextRequest) {
