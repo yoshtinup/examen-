@@ -110,6 +110,6 @@ class ConsejoTutelarQuerys extends ApiQuerys {
 
 /* const { isLoading, isSuccess, isError, data, error, refetch } = */
 /* useQuery<Tutorial[], Error>('query-tutorials', fetchTutorials, { enabled: false, retry: 2, onSuccess, onError }); */
-export default new ConsejoTutelarQuerys(
-  process.env.API_URL + '/consejo_tutelar/'
-);
+
+const url = process.env.API_URL + '/consejo_tutelar/';
+export default new ConsejoTutelarQuerys(url);

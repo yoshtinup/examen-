@@ -4,7 +4,7 @@ type RoutesProps = {
   path: string;
   all_math?: boolean;
   roles: Roles[];
-}
+};
 
 const Routes: RoutesProps[] = [
   {
@@ -13,13 +13,12 @@ const Routes: RoutesProps[] = [
     roles: [
       Roles.Estudiante,
       Roles.Academico,
+      Roles.Externo,
       Roles.Responsable_Orientacion,
       Roles.Coordinador_Unidad,
       Roles.Coordinacion_General_Posgrado,
-      Roles.Servicios_Escolares,
-      Roles.Externo
     ],
-  }
+  },
 ];
 
 export default Routes;
