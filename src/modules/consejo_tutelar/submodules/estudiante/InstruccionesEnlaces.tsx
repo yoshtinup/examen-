@@ -1,4 +1,4 @@
-import List from '@mui/material/List';
+import { List, Link } from '@mui/material';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
@@ -49,21 +49,9 @@ const enlacesImportantes = () => {
                     <InsertLinkIcon />
                   </Avatar>
                 </ListItemAvatar>
-                <ListItemText
-                  primary="Lineamientos para la integración de CT"
-                  secondary=""
-                />
-              </ListItem>
-              <ListItem className="itemDeLista">
-                <ListItemAvatar>
-                  <Avatar className="IconoDeLista">
-                    <InsertLinkIcon />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                  primary="Proceso de registro y evaluación"
-                  secondary=""
-                />
+                <Link href="https://ecosur365p.sharepoint.com/sites/Posgrado-sitiodecomunicacin/SitePages/Lineamientos%20de%20conformaci%C3%B3n%20de%20consejo%20tutelar.aspx">
+                  Lineamientos para la integración de CT
+                </Link>
               </ListItem>
             </List>
           </Grid>
