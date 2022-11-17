@@ -5,6 +5,11 @@ import { jwtVerify } from 'jose';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import Routes from 'Routes';
+import { QueryClient } from 'react-query';
+import { EcosurAuth } from '@modules/auth/definitions/usuarioPosgrado';
+import { tokenValidation } from '@modules/auth/queries';
+import jwt from 'jsonwebtoken';
+import Roles from '@definitions/Roles';
 
 const DataComponent = () => {
   const router = useRouter();
@@ -13,23 +18,68 @@ const DataComponent = () => {
 
   React.useEffect(() => {
     checkRol();
-    //checkExpires();
   }, []);
 
   const checkRol = async () => {
+    const ecosurTokenCookie = Cookies.get('ecosurToken');
     const selectedRolCookie = Cookies.get('selectedRol');
-    const userRolesCookie = Cookies.get('userRoles');
-    const userCookie = Cookies.get('user');
-    const jwtEcosurCookie = Cookies.get('ecosurToken');
+    let userRolesCookie = Cookies.get('userRoles');
+    let userCookie = Cookies.get('user');
 
     // Esto no debería suceder porque desde el middleware ya se hace la validación
-    if (
-      !selectedRolCookie ||
-      !userRolesCookie ||
-      !userCookie ||
-      !jwtEcosurCookie
-    ) {
-      return router.push(`/login?redirect=${router.query.redirect}`);
+    if (!ecosurTokenCookie || !selectedRolCookie) {
+      Cookies.remove('selectedRol');
+      Cookies.remove('userRoles');
+      Cookies.remove('user');
+      Cookies.remove('ecosurToken');
+      return router.push(
+        router.asPath !== '/login'
+          ? `/login?redirect=${router.query.redirect}`
+          : '/login'
+      );
+    }
+
+    if (!userRolesCookie || !userCookie) {
+      const queryClient = new QueryClient();
+
+      try {
+        const user: EcosurAuth = await queryClient.fetchQuery(['user'], () =>
+          tokenValidation(
+            `${process.env.LOGIN_API}/Autorizacion/Usuario/Posgrado`,
+            ecosurTokenCookie
+          )
+        );
+        const studentRol = ['Estudiante'];
+
+        const dataUser: any = user?.personal?.roles || studentRol;
+
+        const roles = dataUser.map((value: Roles) => {
+          return Roles[value];
+        });
+
+        const userToken = jwt.sign({ user }, process.env.JWT_SECRET);
+        Cookies.set('user', userToken, { expires: 1 });
+        userCookie = userToken;
+
+        const tokenRoles = jwt.sign(
+          { userRoles: roles },
+          process.env.JWT_SECRET
+        );
+        Cookies.set('userRoles', tokenRoles, { expires: 1 });
+        userRolesCookie = tokenRoles;
+
+        /* return router.push(
+          router.query.redirect
+            ? `${router.query.redirect}`
+            : '/consejo_tutelar'
+        ); */
+      } catch (error) {
+        Cookies.remove('selectedRol');
+        Cookies.remove('userRoles');
+        Cookies.remove('user');
+        Cookies.remove('ecosurToken');
+        return;
+      }
     }
 
     try {
@@ -92,73 +142,6 @@ const DataComponent = () => {
         return;
       }
     }
-  };
-
-  const checkExpires = async () => {
-    /* const queryClient = new QueryClient();
-    const refreshTokenCookie = Cookies.get('refreshToken');
-    const isError = {
-      message: '',
-      check: false,
-    };
-    let auth: AuthCode;
-
-    // Esto no debería suceder porque desde el middleware ya se hace la validación
-    if (!refreshTokenCookie) {
-      return router.push('/login');
-    }
-
-    try {
-      const decodeRefreshToken = await jwtVerify(
-        refreshTokenCookie,
-        new TextEncoder().encode(process.env.JWT_SECRET)
-      );
-      const refreshToken = decodeRefreshToken.payload.refreshToken as string;
-      const expires_in = decodeRefreshToken.payload.expires_in as number;
-
-      //if (expires_in < Date.now()) {
-      if (1 < Date.now()) {
-        const data = {
-          client_id: process.env.LOGIN_CLIENT_ID,
-          scope: process.env.LOGIN_SCOPE,
-          refresh_token: refreshToken,
-          grant_type: process.env.LOGIN_GRANT_TYPE_REFRESH,
-          client_secret: process.env.LOGIN_CLIENT_SECRET,
-        };
-
-        try {
-          auth = await queryClient.fetchQuery(['auth_refresh'], () =>
-            authCode(data)
-          );
-          const refreshToken = jwt.sign(
-            {
-              refreshToken: auth.refresh_token,
-              expires_in: Date.now() + auth.expires_in * 1000,
-            },
-            process.env.JWT_SECRET
-          );
-          Cookies.remove('ecosurToken');
-          Cookies.remove('refreshToken');
-          Cookies.set('ecosurToken', auth.access_token, {
-            expires: (1 / 86400) * auth.expires_in,
-          });
-          Cookies.set('refreshToken', refreshToken, {
-            expires: (1 / 86400) * auth.expires_in,
-          });
-        } catch (error) {
-          throw error;
-        }
-      }
-    } catch (error) {
-      isError.message = error;
-      isError.check = true;
-      Cookies.remove('selectedRol');
-      Cookies.remove('userRoles');
-      Cookies.remove('user');
-      Cookies.remove('ecosurToken');
-      //Cookies.remove('refreshToken');
-      router.push('/login');
-    } */
   };
 
   return <></>;

@@ -48,3 +48,6 @@ export interface AuthCode {
   ext_expires_in: number;
   access_token: string;
 }
+export interface AuthToken {
+  token: string;
+}
