@@ -14,27 +14,19 @@ const enlacesImportantes = () => {
         {' '}
         <h3>Instrucciones</h3>
         <p>
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-          accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae
-          ab illo inventore veritatis et quasi architecto beatae vitae dicta
-          sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
-          aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos
-          qui ratione voluptatem sequi nesciunt.
+          En este apartado podrá registrar a las personas asesoras propuestas
+          para su Consejo Tutelar (CT), Órgano Colegiado que supervisará su
+          desempeño académico y colaborará en la definición y desarrollo de su
+          tema de investigación.
         </p>
         <p>
-          Para la conformación de su consejo tutelar realice los siguientes
-          pasos:
+          Es muy importante que antes de realizar su postulación conozca los
+          lineamientos <b>(ver enlaces importantes)</b>
         </p>
-        <ul>
-          <li>
-            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-            accusantium doloremque laudantium
-          </li>
-          <li>
-            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-            accusantium doloremque laudantium
-          </li>
-        </ul>
+        <p>
+          A continuación podrá agregar a las personas propuestas, dando clic en
+          el botón que corresponda.
+        </p>
       </Grid>
       <Grid item xs={4}>
         <Grid container spacing={2}>
@@ -72,14 +64,6 @@ const enlacesImportantes = () => {
                   primary="Proceso de registro y evaluación"
                   secondary=""
                 />
-              </ListItem>
-              <ListItem className="itemDeLista">
-                <ListItemAvatar>
-                  <Avatar className="IconoDeLista">
-                    <InsertLinkIcon />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary="Preguntas frecuentes" secondary="" />
               </ListItem>
             </List>
           </Grid>

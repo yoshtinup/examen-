@@ -70,7 +70,7 @@ const FormAgregarExterno: React.FC<FormAgregarProps> = ({
   return (
     <EcosurFullDialog
       id={formAgregarExternoId}
-      title="Agregar integrante externo"
+      title="Personas asesoras externas"
       open={open}
       handleClose={handleClose}
     >
@@ -87,11 +87,17 @@ const FormAgregarExterno: React.FC<FormAgregarProps> = ({
                   <b>INSTRUCCIONES:</b>
                 </span>{' '}
                 <span>
-                  Para agregar un integrante escriba su nombre en el listado{' '}
-                  <b>Asesores externos</b>, una vez localizado seleccionelo. En
-                  caso de que no exista, seleccione{' '}
-                  <b>No existe en el listado, registrar manualmente</b> y
-                  registre su nombre, apellido materno y paterno.
+                  Para agregar a una persona académica externa a ECOSUR ubique
+                  su nombre en la lista, de no localizarlo(a), seleccione{' '}
+                  <b>“no existe en el listado, registrar manualmente”</b> donde
+                  deberá capturar la información solicitada.
+                </span>
+                <br />
+                <br />
+                <span>
+                  Capture la información solicitada, adjunte el CV en el botón
+                  “Seleccionar Curriculum Vitae. Al finalizar no olvide dar clic
+                  en el botón “Agregar”
                 </span>
               </p>
 

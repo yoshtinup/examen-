@@ -13,27 +13,21 @@ const enlacesImportantes = () => {
         {' '}
         <h3>Instrucciones</h3>
         <p>
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-          accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae
-          ab illo inventore veritatis et quasi architecto beatae vitae dicta
-          sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
-          aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos
-          qui ratione voluptatem sequi nesciunt.
+          En este apartado se visualiza la información de estudiantes que la/lo
+          postularon para formar parte de su Consejo Tutelar, Organo Colegiado
+          que supervisará el desempeño académico del estudiante y colaborará en
+          la definición y desarrollo de su tema de investigación.
         </p>
         <p>
           Para la conformación de su consejo tutelar realice los siguientes
-          pasos:
+          pasos:En la primer pestaña <b>“PENDIENTES”</b> se visualizan las
+          solicitudes pendientes de revisar. Por favor de clic en el botón
+          “Evaluar” para confirmar o declinar su participación.
         </p>
-        <ul>
-          <li>
-            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-            accusantium doloremque laudantium
-          </li>
-          <li>
-            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-            accusantium doloremque laudantium
-          </li>
-        </ul>
+        <p>
+          En la segunda pestaña <b>“ACEPTADAS”</b> se visualizan las solicitudes
+          en las que ya ha confirmado su participación.
+        </p>
       </Grid>
       <Grid item xs={4}>
         <Grid container spacing={2}>
@@ -71,15 +65,7 @@ const enlacesImportantes = () => {
                   primary="Proceso de registro y evaluación"
                   secondary=""
                 />
-              </ListItem>
-              <ListItem className="itemDeLista">
-                <ListItemAvatar>
-                  <Avatar className="IconoDeLista">
-                    <InsertLinkIcon />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary="Preguntas frecuentes" secondary="" />
-              </ListItem>
+              </ListItem>            
             </List>
           </Grid>
         </Grid>

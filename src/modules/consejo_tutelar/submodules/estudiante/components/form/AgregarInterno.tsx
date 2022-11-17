@@ -53,9 +53,10 @@ const FormAgregarInterno: React.FC<FormAgregarProps> = ({
           <DialogContent>
             <Stack spacing={2}>
               <DialogContentText id="seleccionar-interno-dialog-description">
-                Para agregar a un integrante académico del personal de ECOSUR,
-                escriba su nombre en el siguiente cuadro, una vez localizado
-                seleccionelo y haga clic en el botón "Agregar"
+                Para agregar a una persona académica de ECOSUR, o bien
+                comisionados a ECOSUR por el Programa Investigadores por México,
+                localice su nombre en el siguiente cuadro, una vez localizado(a)
+                selecciónelo y haga clic en el botón “Agregar”.
               </DialogContentText>
               <Field
                 id="nombre"
