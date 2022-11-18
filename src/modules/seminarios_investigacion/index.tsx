@@ -16,6 +16,7 @@ const EvaluacionSeminarioInvestigacion = () => {
           justifyContent="center"
         >            
           <CardCT IdEvaluacionSeminario={120} />
+          <CardCT IdEvaluacionSeminario={110} />
           <CardActividades IdAlumnosMaterias={47404} />
           <CardActividades IdAlumnosMaterias={46248} />
           <br />
