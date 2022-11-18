@@ -45,7 +45,11 @@ export const LoginInternals: React.FC<React.PropsWithChildren<Props>> = ({
     const exp = beforeOneMonth - today.getTime();
     const days = Math.ceil(exp / (1000 * 3600 * 24));
     const token = jwt.sign({ selectedRol: data.rol }, process.env.JWT_SECRET);
-    Cookies.set('selectedRol', token, { expires: days });
+    Cookies.set('selectedRol', token, {
+      expires: days,
+      samesite: 'strict',
+      secure: true,
+    });
     router.push(`${process.env.LOGIN_MICROSOFT}/authorize?${params}`);
   };
 
