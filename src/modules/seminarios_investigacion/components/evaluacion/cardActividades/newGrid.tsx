@@ -11,25 +11,20 @@ type Color = {
   bgBox: string
 };
 
-interface NewGridProfileProps extends Color {
+interface NewGridActividadesProps extends Color {
   startIndex: number;
   finalIndex: number;
   data: Array<ActividadInfo>;
-} // NewGridProfileProps
+} // NewGridActividadesProps
 
-interface PropiedadesProps extends Color {
-  value: ActividadInfo;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const NewGridProfile = ({
+export const NewGridActividades = ({
   data = [],
   startIndex = 0,
   finalIndex = 0,
   textColor = '',
   titleColor = '',
   bgBox = '',
-}: NewGridProfileProps) => {
+}: NewGridActividadesProps) => {
   console.log(data);
   return (
     <Grid item>
@@ -125,8 +120,4 @@ export const NewGridProfile = ({
             </Box>
     </Grid>
   );
-}; // NewGridProfile
-
-const capitalizeFirstLetter = (string: string): string => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}; // capitalizeFirstLetter
+}; // NewGridActividades

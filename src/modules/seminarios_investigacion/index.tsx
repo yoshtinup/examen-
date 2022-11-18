@@ -15,8 +15,9 @@ const EvaluacionSeminarioInvestigacion = () => {
           alignItems="center"
           justifyContent="center"
         >            
-          <CardCT IdEvaluacionSeminario={200} />
+          <CardCT IdEvaluacionSeminario={120} />
           <CardActividades IdAlumnosMaterias={47404} />
+          <CardActividades IdAlumnosMaterias={46248} />
           <br />
         </Box>
     </Container>

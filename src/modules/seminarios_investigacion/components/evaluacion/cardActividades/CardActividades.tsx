@@ -2,10 +2,10 @@
 import React from 'react';
 
 import { Box, CardMedia, Grid } from '@mui/material';
-import { NewGridProfile } from './newGrid';
+import { NewGridActividades } from './newGrid';
 import { ActividadInfo } from '../../../types';
 
-export type EcosurProfileCardProps = {
+export type EcosurActividadCardProps = {
   data: Array<ActividadInfo>;
   width?: number | string;
   height?: number | string;
@@ -25,7 +25,7 @@ const EcosurActividadCard = ({
   textColor = 'text.secondary',
   titleColor = 'primary',
   bgBox = 'background.default',
-}: EcosurProfileCardProps) => {
+}: EcosurActividadCardProps) => {
   let sizeRowSelected = 0;
   try {
     sizeRowSelected = sizeRowFunction(sizeRow, data);
@@ -66,7 +66,7 @@ const EcosurActividadCard = ({
             }}
             bgcolor={color}
           >
-            <NewGridProfile
+            <NewGridActividades
               data={data}
               startIndex={0}
               finalIndex={sizeRowSelected}
@@ -79,7 +79,7 @@ const EcosurActividadCard = ({
       </Grid>
     </Box>
   );
-}; // ProfileCard
+}; // EcosurActividadCard
 
 const sizeRowFunction = (sizeRow: number | string | undefined, data: object): number => {
   let sizeRowSelected = 0;

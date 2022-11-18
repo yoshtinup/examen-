@@ -1,11 +1,10 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react';
 
 import { Box, CardMedia, Grid } from '@mui/material';
-import { NewGridProfile } from './newGrid';
+import { NewGridCT } from './newGrid';
 import { IntegranteInfo } from '../../../types';
 
-export type EcosurProfileCardProps = {
+export type EcosurCTCardProps = {
   data: Array<IntegranteInfo>;
   img?: string;
   width?: number | string;
@@ -25,14 +24,13 @@ const EcosurCTCard = ({
   color = 'background.default',
   textColor = 'text.secondary',
   titleColor = 'text.primary',
-}: EcosurProfileCardProps) => {
+}: EcosurCTCardProps) => {
   let sizeRowSelected = 0;
   try {
     sizeRowSelected = sizeRowFunction(sizeRow, data);
   } catch (e) {
     console.error(e);
   }
-
   return (
     <Box
       sx={{
@@ -85,7 +83,7 @@ const EcosurCTCard = ({
             }}
             bgcolor={color}
           >
-            <NewGridProfile
+            <NewGridCT
               data={data}
               startIndex={0}
               finalIndex={sizeRowSelected}
@@ -97,25 +95,7 @@ const EcosurCTCard = ({
       </Grid>
     </Box>
   );
-}; // ProfileCard
-
-const addNewGrid = (
-  data: Array<IntegranteInfo>,
-  startIndex: number,
-  finalIndex: number,
-  textColor: string,
-  titleColor: string,
-) => {
-  return (
-    <NewGridProfile
-      data={data}
-      startIndex={startIndex}
-      finalIndex={finalIndex}
-      textColor={textColor}
-      titleColor={titleColor}
-    />
-  );
-}; // addnewGrid
+}; // EcosurCTCard
 
 const sizeRowFunction = (sizeRow: number | string | undefined, data: object): number => {
   let sizeRowSelected = 0;
