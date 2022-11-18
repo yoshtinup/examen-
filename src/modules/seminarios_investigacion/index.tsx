@@ -3,6 +3,7 @@ import { EcosurSectionTitle } from 'ecosur-ui';
 
 import { CardCT } from './components/evaluacion';
 import { CardActividades } from './components/evaluacion';
+import { CardPrograma } from './components/evaluacion/CardCronograma/index';
 
 const EvaluacionSeminarioInvestigacion = () => {
   
@@ -15,8 +16,10 @@ const EvaluacionSeminarioInvestigacion = () => {
           alignItems="center"
           justifyContent="center"
         >            
-          <CardCT IdEvaluacionSeminario={200} />
+          <CardCT IdEvaluacionSeminario={120} />
           <CardActividades IdAlumnosMaterias={47404} />
+          <CardActividades IdAlumnosMaterias={48303} />
+          {/* <CardPrograma IdAlumnosMaterias={47404} /> */}
           <br />
         </Box>
     </Container>

@@ -35,11 +35,6 @@ export function useGetActividadesInfo(idAlumnoMateria: number) {
       gql`
       query datosSeminario($idAlumnoMateria:Int!) {
         Evaluacion:db12_Seminarios_Evaluaciones(where:{IdAlumnosMaterias:{_eq:$idAlumnoMateria}}){
-          IdAlumnosMaterias
-          idEvaluacion:IdSeminarios_Evaluaciones
-          estatus:db12_Seminarios_CatalogoEstatus{
-            value:Descripcion
-          }
           publicaciones:db12_Seminarios_Actividades_Publicaciones{
             titulo
             Annio
@@ -52,11 +47,6 @@ export function useGetActividadesInfo(idAlumnoMateria: number) {
             fechainicio
             Fechaconclusion
             institucion:otrainstitucion    
-            
-          }
-          programaactividades:db12_Seminarios_ProgramaActividades_1s{
-            actividad
-            meses
           }
           estancias:db12_Seminarios_Actividades_Estancias{
             centro:universidad_centro
@@ -70,6 +60,25 @@ export function useGetActividadesInfo(idAlumnoMateria: number) {
             tipoparticipacion
             lugar
             fecha    
+          }
+        }
+      }        
+      `,
+      { idAlumnoMateria }
+    );
+    return Evaluacion;
+  });
+}
+
+export function useGetProgramaInfo(idAlumnoMateria: number) {
+  return useQuery(['actividadesestudiante-info', idAlumnoMateria], async () => {
+    const { Evaluacion } = await hasuraClient.request(
+      gql`
+      query datosSeminario($idAlumnoMateria:Int!) {
+        Evaluacion:db12_Seminarios_Evaluaciones(where:{IdAlumnosMaterias:{_eq:$idAlumnoMateria}}){
+          programaactividades:db12_Seminarios_ProgramaActividades_1s{
+            actividad
+            meses
           }
         }
       }        
