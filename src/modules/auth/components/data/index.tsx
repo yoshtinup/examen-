@@ -58,14 +58,22 @@ const DataComponent = () => {
         });
 
         const userToken = jwt.sign({ user }, process.env.JWT_SECRET);
-        Cookies.set('user', userToken, { expires: 1 });
+        Cookies.set('user', userToken, {
+          expires: 1,
+          samesite: 'strict',
+          secure: true,
+        });
         userCookie = userToken;
 
         const tokenRoles = jwt.sign(
           { userRoles: roles },
           process.env.JWT_SECRET
         );
-        Cookies.set('userRoles', tokenRoles, { expires: 1 });
+        Cookies.set('userRoles', tokenRoles, {
+          expires: 1,
+          samesite: 'strict',
+          secure: true,
+        });
         userRolesCookie = tokenRoles;
 
         /* return router.push(

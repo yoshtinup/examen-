@@ -1,6 +1,4 @@
-const withPlugins = require('next-compose-plugins');
-
-module.exports = withPlugins([], {
+module.exports = {
   env: {
     LOGIN_API: process.env.LOGIN_API,
     LOGIN_MICROSOFT: process.env.LOGIN_MICROSOFT,
@@ -12,4 +10,4 @@ module.exports = withPlugins([], {
     HASURA_SECRET: process.env.HASURA_SECRET,
     API_URL: process.env.API_URL
   },
-});
+};
