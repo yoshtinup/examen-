@@ -73,7 +73,7 @@ export const LoginExternals: React.FC<
 
             Cookies.set('ecosurToken', result.token, {
               expires: days,
-              samesite: 'strict',
+              samesite: 'Strict',
               secure: true,
             });
 
@@ -83,14 +83,14 @@ export const LoginExternals: React.FC<
             );
             Cookies.set('userRoles', userRolesToken, {
               expires: 1,
-              samesite: 'strict',
+              samesite: 'Strict',
               secure: true,
             });
 
             const userToken = jwt.sign({ user }, process.env.JWT_SECRET);
             Cookies.set('user', userToken, {
               expires: 1,
-              samesite: 'strict',
+              samesite: 'Strict',
               secure: true,
             });
 
@@ -100,7 +100,7 @@ export const LoginExternals: React.FC<
             );
             Cookies.set('selectedRol', selectedRolToken, {
               expires: days,
-              samesite: 'strict',
+              samesite: 'Lax',
               secure: true,
             });
 

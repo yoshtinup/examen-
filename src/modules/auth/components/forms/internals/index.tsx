@@ -47,7 +47,7 @@ export const LoginInternals: React.FC<React.PropsWithChildren<Props>> = ({
     const token = jwt.sign({ selectedRol: data.rol }, process.env.JWT_SECRET);
     Cookies.set('selectedRol', token, {
       expires: days,
-      samesite: 'strict',
+      samesite: 'Lax',
       secure: true,
     });
     router.push(`${process.env.LOGIN_MICROSOFT}/authorize?${params}`);
