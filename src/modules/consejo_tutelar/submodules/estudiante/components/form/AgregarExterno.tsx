@@ -113,7 +113,7 @@ const FormAgregarExterno: React.FC<FormAgregarProps> = ({
                     apellidoPaterno,
                     apellidoMaterno,
                   }) =>
-                    `${id} - ${nombre} ${apellidoPaterno} ${apellidoMaterno}`
+                    `${nombre} ${apellidoPaterno} ${apellidoMaterno} - ${id}`
                   }
                   unstructured={[
                     { key: 'id', defaultValue: null },

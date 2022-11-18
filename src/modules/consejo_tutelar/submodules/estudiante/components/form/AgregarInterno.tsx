@@ -68,7 +68,7 @@ const FormAgregarInterno: React.FC<FormAgregarProps> = ({
                   nombre,
                   apellidoPaterno,
                   apellidoMaterno,
-                }) => `${id} - ${nombre} ${apellidoPaterno} ${apellidoMaterno}`}
+                }) => `${nombre} ${apellidoPaterno} ${apellidoMaterno} - ${id}`}
                 unstructured={[
                   { key: 'id', defaultValue: null },
                   { key: 'nombre', defaultValue: '' },
