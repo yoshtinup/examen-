@@ -60,7 +60,7 @@ const DataComponent = () => {
         const userToken = jwt.sign({ user }, process.env.JWT_SECRET);
         Cookies.set('user', userToken, {
           expires: 1,
-          samesite: 'strict',
+          samesite: 'Strict',
           secure: true,
         });
         userCookie = userToken;
@@ -71,7 +71,7 @@ const DataComponent = () => {
         );
         Cookies.set('userRoles', tokenRoles, {
           expires: 1,
-          samesite: 'strict',
+          samesite: 'Strict',
           secure: true,
         });
         userRolesCookie = tokenRoles;
