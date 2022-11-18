@@ -7,12 +7,14 @@ stages:
 build_prod:
     stage: build
     script:
-        - docker build 
+        - docker build
             --build-arg LOGIN_API=$LOGIN_API
             --build-arg LOGIN_MICROSOFT=$LOGIN_MICROSOFT
             --build-arg LOGIN_CLIENT_ID=$LOGIN_CLIENT_ID
-            --build-arg LOGIN_REDIRECT_URI=$LOGIN_REDIRECT_URI
             --build-arg LOGIN_SCOPE=$LOGIN_SCOPE
+            --build-arg LOGIN_REDIRECT_URI=$LOGIN_REDIRECT_URI
+            --build-arg LOGIN_GRANT_TYPE=$LOGIN_GRANT_TYPE
+            --build-arg LOGIN_CLIENT_SECRET=$LOGIN_CLIENT_SECRET
             --build-arg JWT_SECRET=$JWT_SECRET
             --build-arg HASURA_URL=$HASURA_URL
             --build-arg HASURA_SECRET=$HASURA_SECRET
