@@ -77,8 +77,8 @@ export const LoginExternals: React.FC<
         .then(result => {
           Swal.fire({
             icon: 'success',
-            title: 'Correo enviando',
-            text: 'Revisa tu bandeja de entrada para iniciar el proceso de recuperación',
+            title: 'Correo enviado',
+            text: 'Se ha enviado sus datos de acceso, revise su correo electrónico',
           });
         })
         .catch(err => {
