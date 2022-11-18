@@ -3,28 +3,28 @@ import React from 'react';
 
 import { Box, CardMedia, Grid } from '@mui/material';
 import { NewGridProfile } from './newGrid';
-import { integranteInfo } from '../,,/../../types/integranteCT';
+import { ActividadInfo } from '../../../types';
 
 export type EcosurProfileCardProps = {
-  data: Array<integranteInfo>;
-  img?: string;
+  data: Array<ActividadInfo>;
   width?: number | string;
   height?: number | string;
   sizeRow?: number | string;
+  bgBox?: string;
   color?: string;
   textColor?: string;
   titleColor?: string;
 };
 
-const EcosurCTCard = ({
+const EcosurActividadCard = ({
   data = [],
-  img = undefined,
   width = 'auto',
   height = '100%',
   sizeRow = 'all',
   color = 'background.default',
   textColor = 'text.secondary',
-  titleColor = 'text.primary',
+  titleColor = 'primary',
+  bgBox = 'background.default',
 }: EcosurProfileCardProps) => {
   let sizeRowSelected = 0;
   try {
@@ -32,7 +32,6 @@ const EcosurCTCard = ({
   } catch (e) {
     console.error(e);
   }
-
   return (
     <Box
       sx={{
@@ -58,30 +57,12 @@ const EcosurCTCard = ({
           },
         }}
       >
-        {img ? (
-          <Grid item justifyContent='center' alignItems='center' bgcolor={color}>
-            <CardMedia
-              component='img'
-              image={img}
-              alt='Foto'
-              sx={{ width: 120, height: 120, margin: 'auto' }}
-            />
-          </Grid>
-        ) : (
-          ''
-        )}
         <Grid item sm sx={{ p: 2 }}>
           <Grid
             container
             sx={{
               display: 'flex',
-              flexDirection: {
-                xs: 'column',
-                sm: 'column',
-                md: 'row',
-                lg: 'row',
-                xl: 'row',
-              },
+              flexDirection: 'column',
             }}
             bgcolor={color}
           >
@@ -90,35 +71,15 @@ const EcosurCTCard = ({
               startIndex={0}
               finalIndex={sizeRowSelected}
               textColor={textColor}
-              titleColor={titleColor}
+              titleColor={titleColor} 
+              bgBox={bgBox}            
             />
-            {!(sizeRowSelected == data.length)
-              ? addNewGrid(data, sizeRowSelected, Object.keys(data).length, textColor, titleColor)
-              : ''}
           </Grid>
         </Grid>
       </Grid>
     </Box>
   );
 }; // ProfileCard
-
-const addNewGrid = (
-  data: Array<integranteInfo>,
-  startIndex: number,
-  finalIndex: number,
-  textColor: string,
-  titleColor: string,
-) => {
-  return (
-    <NewGridProfile
-      data={data}
-      startIndex={startIndex}
-      finalIndex={finalIndex}
-      textColor={textColor}
-      titleColor={titleColor}
-    />
-  );
-}; // addnewGrid
 
 const sizeRowFunction = (sizeRow: number | string | undefined, data: object): number => {
   let sizeRowSelected = 0;
@@ -154,4 +115,4 @@ const sizeRowFunction = (sizeRow: number | string | undefined, data: object): nu
   } // if-else
 }; // sizeRowFunction
 
-export default EcosurCTCard;
+export default EcosurActividadCard;

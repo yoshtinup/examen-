@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react'
-import EvaluacionSeminarioInvestigacion from '@modules/evaluacion_seminarios_investigacion';
+import EvaluacionSeminarioInvestigacion from '@modules/seminarios_investigacion';
 import { Layout } from '@shared/components/layouts';
 
 const Page = () => {

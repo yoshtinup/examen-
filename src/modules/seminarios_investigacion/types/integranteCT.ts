@@ -1,9 +1,8 @@
-
 export interface IntegrantesCT {
-  data: Data;
+  data: Integrante;
 }
 
-export interface Data {
+export interface Integrante {
   IntegrantesCT: IntegrantesCTElement[];
 }
 
@@ -28,7 +27,7 @@ export interface Persona {
   Email:           string;
 }
 
-export interface integranteInfo {
+export interface IntegranteInfo {
   nombre: string,
   participacion: string,
   evaluacion: string | Date,

@@ -1,8 +1,8 @@
 import { Container, Box } from '@mui/material';
 import { EcosurSectionTitle } from 'ecosur-ui';
 
-import { CardCT } from '../../shared/components/cardCT/CardCT';
-
+import { CardCT } from './components/evaluacion';
+import { CardActividades } from './components/evaluacion';
 
 const EvaluacionSeminarioInvestigacion = () => {
   
@@ -15,7 +15,9 @@ const EvaluacionSeminarioInvestigacion = () => {
           alignItems="center"
           justifyContent="center"
         >            
-          <CardCT IdEvaluacionSeminario={98} />
+          <CardCT IdEvaluacionSeminario={200} />
+          <CardActividades IdAlumnosMaterias={47404} />
+          <br />
         </Box>
     </Container>
     </>

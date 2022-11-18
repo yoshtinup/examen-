@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import * as React from 'react';
-import { integranteInfo } from '../,,/../../types/integranteCT';
+import { IntegranteInfo } from '../../../types/integranteCT';
 
 import { Box, Grid, Typography } from '@mui/material';
 
@@ -21,11 +21,11 @@ interface NewGridProfileProps extends Color {
   /**
           Lista de datos que se mostrarán en la card
       */
-  data: Array<integranteInfo>;
+  data: Array<IntegranteInfo>;
 } // NewGridProfileProps
 
 interface PropiedadesProps extends Color {
-  value: integranteInfo;
+  value: IntegranteInfo;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
