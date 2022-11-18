@@ -17,6 +17,7 @@ build_prod:
             --build-arg HASURA_URL=$HASURA_URL
             --build-arg HASURA_SECRET=$HASURA_SECRET
             --build-arg API_URL=$API_URL
+            --build-arg LOGIN_GRANT_TYPE=$LOGIN_GRANT_TYPE
             --no-cache -t sip:latest --force-rm .
     environment:
         name: production
