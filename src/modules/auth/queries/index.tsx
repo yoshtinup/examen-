@@ -53,7 +53,7 @@ const tokenValidation = async (url: string, token: string) => {
     .then(response => response.json())
     .then(data => {
       if (data.error) throw new Error(data.error);
-      //console.log('Success (Token):', data);
+      console.log('Success (Token):', data);
       return data;
     })
     .catch();
