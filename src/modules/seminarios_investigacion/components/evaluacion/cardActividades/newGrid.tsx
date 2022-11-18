@@ -25,7 +25,6 @@ export const NewGridActividades = ({
   titleColor = '',
   bgBox = '',
 }: NewGridActividadesProps) => {
-  console.log(data);
   return (
     <Grid item>
             <Box alignItems='center'>
@@ -41,8 +40,8 @@ export const NewGridActividades = ({
                   </Grid>
                 </Typography>
                 {
-                  data[0].publicaciones.length !== 0 ? data[0].publicaciones.map(publicacion => (
-                    <Typography variant='body2' color={textColor} sx={{ pl: 5, mb: 0.5, fontSize: '80%' }}>
+                  data[0].publicaciones.length !== 0 ? data[0].publicaciones.map((publicacion, index) => (
+                    <Typography key={`publicacion-${index}`} variant='body2' color={textColor} sx={{ pl: 5, mb: 0.5, fontSize: '80%' }}>
                       ° <b>{publicacion.titulo}</b>, {publicacion.tipoarbitrado} publicado en {publicacion.publicadoen}. {publicacion.Annio}. {publicacion.tipoparticipacion}
                     </Typography>
                   )) : 
@@ -63,8 +62,8 @@ export const NewGridActividades = ({
                   </Grid>
                 </Typography>
                 {
-                  data[0].congresos.length !== 0 ? data[0].congresos.map(congreso => (
-                    <Typography variant='body2' color={textColor} sx={{ pl: 5, mb: 0.5, fontSize: '80%' }}>
+                  data[0].congresos.length !== 0 ? data[0].congresos.map((congreso, index) => (
+                    <Typography key={`congreso-${index}`} variant='body2' color={textColor} sx={{ pl: 5, mb: 0.5, fontSize: '80%' }}>
                       ° <b>{congreso.titulo}</b>, realizado en {congreso.lugar}, el {congreso.fecha}. {congreso.tipoparticipacion}
                     </Typography>
                   )) : 
@@ -85,8 +84,8 @@ export const NewGridActividades = ({
                   </Grid>
                 </Typography>
                 {
-                  data[0].estancias.length !== 0 ? data[0].estancias.map(estancia => (
-                    <Typography variant='body2' color={textColor} sx={{ pl: 5, mb: 0.5, fontSize: '80%' }}>
+                  data[0].estancias.length !== 0 ? data[0].estancias.map((estancia, index) => (
+                    <Typography key={`estancia-${index}`} variant='body2' color={textColor} sx={{ pl: 5, mb: 0.5, fontSize: '80%' }}>
                       ° <b>{estancia.centro}</b>, en el área {estancia.area}, del {estancia.fechainicio} al {estancia.fechaconclusion}. {estancia.ambito}
                     </Typography>
                   )) : 
@@ -107,8 +106,8 @@ export const NewGridActividades = ({
                   </Grid>
                 </Typography>
                 {
-                  data[0].cursos.length !== 0 ? data[0].cursos.map(curso => (
-                    <Typography variant='body2' color={textColor} sx={{ pl: 5, mb: 0.5, fontSize: '80%' }}>
+                  data[0].cursos.length !== 0 ? data[0].cursos.map((curso, index) => (
+                    <Typography key={`curso-${index}`} variant='body2' color={textColor} sx={{ pl: 5, mb: 0.5, fontSize: '80%' }}>
                       ° <b>{curso.nombrecurso}</b>, en la institución {curso.institucion}, en el periodo {curso.fechainicio} al {curso.Fechaconclusion}
                     </Typography>
                   )) : 
