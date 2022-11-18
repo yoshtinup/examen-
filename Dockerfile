@@ -25,6 +25,7 @@ JWT_SECRET='${JWT_SECRET}'\n\
 HASURA_URL='${HASURA_URL}'\n\
 HASURA_SECRET='${HASURA_SECRET}'\n\
 LOGIN_GRANT_TYPE='${LOGIN_GRANT_TYPE}'\n\
+LOGIN_CLIENT_SECRET='${LOGIN_CLIENT_SECRET}'\n\
 API_URL='${API_URL} > .env
 COPY . .
 COPY --from=dependencies /sip/node_modules ./node_modules
