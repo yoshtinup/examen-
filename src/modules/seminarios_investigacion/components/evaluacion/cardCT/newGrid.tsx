@@ -1,7 +1,6 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import * as React from 'react';
-import { IntegranteInfo } from '../../../types/integranteCT';
 
+import { IntegranteInfo } from '../../../types/integranteCT';
 import { Box, Grid, Typography } from '@mui/material';
 
 type Color = {
@@ -9,33 +8,19 @@ type Color = {
   titleColor: string;
 };
 
-interface NewGridProfileProps extends Color {
-  /**
-          Imágen que se mostrará en la card (opcional)
-      */
+interface NewGridCTProps extends Color {
   startIndex: number;
-  /**
-          Título que se mostrará en la parte superior de la card (opcional)
-      */
   finalIndex: number;
-  /**
-          Lista de datos que se mostrarán en la card
-      */
   data: Array<IntegranteInfo>;
-} // NewGridProfileProps
+} // NewGridCTProps
 
-interface PropiedadesProps extends Color {
-  value: IntegranteInfo;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const NewGridProfile = ({
+export const NewGridCT = ({
   data = [],
   startIndex = 0,
   finalIndex = 0,
   textColor = '',
   titleColor = '',
-}: NewGridProfileProps) => {
+}: NewGridCTProps) => {
   let date: Date;
   data.slice(startIndex, finalIndex)
         .map((integrante, key) => {
@@ -47,31 +32,27 @@ export const NewGridProfile = ({
       {data.slice(startIndex, finalIndex)
         .map((integrante, key) => (
             <Box key={`ecosur-ct-card-${key}`} alignItems='center' sx={{ mb: 1 }}>
-                <Typography variant='body1' display='inline' color={titleColor} sx={{ ml: 0.5 }}>
+                <Typography variant='body1' display='inline' color={titleColor} sx={{ ml: 0.5, fontSize: '80%' }}>
                     <b>{key+1}.- </b> {integrante.nombre} 
                 </Typography>
-                <Typography variant='body2' display='inline' color={titleColor} sx={{ ml: 0.5 }}>
+                <Typography variant='body2' display='inline' color={titleColor} sx={{ ml: 0.5, fontSize: '80%' }}>
                     (<b>{integrante.participacion}</b>)
                 </Typography>
                 {
                   integrante.evaluacion === null ? 
-                    <Typography variant='body1' display='inline' color={titleColor} sx={{ ml: 0.5, color: "red"  }}>
+                    <Typography variant='body1' display='inline' color={titleColor} sx={{ ml: 0.5, color: "red", fontSize: '80%'  }}>
                       <b>-</b> Pendiente por evaluar
                     </Typography>  
                   :                 
-                    <Typography variant='body1' display='inline' color={titleColor} sx={{ ml: 0.5 }}>
+                    <Typography variant='body1' display='inline' color={titleColor} sx={{ ml: 0.5, fontSize: '80%' }}>
                     <b>-</b> {integrante.evaluacion.toString()}
                     </Typography> 
                 }    
-                <Typography variant='body1' display='inline' color={titleColor} sx={{ ml: 0.5 }}>
+                <Typography variant='body1' display='inline' color={titleColor} sx={{ ml: 0.5, fontSize: '80%' }}>
                   <b>-</b> {integrante.email}
                 </Typography>                             
             </Box>
         ))}
     </Grid>
   );
-}; // NewGridProfile
-
-const capitalizeFirstLetter = (string: string): string => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}; // capitalizeFirstLetter
+}; // NewGridCT

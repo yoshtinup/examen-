@@ -35,7 +35,7 @@ export const CardActividadWithoutFetch: React.FC<{ actividad: Evaluacion[], bgCo
     ActividadesInfo.push(actividadInfo);
     return <EcosurActividadCard data={ActividadesInfo} sizeRow='all' color={bgColor} bgBox={bgBox} textColor={textColor} titleColor={titleColor} />;
   }
-};
+}; // CardActividadWithoutFetch
 
 export const CardActividades: React.FC<{
   IdAlumnosMaterias: number;
@@ -75,5 +75,4 @@ export const CardActividades: React.FC<{
         </Card>
     </>       
   );
-};
-
+}; // CardActividades

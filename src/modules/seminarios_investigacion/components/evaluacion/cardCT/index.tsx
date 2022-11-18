@@ -1,10 +1,11 @@
 import React from 'react';
 import EcosurCTCard from './CardCT';
 
-import { Alert, CircularProgress, Container, Box, Stack, Card } from '@mui/material';
+import { Alert, CircularProgress, Box, Card, Typography, Grid } from '@mui/material';
 import { IntegrantesCTElement } from '../../../types';
 import { useGetIntegrantesInfo } from '../../../queries';
 import { IntegranteInfo } from '../../../types';
+import { Groups } from '@mui/icons-material/';
 
 export const CardCTWithoutFetch: React.FC<{ integrante: IntegrantesCTElement[], bgColor: string }> = ({
   integrante, 
@@ -25,16 +26,16 @@ export const CardCTWithoutFetch: React.FC<{ integrante: IntegrantesCTElement[], 
       email: '',
     };
     integrante.forEach(function (integrante: any) {
-        const nombre_completo = integrante.Datos.Persona.Nombre + ' ' + integrante.Datos.Persona.ApellidoPaterno  + ' ' + integrante.Datos.Persona.ApellidoMaterno;
-        integranteInfo.nombre = nombre_completo; 
-        integranteInfo.participacion = integrante.Datos.Participacion.Value; 
-        integranteInfo.evaluacion = integrante.FechaFirmaTutor; 
-        integranteInfo.email = integrante.Datos.Persona.Email; 
-        integrantesInfo.push(integranteInfo);
-      });   
-      return <EcosurCTCard data={integrantesInfo} sizeRow='all' color={bgColor} />;
+      const nombre_completo = integrante.Datos.Persona.Nombre + ' ' + integrante.Datos.Persona.ApellidoPaterno  + ' ' + integrante.Datos.Persona.ApellidoMaterno;
+      integranteInfo.nombre = nombre_completo; 
+      integranteInfo.participacion = integrante.Datos.Participacion.Value; 
+      integranteInfo.evaluacion = integrante.FechaFirmaTutor; 
+      integranteInfo.email = integrante.Datos.Persona.Email; 
+      integrantesInfo.push(integranteInfo);
+    });   
+    return <EcosurCTCard data={integrantesInfo} sizeRow='all' color={bgColor} />;
   }
-};
+}; // CardCTWithoutFetch
 
 export const CardCT: React.FC<{
   IdEvaluacionSeminario: number;
@@ -56,11 +57,19 @@ export const CardCT: React.FC<{
   return (
     <>
         <br />
-        <b>Consejo Tutelar</b>
+        <Typography component='div'>
+          <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
+            <Box sx={{ pr: 1 }}>
+            <Groups /> 
+            </Box>
+            <Box>
+            <b>Consejo Tutelar</b>
+            </Box>
+          </Grid>
+        </Typography>
         <Card key={`card-integrante-ct-1`}>
             <CardCTWithoutFetch integrante={integrantes} bgColor={bgColor} />
         </Card>
     </>       
   );
-};
-
+}; // CardCT

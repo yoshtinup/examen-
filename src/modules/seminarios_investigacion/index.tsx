@@ -18,8 +18,7 @@ const EvaluacionSeminarioInvestigacion = () => {
         >            
           <CardCT IdEvaluacionSeminario={120} />
           <CardActividades IdAlumnosMaterias={47404} />
-          <CardActividades IdAlumnosMaterias={48303} />
-          {/* <CardPrograma IdAlumnosMaterias={47404} /> */}
+          <CardActividades IdAlumnosMaterias={46248} />
           <br />
         </Box>
     </Container>
