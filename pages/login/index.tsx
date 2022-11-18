@@ -264,9 +264,9 @@ export async function getServerSideProps(context: any) {
         const exp = (beforeOneMonth - today.getTime()) / 1000;
 
         context.res.setHeader('Set-Cookie', [
-          `userRoles=${tokenRoles}; Max-Age=${86400}`,
-          `user=${tokenUser}; Max-Age=${86400}`,
-          `ecosurToken=${authT.token}; Max-Age=${exp}`,
+          `userRoles=${tokenRoles}; Max-Age=${86400}; SameSite: Strict; Secure: true;`,
+          `user=${tokenUser}; Max-Age=${86400}; SameSite: Strict; Secure: true;`,
+          `ecosurToken=${authT.token}; Max-Age=${exp}; SameSite: Strict; Secure: true;`,
         ]);
 
         const selectedRolToken = context.req.cookies.selectedRol;

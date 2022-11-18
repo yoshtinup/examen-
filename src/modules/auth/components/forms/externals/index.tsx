@@ -71,22 +71,38 @@ export const LoginExternals: React.FC<
             const exp = beforeOneMonth - today.getTime();
             const days = Math.ceil(exp / (1000 * 3600 * 24));
 
-            Cookies.set('ecosurToken', result.token, { expires: days });
+            Cookies.set('ecosurToken', result.token, {
+              expires: days,
+              samesite: 'strict',
+              secure: true,
+            });
 
             const userRolesToken = jwt.sign(
               { userRoles: [Roles.Externo] },
               process.env.JWT_SECRET
             );
-            Cookies.set('userRoles', userRolesToken, { expires: 1 });
+            Cookies.set('userRoles', userRolesToken, {
+              expires: 1,
+              samesite: 'strict',
+              secure: true,
+            });
 
             const userToken = jwt.sign({ user }, process.env.JWT_SECRET);
-            Cookies.set('user', userToken, { expires: 1 });
+            Cookies.set('user', userToken, {
+              expires: 1,
+              samesite: 'strict',
+              secure: true,
+            });
 
             const selectedRolToken = jwt.sign(
               { selectedRol: Roles.Externo },
               process.env.JWT_SECRET
             );
-            Cookies.set('selectedRol', selectedRolToken, { expires: days });
+            Cookies.set('selectedRol', selectedRolToken, {
+              expires: days,
+              samesite: 'strict',
+              secure: true,
+            });
 
             setRol(Roles.Externo);
             setUserInfo(user);
