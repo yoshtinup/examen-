@@ -30,7 +30,7 @@ RUN yarn build
 
 FROM node:16-alpine as runner
 WORKDIR /sip
-ENV NODE_ENV production
+#ENV NODE_ENV production
 COPY --from=builder /sip/next.config.js ./
 COPY --from=builder /sip/public ./public
 COPY --from=builder /sip/.next ./.next
