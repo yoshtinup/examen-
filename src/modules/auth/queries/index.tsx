@@ -53,11 +53,26 @@ const tokenValidation = async (url: string, token: string) => {
     .then(response => response.json())
     .then(data => {
       if (data.error) throw new Error(data.error);
-      console.log('Success (Token):', data);
+      //console.log('Success:', data);
       return data;
     })
     .catch();
   return request;
 };
 
-export { login, authCode, tokenValidation };
+const resetPassword = async (url: string) => {
+  const data: RequestInit = {
+    method: 'POST',
+  };
+
+  const request = await fetch(url, data)
+    .then(response => response.json())
+    .then(data => {
+      if (data.error) throw new Error(data.error);
+      return data;
+    })
+    .catch();
+  return request;
+};
+
+export { login, authCode, tokenValidation, resetPassword };
