@@ -5,13 +5,9 @@ import { useRecoilValue } from 'recoil';
 import { estudianteCTState } from '../../recoil';
 import { rolStateAtom } from '@modules/auth/recoil';
 import message from '../message';
-import {
-  Alert,
-  Container,
-  Stack,
-  Button,
-  CircularProgress,
-} from '@mui/material';
+import { Alert, Container, Stack, Button } from '@mui/material';
+import Swal from 'sweetalert2';
+import { showLoading } from '@modules/consejo_tutelar/hooks';
 import { EvaluacionComite, IntegranteCT } from '@modules/consejo_tutelar/types';
 import { EcosurSectionTitle } from 'ecosur-ui';
 import { Perfil, LoadCT } from '../../components';
@@ -82,14 +78,17 @@ const ComiteEvaluacion: React.FC<{ integrantes: IntegranteCT[] }> = ({
     to_disable(currentRol, estudiante.IdEstatusCT)
   );
   const matricula = estudiante.Matricula;
-  const { mutate, isLoading } = useMutation(
+  const { mutate } = useMutation(
     async (e: EvaluacionData) =>
       await ConsejoTutelarQuerys.registrarEvaluacion(
         e.matricula,
         e.evaluaciones
       ),
     {
-      onSuccess: () => message(),
+      onSuccess: () => {
+        Swal.close();
+        message();
+      },
       onError: () => message(true),
     }
   );
@@ -118,6 +117,7 @@ const ComiteEvaluacion: React.FC<{ integrantes: IntegranteCT[] }> = ({
   const handleClick = () => {
     mutate({ matricula, evaluaciones });
     setBtnDisable(true);
+    showLoading('Enviando su evaluación, por favor espere');
   };
   const internos = integrantes.filter(
     integrante => integrante.tipoAcademico === 'Interno'
@@ -156,7 +156,6 @@ const ComiteEvaluacion: React.FC<{ integrantes: IntegranteCT[] }> = ({
         >
           Guardar evaluacion
         </Button>
-        {isLoading && <CircularProgress />}
       </Stack>
     </Container>
   );

@@ -4,7 +4,7 @@ import * as yup from 'yup';
 const validationSchemaAsesorExterno = yup.object({
   id: yup.number().nullable(true).notRequired(),
   apellidoPaterno: yup.string().required('El apellido es requerido'),
-  apellidoMaterno: yup.string().required('El apellido es requerido'),
+  apellidoMaterno: yup.string(),
   nombre: yup.string().required('El nombre es requerido'),
   email: yup
     .string()

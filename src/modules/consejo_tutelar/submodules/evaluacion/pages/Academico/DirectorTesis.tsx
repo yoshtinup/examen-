@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { estudianteCTState } from '../../recoil';
@@ -6,10 +7,11 @@ import message from '../message';
 import { Button, Stack, Container } from '@mui/material';
 import { Perfil } from '../../components';
 import { IntegranteCT } from '@modules/consejo_tutelar/types';
+import { showLoading } from '@modules/consejo_tutelar/hooks';
 import { ConsejoTutelarQuerys } from '@modules/consejo_tutelar/queries';
 import { EcosurContainer } from 'ecosur-ui';
 import { LoadCT } from '../../components';
-import { Typography, CircularProgress } from '@mui/material';
+import { Typography } from '@mui/material';
 
 const ConsejoTutelar: React.FC<{ integrantes: IntegranteCT[] }> = ({
   integrantes,
@@ -29,11 +31,12 @@ const DirectorTesis = () => {
     estudiante.IdEstatusCT != 3
   );
   const matricula: number = estudiante.Matricula;
-  const { mutate, isLoading } = useMutation(
+  const { mutate } = useMutation(
     async (matricula: number) =>
       await ConsejoTutelarQuerys.directorTesisEvaluar(matricula),
     {
       onSuccess: () => {
+        Swal.close()
         message();
         setDisabled(true);
       },
@@ -42,6 +45,7 @@ const DirectorTesis = () => {
   );
   const handleClick = () => {
     mutate(matricula);
+    showLoading('Su evaluación esta siendo enviada')
   };
   const components = [
     {
@@ -69,7 +73,6 @@ const DirectorTesis = () => {
         >
           Aprobar
         </Button>
-        {isLoading && <CircularProgress />}
       </Stack>
     </Container>
   );

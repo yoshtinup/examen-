@@ -9,6 +9,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { ConsejoTutelarQuerys } from '@modules/consejo_tutelar/queries';
 import { useGetAlumnoCT, getGrado } from './queries';
 import Swal from 'sweetalert2';
+import { showLoading } from '@modules/consejo_tutelar/hooks';
 import { Alert, CircularProgress, Stack, Card, Button } from '@mui/material';
 import InstruccionesEnlaces from './InstruccionesEnlaces';
 import { Estatus } from './components';
@@ -151,14 +152,7 @@ const EstudiantePage: React.FC<ConsejoTutelar> = ({
     if (consejoTutelar.externos.length === 0) consejoTutelar.externos = null;
     mutate({ integrantes: consejoTutelar, files: externosFiles });
     setDisabled(true);
-    Swal.fire({
-      title: 'Cargando su consejo tutelar',
-      html: 'Cargando al personal académico', // add html attribute if you want or remove
-      allowOutsideClick: false,
-      didOpen: () => {
-        Swal.showLoading(null);
-      },
-    });
+    showLoading('Enviando su consejo tutelar, espere por favor');
   };
 
   return (

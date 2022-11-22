@@ -1,15 +1,15 @@
 import React from 'react';
 import { useMutation } from 'react-query';
 import { useRecoilValue } from 'recoil';
-import { rolStateAtom } from '@modules/auth/recoil';
 import { estudianteCTState } from '../../recoil';
-import Roles from '@definitions/Roles';
+import Swal from 'sweetalert2';
+import { showLoading } from '@modules/consejo_tutelar/hooks';
 import message from '../message';
 import { ConsejoTutelarQuerys } from '@modules/consejo_tutelar/queries';
 import * as yup from 'yup';
 import { Formik, FormikProps, Form, Field } from 'formik';
 import { EcosurFormSelect, EcosurFormTextField } from 'ecosur-ui';
-import { Button, Stack, Container, CircularProgress } from '@mui/material';
+import { Button, Stack, Container } from '@mui/material';
 import { Grid } from '@mui/material';
 import { EvaluacionIntegrante } from '@modules/consejo_tutelar/types';
 import { Perfil } from '../../components';
@@ -57,11 +57,12 @@ const Integrante = () => {
   const [disabled, setDisabled] = React.useState<boolean>(
     estudiante.IdEstatusCT != 2
   );
-  const { mutate, isLoading } = useMutation(
+  const { mutate } = useMutation(
     async (e: EvaluacionIntegranteData) =>
       await ConsejoTutelarQuerys.integranteRevisar(e.matricula, e.evaluacion),
     {
       onSuccess: () => {
+        Swal.close();
         message();
         setDisabled(true);
       },
@@ -70,6 +71,7 @@ const Integrante = () => {
   );
   const handleSubmit = (evaluacion: EvaluacionIntegrante) => {
     mutate({ matricula, evaluacion });
+    showLoading('Su evaluación esta siendo enviada, por favor espere');
   };
 
   return (
@@ -127,7 +129,6 @@ const Integrante = () => {
                         >
                           Guardar
                         </Button>
-                        {isLoading && <CircularProgress />}
                       </Stack>
                     </Form>
                   )}

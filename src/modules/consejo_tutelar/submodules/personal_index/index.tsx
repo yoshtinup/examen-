@@ -6,12 +6,7 @@ import { Alumno } from '@modules/consejo_tutelar/types';
 import Roles from '@definitions/Roles';
 import { useRecoilValue } from 'recoil';
 import { rolStateAtom } from '@modules/auth/recoil';
-import {
-  Alert,
-  CircularProgress,
-  FormControlLabel,
-  Switch,
-} from '@mui/material';
+import { Alert, CircularProgress } from '@mui/material';
 import Table from './components';
 import { EcosurTabs } from 'ecosur-ui';
 import InstruccionesEnlacesIndex from './InstruccionesEnlacesIndex';
@@ -37,12 +32,12 @@ const filters = (rol: Roles, isDirector: boolean) => {
 };
 
 type PersonalProps = {
-  isDirector: boolean;
+  isDirector?: boolean;
 };
 
 const PersonalIndex: React.FC<{ rows: Alumno[] } & PersonalProps> = ({
   rows,
-  isDirector,
+  isDirector = false,
 }) => {
   const currentRol: Roles = useRecoilValue(rolStateAtom);
   const filter: (alumnun: Alumno) => boolean = filters(currentRol, isDirector);
@@ -71,14 +66,11 @@ const PersonalIndex: React.FC<{ rows: Alumno[] } & PersonalProps> = ({
     },
   ];
 
-  return (
-    <EcosurTabs align="left" data={tabs} />
-    /*    <Table key='ct-table-list-2' rows={data} actionColumn={false} /> */
-  );
+  return <EcosurTabs align="left" data={tabs} />;
 };
 
-const PersonalFetch: React.FC<PersonalProps> = ({ isDirector }) => {
-  const { data, error, isLoading } = useQuery('ct-alumnos-fetch', async () =>
+const PersonalFetch: React.FC<PersonalProps> = ({ isDirector = false }) => {
+  const { data, error, isLoading } = useQuery('ct-alumnos-list', async () =>
     ConsejoTutelarQuerys.getAlumnos(isDirector)
   );
   if (isLoading) return <CircularProgress />;
@@ -96,12 +88,17 @@ const PersonalFetch: React.FC<PersonalProps> = ({ isDirector }) => {
 };
 
 const Personal = () => {
-  /* const currentRol: Roles = useRecoilValue(rolStateAtom); */
-  /* const needsSwictDirectorTesis: boolean = currentRol == Roles.Academico; */
-  /* const [asDirector, setAsDirector] = React.useState<boolean>(false); */
-  /* const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => { */
-  /*   setAsDirector(event.target.checked); */
-  /* }; */
+  const tabs = [
+    {
+      titulo: 'Academico',
+      componente: <PersonalFetch />,
+    },
+    {
+      titulo: 'Director tesis',
+      componente: <PersonalFetch isDirector />,
+    },
+  ];
+
   return (
     <>
       <Grid
@@ -113,26 +110,8 @@ const Personal = () => {
         style={{ padding: '15px 50px' }}
       >
         <InstruccionesEnlacesIndex />
-        {/* <Grid container> */}
-        {/* <Grid item xs={12}> */}
-        {/* {needsSwictDirectorTesis && ( */}
-        {/*   <FormControlLabel */}
-        {/*     control={ */}
-        {/*       <Switch */}
-        {/*         checked={asDirector} */}
-        {/*         onChange={handleChange} */}
-        {/*         inputProps={{ 'aria-label': 'controlled' }} */}
-        {/*       /> */}
-        {/*     } */}
-        {/*     label="Ver datos como director de tesis" */}
-        {/*   /> */}
-        {/* )} */}
-        {/* {asDirector && <PersonalFetch isDirector={true} />} */}
-        {/* {!asDirector && <PersonalFetch isDirector={false} />} */}
-        {/* </Grid> */}
-        {/* </Grid> */}
       </Grid>
-      <PersonalFetch isDirector={false} />
+      <EcosurTabs data={tabs} />
     </>
   );
 };
