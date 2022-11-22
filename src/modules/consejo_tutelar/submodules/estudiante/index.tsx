@@ -57,7 +57,7 @@ const EstudiantePage: React.FC<ConsejoTutelar> = ({
     {
       onSuccess: () => {
         queryClient.invalidateQueries(['ct-conformacion-alumno']);
-        Swal.close()
+        Swal.close();
         Swal.fire({
           icon: 'success',
           title: 'El consejo tutelar',
@@ -153,12 +153,12 @@ const EstudiantePage: React.FC<ConsejoTutelar> = ({
     setDisabled(true);
     Swal.fire({
       title: 'Cargando su consejo tutelar',
-      html: 'Cargando al personal académico',// add html attribute if you want or remove
+      html: 'Cargando al personal académico', // add html attribute if you want or remove
       allowOutsideClick: false,
       didOpen: () => {
-        Swal.showLoading()
+        Swal.showLoading(null);
       },
-    })
+    });
   };
 
   return (
@@ -190,7 +190,11 @@ const EstudiantePage: React.FC<ConsejoTutelar> = ({
           />
         </Grid>
         <Grid item xs={12}>
-          <Typography > <b>Director/a de Tesis: </b>{DirectorTesis}</Typography>
+          <Typography>
+            {' '}
+            <b>Director/a de Tesis: </b>
+            {DirectorTesis}
+          </Typography>
           <Stack spacing={1}>
             {conformacionCT.internos.map((interno, index) => (
               <Card key={`card-integrante-interno-${index}`}>
@@ -237,8 +241,9 @@ const Estudiante = () => {
   const matricula: number = user.estudiante?.matricula ?? 0;
   const grado = getGrado(user.estudiante?.clavePrograma ?? 1);
   const { data, error, isLoading } = useGetAlumnoCT(matricula);
-  if (error) return <Alert severity="error">No se pudo cargar su consejo tutelar</Alert>
-  if (isLoading) return <CircularProgress />
+  if (error)
+    return <Alert severity="error">No se pudo cargar su consejo tutelar</Alert>;
+  if (isLoading) return <CircularProgress />;
   return (
     <EstudiantePage
       grado={grado}
