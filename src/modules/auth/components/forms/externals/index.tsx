@@ -72,13 +72,16 @@ export const LoginExternals: React.FC<
   const handleRequest = (user: any) => {
     if (!user.password) {
       resetPassword(
+        user.email,
         `${process.env.LOGIN_API}/Autorizacion/Usuario/Externo/RecuperarPassword`
       )
         .then(result => {
+          if (!result.message) throw result.title;
+
           Swal.fire({
             icon: 'success',
             title: 'Correo enviado',
-            text: 'Se ha enviado sus datos de acceso, revise su correo electrónico',
+            text: 'Se han enviado sus datos de acceso, revise su correo electrónico',
           });
         })
         .catch(err => {
