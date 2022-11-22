@@ -29,4 +29,9 @@ interface AsesorExternoGql extends PersonalAcademicoGql {
   codirectorInfo: CodirectorInfoGql;
 }
 
-export type { PersonalAcademicoGql, AsesorExternoGql };
+interface AsesoresGql {
+  AsesoresExternos: AsesorExternoGql[];
+  AsesoresInternos: PersonalAcademicoGql[];
+}
+
+export type { PersonalAcademicoGql, AsesorExternoGql, AsesoresGql };

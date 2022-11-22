@@ -1,4 +1,10 @@
 import { useQuery } from 'react-query';
+
+import { PersonalAcademicoGql, AsesorExternoGql, AsesoresGql } from '../types';
+import {
+  PersonalAcademico,
+  AsesorExterno,
+} from '@modules/consejo_tutelar/types';
 import { hasuraClient } from '@shared/queries';
 import { gql } from 'graphql-request';
 
@@ -52,57 +58,103 @@ export function useGetListaPersonalExterno(IdGrado: number) {
   });
 }
 
+type ConformacionCTAlumno = {
+  internos: PersonalAcademico[];
+  externos: AsesorExterno[];
+};
+
+function convertConformacionCTAlumno(
+  data: AsesoresGql[]
+): ConformacionCTAlumno {
+  const internos = data[0].AsesoresInternos.map(
+    (interno: PersonalAcademicoGql) => ({
+      id: interno.id,
+      nombre: interno.dataPersona.nombre,
+      apellidoMaterno: interno.dataPersona.ApellidoMaterno,
+      apellidoPaterno: interno.dataPersona.ApellidoPaterno,
+    })
+  );
+  const externos = data[0].AsesoresExternos.map(
+    (externo: AsesorExternoGql) => ({
+      id: externo.id,
+      nombre: externo.dataPersona.nombre,
+      apellidoMaterno: externo.dataPersona.ApellidoMaterno,
+      apellidoPaterno: externo.dataPersona.ApellidoPaterno,
+      email: externo.dataPersona.Email,
+      institucion: externo.dataPersona.Institucion,
+      grado: externo.dataPersona.Grado,
+      idParticipacion: externo.idParticipacion,
+      argumentacion: externo.datosExtra?.Argumentacion ?? '',
+      fileName: externo.datosExtra?.UrlCV ?? '',
+      codirectorInfo: {
+        sNI: externo.codirectorInfo?.SNI,
+        numPubArb: externo.codirectorInfo?.NumPubArb,
+        numEstMaestria: externo.codirectorInfo?.NumEstMaestria,
+        numEstDoc: externo.codirectorInfo?.NumEstDoc,
+      },
+    })
+  );
+  return {
+    internos: internos,
+    externos: externos,
+  };
+}
+
 export function useGetAlumnoCT(matricula: number) {
-  return useQuery(['ct-conformacion-alumno', matricula], async () => {
-    const { result } = await hasuraClient.request(
-      gql`
-        query getCT($matricula: Int!) {
-          result: AlumnoPrograma(where: { Matricula: { _eq: $matricula } }) {
-            AsesoresInternos: TutoresSinodales(
-              where: {
-                IdParticipacion: { _nin: 1 }
-                PersonalAcademico: { IdUnidad: { _nin: 6 } }
+  return useQuery(
+    ['ct-conformacion-alumno', matricula],
+    async () => {
+      const { result } = await hasuraClient.request(
+        gql`
+          query getCT($matricula: Int!) {
+            result: AlumnoPrograma(where: { Matricula: { _eq: $matricula } }) {
+              AsesoresInternos: TutoresSinodales(
+                where: {
+                  IdParticipacion: { _nin: 1 }
+                  PersonalAcademico: { IdUnidad: { _nin: 6 } }
+                }
+              ) {
+                id: IdTutorSinodal
+                dataPersona: PersonalAcademico {
+                  nombre: Nombre_s_
+                  ApellidoMaterno
+                  ApellidoPaterno
+                }
               }
-            ) {
-              id: IdTutorSinodal
-              dataPersona: PersonalAcademico {
-                nombre: Nombre_s_
-                ApellidoMaterno
-                ApellidoPaterno
-              }
-            }
-            AsesoresExternos: TutoresSinodales(
-              where: {
-                IdParticipacion: { _nin: 1 }
-                PersonalAcademico: { IdUnidad: { _in: 6 } }
-              }
-            ) {
-              id: IdTutorSinodal
-              dataPersona: PersonalAcademico {
-                nombre: Nombre_s_
-                ApellidoMaterno
-                ApellidoPaterno
-                Institucion: Division
-                Email
-                Grado
-              }
-              idParticipacion: IdParticipacion
-              datosExtra: db18_CT_DatosExtrasAsesoresExterno {
-                Argumentacion: Argumentacion
-                UrlCV
-              }
-              codirectorInfo: db18_CT_DatosExtrasCodirectore {
-                SNI
-                NumEstDoc
-                NumEstMaestria
-                NumPubArb
+              AsesoresExternos: TutoresSinodales(
+                where: {
+                  IdParticipacion: { _nin: 1 }
+                  PersonalAcademico: { IdUnidad: { _in: 6 } }
+                }
+              ) {
+                id: IdTutorSinodal
+                dataPersona: PersonalAcademico {
+                  nombre: Nombre_s_
+                  ApellidoMaterno
+                  ApellidoPaterno
+                  Institucion: Division
+                  Email
+                  Grado
+                }
+                idParticipacion: IdParticipacion
+                datosExtra: db18_CT_DatosExtrasAsesoresExterno {
+                  Argumentacion: Argumentacion
+                  UrlCV
+                }
+                codirectorInfo: db18_CT_DatosExtrasCodirectore {
+                  SNI
+                  NumEstDoc
+                  NumEstMaestria
+                  NumPubArb
+                }
               }
             }
           }
-        }
-      `,
-      { matricula }
-    );
-    return result;
-  });
+        `,
+        { matricula }
+      );
+      return result;
+    },
+    { select: convertConformacionCTAlumno }
+  );
 }
