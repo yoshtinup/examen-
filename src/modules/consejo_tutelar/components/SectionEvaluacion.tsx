@@ -1,6 +1,6 @@
 import React from 'react';
-import { useRecoilValue } from 'recoil'
-import { userStateAtom, rolStateAtom } from '@modules/auth/recoil'
+import { useRecoilValue } from 'recoil';
+import { userStateAtom, rolStateAtom } from '@modules/auth/recoil';
 import Roles from '@definitions/Roles';
 
 import {
@@ -61,25 +61,30 @@ const IntegranteEvaluacion: React.FC<IntegranteEvaluacionProps> = ({
   btnHide = false,
   setEvaluacion,
 }) => {
-  const currentUser = useRecoilValue(userStateAtom)
-  const currentRol: Roles = useRecoilValue(rolStateAtom)
-  const [comentarios, setComentario] = React.useState<EstatusIndividual[]>(integrantes.estatusIndividual)
+  const currentUser = useRecoilValue(userStateAtom);
+  const currentRol: Roles = useRecoilValue(rolStateAtom);
+  const [comentarios, setComentario] = React.useState<EstatusIndividual[]>(
+    integrantes.estatusIndividual
+  );
   const [disabled, setDisabled] = React.useState<boolean>(false);
   const [open, setOpen] = React.useState<boolean>(false);
   const handleClose = () => setOpen(false);
   const handleOpen = () => setOpen(true);
   const info = {
+    participación: integrantes.participacion,
+    grado: integrantes.gradoGeneral,
+    institución: integrantes.insitucion,
+    argumentación: integrantes.argumentacion,
+    tipo: integrantes.tipoAcademico,
+    'Nivel SNI': integrantes.datosCodirector?.sNI ?? null,
+    'Número de publicaciones arbitradas':
+      integrantes.datosCodirector?.numPubArb ?? null,
+    'Número de estudiantes de maestría':
+      integrantes.datosCodirector?.numEstMaestria ?? null,
+    'Número de estudiantes de doctorado':
+      integrantes.datosCodirector?.numEstDoc ?? null,
     unidad: integrantes.unidad,
-    'grado General': integrantes.gradoGeneral,
     correo: integrantes.correo,
-    participacion: integrantes.participacion,
-    insitucion: integrantes.insitucion,
-    argumentacion: integrantes.argumentacion,
-    'tipo Academico': integrantes.tipoAcademico,
-    sNI: integrantes.datosCodirector?.sNI ?? null,
-    numPubArb: integrantes.datosCodirector?.numPubArb ?? null,
-    numEstMaestria: integrantes.datosCodirector?.numEstMaestria ?? null,
-    numEstDoc: integrantes.datosCodirector?.numEstDoc ?? null,
   };
 
   const user = {
@@ -95,8 +100,8 @@ const IntegranteEvaluacion: React.FC<IntegranteEvaluacionProps> = ({
       rol: Roles[currentRol],
       fecha: 'Justo ahora',
       motivoRechazo: comentario,
-    }
-    setComentario([...comentarios, new_comentario])
+    };
+    setComentario([...comentarios, new_comentario]);
     setDisabled(true);
     setEvaluacion({
       id: integrantes.idTutorSinodal,
@@ -105,11 +110,11 @@ const IntegranteEvaluacion: React.FC<IntegranteEvaluacionProps> = ({
     });
   };
   return (
-    <Card variant="outlined">
+    <Card variant="outlined" style={{ marginBottom: '20px' }}>
       <CardHeader title={`${integrantes.grado} ${integrantes.nombre}`} />
+      <EcosurProfileCard data={info} color="#fff" titleColor="#555555" />
       <CardContent>
         <Stack spacing={2}>
-          <EcosurProfileCard data={info} />
           <Comentario statusIndividuals={comentarios} />
         </Stack>
       </CardContent>
@@ -154,7 +159,8 @@ const SeccionEvaluacion: React.FC<SeccionEvaluacionProps> = ({
   if (integrantes.length == 0) return;
   return (
     <div>
-      <EcosurSectionTitle label={title} variant="h6" bgcolor="secondary" />
+      <h3 style={{ color: 'rgb(197, 107, 22) !important' }}>{title}</h3>
+
       {integrantes.map(integrante => (
         <IntegranteEvaluacion
           key={`integrante-evaluacion-${integrante.idTutorSinodal}`}

@@ -45,7 +45,7 @@ const PersonalIndex: React.FC<{ rows: Alumno[] } & PersonalProps> = ({
   const rows_pendiente = rows.filter(alumno => !filter(alumno));
   const tabs = [
     {
-      titulo: 'Pendientes',
+      titulo: 'Pendientes de evaluar',
       componente: (
         <Table
           key="ct-table-list-1"
@@ -55,7 +55,7 @@ const PersonalIndex: React.FC<{ rows: Alumno[] } & PersonalProps> = ({
       ),
     },
     {
-      titulo: 'Evaluadas',
+      titulo: 'Evaluados',
       componente: (
         <Table
           key="ct-table-list-2"
@@ -81,21 +81,26 @@ const PersonalFetch: React.FC<PersonalProps> = ({ isDirector = false }) => {
       <Alert severity="error">No se pudo acceder al consejo tutelar</Alert>
     );
 
-  return <PersonalIndex rows={isSuccess && data !== undefined ? data : []} isDirector={isDirector} />;
+  return (
+    <PersonalIndex
+      rows={isSuccess && data !== undefined ? data : []}
+      isDirector={isDirector}
+    />
+  );
 };
 
 const AcademicoIndex = () => {
   const tabs = [
     {
-      titulo: 'Academico',
+      titulo: 'Integrante de Consejo tutelar ',
       componente: <PersonalFetch />,
     },
     {
-      titulo: 'Director tesis',
+      titulo: 'Director/a de tesis',
       componente: <PersonalFetch isDirector />,
     },
   ];
-  return <EcosurTabs data={tabs} />;
+  return <EcosurTabs data={tabs} align="left" />;
 };
 
 const Personal = () => {

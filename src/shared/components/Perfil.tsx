@@ -15,19 +15,18 @@ export const PerfilWithoutFetch: React.FC<PerfilWithoutFetchProps> = ({
   infoExtra = {},
 }) => {
   const estudianteInfo = {
-    nombre: `${estudiante.Datos.Nombre}, ${estudiante.Datos.ApellidoPaterno} ${estudiante.Datos.ApellidoMaterno}`,
+    nombre: `${estudiante.Datos.Nombre}, ${estudiante.Datos.ApellidoPaterno} ${estudiante.Datos.ApellidoMaterno} (${estudiante.Datos.Email})`,
     programa: estudiante.Programa.NombreLargo,
     orientación: estudiante.Orientacion.Nombre,
-    'Unidad de adscripción': estudiante.UnidadAdscripcion.value,
-    'Año de estudio actual': estudiante.AnioDeEstudiosActual.value,
-    'Director/a de tesis': `${estudiante.DirectorTesis[0].Persona.Nombre}, ${estudiante.DirectorTesis[0].Persona.ApellidoPaterno} ${estudiante.DirectorTesis[0].Persona.ApellidoMaterno}`,
-    tesis: estudiante.Tesis,
     generación: estudiante.Generacion.Value,
-    correo: estudiante.Datos.Email,
+    'Año de estudio actual': estudiante.AnioDeEstudiosActual.value,
+    'Unidad de adscripción': estudiante.UnidadAdscripcion.value,
     Estatus: estudiante.Estatus,
+    tesis: estudiante.Tesis,
+    'Director/a de tesis': `${estudiante.DirectorTesis[0].Persona.Nombre}, ${estudiante.DirectorTesis[0].Persona.ApellidoPaterno} ${estudiante.DirectorTesis[0].Persona.ApellidoMaterno}`,
     ...infoExtra,
   };
-  return <EcosurProfileCard data={estudianteInfo} />;
+  return <EcosurProfileCard data={estudianteInfo} titleColor="#555" />;
 };
 
 export const Perfil: React.FC<{

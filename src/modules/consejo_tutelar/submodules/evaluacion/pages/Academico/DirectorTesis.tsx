@@ -38,31 +38,42 @@ const DirectorTesisPage: React.FC<{ integrantes: IntegranteCT[] }> = ({
   };
 
   return (
-    <Container maxWidth="md">
-      <Stack spacing={4}>
-        <Perfil />
-        <SeccionEvaluacion
-          title="Integrantes evaluados"
-          integrantes={integrantes}
-          btnHide
-        />
-        <Button
-          variant="contained"
-          onClick={handleClick}
-          disabled={disabled}
-          sx={{ width: 100 }}
-        >
-          Aprobar
-        </Button>
-      </Stack>
-    </Container>
+    <>
+      <Container maxWidth="lg">
+        <h1>Sección de instrucciones</h1>
+      </Container>
+      <Container
+        maxWidth="lg"
+        style={{ marginBottom: '20px', padding: '25px 0px 30px 0px' }}
+      >
+        <Stack spacing={4}>
+          <h3 style={{ marginBottom: '0px' }}>Persona estudiante</h3>
+          <Perfil />
+          <SeccionEvaluacion
+            title="Integrantes de consejo tutelar"
+            integrantes={integrantes}
+            btnHide
+          />
+          <Button
+            variant="contained"
+            onClick={handleClick}
+            disabled={disabled}
+            sx={{ width: 400 }}
+          >
+            Aprobar consejo tutelar
+          </Button>
+        </Stack>
+      </Container>
+    </>
   );
 };
 
 const DirectorTesis = () => {
   const estudiante = useRecoilValue(estudianteCTState);
   const matricula = estudiante.Matricula;
-  return <LoadCT matricula={matricula} Component={DirectorTesisPage} />;
+  return (
+    <LoadCT matricula={matricula} Component={DirectorTesisPage} isDirector />
+  );
 };
 
 export default DirectorTesis;
