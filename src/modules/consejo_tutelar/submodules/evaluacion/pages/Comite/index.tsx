@@ -1,47 +1,17 @@
 import React from 'react';
 import { useMutation } from 'react-query';
-import { ConsejoTutelarQuerys } from '@modules/consejo_tutelar/queries';
 import { useRecoilValue } from 'recoil';
 import { estudianteCTState } from '../../recoil';
 import { rolStateAtom } from '@modules/auth/recoil';
 import message from '../message';
 import { Alert, Container, Stack, Button } from '@mui/material';
 import Swal from 'sweetalert2';
-import { showLoading } from '@modules/consejo_tutelar/hooks';
-import { EvaluacionComite, IntegranteCT } from '@modules/consejo_tutelar/types';
-import { EcosurSectionTitle } from 'ecosur-ui';
+import { showLoading } from '@shared/hooks';
 import { Perfil, LoadCT } from '../../components';
-import IntegranteEvaluacion from './IntegranteEvaluacion';
 import Roles from '@definitions/Roles';
-
-type SeccionEvaluacionProps = {
-  title: string;
-  btnHide?: boolean;
-  integrantes: IntegranteCT[];
-  setEvaluacion?: (evaluacion: EvaluacionComite) => void;
-};
-
-const SeccionEvaluacion: React.FC<SeccionEvaluacionProps> = ({
-  title,
-  btnHide = false,
-  integrantes,
-  setEvaluacion = (_: EvaluacionComite) => {},
-}) => {
-  if (integrantes.length == 0) return;
-  return (
-    <div>
-      <EcosurSectionTitle label={title} variant="h6" bgcolor="secondary" />
-      {integrantes.map(integrante => (
-        <IntegranteEvaluacion
-          key={`integrante-evaluacion-${integrante.idTutorSinodal}`}
-          btnHide={btnHide}
-          integrantes={integrante}
-          setEvaluacion={setEvaluacion}
-        />
-      ))}
-    </div>
-  );
-};
+import { ConsejoTutelarQuerys } from '@modules/consejo_tutelar/queries';
+import { EvaluacionComite, IntegranteCT } from '@modules/consejo_tutelar/types';
+import { SeccionEvaluacion } from '@modules/consejo_tutelar/components';
 
 function filters(rol: Roles) {
   switch (rol) {
@@ -120,11 +90,12 @@ const ComiteEvaluacion: React.FC<{ integrantes: IntegranteCT[] }> = ({
     showLoading('Enviando su evaluación, por favor espere');
   };
   const internos = integrantes.filter(
-    integrante => integrante.tipoAcademico === 'Interno'
+    integrante => integrante.tipoAcademico === 'Interno' && !filter(integrante)
   );
   const externos = integrantes.filter(
-    integrante => integrante.tipoAcademico !== 'Interno'
+    integrante => integrante.tipoAcademico !== 'Interno' && !filter(integrante)
   );
+  const evaluado: boolean = internos.length + externos.length == 0;
 
   const evaluados = integrantes.filter(filter);
   return (
@@ -148,7 +119,7 @@ const ComiteEvaluacion: React.FC<{ integrantes: IntegranteCT[] }> = ({
           btnHide
         />
         <Button
-          disabled={btnDisable}
+          disabled={btnDisable || evaluado}
           onClick={handleClick}
           variant="contained"
           color="primary"

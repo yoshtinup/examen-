@@ -70,8 +70,10 @@ const PersonalIndex: React.FC<{ rows: Alumno[] } & PersonalProps> = ({
 };
 
 const PersonalFetch: React.FC<PersonalProps> = ({ isDirector = false }) => {
-  const { data, error, isLoading } = useQuery('ct-alumnos-list', async () =>
-    ConsejoTutelarQuerys.getAlumnos(isDirector)
+  const currentRol: Roles = useRecoilValue(rolStateAtom);
+  const { data, error, isLoading, isSuccess } = useQuery(
+    `ct-alumnos-list-${currentRol}`,
+    async () => ConsejoTutelarQuerys.getAlumnos(isDirector)
   );
   if (isLoading) return <CircularProgress />;
   if (error)
@@ -79,15 +81,10 @@ const PersonalFetch: React.FC<PersonalProps> = ({ isDirector = false }) => {
       <Alert severity="error">No se pudo acceder al consejo tutelar</Alert>
     );
 
-  return (
-    <PersonalIndex
-      rows={data === undefined ? [] : data}
-      isDirector={isDirector}
-    />
-  );
+  return <PersonalIndex rows={isSuccess && data !== undefined ? data : []} isDirector={isDirector} />;
 };
 
-const Personal = () => {
+const AcademicoIndex = () => {
   const tabs = [
     {
       titulo: 'Academico',
@@ -98,6 +95,12 @@ const Personal = () => {
       componente: <PersonalFetch isDirector />,
     },
   ];
+  return <EcosurTabs data={tabs} />;
+};
+
+const Personal = () => {
+  const currentRol: Roles = useRecoilValue(rolStateAtom);
+  const Index = currentRol == Roles.Academico ? AcademicoIndex : PersonalFetch;
 
   return (
     <>
@@ -111,7 +114,7 @@ const Personal = () => {
       >
         <InstruccionesEnlacesIndex />
       </Grid>
-      <EcosurTabs data={tabs} />
+      <Index />
     </>
   );
 };

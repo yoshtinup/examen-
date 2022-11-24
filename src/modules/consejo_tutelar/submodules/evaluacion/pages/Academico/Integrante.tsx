@@ -3,7 +3,7 @@ import { useMutation } from 'react-query';
 import { useRecoilValue } from 'recoil';
 import { estudianteCTState } from '../../recoil';
 import Swal from 'sweetalert2';
-import { showLoading } from '@modules/consejo_tutelar/hooks';
+import { showLoading } from '@shared/hooks';
 import message from '../message';
 import { ConsejoTutelarQuerys } from '@modules/consejo_tutelar/queries';
 import * as yup from 'yup';
