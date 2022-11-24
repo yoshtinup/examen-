@@ -7,25 +7,14 @@ import message from '../message';
 import { Button, Stack, Container } from '@mui/material';
 import { Perfil } from '../../components';
 import { IntegranteCT } from '@modules/consejo_tutelar/types';
-import { showLoading } from '@modules/consejo_tutelar/hooks';
+import { showLoading } from '@shared/hooks';
 import { ConsejoTutelarQuerys } from '@modules/consejo_tutelar/queries';
-import { EcosurContainer } from 'ecosur-ui';
 import { LoadCT } from '../../components';
-import { Typography } from '@mui/material';
+import { SeccionEvaluacion } from '@modules/consejo_tutelar/components';
 
-const ConsejoTutelar: React.FC<{ integrantes: IntegranteCT[] }> = ({
+const DirectorTesisPage: React.FC<{ integrantes: IntegranteCT[] }> = ({
   integrantes,
-}) => (
-  <div>
-    {integrantes.map((integrante, index) => (
-      <Typography key={`integrante-ct-dt-${index}`}>
-        <b>{index + 1}.</b> {integrante.nombre}({integrante.participacion})
-      </Typography>
-    ))}
-  </div>
-);
-
-const DirectorTesis = () => {
+}) => {
   const estudiante = useRecoilValue(estudianteCTState);
   const [disabled, setDisabled] = useState<boolean>(
     estudiante.IdEstatusCT != 3
@@ -36,35 +25,27 @@ const DirectorTesis = () => {
       await ConsejoTutelarQuerys.directorTesisEvaluar(matricula),
     {
       onSuccess: () => {
-        Swal.close()
-        message();
+        Swal.close();
         setDisabled(true);
+        message();
       },
       onError: () => message(true),
     }
   );
   const handleClick = () => {
     mutate(matricula);
-    showLoading('Su evaluación esta siendo enviada')
+    showLoading('Su evaluación esta siendo enviada');
   };
-  const components = [
-    {
-      componente: <Perfil />,
-    },
-    {
-      titulo: 'Integrantes:',
-      componente: (
-        <LoadCT matricula={matricula} isDirector Component={ConsejoTutelar} />
-      ),
-    },
-  ];
 
   return (
     <Container maxWidth="md">
-      {/* FIXME: @iocampo agregar instrucciones */}
-      <Stack spacing={2} sx={{ p: 5 }}>
-        <EcosurContainer data={components} />
-        {/* FIXME: incluir division */}
+      <Stack spacing={4}>
+        <Perfil />
+        <SeccionEvaluacion
+          title="Integrantes evaluados"
+          integrantes={integrantes}
+          btnHide
+        />
         <Button
           variant="contained"
           onClick={handleClick}
@@ -76,6 +57,12 @@ const DirectorTesis = () => {
       </Stack>
     </Container>
   );
+};
+
+const DirectorTesis = () => {
+  const estudiante = useRecoilValue(estudianteCTState);
+  const matricula = estudiante.Matricula;
+  return <LoadCT matricula={matricula} Component={DirectorTesisPage} />;
 };
 
 export default DirectorTesis;

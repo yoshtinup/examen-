@@ -1,2 +1,3 @@
 import EstatusProcesoCT from './EstatusProcesoCT';
-export { EstatusProcesoCT };
+import SeccionEvaluacion from './SectionEvaluacion';
+export { EstatusProcesoCT, SeccionEvaluacion };

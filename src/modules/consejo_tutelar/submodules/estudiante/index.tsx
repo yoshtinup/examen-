@@ -9,7 +9,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { ConsejoTutelarQuerys } from '@modules/consejo_tutelar/queries';
 import { useGetAlumnoCT, getGrado } from './queries';
 import Swal from 'sweetalert2';
-import { showLoading } from '@modules/consejo_tutelar/hooks';
+import { showLoading } from '@shared/hooks';
 import { Alert, CircularProgress, Stack, Card, Button } from '@mui/material';
 import InstruccionesEnlaces from './InstruccionesEnlaces';
 import { Estatus } from './components';
