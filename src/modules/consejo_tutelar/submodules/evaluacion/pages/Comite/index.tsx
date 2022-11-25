@@ -30,8 +30,8 @@ function filters(rol: Roles) {
 function to_disable(rol: Roles, status: number): boolean {
   if (rol == Roles.Responsable_Orientacion || rol == Roles.Coordinador_Unidad)
     return status != 5;
-  if (rol == Roles.Coordinacion_General_Posgrado) return true;
-  return status != 6;
+  if (rol == Roles.Coordinacion_General_Posgrado) return status != 6;
+  return true;
 }
 
 type EvaluacionData = {
@@ -115,11 +115,13 @@ const ComiteEvaluacion: React.FC<{ integrantes: IntegranteCT[] }> = ({
             title="Integrantes Internos"
             integrantes={internos}
             setEvaluacion={handleSetEvaluacion}
+            btnHide={btnDisable}
           />
           <SeccionEvaluacion
             title="Integrantes externos"
             integrantes={externos}
             setEvaluacion={handleSetEvaluacion}
+            btnHide={btnDisable}
           />
           <SeccionEvaluacion
             title="Integrantes evaluados"
