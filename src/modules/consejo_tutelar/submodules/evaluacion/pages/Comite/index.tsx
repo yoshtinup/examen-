@@ -7,7 +7,7 @@ import message from '../message';
 import { Alert, Container, Stack, Button } from '@mui/material';
 import Swal from 'sweetalert2';
 import { showLoading } from '@shared/hooks';
-import { Perfil, LoadCT } from '../../components';
+import { Perfil, LoadCT, ConsejoTutelarAlumnoBase } from '../../components';
 import Roles from '@definitions/Roles';
 import { ConsejoTutelarQuerys } from '@modules/consejo_tutelar/queries';
 import { EvaluacionComite, IntegranteCT } from '@modules/consejo_tutelar/types';
@@ -96,40 +96,30 @@ const ComiteEvaluacion: React.FC<{ integrantes: IntegranteCT[] }> = ({
   const externos = integrantes.filter(
     integrante => integrante.tipoAcademico !== 'Interno' && !filter(integrante)
   );
-  const evaluado: boolean = internos.length + externos.length == 0;
-
+  const evaluado: boolean = internos.length + externos.length != 0;
   const evaluados = integrantes.filter(filter);
+
   return (
     <>
       <Container maxWidth="lg">
         <Instrucciones />
       </Container>
-      <Container
-        maxWidth="lg"
-        style={{ marginBottom: '20px', padding: '25px 0px 30px 0px' }}
-      >
-        <Stack spacing={4}>
-          <h3 style={{ marginBottom: '0px' }}>Persona estudiante</h3>
-          <Perfil />
-          <SeccionEvaluacion
-            title="Integrantes Internos"
-            integrantes={internos}
-            setEvaluacion={handleSetEvaluacion}
-            btnHide={btnDisable}
-          />
-          <SeccionEvaluacion
-            title="Integrantes externos"
-            integrantes={externos}
-            setEvaluacion={handleSetEvaluacion}
-            btnHide={btnDisable}
-          />
-          <SeccionEvaluacion
-            title="Integrantes evaluados"
-            integrantes={evaluados}
-            btnHide
-          />
+      <ConsejoTutelarAlumnoBase integrantes={evaluados}>
+        <SeccionEvaluacion
+          title="Integrantes Internos"
+          integrantes={internos}
+          setEvaluacion={handleSetEvaluacion}
+          btnHide={btnDisable}
+        />
+        <SeccionEvaluacion
+          title="Integrantes externos"
+          integrantes={externos}
+          setEvaluacion={handleSetEvaluacion}
+          btnHide={btnDisable}
+        />
+        {evaluado && (
           <Button
-            disabled={btnDisable || evaluado}
+            disabled={btnDisable}
             onClick={handleClick}
             variant="contained"
             color="primary"
@@ -137,8 +127,8 @@ const ComiteEvaluacion: React.FC<{ integrantes: IntegranteCT[] }> = ({
           >
             Guardar evaluación
           </Button>
-        </Stack>
-      </Container>
+        )}
+      </ConsejoTutelarAlumnoBase>
     </>
   );
 };
