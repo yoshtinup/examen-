@@ -35,7 +35,7 @@ const Comentario: React.FC<{ statusIndividuals: EstatusIndividual[] }> = ({
       /* foto: 'https://icons.veryicon.com/png/o/internet--web/55-common-web-icons/person-4.png', */
       nombre: status.nombre,
       cargo: status.rol,
-      evaluacion: status.estatus,
+      //evaluacion: status.estatus,
       fecha: status.fecha,
       comentario: status.motivoRechazo,
     }));
@@ -89,8 +89,8 @@ const IntegranteEvaluacion: React.FC<IntegranteEvaluacionProps> = ({
 
   const user = {
     // FIXME: @iocampo Agregar instrucciones
-    instrucciones: 'Instruccciones',
-    nombre: integrantes.nombre,
+    instrucciones:
+      'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,',
   };
 
   const handleClick = (comentario: string) => {
@@ -98,7 +98,7 @@ const IntegranteEvaluacion: React.FC<IntegranteEvaluacionProps> = ({
       nombre: currentUser.personal?.nombreCompleto ?? '',
       estatus: '',
       rol: Roles[currentRol],
-      fecha: 'Justo ahora',
+      fecha: Date.now(),
       motivoRechazo: comentario,
     };
     setComentario([...comentarios, new_comentario]);
@@ -136,6 +136,8 @@ const IntegranteEvaluacion: React.FC<IntegranteEvaluacionProps> = ({
             onClick={handleClick}
             open={open}
             handleClose={handleClose}
+            titulo={`Evaluación de integrante: ${integrantes.nombre}`}
+            label="Comentario de no aprobación"
           />
         </CardActions>
       )}
@@ -159,7 +161,7 @@ const SeccionEvaluacion: React.FC<SeccionEvaluacionProps> = ({
   if (integrantes.length == 0) return;
   return (
     <div>
-      <h3 style={{ color: 'rgb(197, 107, 22) !important' }}>{title}</h3>
+      <h4 style={{ color: 'rgb(197, 107, 22) !important' }}>{title}</h4>
 
       {integrantes.map(integrante => (
         <IntegranteEvaluacion

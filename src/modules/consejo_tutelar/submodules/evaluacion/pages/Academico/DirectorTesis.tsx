@@ -11,6 +11,7 @@ import { showLoading } from '@shared/hooks';
 import { ConsejoTutelarQuerys } from '@modules/consejo_tutelar/queries';
 import { LoadCT } from '../../components';
 import { SeccionEvaluacion } from '@modules/consejo_tutelar/components';
+import InstruccionesEnlacesDT from './InstruccionesEnlacesDT';
 
 const DirectorTesisPage: React.FC<{ integrantes: IntegranteCT[] }> = ({
   integrantes,
@@ -40,7 +41,7 @@ const DirectorTesisPage: React.FC<{ integrantes: IntegranteCT[] }> = ({
   return (
     <>
       <Container maxWidth="lg">
-        <h1>Sección de instrucciones</h1>
+        <InstruccionesEnlacesDT />
       </Container>
       <Container
         maxWidth="lg"

@@ -12,6 +12,7 @@ import Roles from '@definitions/Roles';
 import { ConsejoTutelarQuerys } from '@modules/consejo_tutelar/queries';
 import { EvaluacionComite, IntegranteCT } from '@modules/consejo_tutelar/types';
 import { SeccionEvaluacion } from '@modules/consejo_tutelar/components';
+import Instrucciones from './Instrucciones';
 
 function filters(rol: Roles) {
   switch (rol) {
@@ -99,36 +100,44 @@ const ComiteEvaluacion: React.FC<{ integrantes: IntegranteCT[] }> = ({
 
   const evaluados = integrantes.filter(filter);
   return (
-    <Container maxWidth="md">
-      <Stack spacing={4}>
-        {/* FIXME: @iocampo Incluir instrucciones */}
-        <Perfil />
-        <SeccionEvaluacion
-          title="Integrantes Internos"
-          integrantes={internos}
-          setEvaluacion={handleSetEvaluacion}
-        />
-        <SeccionEvaluacion
-          title="Integrantes externos"
-          integrantes={externos}
-          setEvaluacion={handleSetEvaluacion}
-        />
-        <SeccionEvaluacion
-          title="Integrantes evaluados"
-          integrantes={evaluados}
-          btnHide
-        />
-        <Button
-          disabled={btnDisable || evaluado}
-          onClick={handleClick}
-          variant="contained"
-          color="primary"
-          sx={{ width: 200 }}
-        >
-          Guardar evaluacion
-        </Button>
-      </Stack>
-    </Container>
+    <>
+      <Container maxWidth="lg">
+        <Instrucciones />
+      </Container>
+      <Container
+        maxWidth="lg"
+        style={{ marginBottom: '20px', padding: '25px 0px 30px 0px' }}
+      >
+        <Stack spacing={4}>
+          <h3 style={{ marginBottom: '0px' }}>Persona estudiante</h3>
+          <Perfil />
+          <SeccionEvaluacion
+            title="Integrantes Internos"
+            integrantes={internos}
+            setEvaluacion={handleSetEvaluacion}
+          />
+          <SeccionEvaluacion
+            title="Integrantes externos"
+            integrantes={externos}
+            setEvaluacion={handleSetEvaluacion}
+          />
+          <SeccionEvaluacion
+            title="Integrantes evaluados"
+            integrantes={evaluados}
+            btnHide
+          />
+          <Button
+            disabled={btnDisable || evaluado}
+            onClick={handleClick}
+            variant="contained"
+            color="primary"
+            sx={{ width: 200 }}
+          >
+            Guardar evaluación
+          </Button>
+        </Stack>
+      </Container>
+    </>
   );
 };
 
