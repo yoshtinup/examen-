@@ -50,7 +50,6 @@ const PersonalIndex: React.FC<{ rows: Alumno[] } & PersonalProps> = ({
         <Table
           key="ct-table-list-1"
           rows={rows_pendiente}
-          actionColumn={true}
         />
       ),
     },
@@ -60,7 +59,6 @@ const PersonalIndex: React.FC<{ rows: Alumno[] } & PersonalProps> = ({
         <Table
           key="ct-table-list-2"
           rows={rows_historico}
-          actionColumn={false}
         />
       ),
     },

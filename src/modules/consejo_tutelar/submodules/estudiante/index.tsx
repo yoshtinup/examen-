@@ -64,10 +64,7 @@ const EstudiantePage: React.FC<ConsejoTutelar> = ({
           title: 'El consejo tutelar',
           text: 'Se guardo exitosamente',
         });
-        // NOFIXME: Este es un cambio por que no puede recargar la consulta graphql en reac-query, lo unico que hace es recargar la paguina
-        router.push('/consejo_tutelar/0');
-        /* externosItems = [] */
-        /* internosItems = [] */
+        router.push(`/consejo_tutelar/${matricula}`);
       },
       onError: () => {
         Swal.fire({

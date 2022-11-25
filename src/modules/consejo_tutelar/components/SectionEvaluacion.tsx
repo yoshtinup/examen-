@@ -11,10 +11,10 @@ import {
   Button,
   Stack,
   Typography,
+  Link,
 } from '@mui/material';
 
 import {
-  EcosurSectionTitle,
   EcosurProfileCard,
   EcosurCommentsCard,
   EcosurCommentDialog,
@@ -87,6 +87,8 @@ const IntegranteEvaluacion: React.FC<IntegranteEvaluacionProps> = ({
     correo: integrantes.correo,
   };
 
+  console.log(integrantes.url);
+
   const user = {
     // FIXME: @iocampo Agregar instrucciones
     instrucciones:
@@ -98,7 +100,7 @@ const IntegranteEvaluacion: React.FC<IntegranteEvaluacionProps> = ({
       nombre: currentUser.personal?.nombreCompleto ?? '',
       estatus: '',
       rol: Roles[currentRol],
-      fecha: Date.now(),
+      fecha: Date.now().toString(),
       motivoRechazo: comentario,
     };
     setComentario([...comentarios, new_comentario]);
@@ -113,6 +115,14 @@ const IntegranteEvaluacion: React.FC<IntegranteEvaluacionProps> = ({
     <Card variant="outlined" style={{ marginBottom: '20px' }}>
       <CardHeader title={`${integrantes.grado} ${integrantes.nombre}`} />
       <EcosurProfileCard data={info} color="#fff" titleColor="#555555" />
+      {integrantes.url && (
+        <Link ml={4} target="_blank" href={`${integrantes.url}`}>
+          Ver{' '}
+          {integrantes.tipoAcademico == 'Interno'
+            ? 'Página WEB académica'
+            : 'Curriculum Vitae'}
+        </Link>
+      )}
       <CardContent>
         <Stack spacing={2}>
           <Comentario statusIndividuals={comentarios} />
