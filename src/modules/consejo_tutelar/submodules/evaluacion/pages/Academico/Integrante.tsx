@@ -13,7 +13,7 @@ import { Button, Stack, Container } from '@mui/material';
 import { Grid } from '@mui/material';
 import { EvaluacionIntegrante } from '@modules/consejo_tutelar/types';
 import { Perfil } from '../../components';
-import InstruccionesEnlaces from './InstruccionesEnlacesIntegrante';
+import InstruccionesEnlaces from './InstruccionesIntegranteCT';
 
 const options = [
   {

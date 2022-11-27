@@ -46,7 +46,7 @@ const Evaluacion: React.FC<{ matricula: number }> = ({ matricula }) => {
     setState();
   }, [queryEstudianteInfo, queryStatus]);
   return (
-    <div>
+    <div style={{ paddingBottom: '20px' }}>
       {(queryEstudianteInfo.isLoading || queryStatus.isLoading) && (
         <CircularProgress />
       )}

@@ -11,7 +11,7 @@ import { useGetAlumnoCT, getGrado } from './queries';
 import Swal from 'sweetalert2';
 import { showLoading } from '@shared/hooks';
 import { Alert, CircularProgress, Stack, Card, Button } from '@mui/material';
-import InstruccionesEnlaces from './InstruccionesEnlaces';
+import InstruccionesEnlaces from './Instrucciones';
 import { Estatus } from './components';
 
 import {

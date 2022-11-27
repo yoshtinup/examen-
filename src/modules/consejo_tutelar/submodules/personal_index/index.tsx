@@ -84,30 +84,22 @@ const AcademicoIndex = () => {
       titulo: 'Integrante de Consejo tutelar ',
       componente: <PersonalFetch />,
     },
-    /*,
+    ,
     {
       titulo: 'Director/a de tesis',
       componente: <PersonalFetch isDirector />,
-    },*/
+    },
   ];
   return <EcosurTabs data={tabs} align="left" />;
 };
 
 const Personal = () => {
   const currentRol: Roles = useRecoilValue(rolStateAtom);
+  console.log('Rol actual' + currentRol);
   const Index = currentRol == Roles.Academico ? AcademicoIndex : PersonalFetch;
   return (
     <>
-      <Grid
-        container
-        direction="row"
-        justifyContent="flex-start"
-        alignItems="center"
-        id="SectionLogin"
-        style={{ padding: '15px 50px' }}
-      >
-        <Instrucciones rol={currentRol} />
-      </Grid>
+      <Instrucciones rol={currentRol} />
       <Index />
     </>
   );

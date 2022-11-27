@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { useRecoilValue } from 'recoil';
 import { userStateAtom, rolStateAtom } from '@modules/auth/recoil';
 import Roles from '@definitions/Roles';
@@ -87,12 +88,10 @@ const IntegranteEvaluacion: React.FC<IntegranteEvaluacionProps> = ({
     correo: integrantes.correo,
   };
 
-  console.log(integrantes.url);
-
   const user = {
     // FIXME: @iocampo Agregar instrucciones
     instrucciones:
-      'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,',
+      'Registre en el cuadro de texto las razones por las que sugiere no aprobar a la persona propuesta el estudiante.',
   };
 
   const handleClick = (comentario: string) => {
@@ -111,16 +110,24 @@ const IntegranteEvaluacion: React.FC<IntegranteEvaluacionProps> = ({
       comentario: comentario,
     });
   };
+  const estatusAprobacionIntegrante = !integrantes.estatusIndividual
+    ? 'Pendiente de aceptar/rechazar ser integrante del CT'
+    : 'Aceptó ser integrante del CT el ' +
+      moment(integrantes.estatusIndividual[0].fecha).format('D/MM/YYYY');
   return (
     <Card variant="outlined" style={{ marginBottom: '20px' }}>
-      <CardHeader title={`${integrantes.grado} ${integrantes.nombre}`} />
+      <CardHeader
+        title={`${integrantes.grado} ${integrantes.nombre} `}
+        subheader={`${estatusAprobacionIntegrante}`}
+      />
+
       <EcosurProfileCard data={info} color="#fff" titleColor="#555555" />
       {integrantes.url && (
         <Link ml={4} target="_blank" href={`${integrantes.url}`}>
           Ver{' '}
           {integrantes.tipoAcademico == 'Interno'
-            ? 'Página WEB académica'
-            : 'Curriculum Vitae'}
+            ? 'página WEB académica'
+            : 'curriculum vitae'}
         </Link>
       )}
       <CardContent>
@@ -171,7 +178,7 @@ const SeccionEvaluacion: React.FC<SeccionEvaluacionProps> = ({
   if (integrantes.length == 0) return;
   return (
     <div>
-      <h4 style={{ color: 'rgb(197, 107, 22) !important' }}>{title}</h4>
+      <h3 style={{ color: 'rgb(197, 107, 22) !important' }}>{title}</h3>
 
       {integrantes.map(integrante => (
         <IntegranteEvaluacion

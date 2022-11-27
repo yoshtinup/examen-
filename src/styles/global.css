@@ -53,3 +53,9 @@ body {
 .iconLabelSection {
   color: #c56b16 !important;
 }
+
+.MuiCardHeader-content .MuiCardHeader-subheader {
+  color: #777 !important;
+  font-size: 0.8em !important;
+  font-weight: bold !important;
+}

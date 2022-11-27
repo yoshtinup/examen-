@@ -48,6 +48,7 @@ const ComiteEvaluacion: React.FC<{ integrantes: IntegranteCT[] }> = ({
   const [btnDisable, setBtnDisable] = React.useState<boolean>(
     to_disable(currentRol, estudiante.IdEstatusCT)
   );
+  console.log(currentRol + ' -->');
   const matricula = estudiante.Matricula;
   const { mutate } = useMutation(
     async (e: EvaluacionData) =>
@@ -76,7 +77,9 @@ const ComiteEvaluacion: React.FC<{ integrantes: IntegranteCT[] }> = ({
   );
   if (integrantes.length == 0)
     return (
-      <Alert severity="error">No tiene acceso a este consejo tutelar</Alert>
+      <Alert severity="error">
+        No tiene acceso a la evaluación de este consejo tutelar
+      </Alert>
     );
   const handleSetEvaluacion = (evaluacion: EvaluacionComite) => {
     const restEvaluaciones: EvaluacionComite[] = evaluaciones.filter(
@@ -88,7 +91,7 @@ const ComiteEvaluacion: React.FC<{ integrantes: IntegranteCT[] }> = ({
   const handleClick = () => {
     mutate({ matricula, evaluaciones });
     setBtnDisable(true);
-    showLoading('Enviando su evaluación, por favor espere.');
+    showLoading('Guardando su evaluación, por favor espere.');
   };
   const internos = integrantes.filter(
     integrante => integrante.tipoAcademico === 'Interno' && !filter(integrante)
@@ -96,27 +99,23 @@ const ComiteEvaluacion: React.FC<{ integrantes: IntegranteCT[] }> = ({
   const externos = integrantes.filter(
     integrante => integrante.tipoAcademico !== 'Interno' && !filter(integrante)
   );
+  const pendientesEvaluar = integrantes.filter(
+    integrante => !filter(integrante)
+  );
   const evaluado: boolean = internos.length + externos.length != 0;
   const evaluados = integrantes.filter(filter);
 
   return (
     <>
-      <Container maxWidth="lg">
-        <Instrucciones />
-      </Container>
+      {evaluado && <Instrucciones rol={currentRol} />}
       <ConsejoTutelarAlumnoBase integrantes={evaluados}>
         <SeccionEvaluacion
-          title="Integrantes Internos"
-          integrantes={internos}
+          title="Integrantes de consejo tutelar en proceso de evaluación"
+          integrantes={pendientesEvaluar}
           setEvaluacion={handleSetEvaluacion}
           btnHide={btnDisable}
         />
-        <SeccionEvaluacion
-          title="Integrantes externos"
-          integrantes={externos}
-          setEvaluacion={handleSetEvaluacion}
-          btnHide={btnDisable}
-        />
+
         {evaluado && (
           <Button
             disabled={btnDisable}

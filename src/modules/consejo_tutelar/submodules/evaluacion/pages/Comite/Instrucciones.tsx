@@ -3,33 +3,141 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
-import { Grid } from '@mui/material';
+import { Grid, Container } from '@mui/material';
 import InsertLinkIcon from '@mui/icons-material/InsertLink';
 
-const enlacesImportantes = () => {
+const Enlaces = () => {
   return (
-    <Grid container spacing={10}>
-      <Grid item xs={12}>
-        {' '}
-        <h3>Instrucciones</h3>
-        <p>
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-          accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae
-          ab illo inventore veritatis et quasi architecto beatae vitae dicta
-          sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
-          aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos
-          qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui
-          dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed
-          quia non numquam eius modi tempora incidunt ut labore et dolore magnam
-          aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum
-          exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex
-          ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in
-          ea voluptate velit esse quam nihil molestiae consequatur, vel illum
-          qui dolorem eum fugiat quo voluptas nulla pariatur .
-        </p>
+    <Grid item xs={4}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <h3>Enlaces importantes</h3>
+        </Grid>
+        <Grid item xs={12}>
+          <List
+            style={{ paddingTop: '0px' }}
+            sx={{
+              width: '100%',
+              maxWidth: 360,
+              bgcolor: 'background.paper',
+            }}
+          >
+            {' '}
+            <ListItem className="itemDeLista">
+              <ListItemAvatar>
+                <Avatar className="IconoDeLista">
+                  <InsertLinkIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary="Lineamientos para la integración de CT"
+                secondary=""
+              />
+            </ListItem>
+            <ListItem className="itemDeLista">
+              <ListItemAvatar>
+                <Avatar className="IconoDeLista">
+                  <InsertLinkIcon />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary="Proceso de registro y evaluación"
+                secondary=""
+              />
+            </ListItem>
+          </List>
+        </Grid>
       </Grid>
     </Grid>
   );
 };
 
-export default enlacesImportantes;
+const CoordinadorUnidad = () => {
+  return (
+    <Grid container spacing={10}>
+      <Grid item xs={8}>
+        {' '}
+        <h3>Instrucciones</h3>
+        <p>
+          En este apartado podrá revisar la información del estudiante, así como
+          las personas propuestas para conformar el consejo tutelar. Por favor,
+          revise que cumplan con los requisitos para participar (ver enlaces
+          importantes: Lineamientos para la integración de CT).
+          <br />
+          <br />
+          Las personas integrantes que no cumplan con los requisitos haga clic
+          en el botón <b>No aprobar</b> correspondiente y registre las razones
+          de no aprobación.
+        </p>
+      </Grid>
+      <Enlaces />
+    </Grid>
+  );
+};
+
+const ResponsableOrientacion = () => {
+  return (
+    <Grid container spacing={10}>
+      <Grid item xs={8}>
+        {' '}
+        <h3>Instrucciones</h3>
+        <p>
+          En este apartado podrá revisar la información del estudiante, así como
+          las personas propuestas para conformar el consejo tutelar. Por favor,
+          revise que cumplan con los requisitos para participar (ver enlaces
+          importantes: Lineamientos para la integración de CT).
+          <br />
+          <br />
+          Las personas integrantes que no cumplan con los requisitos haga clic
+          en el botón <b>No aprobar</b> correspondiente y registre las razones
+          de no aprobación.
+        </p>
+      </Grid>
+      <Enlaces />
+    </Grid>
+  );
+};
+const Posgrado = () => {
+  return (
+    <Grid container spacing={10}>
+      <Grid item xs={8}>
+        {' '}
+        <h3>Instrucciones</h3>
+        <p>
+          En este apartado podrá revisar la información del estudiante, así como
+          las personas propuestas para conformar el consejo tutelar. Por favor,
+          revise que cumplan con los requisitos para participar (ver enlaces
+          importantes: Lineamientos para la integración de CT).
+          <br />
+          <br />
+          Las personas integrantes que no cumplan con los requisitos haga clic
+          en el botón <b>No aprobar</b> correspondiente y registre las razones
+          de no aprobación.
+        </p>
+      </Grid>
+      <Enlaces />
+    </Grid>
+  );
+};
+
+const Instrucciones = ({ rol }) => {
+  const TiposInstrucciones = [
+    '',
+    '',
+    ResponsableOrientacion,
+    CoordinadorUnidad,
+    Posgrado,
+  ];
+  const Contentinstrucciones = TiposInstrucciones[rol];
+  return (
+    <Container maxWidth="lg" style={{ padding: '25px 0px 0px 0px' }}>
+      <Grid container>
+        <Grid item xs={12}>
+          <Contentinstrucciones />
+        </Grid>
+      </Grid>
+    </Container>
+  );
+};
+
+export default Instrucciones;
