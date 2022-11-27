@@ -9,7 +9,8 @@ import { rolStateAtom } from '@modules/auth/recoil';
 import { Alert, CircularProgress } from '@mui/material';
 import Table from './components';
 import { EcosurTabs } from 'ecosur-ui';
-import InstruccionesEnlacesIndex from './InstruccionesEnlacesIndex';
+
+import Instrucciones from './components/Instrucciones';
 
 const filters = (rol: Roles, isDirector: boolean) => {
   if (isDirector) return (alumno: Alumno) => alumno.estatusGeneral > 3;
@@ -46,21 +47,11 @@ const PersonalIndex: React.FC<{ rows: Alumno[] } & PersonalProps> = ({
   const tabs = [
     {
       titulo: 'Pendientes de evaluar',
-      componente: (
-        <Table
-          key="ct-table-list-1"
-          rows={rows_pendiente}
-        />
-      ),
+      componente: <Table key="ct-table-list-1" rows={rows_pendiente} />,
     },
     {
       titulo: 'Evaluados',
-      componente: (
-        <Table
-          key="ct-table-list-2"
-          rows={rows_historico}
-        />
-      ),
+      componente: <Table key="ct-table-list-2" rows={rows_historico} />,
     },
   ];
 
@@ -93,10 +84,11 @@ const AcademicoIndex = () => {
       titulo: 'Integrante de Consejo tutelar ',
       componente: <PersonalFetch />,
     },
+    /*,
     {
       titulo: 'Director/a de tesis',
       componente: <PersonalFetch isDirector />,
-    },
+    },*/
   ];
   return <EcosurTabs data={tabs} align="left" />;
 };
@@ -104,7 +96,6 @@ const AcademicoIndex = () => {
 const Personal = () => {
   const currentRol: Roles = useRecoilValue(rolStateAtom);
   const Index = currentRol == Roles.Academico ? AcademicoIndex : PersonalFetch;
-
   return (
     <>
       <Grid
@@ -115,7 +106,7 @@ const Personal = () => {
         id="SectionLogin"
         style={{ padding: '15px 50px' }}
       >
-        <InstruccionesEnlacesIndex />
+        <Instrucciones rol={currentRol} />
       </Grid>
       <Index />
     </>

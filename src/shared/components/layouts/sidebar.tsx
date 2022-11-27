@@ -62,7 +62,10 @@ export const Sidebar: FC<SidebarProps> = ({ open, onClose }) => {
         }}
       >
         <div>
-          <Box sx={{ p: 3 }} style={{ borderBottom: '1px solid #ddd' }}>
+          <Box
+            sx={{ p: 3 }}
+            style={{ borderBottom: '1px solid #ddd', textAlign: 'center' }}
+          >
             <NextLink href="/" passHref>
               <img
                 id="logoEcosur"

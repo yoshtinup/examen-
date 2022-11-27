@@ -1,6 +1,5 @@
 #logoEcosur {
   height: 107px;
-  padding-left: 12%;
 }
 
 .css-1hmtsgi-MuiButtonBase-root-MuiTab-root.Mui-selected {
@@ -39,7 +38,7 @@ body {
   font-weight: bold !important;
 }
 .datagrid {
-  background-color: #f6f7f9 !important;
+  background-color: #fbfbfb !important;
 }
 
 .MuiDataGrid-columnHeaderTitle {
@@ -48,4 +47,9 @@ body {
 
 .css-axb9qb {
   padding: 0px !important;
+}
+
+.labelSection,
+.iconLabelSection {
+  color: #c56b16 !important;
 }

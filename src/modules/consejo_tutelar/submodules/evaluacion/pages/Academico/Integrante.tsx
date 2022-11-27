@@ -71,7 +71,7 @@ const Integrante = () => {
   );
   const handleSubmit = (evaluacion: EvaluacionIntegrante) => {
     mutate({ matricula, evaluacion });
-    showLoading('Su evaluación esta siendo enviada, por favor espere');
+    showLoading('Su evaluación esta siendo enviada, por favor espere.');
   };
 
   return (
@@ -89,7 +89,7 @@ const Integrante = () => {
         <Perfil />
         {!disabled && (
           <>
-            <h4>Aceptar/declinar ser parte del CT</h4>
+            <h4>Aceptar/declinar ser parte del consejo tutelar</h4>
             <Grid container>
               <Grid item xs={5}>
                 <Formik

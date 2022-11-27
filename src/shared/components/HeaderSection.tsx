@@ -25,9 +25,14 @@ export default function HeaderSection({ label }) {
             aria-label="menu"
             sx={{ mr: 4 }}
           >
-            <AppsIcon fontSize="large" />
+            <AppsIcon fontSize="large"  className="iconLabelSection" />
           </IconButton>
-          <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+          <Typography
+            className="labelSection"
+            variant="h5"
+            component="div"
+            sx={{ flexGrow: 1 }}
+          >
             {label}
           </Typography>
         </Toolbar>

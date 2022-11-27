@@ -31,7 +31,7 @@ export const WithRoles =
  */
 export function showLoading(msg: string) {
   Swal.fire({
-    title: 'Cargando',
+    title: 'Guardando',
     html: msg,
     allowOutsideClick: false,
     didOpen: () => {

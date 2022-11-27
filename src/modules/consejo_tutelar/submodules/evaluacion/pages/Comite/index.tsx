@@ -88,7 +88,7 @@ const ComiteEvaluacion: React.FC<{ integrantes: IntegranteCT[] }> = ({
   const handleClick = () => {
     mutate({ matricula, evaluaciones });
     setBtnDisable(true);
-    showLoading('Enviando su evaluación, por favor espere');
+    showLoading('Enviando su evaluación, por favor espere.');
   };
   const internos = integrantes.filter(
     integrante => integrante.tipoAcademico === 'Interno' && !filter(integrante)
