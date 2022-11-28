@@ -53,10 +53,9 @@ export const ExternoContentCard: React.FC<AsesorExterno> = props => {
         </>
       )}
       <Label label="Argumentación:" value={props.argumentacion} />
-      <Label label="Curriculum Vitae:" value={props.fileName} />
       {props.fileName && (
         <Link target="_blank" href={`${props.fileName}`}>
-          Ver Página WEB académica
+          Ver Curriculum Vitae
         </Link>
       )}
     </>

@@ -1,6 +1,6 @@
 import Estudiante from './submodules/estudiante';
 import Personal from './submodules/personal_index';
-import { WithRol, WithRoles } from '@shared/hooks';
+import { WithRoles, WithRol } from '@shared/hooks';
 import Roles from '@definitions/Roles';
 
 const EstudiantePage = WithRol(Roles.Estudiante)(Estudiante);

@@ -95,11 +95,12 @@ const IntegranteEvaluacion: React.FC<IntegranteEvaluacionProps> = ({
   };
 
   const handleClick = (comentario: string) => {
+    const fecha: string = moment(Date.now()).format('MM/D/YYYY');
     const new_comentario: EstatusIndividual = {
       nombre: currentUser.personal?.nombreCompleto ?? '',
       estatus: '',
       rol: Roles[currentRol],
-      fecha: Date.now().toString(),
+      fecha: fecha,
       motivoRechazo: comentario,
     };
     setComentario([...comentarios, new_comentario]);
@@ -110,10 +111,13 @@ const IntegranteEvaluacion: React.FC<IntegranteEvaluacionProps> = ({
       comentario: comentario,
     });
   };
-  const estatusAprobacionIntegrante = !integrantes.estatusIndividual
-    ? 'Pendiente de aceptar/rechazar ser integrante del CT'
-    : 'Aceptó ser integrante del CT el ' +
-      moment(integrantes.estatusIndividual[0].fecha).format('D/MM/YYYY');
+  const statusIndividual = integrantes.estatusIndividual.find(
+    e => (e.rol = 'Integrante de Consejo tutelar')
+  );
+  const estatusAprobacionIntegrante = statusIndividual
+    ? 'Aceptó ser integrante del CT el ' +
+      moment(statusIndividual.fecha).format('D/MM/YYYY')
+    : 'Pendiente de aceptar/rechazar ser integrante del CT';
   return (
     <Card variant="outlined" style={{ marginBottom: '20px' }}>
       <CardHeader
