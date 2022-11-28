@@ -9,9 +9,9 @@ import { useMutation, useQueryClient } from 'react-query';
 import { ConsejoTutelarQuerys } from '@modules/consejo_tutelar/queries';
 import { useGetAlumnoCT, getGrado } from './queries';
 import Swal from 'sweetalert2';
-import { showLoading } from '@modules/consejo_tutelar/hooks';
+import { showLoading } from '@shared/hooks';
 import { Alert, CircularProgress, Stack, Card, Button } from '@mui/material';
-import InstruccionesEnlaces from './InstruccionesEnlaces';
+import InstruccionesEnlaces from './Instrucciones';
 import { Estatus } from './components';
 
 import {
@@ -62,18 +62,15 @@ const EstudiantePage: React.FC<ConsejoTutelar> = ({
         Swal.fire({
           icon: 'success',
           title: 'El consejo tutelar',
-          text: 'Se guardo exitosamente',
+          text: 'Se guardó exitosamente',
         });
-        // NOFIXME: Este es un cambio por que no puede recargar la consulta graphql en reac-query, lo unico que hace es recargar la paguina
-        router.push('/consejo_tutelar/0');
-        /* externosItems = [] */
-        /* internosItems = [] */
+        router.push(`/consejo_tutelar/${matricula}`);
       },
       onError: () => {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'No se pudo guardar su consejo tutelar, intentelo nuevamente, verfique la información registrada de sus integrantes',
+          text: 'No se guardó su consejo tutelar, verifique la información registrada e intentelo nuevamente.',
         });
         setDisabled(false);
       },
@@ -152,7 +149,7 @@ const EstudiantePage: React.FC<ConsejoTutelar> = ({
     if (consejoTutelar.externos.length === 0) consejoTutelar.externos = null;
     mutate({ integrantes: consejoTutelar, files: externosFiles });
     setDisabled(true);
-    showLoading('Enviando su consejo tutelar, espere por favor');
+    showLoading('Guardado su consejo tutelar, espere por favor');
   };
 
   return (

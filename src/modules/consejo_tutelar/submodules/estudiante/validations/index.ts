@@ -8,12 +8,12 @@ export type { ValidadorCT } from './conformacionCT';
 
 export const grados = [
   {
-    value: 'doctorado',
+    value: 'Doctorado',
     label: 'Doctorado',
   },
   {
-    value: 'maestria',
-    label: 'Mestria',
+    value: 'Maestría',
+    label: 'Maestría',
   },
 ];
 

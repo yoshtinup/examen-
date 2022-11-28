@@ -3,7 +3,7 @@ import { useMutation } from 'react-query';
 import { useRecoilValue } from 'recoil';
 import { estudianteCTState } from '../../recoil';
 import Swal from 'sweetalert2';
-import { showLoading } from '@modules/consejo_tutelar/hooks';
+import { showLoading } from '@shared/hooks';
 import message from '../message';
 import { ConsejoTutelarQuerys } from '@modules/consejo_tutelar/queries';
 import * as yup from 'yup';
@@ -13,7 +13,7 @@ import { Button, Stack, Container } from '@mui/material';
 import { Grid } from '@mui/material';
 import { EvaluacionIntegrante } from '@modules/consejo_tutelar/types';
 import { Perfil } from '../../components';
-import InstruccionesEnlaces from './InstruccionesEnlacesIntegrante';
+import InstruccionesEnlaces from './InstruccionesIntegranteCT';
 
 const options = [
   {
@@ -71,7 +71,7 @@ const Integrante = () => {
   );
   const handleSubmit = (evaluacion: EvaluacionIntegrante) => {
     mutate({ matricula, evaluacion });
-    showLoading('Su evaluación esta siendo enviada, por favor espere');
+    showLoading('Su evaluación esta siendo enviada, por favor espere.');
   };
 
   return (
@@ -89,7 +89,7 @@ const Integrante = () => {
         <Perfil />
         {!disabled && (
           <>
-            <h4>Aceptar/declinar ser parte del CT</h4>
+            <h4>Aceptar/declinar ser parte del consejo tutelar</h4>
             <Grid container>
               <Grid item xs={5}>
                 <Formik

@@ -15,6 +15,11 @@ import {
  * @constructor (string) recibe un token para realizar la solicitudes http
  */
 class ConsejoTutelarQuerys extends ApiQuerys {
+  async getStatusGeneral(): Promise<string[]> {
+    const status = await this.api<{ data: string[] }>(`estatus_general`);
+    return status.data;
+  }
+
   /**
    * Consulta la lista de alumnos que cuentan con un consejo tutelar
    * @returns (Promise<Alumno[]>) Retorna la lista de alumnos que cuentan con un ct
@@ -102,7 +107,7 @@ class ConsejoTutelarQuerys extends ApiQuerys {
   ): Promise<Message> {
     const msg = await this.api<Message>(
       `registrar/evaluacion/${matricula}`,
-      this.getJsonRequest(evaluacion, 'POST')
+      this.getJsonRequest(evaluacion, 'PUT')
     );
     return msg;
   }

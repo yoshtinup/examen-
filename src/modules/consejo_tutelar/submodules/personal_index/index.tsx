@@ -9,7 +9,8 @@ import { rolStateAtom } from '@modules/auth/recoil';
 import { Alert, CircularProgress } from '@mui/material';
 import Table from './components';
 import { EcosurTabs } from 'ecosur-ui';
-import InstruccionesEnlacesIndex from './InstruccionesEnlacesIndex';
+
+import Instrucciones from './components/Instrucciones';
 
 const filters = (rol: Roles, isDirector: boolean) => {
   if (isDirector) return (alumno: Alumno) => alumno.estatusGeneral > 3;
@@ -45,24 +46,12 @@ const PersonalIndex: React.FC<{ rows: Alumno[] } & PersonalProps> = ({
   const rows_pendiente = rows.filter(alumno => !filter(alumno));
   const tabs = [
     {
-      titulo: 'Pendientes',
-      componente: (
-        <Table
-          key="ct-table-list-1"
-          rows={rows_pendiente}
-          actionColumn={true}
-        />
-      ),
+      titulo: 'Pendientes de evaluar',
+      componente: <Table key="ct-table-list-1" rows={rows_pendiente} />,
     },
     {
-      titulo: 'Evaluadas',
-      componente: (
-        <Table
-          key="ct-table-list-2"
-          rows={rows_historico}
-          actionColumn={false}
-        />
-      ),
+      titulo: 'Evaluados',
+      componente: <Table key="ct-table-list-2" rows={rows_historico} />,
     },
   ];
 
@@ -70,48 +59,32 @@ const PersonalIndex: React.FC<{ rows: Alumno[] } & PersonalProps> = ({
 };
 
 const PersonalFetch: React.FC<PersonalProps> = ({ isDirector = false }) => {
-  const { data, error, isLoading } = useQuery('ct-alumnos-list', async () =>
-    ConsejoTutelarQuerys.getAlumnos(isDirector)
+  const currentRol: Roles = useRecoilValue(rolStateAtom);
+  const { data, error, isLoading } = useQuery(
+    `ct-alumnos-list-${currentRol}-${isDirector}`,
+    async () => ConsejoTutelarQuerys.getAlumnos(isDirector)
   );
   if (isLoading) return <CircularProgress />;
   if (error)
     return (
       <Alert severity="error">No se pudo acceder al consejo tutelar</Alert>
     );
-
-  return (
-    <PersonalIndex
-      rows={data === undefined ? [] : data}
-      isDirector={isDirector}
-    />
-  );
+  return <PersonalIndex rows={data} isDirector={isDirector} />;
 };
 
 const Personal = () => {
-  const tabs = [
-    {
-      titulo: 'Academico',
-      componente: <PersonalFetch />,
-    },
-    {
-      titulo: 'Director tesis',
-      componente: <PersonalFetch isDirector />,
-    },
-  ];
-
+  const currentRol: Roles = useRecoilValue(rolStateAtom);
   return (
     <>
-      <Grid
-        container
-        direction="row"
-        justifyContent="flex-start"
-        alignItems="center"
-        id="SectionLogin"
-        style={{ padding: '15px 50px' }}
-      >
-        <InstruccionesEnlacesIndex />
-      </Grid>
-      <EcosurTabs data={tabs} />
+      <Instrucciones rol={currentRol} />
+      <h1>Asesor/a</h1>
+      <PersonalFetch />
+      {currentRol == Roles.Academico && (
+        <>
+          <h1>Director/a de tesis</h1>
+          <PersonalFetch isDirector />
+        </>
+      )}
     </>
   );
 };
