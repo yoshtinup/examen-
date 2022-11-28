@@ -1,13 +1,13 @@
 import React from 'react';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { useRecoilValue } from 'recoil';
 import { estudianteCTState } from '../../recoil';
 import { rolStateAtom } from '@modules/auth/recoil';
 import message from '../message';
-import { Alert, Container, Stack, Button } from '@mui/material';
+import { Alert, Button } from '@mui/material';
 import Swal from 'sweetalert2';
 import { showLoading } from '@shared/hooks';
-import { Perfil, LoadCT, ConsejoTutelarAlumnoBase } from '../../components';
+import { LoadCT, ConsejoTutelarAlumnoBase } from '../../components';
 import Roles from '@definitions/Roles';
 import { ConsejoTutelarQuerys } from '@modules/consejo_tutelar/queries';
 import { EvaluacionComite, IntegranteCT } from '@modules/consejo_tutelar/types';
@@ -48,7 +48,7 @@ const ComiteEvaluacion: React.FC<{ integrantes: IntegranteCT[] }> = ({
   const [btnDisable, setBtnDisable] = React.useState<boolean>(
     to_disable(currentRol, estudiante.IdEstatusCT)
   );
-  console.log(currentRol + ' -->');
+  const queryClient = useQueryClient();
   const matricula = estudiante.Matricula;
   const { mutate } = useMutation(
     async (e: EvaluacionData) =>
@@ -59,6 +59,7 @@ const ComiteEvaluacion: React.FC<{ integrantes: IntegranteCT[] }> = ({
     {
       onSuccess: () => {
         Swal.close();
+        queryClient.invalidateQueries();
         message();
       },
       onError: () => message(true),

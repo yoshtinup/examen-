@@ -2,7 +2,7 @@ import Swal from 'sweetalert2';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { estudianteCTState } from '../../recoil';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import message from '../message';
 import { Button } from '@mui/material';
 import { ConsejoTutelarAlumno } from '../../components';
@@ -17,6 +17,7 @@ const DirectorTesis: React.FC = () => {
   );
 
   const matricula: number = estudiante.Matricula;
+  const queryClient = useQueryClient();
   const { mutate } = useMutation(
     async (matricula: number) =>
       await ConsejoTutelarQuerys.directorTesisEvaluar(matricula),
@@ -24,6 +25,7 @@ const DirectorTesis: React.FC = () => {
       onSuccess: () => {
         Swal.close();
         setDisabled(true);
+        queryClient.invalidateQueries();
         message();
       },
       onError: () => message(true),
@@ -38,7 +40,7 @@ const DirectorTesis: React.FC = () => {
 
   return (
     <>
-      <InstruccionesEnlacesDT estatusCT={estudiante.IdEstatusCT} />
+      { !disabled && (<InstruccionesEnlacesDT />)}
       <ConsejoTutelarAlumno isDirector>
         <Button
           variant="contained"

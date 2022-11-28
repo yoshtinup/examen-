@@ -60,8 +60,8 @@ const PersonalIndex: React.FC<{ rows: Alumno[] } & PersonalProps> = ({
 
 const PersonalFetch: React.FC<PersonalProps> = ({ isDirector = false }) => {
   const currentRol: Roles = useRecoilValue(rolStateAtom);
-  const { data, error, isLoading, isSuccess } = useQuery(
-    `ct-alumnos-list-${currentRol}`,
+  const { data, error, isLoading } = useQuery(
+    `ct-alumnos-list-${currentRol}-${isDirector}`,
     async () => ConsejoTutelarQuerys.getAlumnos(isDirector)
   );
   if (isLoading) return <CircularProgress />;
@@ -69,38 +69,22 @@ const PersonalFetch: React.FC<PersonalProps> = ({ isDirector = false }) => {
     return (
       <Alert severity="error">No se pudo acceder al consejo tutelar</Alert>
     );
-
-  return (
-    <PersonalIndex
-      rows={isSuccess && data !== undefined ? data : []}
-      isDirector={isDirector}
-    />
-  );
-};
-
-const AcademicoIndex = () => {
-  const tabs = [
-    {
-      titulo: 'Integrante de Consejo tutelar ',
-      componente: <PersonalFetch />,
-    },
-    ,
-    {
-      titulo: 'Director/a de tesis',
-      componente: <PersonalFetch isDirector />,
-    },
-  ];
-  return <EcosurTabs data={tabs} align="left" />;
+  return <PersonalIndex rows={data} isDirector={isDirector} />;
 };
 
 const Personal = () => {
   const currentRol: Roles = useRecoilValue(rolStateAtom);
-  console.log('Rol actual' + currentRol);
-  const Index = currentRol == Roles.Academico ? AcademicoIndex : PersonalFetch;
   return (
     <>
       <Instrucciones rol={currentRol} />
-      <Index />
+      <h1>Asesor/a</h1>
+      <PersonalFetch />
+      {currentRol == Roles.Academico && (
+        <>
+          <h1>Director/a de tesis</h1>
+          <PersonalFetch isDirector />
+        </>
+      )}
     </>
   );
 };
