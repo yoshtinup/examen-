@@ -5,7 +5,7 @@ import { Layout } from '@shared/components/layouts';
 const Page = () => {
   return (
     <div>
-      <EvaluacionSeminarioInvestigacion />
+      <EvaluacionSeminarioInvestigacion idEvaluacionSeminario={340} />
     </div>
   );
 };

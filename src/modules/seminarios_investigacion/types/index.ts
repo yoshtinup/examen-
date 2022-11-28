@@ -5,7 +5,6 @@ export type {
     IntegrantesCTElement, 
     Participacion, 
     Persona,
-    IntegranteInfo
 } from './integranteCT';
 
 export type { 
@@ -18,5 +17,9 @@ export type {
     Evaluacion, 
     Programaactividades,
     Publicacion,
-    ActividadInfo
-} from './actividadesEstudiante';
+    ActividadInfo,
+    BoletaCalificacion,
+    Alumno,
+    Data,
+    DataID,
+} from './evaluacionEstudiante';

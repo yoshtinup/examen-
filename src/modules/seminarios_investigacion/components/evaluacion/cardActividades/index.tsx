@@ -33,7 +33,21 @@ export const CardActividadWithoutFetch: React.FC<{ actividad: Evaluacion[], bgCo
     actividadInfo.estancias = actividad[0].estancias; 
     actividadInfo.cursos = actividad[0].cursos; 
     ActividadesInfo.push(actividadInfo);
-    return <EcosurActividadCard data={ActividadesInfo} sizeRow='all' color={bgColor} bgBox={bgBox} textColor={textColor} titleColor={titleColor} />;
+    return (
+      <>
+        <Typography component='div'>
+          <Grid container sx={{ display: 'flex', flexDirection: 'row', bgcolor: 'background.default' }}>
+            <Box sx={{ pr: 1 }}>
+            <ListAlt /> 
+            </Box>
+            <Box>
+            <b>Actividades realizadas por el/la estudiante durante el seminario</b>
+            </Box>
+          </Grid>
+        </Typography>
+        <EcosurActividadCard data={ActividadesInfo} sizeRow='all' color={bgColor} bgBox={bgBox} textColor={textColor} titleColor={titleColor} />
+      </>
+    )
   }
 }; // CardActividadWithoutFetch
 
@@ -59,17 +73,6 @@ export const CardActividades: React.FC<{
   }
   return (
     <>
-        <br />
-        <Typography component='div'>
-          <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
-            <Box sx={{ pr: 1 }}>
-            <ListAlt /> 
-            </Box>
-            <Box>
-            <b>Actividades realizadas por el/la estudiante durante el seminario</b>
-            </Box>
-          </Grid>
-        </Typography>
         <Card key={`card-integrante-ct-1`}>
             <CardActividadWithoutFetch actividad={actividades} bgColor={bgColor} bgBox={bgBox} textColor={textColor} titleColor={titleColor} />
         </Card>

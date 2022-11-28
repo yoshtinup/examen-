@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { IntegranteInfo } from '../../../types/integranteCT';
+import { IntegrantesCTElement } from '../../../types/integranteCT';
 import { Box, Grid, Typography } from '@mui/material';
 
 type Color = {
@@ -9,47 +9,40 @@ type Color = {
 };
 
 interface NewGridCTProps extends Color {
-  startIndex: number;
-  finalIndex: number;
-  data: Array<IntegranteInfo>;
+  data: Array<IntegrantesCTElement>;
 } // NewGridCTProps
 
 export const NewGridCT = ({
   data = [],
-  startIndex = 0,
-  finalIndex = 0,
   textColor = '',
   titleColor = '',
 }: NewGridCTProps) => {
-  let date: Date;
-  data.slice(startIndex, finalIndex)
-        .map((integrante, key) => {
-    date = new Date(integrante.evaluacion);
-    integrante.evaluacion = date.toDateString();
-  })
   return (
     <Grid item>
-      {data.slice(startIndex, finalIndex)
-        .map((integrante, key) => (
+      {data.map((integrante, key) => (
             <Box key={`ecosur-ct-card-${key}`} alignItems='center' sx={{ mb: 1 }}>
                 <Typography variant='body1' display='inline' color={titleColor} sx={{ ml: 0.5, fontSize: '80%' }}>
-                    <b>{key+1}.- </b> {integrante.nombre} 
+                    <b>{key+1}.- </b> {integrante.Datos.Persona.Nombre + ' ' + integrante.Datos.Persona.ApellidoPaterno + ' ' + integrante.Datos.Persona.ApellidoMaterno} 
                 </Typography>
                 <Typography variant='body2' display='inline' color={titleColor} sx={{ ml: 0.5, fontSize: '80%' }}>
-                    (<b>{integrante.participacion}</b>)
+                    (<b>{integrante.Datos.Participacion.Value}</b>)
                 </Typography>
                 {
-                  integrante.evaluacion === null ? 
+                  (integrante.FechaFirmaTutor === null  && integrante.Datos.Participacion.Value == 'Tutor')  ? 
                     <Typography variant='body1' display='inline' color={titleColor} sx={{ ml: 0.5, color: "red", fontSize: '80%'  }}>
-                      <b>-</b> Pendiente por evaluar
+                      <b>-</b> Pendiente de asignar calificación y firmar
                     </Typography>  
-                  :                 
+                  : (integrante.FechaFirmaTutor === null  && integrante.Datos.Participacion.Value !== 'Tutor')  ?  
+                      <Typography variant='body1' display='inline' color={titleColor} sx={{ ml: 0.5, color: "red", fontSize: '80%'  }}>
+                        <b>-</b> Pendiente de firmar
+                      </Typography>            
+                    :
                     <Typography variant='body1' display='inline' color={titleColor} sx={{ ml: 0.5, fontSize: '80%' }}>
-                    <b>-</b> {integrante.evaluacion.toString()}
+                      <b>-</b> {integrante.FechaFirmaTutor.toString()}
                     </Typography> 
                 }    
                 <Typography variant='body1' display='inline' color={titleColor} sx={{ ml: 0.5, fontSize: '80%' }}>
-                  <b>-</b> {integrante.email}
+                  <b>-</b> {integrante.Datos.Persona.Email}
                 </Typography>                             
             </Box>
         ))}

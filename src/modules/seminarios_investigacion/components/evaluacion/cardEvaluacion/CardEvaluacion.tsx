@@ -1,30 +1,31 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react';
 
 import { Box, CardMedia, Grid } from '@mui/material';
-import { NewGridCT } from './newGrid';
-import { IntegrantesCTElement } from '../../../types';
+import { NewGridEvaluacion } from './newGrid';
+import { Evaluacion } from '../../../types';
 
-export type EcosurCTCardProps = {
-  data: Array<IntegrantesCTElement>;
-  img?: string;
+export type EcosurEvaluacionCardProps = {
+  data: Array<Evaluacion>;
   width?: number | string;
   height?: number | string;
   sizeRow?: number | string;
+  bgBox?: string;
   color?: string;
   textColor?: string;
   titleColor?: string;
 };
 
-const EcosurCTCard = ({
+const EcosurEvaluacionCard = ({
   data = [],
-  img = undefined,
   width = 'auto',
   height = '100%',
   sizeRow = 'all',
   color = 'background.default',
   textColor = 'text.secondary',
-  titleColor = 'text.primary',
-}: EcosurCTCardProps) => {
+  titleColor = 'primary',
+  bgBox = 'background.default',
+}: EcosurEvaluacionCardProps) => {
   let sizeRowSelected = 0;
   try {
     sizeRowSelected = sizeRowFunction(sizeRow, data);
@@ -56,44 +57,29 @@ const EcosurCTCard = ({
           },
         }}
       >
-        {img ? (
-          <Grid item justifyContent='center' alignItems='center' bgcolor={color}>
-            <CardMedia
-              component='img'
-              image={img}
-              alt='Foto'
-              sx={{ width: 120, height: 120, margin: 'auto' }}
-            />
-          </Grid>
-        ) : (
-          ''
-        )}
         <Grid item sm sx={{ p: 2 }}>
           <Grid
             container
             sx={{
               display: 'flex',
-              flexDirection: {
-                xs: 'column',
-                sm: 'column',
-                md: 'row',
-                lg: 'row',
-                xl: 'row',
-              },
+              flexDirection: 'column',
             }}
             bgcolor={color}
           >
-            <NewGridCT
+            <NewGridEvaluacion
               data={data}
+              startIndex={0}
+              finalIndex={sizeRowSelected}
               textColor={textColor}
-              titleColor={titleColor}
+              titleColor={titleColor} 
+              bgBox={bgBox}            
             />
           </Grid>
         </Grid>
       </Grid>
     </Box>
   );
-}; // EcosurCTCard
+}; // EcosurActividadCard
 
 const sizeRowFunction = (sizeRow: number | string | undefined, data: object): number => {
   let sizeRowSelected = 0;
@@ -129,4 +115,4 @@ const sizeRowFunction = (sizeRow: number | string | undefined, data: object): nu
   } // if-else
 }; // sizeRowFunction
 
-export default EcosurCTCard;
+export default EcosurEvaluacionCard;

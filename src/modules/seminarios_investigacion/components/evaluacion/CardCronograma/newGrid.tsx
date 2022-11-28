@@ -1,9 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import * as React from 'react';
-import { ActividadInfo } from '../../../types';
 
+import { Programaactividades } from '../../../types';
 import { Box, Grid, Typography } from '@mui/material';
-import { AdjustOutlined, Login } from '@mui/icons-material';
+import { AdjustOutlined } from '@mui/icons-material';
 
 type Color = {
   textColor: string;
@@ -11,121 +11,113 @@ type Color = {
   bgBox: string
 };
 
-interface NewGridProfileProps extends Color {
+interface NewGridCronogramaProps extends Color {
   startIndex: number;
   finalIndex: number;
-  data: Array<ActividadInfo>;
+  data: Array<Programaactividades>;
 } // NewGridProfileProps
 
-interface PropiedadesProps extends Color {
-  value: ActividadInfo;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const NewGridProfile = ({
+export const NewGridCronograma = ({
   data = [],
   startIndex = 0,
   finalIndex = 0,
   textColor = '',
   titleColor = '',
   bgBox = '',
-}: NewGridProfileProps) => {
+}: NewGridCronogramaProps) => {
+  let mesesCantidad = 0;
+  data.map(actividad => {
+    actividad.actividad = actividad.actividad;
+    actividad.meses = actividad.meses.toString().split(",");
+    actividad.meses.map(mes => {
+      (parseInt(mes) > mesesCantidad) ? mesesCantidad = parseInt(mes) : '';
+    })
+  })
+
+  const renderHeader = () => {
+    let header = [];
+    header.push(
+      <Grid  item xs={30} key={`ecosur-cronograma-card-actividad`} sx={{ display: 'flex', flexDirection: 'colum', textAlign: "center", bgcolor: 'background.default', justifyContent: 'center', alignItems: 'center' }}>
+        <Typography component='div' variant='body2' color='text.primary' sx={{ p: 0, m: 0, fontWeight: 'bold', 
+            fontSize: {
+            xs: '60%',
+            sm: '60%',
+            md: '80%',
+          } 
+        }}>
+          <p>Actividad</p>
+        </Typography>
+      </Grid>
+    );
+    for (let index = 0; index < mesesCantidad; index++) {
+      header.push(
+        <Grid key={`ecosur-cronograma-card-${index}`} container sx={{ display: 'flex', flexDirection: 'colum', textAlign: "center", bgcolor: 'background.default', justifyContent: 'center', alignItems: 'center' }}>
+          <Typography component='div' variant='body2' color='text.primary' sx={{ fontWeight: 'bold', 
+              fontSize: {
+                xs: '60%',
+                sm: '60%',
+                md: '80%',
+            } 
+          }}>
+            <p>Mes {index+1}</p>
+          </Typography>
+        </Grid>
+      );
+    }
+    return header;
+  }
+  
+  const mesValidation = (data: any) => {
+    let meses = [];
+    meses.push(
+      <Grid item xs={30} key={`ecosur-cronograma-card-actividad`} sx={{ display: 'flex', flexDirection: 'colum', textAlign: "center", border: 1, borderColor: 'background.default', justifyContent: 'center' }}>
+        <Grid item key={`ecosur-cronograma-card-actividad1`} sx={{ display: 'flex', flexDirection: 'colum', textAlign: "center", justifyContent: 'center', alignItems: 'center' }}>
+          <Typography component='div' variant='body2' color='text.secondary' sx={{
+            fontSize: {
+              xs: '60%',
+              sm: '75%',
+              md: '75%',
+            } 
+          }}>
+            {data.actividad}
+          </Typography> 
+        </Grid>
+      </Grid>
+    );
+    for (let index = 0; index < mesesCantidad; index++) {
+      meses.push(
+        <Grid key={`ecosur-cronograma-card-${index+1}`} container sx={{ display: 'flex', flexDirection: 'colum', textAlign: "center", border: 1, borderColor: 'background.default', justifyContent: 'center' }}>
+          {
+            data.meses.map((mes: string) => (
+              (parseInt(mes) == (index+1)) ?
+                <Grid key={`ecosur-cronograma-card-${index+1}`} container sx={{ bgcolor: 'primary.main' }}>
+                </Grid>
+                : ''
+            ))
+          }
+        </Grid>
+      );
+    }
+    return meses;
+  }
   return (
     <Grid item>
-            <Box alignItems='center'>
-              <Box sx={{ pb: 0.5, mb: 1, bgcolor: bgBox }}>
-                <Typography component='div' variant='body2' color={titleColor} sx={{ pl: 1, pt: 0.5 }}>
-                  <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
-                    <Box sx={{ pr: 1 }}>
-                      <AdjustOutlined fontSize='small' /> 
-                    </Box>
-                    <Box>
-                      <b>Publicaciones</b>
-                    </Box>
+      <Box alignItems='center'>
+        <Box>
+            <Grid container sx={{ display: 'flex', flexDirection: 'column'  }}>
+              <Grid item xs={12} sx={{ textAlign: "center", display: 'flex', flexDirection: 'row' }}>
+                { renderHeader() }  
+              </Grid>
+              {
+                data.map((actividad, index: number) => (
+                  <Grid key={`ecosur-cronograma-mes-card-${index}`} item xs={12}  sx={{ textAlign: "center", display: 'flex', flexDirection: 'row' }}>
+                    { mesValidation(actividad) }  
                   </Grid>
-                </Typography>
-                {
-                  data[0].publicaciones.length !== 0 ? data[0].publicaciones.map(publicacion => (
-                    <Typography variant='body2' color={textColor} sx={{ pl: 5, mb: 0.5, fontSize: '80%' }}>
-                      ° <b>{publicacion.titulo}</b>, {publicacion.tipoarbitrado} publicado en {publicacion.publicadoen}. {publicacion.Annio}. {publicacion.tipoparticipacion}
-                    </Typography>
-                  )) : 
-                    <Typography variant='body2' color={textColor} sx={{ pl: 5, mb: 0.5, fontSize: '80%' }}>
-                    ° No realizó publicaciones
-                    </Typography>
-                }
-              </Box>
-              <Box sx={{ pb: 0.5, mb: 1, bgcolor: bgBox }}>
-                <Typography component='div' variant='body2' color={titleColor} sx={{ pl: 1, pt: 0.5 }}>
-                  <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
-                    <Box sx={{ pr: 1 }}>
-                      <AdjustOutlined fontSize='small' /> 
-                    </Box>
-                    <Box>
-                      <b>Congresos</b>
-                    </Box>
-                  </Grid>
-                </Typography>
-                {
-                  data[0].congresos.length !== 0 ? data[0].congresos.map(congreso => (
-                    <Typography variant='body2' color={textColor} sx={{ pl: 5, mb: 0.5, fontSize: '80%' }}>
-                      ° <b>{congreso.titulo}</b>, realizado en {congreso.lugar}, el {congreso.fecha}. {congreso.tipoparticipacion}
-                    </Typography>
-                  )) : 
-                    <Typography variant='body2' color={textColor} sx={{ pl: 5, mb: 0.5, fontSize: '80%' }}>
-                      ° No realizó congresos
-                    </Typography>
-                }
-              </Box>   
-              <Box sx={{ pb: 0.5, mb: 1, bgcolor: bgBox }}>
-                <Typography component='div' variant='body2' color={titleColor} sx={{ pl: 1, pt: 0.5 }}>
-                  <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
-                    <Box sx={{ pr: 1 }}>
-                      <AdjustOutlined fontSize='small' /> 
-                    </Box>
-                    <Box>
-                      <b>Estancias</b>
-                    </Box>
-                  </Grid>
-                </Typography>
-                {
-                  data[0].estancias.length !== 0 ? data[0].estancias.map(estancia => (
-                    <Typography variant='body2' color={textColor} sx={{ pl: 5, mb: 0.5, fontSize: '80%' }}>
-                      ° <b>{estancia.centro}</b>, en el área {estancia.area}, del {estancia.fechainicio} al {estancia.fechaconclusion}. {estancia.ambito}
-                    </Typography>
-                  )) : 
-                    <Typography variant='body2' color={textColor} sx={{ pl: 5, mb: 0.5, fontSize: '80%' }}>
-                      ° No realizó estancias
-                    </Typography>
-                }
-              </Box>    
-              <Box sx={{ pb: 0.5, bgcolor: bgBox }}>
-                <Typography component='div' variant='body2' color={titleColor} sx={{ pl: 1, pt: 0.5 }}>
-                  <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
-                    <Box sx={{ pr: 1 }}>
-                      <AdjustOutlined fontSize='small' /> 
-                    </Box>
-                    <Box>
-                      <b>Cursos fuera de Ecosur</b>
-                    </Box>
-                  </Grid>
-                </Typography>
-                {
-                  data[0].cursos.length !== 0 ? data[0].cursos.map(curso => (
-                    <Typography variant='body2' color={textColor} sx={{ pl: 5, mb: 0.5, fontSize: '80%' }}>
-                      ° <b>{curso.nombrecurso}</b>, en la institución {curso.institucion}, en el periodo {curso.fechainicio} al {curso.Fechaconclusion}
-                    </Typography>
-                  )) : 
-                    <Typography variant='body2' color={textColor} sx={{ pl: 5, mb: 0.5, fontSize: '80%' }}>
-                      ° No realizó cursos fuera de Ecosur
-                    </Typography>
-                }
-              </Box>                                        
-            </Box>
+                ))
+              }
+            </Grid>
+        </Box>           
+      </Box>
     </Grid>
   );
 }; // NewGridProfile
-
-const capitalizeFirstLetter = (string: string): string => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}; // capitalizeFirstLetter

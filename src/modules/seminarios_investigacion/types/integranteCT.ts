@@ -26,10 +26,3 @@ export interface Persona {
   Nombre:          string;
   Email:           string;
 }
-
-export interface IntegranteInfo {
-  nombre: string,
-  participacion: string,
-  evaluacion: string | Date,
-  email: string,
-};

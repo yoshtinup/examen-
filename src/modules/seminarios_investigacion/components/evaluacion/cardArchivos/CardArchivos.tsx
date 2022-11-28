@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { Box, CardMedia, Grid } from '@mui/material';
-import { NewGridCT } from './newGrid';
-import { IntegrantesCTElement } from '../../../types';
+import { NewGridCardArchivos } from './newGrid';
+import { Evaluacion } from '../../../types';
 
-export type EcosurCTCardProps = {
-  data: Array<IntegrantesCTElement>;
+export type EcosurCardArchivosProps = {
+  data: Array<Evaluacion>;
   img?: string;
   width?: number | string;
   height?: number | string;
@@ -15,7 +15,7 @@ export type EcosurCTCardProps = {
   titleColor?: string;
 };
 
-const EcosurCTCard = ({
+const EcosurCardArchivos = ({
   data = [],
   img = undefined,
   width = 'auto',
@@ -24,7 +24,7 @@ const EcosurCTCard = ({
   color = 'background.default',
   textColor = 'text.secondary',
   titleColor = 'text.primary',
-}: EcosurCTCardProps) => {
+}: EcosurCardArchivosProps) => {
   let sizeRowSelected = 0;
   try {
     sizeRowSelected = sizeRowFunction(sizeRow, data);
@@ -83,7 +83,7 @@ const EcosurCTCard = ({
             }}
             bgcolor={color}
           >
-            <NewGridCT
+            <NewGridCardArchivos
               data={data}
               textColor={textColor}
               titleColor={titleColor}
@@ -129,4 +129,4 @@ const sizeRowFunction = (sizeRow: number | string | undefined, data: object): nu
   } // if-else
 }; // sizeRowFunction
 
-export default EcosurCTCard;
+export default EcosurCardArchivos;

@@ -1,12 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react';
 
-import { Box, CardMedia, Grid } from '@mui/material';
-import { NewGridProfile } from './newGrid';
-import { ActividadInfo } from '../../../types';
+import { Box, Grid } from '@mui/material';
+import { NewGridCronograma } from './newGrid';
+import { Programaactividades } from '../../../types';
 
-export type EcosurProfileCardProps = {
-  data: Array<ActividadInfo>;
+export type EcosurCronogramaCardProps = {
+  data: Array<Programaactividades>;
   width?: number | string;
   height?: number | string;
   sizeRow?: number | string;
@@ -16,7 +16,7 @@ export type EcosurProfileCardProps = {
   titleColor?: string;
 };
 
-const EcosurActividadCard = ({
+const EcosurCronogramaCard = ({
   data = [],
   width = 'auto',
   height = '100%',
@@ -25,7 +25,7 @@ const EcosurActividadCard = ({
   textColor = 'text.secondary',
   titleColor = 'primary',
   bgBox = 'background.default',
-}: EcosurProfileCardProps) => {
+}: EcosurCronogramaCardProps) => {
   let sizeRowSelected = 0;
   try {
     sizeRowSelected = sizeRowFunction(sizeRow, data);
@@ -66,7 +66,7 @@ const EcosurActividadCard = ({
             }}
             bgcolor={color}
           >
-            <NewGridProfile
+            <NewGridCronograma
               data={data}
               startIndex={0}
               finalIndex={sizeRowSelected}
@@ -79,7 +79,7 @@ const EcosurActividadCard = ({
       </Grid>
     </Box>
   );
-}; // ProfileCard
+}; // EcosurCronogramaCard
 
 const sizeRowFunction = (sizeRow: number | string | undefined, data: object): number => {
   let sizeRowSelected = 0;
@@ -115,4 +115,4 @@ const sizeRowFunction = (sizeRow: number | string | undefined, data: object): nu
   } // if-else
 }; // sizeRowFunction
 
-export default EcosurActividadCard;
+export default EcosurCronogramaCard;

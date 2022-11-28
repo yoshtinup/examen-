@@ -17,6 +17,11 @@ export interface Evaluacion {
     programaactividades: Programaactividades[];
     estancias:           Estancia[];
     congresos:           Congreso[];
+    urlActa:             null | string;
+    NombreArchivo_Acta:  null | string;
+    boletaCalificacion:  BoletaCalificacion;
+    RecomGenerales:      string;
+    RecomParticulares:   string;
 }
 
 export interface Congreso {
@@ -55,7 +60,16 @@ export interface Estatus {
 
 export interface Programaactividades {
     actividad: string;
-    meses:     string;
+    meses:     string | string[] | number[];
+}
+
+export interface BoletaCalificacion {
+    url:          null;
+    calificacion: Estatus;
+}
+
+export interface Estatus {
+    value: string;
 }
 
 export interface ActividadInfo {
@@ -64,3 +78,21 @@ export interface ActividadInfo {
     estancias: Array<Estancia>,
     cursos: Array<Curso>,
 };
+
+export interface Datos {
+    data: Data;
+}
+
+export interface Data {
+    data: DataID[];
+}
+
+export interface DataID {
+    alumno:            Alumno;
+    IdAlumnosMaterias: number;
+    estatus:           Estatus;
+}
+
+export interface Alumno {
+    Matricula: number;
+}
