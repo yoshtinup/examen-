@@ -7,14 +7,45 @@ import { CardActividades } from './components/evaluacion';
 import { CardPrograma } from './components/evaluacion';
 import { CardArchivos } from './components/evaluacion';
 import { CardEvaluacion } from './components/evaluacion';
-
 import { useGetDataInfo } from './queries';
 import { DataID } from './types';
+import Roles from '@definitions/Roles';
+
+import { useRecoilValue } from 'recoil';
+import { rolStateAtom } from '@modules/auth/recoil';
+
+const PerfilWithStatus: React.FC<{matricula: number, status: string, seminario: number}> = ({matricula, status, seminario}) => {
+  const evaluacionSeminarioComponentes = [  
+    {
+      componente:       
+         <>
+          <Box sx={{ pb: 2 }}>
+            <Perfil matricula={matricula} />
+            <Typography sx={{ pl: 3 }} component='div'>
+              <b>Estatus de evaluación: </b> {status}
+            </Typography>
+          </Box>
+        </>,
+      width: 7,
+    },  
+    {
+      componente: 
+        <Box sx={{ pb: 2 }}>
+          <CardCT IdEvaluacionSeminario={seminario} />
+        </Box>,
+      width: 5,
+    },  
+  ]
+  return (
+    <EcosurContainer data={evaluacionSeminarioComponentes} />                 
+  )
+}
 
 export const EvaluacionSeminarioWithoutFetch: React.FC<{ dataID: DataID[], idEvaluacionSeminario: number }> = ({
   dataID, 
   idEvaluacionSeminario,
 }) => {    
+  const currentRol: Roles = useRecoilValue(rolStateAtom);
   if (dataID.length == 0 ) {
     return (
       <Alert severity="error">
@@ -24,73 +55,66 @@ export const EvaluacionSeminarioWithoutFetch: React.FC<{ dataID: DataID[], idEva
   } else {
     const idAlumnosMaterias = dataID[0].IdAlumnosMaterias;
     const idMatricula = dataID[0].alumno.Matricula;
+    const status = dataID[0].estatus.value;
 
-    const evaluacionSeminarioComponentes = [  
-      // PRIMERA SECCION
-      // PERFIL Y CONSEJO TUTELAR
-      {
-        componente: 
-          <Box>
-            <Perfil matricula={idMatricula} />
-            <Typography sx={{ pl: 2 }} component='div'>
-              <b>Estatus de evaluación: </b> {dataID[0].estatus.value}
-            </Typography>
-            <br />
-          </Box>,
-        width: 7,
-      },  
-      {
-        componente: 
-          <Box>
-          <CardCT IdEvaluacionSeminario={idEvaluacionSeminario} />
-          <br />
-          </Box>,
-          
-        width: 5,
-      },  
+
+    const EcosurComponentesInformacion = [  
       // SEGUNDA SECCIÓN
-      // EVALUACION
-      {
-        componente: <CardEvaluacion IdAlumnosMaterias={idAlumnosMaterias} />,
-        width: 12,
-      },   
-      // TERCERA SECCIÓN
       // ACTIVIDADES Y ARCHIVOS
       {
-        componente: <CardActividades IdAlumnosMaterias={idAlumnosMaterias} />,
+        componente: 
+        <Box sx={{ pb: 2 }}>
+          <CardActividades IdAlumnosMaterias={idAlumnosMaterias} />
+        </Box>,
         width: 8,
       },  
       {
         componente: 
-          <Box
+          <Box 
           sx={{
             height: 1,
             width: 1,
+            pb: 2,
           }}
           >
             <CardArchivos IdAlumnoMateria={idAlumnosMaterias} />
           </Box>,
         width: 4,
       },        
-      // CUARTA SECCIÓN
+      // TERCERA SECCIÓN
       // PROGRAMA 
       {
-        componente:  <CardPrograma IdAlumnosMaterias={idAlumnosMaterias} />,
+        componente:  
+        <Box sx={{ pb: 2 }}>
+          <CardPrograma IdAlumnosMaterias={idAlumnosMaterias} />
+        </Box>,
         width: 12,
       },  
+      // CUARTA SECCIÓN
+      // EVALUACION
+      {
+        componente: 
+        <Box sx={{ pb: 2 }}>
+          <CardEvaluacion IdAlumnosMaterias={idAlumnosMaterias} />
+        </Box>,
+        width: 12,
+      },         
     ]
 
     return (
       <>
         <EcosurSectionTitle label="Evaluación Seminario Investigación" variant="h5" />
+        <br />
         <Container maxWidth="xl" sx={{ bgcolor: 'background.default', border: 'none' }}>
-          <Box
-            display="column"
-            alignItems="center"
-            justifyContent="center"
-          >       
-            <EcosurContainer data={evaluacionSeminarioComponentes} />                  
-          </Box>
+          {currentRol !== Roles.Estudiante && (
+            <PerfilWithStatus matricula={idMatricula} status={status} seminario={idEvaluacionSeminario} />
+          )}
+          {currentRol == Roles.Estudiante && (
+            <Box sx={{ pb: 2 }}>
+                    <CardCT IdEvaluacionSeminario={idEvaluacionSeminario} />
+            </Box>
+          )}          
+            <EcosurContainer data={EcosurComponentesInformacion}  />                  
         </Container>
       </>
     );

@@ -20,7 +20,7 @@ export const NewGridCardArchivos = ({
   return (
     <Grid item>
       {data.map((archivo, key) => (
-            <Box key={`ecosur-archivos-card-${key}`} alignItems='center' sx={{ }}>
+            <Grid container key={`ecosur-archivos-card-${key}`} alignItems='center'>
               <Box sx={{ pb: 1 }}>
                 <Typography variant='body2' display='inline' color={titleColor} sx={{ ml: 0.5, fontSize: '80%' }}>
                   {
@@ -40,7 +40,7 @@ export const NewGridCardArchivos = ({
                   }                  
                 </Typography>
               </Box>
-              <Box>
+              <Box sx={{ pb: 1 }}>
                 <Typography variant='body2' display='inline' color={titleColor} sx={{ ml: 0.5, fontSize: '80%' }}>
                   {
                     (archivo.boletaCalificacion.url !== null) ?
@@ -53,7 +53,7 @@ export const NewGridCardArchivos = ({
                   }
                 </Typography>   
               </Box>                          
-            </Box>
+            </Grid>
         ))}
     </Grid>
   );

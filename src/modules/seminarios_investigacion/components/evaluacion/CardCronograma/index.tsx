@@ -19,16 +19,6 @@ export const CardProgramaWithoutFetch: React.FC<{ cronograma: Evaluacion[], bgCo
     const CronogramaActividades = () => {
       return (
         <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Typography component='div'>
-            <Grid container sx={{ display: 'flex', flexDirection: 'row', bgcolor: 'background.default' }}>
-              <Box sx={{ p: 0 }}>
-              <ListAlt /> 
-              </Box>
-              <Box>
-              <b>Cronograma de actividades a realizar el siguiente semestre</b>
-              </Box>
-            </Grid>
-          </Typography>
           <Box sx={{ bgcolor: 'background.paper' }}>
             <Typography component='div' variant='body2' sx={{ pl: 2, pt: 1 }}>
               <b>Cronograma de actividades propuestas</b>
@@ -68,8 +58,19 @@ export const CardProgramaWithoutFetch: React.FC<{ cronograma: Evaluacion[], bgCo
     ]
     return (
       <Box>
-
+        <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
+           <Typography component='div'>
+            <Grid container sx={{ display: 'flex', flexDirection: 'row', bgcolor: 'background.default' }}>
+              <Box sx={{ p: 0 }}>
+                <ListAlt /> 
+              </Box>
+              <Box>
+                <b>Cronograma de actividades a realizar el siguiente semestre</b>
+              </Box>
+            </Grid>
+          </Typography>
           <EcosurContainer data={programa} />
+        </Grid>
       </Box>
     );
   }

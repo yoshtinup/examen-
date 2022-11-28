@@ -1,5 +1,5 @@
 import * as React from 'react';
-
+import moment from 'moment';
 import { IntegrantesCTElement } from '../../../types/integranteCT';
 import { Box, Grid, Typography } from '@mui/material';
 
@@ -38,7 +38,7 @@ export const NewGridCT = ({
                       </Typography>            
                     :
                     <Typography variant='body1' display='inline' color={titleColor} sx={{ ml: 0.5, fontSize: '80%' }}>
-                      <b>-</b> {integrante.FechaFirmaTutor.toString()}
+                      <b>-</b> {moment(integrante.FechaFirmaTutor.toString()).format('L')}
                     </Typography> 
                 }    
                 <Typography variant='body1' display='inline' color={titleColor} sx={{ ml: 0.5, fontSize: '80%' }}>
