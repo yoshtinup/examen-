@@ -52,6 +52,8 @@ const EstudiantePage: React.FC<ConsejoTutelar> = ({
   const [disabled, setDisabled] = React.useState<boolean>(true);
   const queryClient = useQueryClient();
   const router = useRouter();
+  const handleShowProfile = () => router.push(`/consejo_tutelar/${matricula}`);
+
   const { mutate } = useMutation(
     async (ct: ConsejoTutelarData) =>
       await ConsejoTutelarQuerys.registrar(ct.integrantes, ct.files),
@@ -64,7 +66,7 @@ const EstudiantePage: React.FC<ConsejoTutelar> = ({
           title: 'El consejo tutelar',
           text: 'Se guardó exitosamente',
         });
-        router.push(`/consejo_tutelar/${matricula}`);
+        handleShowProfile();
       },
       onError: () => {
         Swal.fire({
@@ -165,6 +167,9 @@ const EstudiantePage: React.FC<ConsejoTutelar> = ({
       <InstruccionesEnlaces />
       <Grid container spacing={2}>
         <Grid item xs={12}>
+          <Button onClick={handleShowProfile}>
+            Ver estatus del proceso de evaluación
+          </Button>
           <h3>Lista de integrantes</h3>
         </Grid>
       </Grid>
