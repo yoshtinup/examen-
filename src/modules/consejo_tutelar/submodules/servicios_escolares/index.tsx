@@ -35,7 +35,7 @@ const item = [
   },
   {
     id: 3,
-    text: 'Responsables de orientación/Coordinaión de unidad',
+    text: 'Responsables de orientación/Coordinación de unidad',
     value: 4,
   },
   {
@@ -45,19 +45,32 @@ const item = [
   },
 ];
 
-const ServiciosEscolaresIndex: React.FC<{ rows: Data }> = ({ rows }) => {
+const ServiciosEscolaresIndex: React.FC<{
+  rows: Data;
+  updateCompleted: any;
+  chargeGenerations?: any;
+}> = ({ rows, updateCompleted, chargeGenerations }) => {
   const queryClient = new QueryClient();
   const rowsInProccess: EnProceso[] = rows.EnProceso;
   const rowsCompleted: Concluidos[] = rows.Concluidos;
   const [allIds, setAllIds] = React.useState([]);
   const [allStatus, setAllStatus] = React.useState([1, 2, 3, 5]);
+  const [selectGeneration, setSelectGeneration] = React.useState<number>(
+    new Date().getFullYear()
+  ); // Esto va a cambiar
+  const [generations, setGenerations] = React.useState<number[]>([
+    selectGeneration,
+  ]);
+  //const [generations, setGenerations] = React.useState<number[]>(chargeGenerations);
 
   const selected = (id: number[]) => {
     const temporalAllIds = allIds;
     if (!temporalAllIds.includes(id[0]) && id.length > 0) {
       temporalAllIds.push(id[0]);
+      setAllIds(temporalAllIds);
+    } else {
+      setAllIds(id);
     }
-    setAllIds(temporalAllIds);
   };
 
   const sendGeneralNotification = async () => {
@@ -158,6 +171,15 @@ const ServiciosEscolaresIndex: React.FC<{ rows: Data }> = ({ rows }) => {
       componente: (
         <>
           <Grid container direction="row" justifyContent="flex-end">
+            <InputLabel
+              style={{
+                width: '100%',
+                textAlign: 'end',
+                padding: '20px 165px 0px 0px',
+              }}
+            >
+              Enviar notificaciones a:
+            </InputLabel>
             <Box
               sx={{
                 display: 'flex',
@@ -166,13 +188,10 @@ const ServiciosEscolaresIndex: React.FC<{ rows: Data }> = ({ rows }) => {
             >
               <Box
                 sx={{
-                  margin: '5px',
-                  height: '100%',
-                  width: '100%',
+                  margin: '10px',
                   display: 'flex',
                   alignItems: 'center',
-                  borderRight: '1px solid',
-                  paddingRight: '10px',
+                  padding: '10px',
                 }}
               >
                 <Box>
@@ -181,15 +200,18 @@ const ServiciosEscolaresIndex: React.FC<{ rows: Data }> = ({ rows }) => {
                     size="small"
                     onClick={sendSpecificNotification}
                   >
-                    Notificar a seleccionados
+                    Seleccionados
                   </Button>
                 </Box>
               </Box>
               <Box
                 sx={{
-                  margin: '5px',
+                  margin: '10px',
                   display: 'flex',
                   alignItems: 'center',
+                  padding: '10px',
+                  background: '#fff',
+                  borderRadius: '10px',
                 }}
               >
                 <FormControl
@@ -241,11 +263,45 @@ const ServiciosEscolaresIndex: React.FC<{ rows: Data }> = ({ rows }) => {
     {
       titulo: 'Concluidos',
       componente: (
-        <Table
-          key="ct-table-list-2"
-          rows={rowsCompleted}
-          actionColumn={false}
-        />
+        <>
+          <Grid container direction="row" justifyContent="flex-end">
+            <Grid container direction="row" justifyContent="flex-end">
+              <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="generations-label">Generación</InputLabel>
+                <Select
+                  labelId="generations-label"
+                  id="generations-select"
+                  autoWidth
+                  label="Generación"
+                  name="generations-select"
+                  defaultValue={selectGeneration}
+                >
+                  {generations.map((generation: any, idx: number) => {
+                    return (
+                      <MenuItem
+                        key={`items-year-${idx}`}
+                        value={generation}
+                        onClick={() => {
+                          setSelectGeneration(generation);
+                          updateCompleted();
+                        }}
+                      >
+                        {generation}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Box sx={{ width: '100%' }}>
+              <Table
+                key="ct-table-list-2"
+                rows={rowsCompleted}
+                actionColumn={false}
+              />
+            </Box>
+          </Grid>
+        </>
       ),
     },
   ];
@@ -253,45 +309,27 @@ const ServiciosEscolaresIndex: React.FC<{ rows: Data }> = ({ rows }) => {
   return <EcosurTabs align="left" data={tabs} />;
 };
 
-type ServiciosProps = {
-  year: number;
-  charge: boolean;
-};
-
-const ServiciosEscolaresFetch: React.FC<ServiciosProps> = ({
-  year,
-  charge,
-}) => {
+const ServiciosEscolaresFetch: React.FC<unknown> = () => {
   const queryClient = new QueryClient();
-  const [chargeData, setChargeData] = React.useState<boolean>(charge);
-  const [selectYear, setSelectYear] = React.useState<number>(year);
   const { data, error, isLoading } = useQuery('se-conformacion-ct', async () =>
-    getALLConformacionesCT(selectYear)
+    getALLConformacionesCT()
   );
-  const [dataCT, setDataCT] = React.useState<any>(
-    data === undefined ? { EnProceso: [], Concluidos: [] } : data
-  );
-  const [errorCT, setErrorCT] = React.useState<any>(error);
-  const [isLoadingCT, setIsLoadingCT] = React.useState<any>(isLoading);
+  const [dataCT, setDataCT] = React.useState<Data>(data);
+  const [errorCT, setErrorCT] = React.useState<unknown>(error);
+  const [isLoadingCT, setIsLoadingCT] = React.useState<boolean>(isLoading);
 
   React.useEffect(() => {
-    if (chargeData) {
-      setChargeData(false);
-      setIsLoadingCT(false);
-      return;
-    }
-    setSelectYear(year);
-    getALLConformaciones();
-  }, [year]);
+    setDataCT(data === undefined ? { EnProceso: [], Concluidos: [] } : data);
+  }, [data]);
 
   const getALLConformaciones = async () => {
     setIsLoadingCT(true);
     try {
-      setDataCT(
-        await queryClient.fetchQuery(['token'], () =>
-          getALLConformacionesCT(year)
-        )
+      const result = await queryClient.fetchQuery(['se-conformacion-ct'], () =>
+        getALLConformacionesCT()
       );
+      //console.log(result);
+      setDataCT({ EnProceso: dataCT.EnProceso, Concluidos: result.Concluidos });
       setIsLoadingCT(false);
     } catch (error) {
       setErrorCT(error);
@@ -299,33 +337,18 @@ const ServiciosEscolaresFetch: React.FC<ServiciosProps> = ({
     }
   };
 
-  if (isLoadingCT) return <CircularProgress />;
-  if (errorCT) return <Alert severity="error">No se pudo acceder</Alert>;
+  if (isLoading) return <CircularProgress />;
+  if (error) return <Alert severity="error">No se pudo acceder</Alert>;
 
-  return <ServiciosEscolaresIndex rows={dataCT} />;
+  return (
+    <ServiciosEscolaresIndex
+      rows={dataCT}
+      updateCompleted={getALLConformaciones}
+    />
+  );
 };
 
 const ServiciosEscolares = () => {
-  const [selectYear, setSelectYear] = React.useState<number>(
-    new Date().getFullYear()
-  );
-  const [years, setYears] = React.useState<number[]>([]);
-
-  const setData = () => {
-    console.log('!@#!@#!@');
-    let newYears = selectYear;
-    const yearsArray = [];
-    while (!yearsArray.includes(2010)) {
-      yearsArray.push(newYears--);
-    }
-    yearsArray.push(0);
-    setYears(yearsArray);
-  };
-
-  React.useEffect(() => {
-    setData();
-  }, []);
-
   return (
     <>
       <Grid
@@ -338,39 +361,7 @@ const ServiciosEscolares = () => {
       >
         <InstruccionesEnlacesIndex />
       </Grid>
-      <Grid
-        container
-        direction="row"
-        justifyContent="flex-end"
-        style={{ padding: '0px 16px', position: 'relative', top: '60px' }}
-      >
-        <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
-          <InputLabel id="año-label">Año</InputLabel>
-          <Select
-            labelId="año-label"
-            id="año-select"
-            autoWidth
-            label="Año"
-            name="año-select"
-            defaultValue={selectYear}
-          >
-            {years.map((year: any, idx: number) => {
-              return (
-                <MenuItem
-                  key={`items-year-${idx}`}
-                  value={year}
-                  onClick={() => {
-                    setSelectYear(year);
-                  }}
-                >
-                  {year}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
-      </Grid>
-      <ServiciosEscolaresFetch year={selectYear} charge={true} />
+      <ServiciosEscolaresFetch />
     </>
   );
 };

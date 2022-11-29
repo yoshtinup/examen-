@@ -86,7 +86,7 @@ const Table: React.FC<{
       headerName: 'Número de ronda',
       width: 150,
     },
-  ];  
+  ];
 
   if (actionColumn) {
     columns.push({
@@ -109,34 +109,24 @@ const Table: React.FC<{
   }
 
   return (
-    <div style={{ width: '100%' }}>
-      <Button
-        sx={{ mb: 2 }}
-        onClick={() => setCheckboxSelection(!checkboxSelection)}
-      >
-        Toggle checkbox selection
-      </Button>
-      <div style={{ height: 400 }}>
-        <DataGrid
-          checkboxSelection={checkboxSelection}
-          disableSelectionOnClick
-          onSelectionModelChange={newSelectionModel => {
-            setSelectionModel(newSelectionModel);
-            list(newSelectionModel);
-          }}
-          selectionModel={selectionModel}
-          className="datagrid"
-          getRowId={row => row.IDConformacion}
-          rows={rows}
-          columns={columns}
-          components={{
-            Toolbar: GridToolbar,
-          }}
-          autoHeight={true}
-          pageSize={30}
-        />
-      </div>
-    </div>
+    <DataGrid
+      checkboxSelection={checkboxSelection}
+      disableSelectionOnClick
+      onSelectionModelChange={newSelectionModel => {
+        setSelectionModel(newSelectionModel);
+        list(newSelectionModel);
+      }}
+      selectionModel={selectionModel}
+      className="datagrid"
+      getRowId={row => row.IDConformacion}
+      rows={rows}
+      columns={columns}
+      components={{
+        Toolbar: GridToolbar,
+      }}
+      autoHeight={true}
+      pageSize={30}
+    />
   );
 };
 export default Table;

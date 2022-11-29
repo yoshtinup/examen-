@@ -1,12 +1,12 @@
 import { hasuraClient } from '@shared/queries';
 import { gql } from 'graphql-request';
 
-export async function getALLConformacionesCT(year: number) {
+export async function getALLConformacionesCT(idGeneracion: number = 0) {
   const result = await hasuraClient.request(
     gql`
-      query getALLConformacionesCT($year: Int!) {
+      query getALLConformacionesCT($idGeneracion: Int!) {
         EnProceso: db18_CT_Conformacion(
-          where: { IDEstatus: { _nin: [7, 8] }, Anio: { _eq: $year } }
+          where: { IDEstatus: { _nin: [7, 8] } }
         ) {
           IDConformacion
           Matricula
@@ -32,7 +32,12 @@ export async function getALLConformacionesCT(year: number) {
           }
         }
         Concluidos: db18_CT_Conformacion(
-          where: { IDEstatus: { _in: [7, 8] } }
+          where: {
+            _and: [
+              { IDEstatus: { _in: [7, 8] } }
+              { db12_AlumnoPrograma: { IdGeneracion: { _eq: $idGeneracion } } }
+            ]
+          }
         ) {
           Matricula
           Estatus: db18_CT_CatalogoEstatusGeneral {
@@ -57,7 +62,7 @@ export async function getALLConformacionesCT(year: number) {
         }
       }
     `,
-    { year }
+    { idGeneracion }
   );
   return result;
 }
