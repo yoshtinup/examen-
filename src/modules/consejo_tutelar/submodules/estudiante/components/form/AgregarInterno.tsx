@@ -15,7 +15,7 @@ import { PersonalAcademico } from '@modules/consejo_tutelar/types';
 const validationSchema = yup.object({
   id: yup.number().nullable(true).required('Es necesario selecionar un asesor'),
   apellidoPaterno: yup.string().required('El apellido es requerido'),
-  apellidoMaterno: yup.string().required('El apellido es requerido'),
+  apellidoMaterno: yup.string(),
   nombre: yup.string().required('El nombre es requerido'),
 });
 

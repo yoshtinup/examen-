@@ -20,6 +20,7 @@ import { jwtVerify } from 'jose';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import Routes from '../../Routes';
+import { textAlign } from '@mui/system';
 
 type TabsProperties = {
   title: string;
@@ -37,6 +38,27 @@ const Auth = ({ user }: { user: EcosurAuth }) => {
   React.useEffect(() => {
     setLoginComponent([
       {
+        title: 'Estudiantes',
+        component: (
+          <LoginInternals
+            rolesActive={false}
+            instructions={
+              <div style={{ textAlign: 'justify' }}>
+                Acceso para los estudiantes activos del Posgrado de ECOSUR. Debe
+                tener una cuenta de correo institucional. <br /> <br />
+                Para acceder haga clic en el botón con título <b>Microsoft</b>
+                <br />
+                <br />
+                En caso de no recordar su contraseña solicítela al correo
+                8911@ecosur.mx
+                <br />
+                <br />
+              </div>
+            }
+          />
+        ),
+      },
+      {
         title: 'Internos',
         component: (
           <LoginInternals
@@ -51,9 +73,13 @@ const Auth = ({ user }: { user: EcosurAuth }) => {
                 >
                   Para acceder debe ser:
                 </p>
-                <ul>
-                  <li>Personal académico activo de ECOSUR</li>
-                  <li>Contar con una cuenta de correo de ECOSUR</li>
+                <ul style={{ textAlign: 'left' }}>
+                  <li style={{ textAlign: 'left' }}>
+                    Personal académico activo de ECOSUR
+                  </li>
+                  <li style={{ textAlign: 'left' }}>
+                    Contar con una cuenta de correo de ECOSUR
+                  </li>
                 </ul>
                 <p>
                   Primero seleccione el rol de acuerdo al proceso de Posgrado
@@ -67,12 +93,6 @@ const Auth = ({ user }: { user: EcosurAuth }) => {
       {
         title: 'Externos',
         component: <LoginExternals />,
-      },
-      {
-        title: 'Estudiantes',
-        component: (
-          <LoginInternals rolesActive={false} instructions={<div></div>} />
-        ),
       },
     ]);
 
@@ -120,20 +140,7 @@ const Auth = ({ user }: { user: EcosurAuth }) => {
             alignItems="center"
             id="SectionLogin"
           >
-            <Grid item xs={6} lg={2} sm={2}>
-              <a>
-                <img
-                  id="logoEcosur"
-                  src="https://estancias-estudiantes-externos.ecosur.mx/static/media/logo-ecosur.1e134fb2163d7df4654a.png"
-                  alt="logo"
-                />
-              </a>
-            </Grid>
-            <Grid item xs={6} lg={10} sm={10}>
-              <h1 style={{ color: 'rgb(197, 107, 22) !important' }}>
-                Sistema de Información de Posgrado (SIP)
-              </h1>
-            </Grid>
+            <Grid item xs={6} lg={10} sm={10}></Grid>
           </Grid>
         </Container>
       </Box>
@@ -143,28 +150,32 @@ const Auth = ({ user }: { user: EcosurAuth }) => {
       >
         <Container maxWidth="lg">
           <Grid container justifyContent="center">
-            <Grid item xs={6} lg={6} sm={6} style={{ paddingRight: '60px' }}>
-              <h3>Acerca de SIP</h3>
-              <p style={{ color: '#4a4a4a' }}>
-                SIP es el sistema de información de Posgrado el cual permite a
-                estudiantes activos, personal académico interno y externo,
-                personal de servicios escolares y a la coordinación de Posgrado
-                realizar la gestión de los procesos relacionados con el
-                Posgrado.
-              </p>
-              <p style={{ color: '#4a4a4a' }}>
-                El sistema da soporte a procesos como: inscripciones, evaluación
-                de cursos, asignación de calificaciones, evaluación de becarios
-                CONACYT, entre otros.
-              </p>
-            </Grid>
             <Grid item xs={6} lg={6} sm={6}>
               <section id="login">
+                <Grid item style={{ textAlign: 'center' }}>
+                  <a
+                    href="https://www.ecosur.mx"
+                    style={{ textAlign: 'center' }}
+                  >
+                    <img
+                      id="logoEcosur"
+                      src="https://estancias-estudiantes-externos.ecosur.mx/static/media/logo-ecosur.1e134fb2163d7df4654a.png"
+                      alt="logo"
+                    />
+                  </a>
+                </Grid>
+                <Grid item>
+                  <h1
+                    style={{ textAlign: 'center', textTransform: 'uppercase' }}
+                  >
+                    Sistema de Información de Posgrado{' '}
+                  </h1>
+                </Grid>
                 <div
                   style={{
                     display: 'flex',
                     justifyContent: 'center',
-                    backgroundColor: 'rgb(243, 245, 247)',
+                    backgroundColor: '#e7ebf0',
                     padding: '20px 0px',
                   }}
                 >
@@ -179,11 +190,6 @@ const Auth = ({ user }: { user: EcosurAuth }) => {
       <Box sx={{ flexGrow: 1 }} style={{ padding: '20px 0px 0px' }}>
         <Container maxWidth="lg">
           <Grid container justifyContent="flex-start" alignItems="center">
-            <Grid item xs={6} lg={4} sm={4}>
-              <h3 style={{ color: '#6a6a6a' }}>
-                El Colegio de la Frontera Sur
-              </h3>
-            </Grid>
             <Grid item xs={6} lg={8} sm={8}>
               <p style={{ color: '#6a6a6a' }}>
                 <b>Soporte técnico:</b> notificaciones.posgrado@ecosur.mx.{' '}

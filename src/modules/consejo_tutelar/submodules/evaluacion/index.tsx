@@ -9,6 +9,7 @@ import { WithRol, WithRoles } from '@shared/hooks';
 import Roles from '@definitions/Roles';
 import { useSetRecoilState } from 'recoil';
 import { estudianteCTState } from './recoil';
+import { ConsejoTutelarAlumno } from './components';
 
 const ComitePage = WithRoles([
   Roles.Responsable_Orientacion,
@@ -16,6 +17,9 @@ const ComitePage = WithRoles([
   Roles.Coordinacion_General_Posgrado,
 ])(Comite);
 const EstudiantePage = WithRol(Roles.Estudiante)(Estudiante);
+const ServicioEscolaresPage = WithRol(Roles.Servicios_Escolares)(
+  ConsejoTutelarAlumno
+);
 const AcademicoPage = WithRoles([Roles.Academico, Roles.Externo])(Academico);
 
 const Evaluacion: React.FC<{ matricula: number }> = ({ matricula }) => {
@@ -46,7 +50,7 @@ const Evaluacion: React.FC<{ matricula: number }> = ({ matricula }) => {
     setState();
   }, [queryEstudianteInfo, queryStatus]);
   return (
-    <div>
+    <div style={{ paddingBottom: '20px' }}>
       {(queryEstudianteInfo.isLoading || queryStatus.isLoading) && (
         <CircularProgress />
       )}
@@ -55,6 +59,7 @@ const Evaluacion: React.FC<{ matricula: number }> = ({ matricula }) => {
           <EstudiantePage />
           <ComitePage />
           <AcademicoPage />
+          <ServicioEscolaresPage />
         </>
       )}
       {(queryEstudianteInfo.isError || queryStatus.isError) && (

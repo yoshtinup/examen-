@@ -1,16 +1,17 @@
 import React from 'react';
+
 import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { userStateAtom } from '@modules/auth/recoil';
 import { EcosurAuth } from '@modules/auth/definitions';
 import { useMutation, useQueryClient } from 'react-query';
 import { ConsejoTutelarQuerys } from '@modules/consejo_tutelar/queries';
 import { useGetAlumnoCT, getGrado } from './queries';
-import { PersonalAcademicoGql, AsesorExternoGql } from './types';
 import Swal from 'sweetalert2';
+import { showLoading } from '@shared/hooks';
 import { Alert, CircularProgress, Stack, Card, Button } from '@mui/material';
-import InstruccionesEnlaces from './InstruccionesEnlaces';
+import InstruccionesEnlaces from './Instrucciones';
 import { Estatus } from './components';
 
 import {
@@ -36,6 +37,7 @@ type ConsejoTutelarData = {
 type ConsejoTutelar = {
   grado: 'maestria' | 'doctorado';
   matricula: number;
+  DirectorTesis: string;
   externosItems: AsesorExterno[];
   internosItems: PersonalAcademico[];
 };
@@ -43,33 +45,32 @@ type ConsejoTutelar = {
 const EstudiantePage: React.FC<ConsejoTutelar> = ({
   grado,
   matricula,
+  DirectorTesis,
   externosItems,
   internosItems,
 }) => {
   const [disabled, setDisabled] = React.useState<boolean>(true);
   const queryClient = useQueryClient();
   const router = useRouter();
-  const { mutate, isLoading } = useMutation(
+  const { mutate } = useMutation(
     async (ct: ConsejoTutelarData) =>
       await ConsejoTutelarQuerys.registrar(ct.integrantes, ct.files),
     {
       onSuccess: () => {
+        queryClient.invalidateQueries(['ct-conformacion-alumno']);
+        Swal.close();
         Swal.fire({
           icon: 'success',
           title: 'El consejo tutelar',
-          text: 'Se guardo exitosamente',
+          text: 'Se guardó exitosamente',
         });
-        queryClient.invalidateQueries();
-        // NOFIXME: Este es un cambio por que no puede recargar la consulta graphql en reac-query, lo unico que hace es recargar la paguina
-        router.push('/consejo_tutelar/0')
-        /* externosItems = [] */
-        /* internosItems = [] */
+        router.push(`/consejo_tutelar/${matricula}`);
       },
       onError: () => {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'No se pudo guardar su consejo tutelar, intentelo nuevamente, verfique la información registrada de sus integrantes',
+          text: 'No se guardó su consejo tutelar, verifique la información registrada e intentelo nuevamente.',
         });
         setDisabled(false);
       },
@@ -94,7 +95,7 @@ const EstudiantePage: React.FC<ConsejoTutelar> = ({
       const item = e as AsesorExternoItem;
       item.aprobadoPorComite = true;
       return item;
-  });
+    });
     const currentCT = new ConformacionCT(grado, internosMap, externosMap);
     setDisabledAll(currentCT, currentCT.integrantesEstanCompletos());
     setConformacionCT(currentCT);
@@ -148,6 +149,7 @@ const EstudiantePage: React.FC<ConsejoTutelar> = ({
     if (consejoTutelar.externos.length === 0) consejoTutelar.externos = null;
     mutate({ integrantes: consejoTutelar, files: externosFiles });
     setDisabled(true);
+    showLoading('Guardado su consejo tutelar, espere por favor');
   };
 
   return (
@@ -179,6 +181,11 @@ const EstudiantePage: React.FC<ConsejoTutelar> = ({
           />
         </Grid>
         <Grid item xs={12}>
+          <Typography>
+            {' '}
+            <b>Director/a de Tesis: </b>
+            {DirectorTesis}
+          </Typography>
           <Stack spacing={1}>
             {conformacionCT.internos.map((interno, index) => (
               <Card key={`card-integrante-interno-${index}`}>
@@ -214,85 +221,28 @@ const EstudiantePage: React.FC<ConsejoTutelar> = ({
           >
             Guardar consejo tutelar
           </Button>
-          {isLoading && <CircularProgress />}
         </Grid>
       </Grid>
     </Grid>
   );
 };
 
-type ConformacionCTAlumno = {
-  internos: PersonalAcademico[],
-  externos: AsesorExterno[],
-  grado: 'maestria' | 'doctorado'
-}
-
 const Estudiante = () => {
   const user: EcosurAuth = useRecoilValue(userStateAtom);
   const matricula: number = user.estudiante?.matricula ?? 0;
-  const queryAlumnoCT = useGetAlumnoCT(matricula);
-  const [loaded, setLoaded] = React.useState<boolean>(false);
-  const [integrantes, setIntegrantes] = React.useState<ConformacionCTAlumno>({
-    grado: 'maestria',
-    externos: [],
-    internos: []
-  })
-
-  React.useEffect(() => {
-    function setCT() {
-      if (!loaded && queryAlumnoCT.isSuccess) {
-        if (queryAlumnoCT.data.length > 0) {
-          const internos = queryAlumnoCT.data[0].AsesoresInternos.map(
-            (interno: PersonalAcademicoGql) => ({
-              id: interno.id,
-              nombre: interno.dataPersona.nombre,
-              apellidoMaterno: interno.dataPersona.ApellidoMaterno,
-              apellidoPaterno: interno.dataPersona.ApellidoPaterno,
-            })
-          )
-          const externos = queryAlumnoCT.data[0].AsesoresExternos.map(
-            (externo: AsesorExternoGql) => ({
-              id: externo.id,
-              nombre: externo.dataPersona.nombre,
-              apellidoMaterno: externo.dataPersona.ApellidoMaterno,
-              apellidoPaterno: externo.dataPersona.ApellidoPaterno,
-              email: externo.dataPersona.Email,
-              institucion: externo.dataPersona.Institucion,
-              grado: externo.dataPersona.Grado,
-              idParticipacion: externo.idParticipacion,
-              argumentacion: externo.datosExtra?.Argumentacion ?? '',
-              fileName: externo.datosExtra?.UrlCV ?? '',
-              codirectorInfo: {
-                sNI: externo.codirectorInfo?.SNI,
-                numPubArb: externo.codirectorInfo?.NumPubArb,
-                numEstMaestria: externo.codirectorInfo?.NumEstMaestria,
-                numEstDoc: externo.codirectorInfo?.NumEstDoc,
-              },
-            })
-          );
-          const grado = getGrado(user.estudiante?.clavePrograma ?? 1);
-          setIntegrantes({grado: grado, internos: internos, externos: externos})
-          setLoaded(true)
-        }
-      }
-    }
-    setCT();
-  }, [queryAlumnoCT]);
+  const grado = getGrado(user.estudiante?.clavePrograma ?? 1);
+  const { data, error, isLoading } = useGetAlumnoCT(matricula);
+  if (error)
+    return <Alert severity="error">No se pudo cargar su consejo tutelar</Alert>;
+  if (isLoading) return <CircularProgress />;
   return (
-    <>
-      {queryAlumnoCT.isError && (
-        <Alert severity="error">No se pudo cargar su consejo tutelar</Alert>
-      )}
-      {queryAlumnoCT.isLoading && (<CircularProgress />)}
-      {loaded && (
-        <EstudiantePage
-          grado={integrantes.grado}
-          matricula={matricula}
-          internosItems={integrantes.internos}
-          externosItems={integrantes.externos}
-        />
-      )}
-    </>
+    <EstudiantePage
+      grado={grado}
+      matricula={matricula}
+      DirectorTesis={user.estudiante?.nombreDirectorTesis ?? ''}
+      internosItems={data.internos}
+      externosItems={data.externos}
+    />
   );
 };
 export default Estudiante;

@@ -13,9 +13,9 @@ const enlacesImportantes = () => {
         {' '}
         <h3>Instrucciones</h3>
         <p>
-          A continuación, se presenta la información del estudiante, por favor
-          seleccione su respuesta y asegúrese de dar clic en el botón{' '}
-          <b>“guardar”</b>.
+          A continuación, se presenta la información del/la estudiante que le ha
+          invitado a ser parte de su consejo tutelar, por favor seleccione su
+          respuesta y asegúrese de dar clic en el botón <b>“guardar”</b>.
         </p>
       </Grid>
     </Grid>
