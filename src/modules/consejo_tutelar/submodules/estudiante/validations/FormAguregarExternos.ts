@@ -6,14 +6,25 @@ const validationSchemaAsesorExterno = yup.object({
   apellidoPaterno: yup
     .string()
     .required('El apellido es requerido')
-    .matches(/^[aA-zZ\s]+$/, 'Solo se aceptan letras del alfabeto'),
+    .matches(
+      /[\p{Letter}\p{Mark}\s-]+/gu,
+      'Solo se aceptan letras del alfabeto'
+    ),
   apellidoMaterno: yup
     .string()
-    .matches(/^[aA-zZ\s]+$/, 'Solo se aceptan letras del alfabeto'),
+    .matches(
+      /[\p{Letter}\p{Mark}\s-]+/gu,
+      'Solo se aceptan letras del alfabeto'
+    ),
   nombre: yup
     .string()
     .required('El nombre es requerido')
-    .matches(/^[aA-zZ\s]+$/, 'Solo se aceptan letras del alfabeto'),
+    .matches(
+      /[\p{Letter}\p{Mark}\s-]+/gu,
+      'Solo se aceptan letras del alfabeto'
+    ),
+  // NOTE: Esta regex no permite numeros intermedios
+  // .matches(/^[\p{Letter}\p{Mark}\s-]+$/u, 'Solo se aceptan letras del alfabeto'),
   email: yup
     .string()
     .email('No es valido el correo electrónico')
