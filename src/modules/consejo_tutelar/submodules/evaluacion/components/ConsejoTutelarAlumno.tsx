@@ -1,8 +1,12 @@
 import { useQuery } from 'react-query';
+import { useGetIntegrantesCTEliminados } from '../queries';
 import { ConsejoTutelarQuerys } from '@modules/consejo_tutelar/queries';
 import { useRecoilValue } from 'recoil';
 import { estudianteCTState } from '../recoil';
 import {
+  Card,
+  CardHeader,
+  CardContent,
   Stack,
   Container,
   Box,
@@ -15,6 +19,8 @@ import {
 import { Perfil, LoadCTChildrem } from '.';
 import { IntegranteCT } from '@modules/consejo_tutelar/types';
 import { SeccionEvaluacion } from '@modules/consejo_tutelar/components';
+import { Rechazado } from '../types';
+import { EcosurProfileCard } from 'ecosur-ui';
 
 function getStep(status: number): number {
   if (status > 4) return status - 2;
@@ -51,6 +57,47 @@ const ProcesoCT = () => {
   );
 };
 
+const SeccionRechazados = () => {
+  const estudiante = useRecoilValue(estudianteCTState);
+  const matricula = estudiante.Matricula;
+  const { data, isLoading, error } = useGetIntegrantesCTEliminados(matricula);
+  if (isLoading) return <CircularProgress />;
+  if (error) return <Alert>Error al cargar el status del proceso actual</Alert>;
+  const cantidad = data.length;
+  if (cantidad == 0) return <></>;
+  return (
+    <div>
+      <h3 style={{ color: 'rgb(197, 107, 22) !important' }}>
+        Integrantes rechazados
+      </h3>
+
+      {data[0].Rechazados.map((integrante: Rechazado, index: number) => (
+        <Card
+          key={`ct-rechazado-${index}`}
+          variant="outlined"
+          style={{ marginBottom: '20px' }}
+        >
+          <CardHeader
+            title={`${integrante.Academico.Grado} ${integrante.Academico.Nombre} ${integrante.Academico.ApellidoPaterno} ${integrante.Academico.ApellidoMaterno}`}
+            subheader={`Rechazado por el ${integrante.RolQueRechazo}`}
+          />
+
+          <CardContent>
+            <EcosurProfileCard
+              data={{
+                'Razon de rechazo': integrante.RazonRechazo,
+                Ronda: integrante.Ronda,
+              }}
+              color="#fff"
+              titleColor="#555555"
+            />
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+};
+
 export const ConsejoTutelarAlumnoBase: React.FC<
   React.PropsWithChildren<{ integrantes: IntegranteCT[] }>
 > = ({ integrantes, children }) => {
@@ -68,6 +115,7 @@ export const ConsejoTutelarAlumnoBase: React.FC<
           integrantes={integrantes}
           btnHide
         />
+        <SeccionRechazados />
         {children}
       </Stack>
     </Container>
