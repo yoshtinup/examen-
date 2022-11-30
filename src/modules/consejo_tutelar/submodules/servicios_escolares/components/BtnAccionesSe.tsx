@@ -6,8 +6,10 @@ import {
   FormControlLabel,
   ButtonGroup,
   Checkbox,
+  TextareaAutosize,
 } from '@mui/material';
 import { EcosurFullDialog } from 'ecosur-ui';
+import { padding } from '@mui/system';
 
 const consejoTutelar = [
   {
@@ -59,7 +61,9 @@ const BtnAccionesSe: FC<PropsWithChildren<BtnAccionesSe>> = ({
   const handleToggleCartas = () => setOpenCartas(!openCartas);
   return (
     <>
-      <Button onClick={handleToggleCartas}>{label}</Button>
+      <Button size="small" onClick={handleToggleCartas}>
+        {label}
+      </Button>
       <EcosurFullDialog
         id={'ct-generar-cargas'}
         title="Generar Cartas"
@@ -76,7 +80,7 @@ const BtnAccionesSe: FC<PropsWithChildren<BtnAccionesSe>> = ({
                   checked={checkedState[index]}
                   onChange={() => handleOnChangeCT(index)}
                   control={<Checkbox />}
-                  label={`${nombre}(${participacion}, ${status})`}
+                  label={`${nombre} (${participacion}, ${status})`}
                 />
               )
             )}
@@ -90,7 +94,7 @@ const BtnAccionesSe: FC<PropsWithChildren<BtnAccionesSe>> = ({
 };
 
 type Cartas = {
-  matricula: number;
+  estudiante: boolean;
   integrantes: number[];
 };
 
@@ -99,21 +103,19 @@ type ModificacionCt = {
   comentario: string;
 };
 
-export default function Page() {
+interface Props {
+  otherButttons: JSX.Element;
+}
+
+export default function Page({ otherButttons }: Props) {
   const [checkedEstudiante, setCheckedEstudiante] = useState<boolean>(false);
-  const [matricula, setMatricula] = useState<number>(0);
   const handleOnChangeEstudiante = () => {
     const currentState = !checkedEstudiante;
     setCheckedEstudiante(currentState);
-    if (currentState) {
-      setMatricula(estudiante.matricula);
-      return;
-    }
-    setMatricula(0);
   };
   const handleOnSubmitCartas = (ids: number[]) => {
     const cartas: Cartas = {
-      matricula: matricula,
+      estudiante: checkedEstudiante,
       integrantes: ids,
     };
     console.log(cartas);
@@ -130,9 +132,10 @@ export default function Page() {
   return (
     <div>
       <ButtonGroup variant="contained" aria-label="Disabled elevation buttons">
+        {otherButttons}
         <BtnAccionesSe
           onSubmit={handleOnSubmitCartas}
-          label="Gerarar Cartas"
+          label="Generar Cartas"
           labelSubmit="Generar cartas"
         >
           <h3>Alumno</h3>
@@ -149,7 +152,11 @@ export default function Page() {
           label="Modificar consejo tutelar"
           labelSubmit="Borrar integrantes"
         >
-          <h1>Incluir comentario!!</h1>
+          <h3>Justificación del cambio</h3>
+          <TextareaAutosize
+            minRows={10}
+            maxRows={10}
+          ></TextareaAutosize>
         </BtnAccionesSe>
       </ButtonGroup>
     </div>

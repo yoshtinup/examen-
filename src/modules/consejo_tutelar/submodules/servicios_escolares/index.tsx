@@ -47,8 +47,8 @@ const item = [
 
 const ServiciosEscolaresIndex: React.FC<{
   rows: Data;
-  updateCompleted: any;
-  chargeGenerations?: any;
+  updateCompleted: () => void;
+  chargeGenerations?: any; // Aún por resolver
 }> = ({ rows, updateCompleted, chargeGenerations }) => {
   const queryClient = new QueryClient();
   const rowsInProccess: EnProceso[] = rows.EnProceso;

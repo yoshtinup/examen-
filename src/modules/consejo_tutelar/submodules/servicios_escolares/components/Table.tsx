@@ -11,6 +11,7 @@ import {
 } from '@mui/x-data-grid';
 import { EnProceso, Concluidos } from '../types';
 import React from 'react';
+import Page from './BtnAccionesSe';
 
 const ButtonRedirect: React.FC<{ matricula: number }> = ({ matricula }) => {
   const router = useRouter();
@@ -20,9 +21,9 @@ const ButtonRedirect: React.FC<{ matricula: number }> = ({ matricula }) => {
   return (
     <Button
       variant="contained"
-      color="success"
+      color="primary"
       size="small"
-      startIcon={<AccountBoxIcon />}
+      // startIcon={<AccountBoxIcon />}
       onClick={handleClickRow}
     >
       Detalles
@@ -32,7 +33,7 @@ const ButtonRedirect: React.FC<{ matricula: number }> = ({ matricula }) => {
 
 const Table: React.FC<{
   rows: EnProceso[] | Concluidos[];
-  list?: any;
+  list?: (id: number[]) => void;
   actionColumn?: boolean;
 }> = ({ rows, list, actionColumn = false }) => {
   const [checkboxSelection, setCheckboxSelection] = React.useState(true);
@@ -94,9 +95,13 @@ const Table: React.FC<{
       headerName: 'Opciones',
       sortable: false,
       renderCell: (params: GridCellParams) => (
-        <ButtonRedirect matricula={params.row.Matricula} />
+        <>
+          <Page
+            otherButttons={<ButtonRedirect matricula={params.row.Matricula} />}
+          />
+        </>
       ),
-      width: 150,
+      width: 500,
     });
   }
 
@@ -114,7 +119,8 @@ const Table: React.FC<{
       disableSelectionOnClick
       onSelectionModelChange={newSelectionModel => {
         setSelectionModel(newSelectionModel);
-        list(newSelectionModel);
+        const selected = newSelectionModel as number[];
+        list(selected);
       }}
       selectionModel={selectionModel}
       className="datagrid"
