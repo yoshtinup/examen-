@@ -12,6 +12,7 @@ export interface PersonalAcademicoItem extends PersonalAcademico {
 
 export interface AsesorExterno extends PersonalAcademico {
   email: string;
+  idGenero: number;
   institucion: string;
   grado: string;
   idParticipacion: number;
