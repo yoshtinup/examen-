@@ -7,6 +7,8 @@ import {
   Message,
   EvaluacionIntegrante,
   EvaluacionComite,
+  Cartas,
+  ModificacionCt,
 } from '../types';
 
 /**
@@ -111,6 +113,23 @@ class ConsejoTutelarQuerys extends ApiQuerys {
     );
     return msg;
   }
+
+   /**
+   * Evaluacion de un CT por parte del comite de Ecosur
+   * @param matricula - de un alumno con consejo tutelar
+   * @param evaluacion - informacion de rechazo o aceptacion por integrante de un CT
+   * @returns (Promise<Message>) Menaeje satisfactorio de error
+   */
+    async accionesSE(
+      data: Cartas | ModificacionCt,
+      matricula: number
+    ): Promise<any> {
+      const msg = await this.api<Message>(
+        `registrar/evaluacion/${matricula}`,
+        this.getJsonRequest(data, 'PUT')
+      );
+      return msg;
+    }
 }
 
 /* const { isLoading, isSuccess, isError, data, error, refetch } = */

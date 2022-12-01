@@ -1,3 +1,4 @@
+import { useQuery } from 'react-query';
 import { hasuraClient } from '@shared/queries';
 import { gql } from 'graphql-request';
 
@@ -63,6 +64,25 @@ export async function getALLConformacionesCT(idGeneracion: number = 0) {
       }
     `,
     { idGeneracion }
+  );
+  return result;
+}
+
+export async function getCT(matricula: number) {
+  const result = await hasuraClient.request(
+    gql`
+      query ConsejoTutelar($matricula: Int!) {
+        Integrantes: db18_vw_CTAlumnosAsesores(
+          where: { Matricula: { _eq: $matricula } }
+        ) {
+          IdTutorSinodal
+          Participacion
+          Nombre
+          EstatusIndividual
+        }
+      }
+    `,
+    { matricula }
   );
   return result;
 }

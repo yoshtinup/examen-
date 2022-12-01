@@ -1,3 +1,3 @@
-export { getALLConformacionesCT } from './hasura';
+export { getALLConformacionesCT, getCT } from './hasura';
 import ServiciosEscolaresQuerys from './apiRest';
 export { ServiciosEscolaresQuerys };

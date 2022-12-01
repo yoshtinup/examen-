@@ -1,12 +1,10 @@
 import { useRouter } from 'next/router';
 import { Button } from '@mui/material';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import {
   DataGrid,
   GridColDef,
   GridCellParams,
   GridToolbar,
-  GridRowParams,
   GridSelectionModel,
 } from '@mui/x-data-grid';
 import { EnProceso, Concluidos } from '../types';
@@ -97,6 +95,7 @@ const Table: React.FC<{
       renderCell: (params: GridCellParams) => (
         <>
           <Page
+            matricula={params.row.Matricula}
             otherButttons={<ButtonRedirect matricula={params.row.Matricula} />}
           />
         </>
