@@ -22,6 +22,7 @@ import {
   grados,
   participacion,
   sni,
+  generos,
 } from '@modules/consejo_tutelar/submodules/estudiante/validations';
 
 const btnLabelFilePicker = 'Seleccionar curriculum vitae';
@@ -189,6 +190,13 @@ const FormAgregarExterno: React.FC<FormAgregarProps> = ({
                 direction="row"
                 spacing={2}
               >
+                <Field
+                  fullWidth
+                  label="Genero"
+                  name="idGenero"
+                  options={generos}
+                  component={EcosurFormSelect}
+                />
                 <Field
                   fullWidth
                   label="Grado académico actual"

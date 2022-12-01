@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { useGetIntegrantesCTEliminados } from '../queries';
+import { useGetIntegrantesCTRechazados } from '../queries';
 import { ConsejoTutelarQuerys } from '@modules/consejo_tutelar/queries';
 import { useRecoilValue } from 'recoil';
 import { estudianteCTState } from '../recoil';
@@ -60,7 +60,7 @@ const ProcesoCT = () => {
 const SeccionRechazados = () => {
   const estudiante = useRecoilValue(estudianteCTState);
   const matricula = estudiante.Matricula;
-  const { data, isLoading, error } = useGetIntegrantesCTEliminados(matricula);
+  const { data, isLoading, error } = useGetIntegrantesCTRechazados(matricula);
   if (isLoading) return <CircularProgress />;
   if (error) return <Alert>Error al cargar el status del proceso actual</Alert>;
   const cantidad = data.length;
