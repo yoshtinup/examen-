@@ -28,10 +28,6 @@ const ButtonRedirect: React.FC<{ matricula: number }> = ({ matricula }) => {
 };
 
 const columns: GridColDef[] = [
-  { field: 'nombre', headerName: 'Nombre', width: 250 },
-  { field: 'programa', headerName: 'Programa', width: 500 },
-  { field: 'orientacion', headerName: 'Orientación', width: 250 },
-  { field: 'generacion', headerName: 'Generación' },
   {
     field: 'action',
     headerName: 'Opciones',
@@ -41,6 +37,10 @@ const columns: GridColDef[] = [
     ),
     width: 150,
   },
+  { field: 'nombre', headerName: 'Nombre', width: 250 },
+  { field: 'programa', headerName: 'Programa', width: 500 },
+  { field: 'orientacion', headerName: 'Orientación', width: 250 },
+  { field: 'generacion', headerName: 'Generación' },
 ];
 
 const Table: React.FC<{ rows: Alumno[] }> = ({ rows }) => {

@@ -6,6 +6,17 @@ export {
 export { ConformacionCT } from './conformacionCT';
 export type { ValidadorCT } from './conformacionCT';
 
+export const generos = [
+  {
+    value: 1,
+    label: 'Masculino',
+  },
+  {
+    value: 2,
+    label: 'Femenino',
+  },
+];
+
 export const grados = [
   {
     value: 'Doctorado',
@@ -29,6 +40,10 @@ export const participacion = [
 ];
 
 export const sni = [
+  {
+    value: 'no aplica',
+    label: 'No aplica',
+  },
   {
     value: 'candidato',
     label: 'Candidato',
