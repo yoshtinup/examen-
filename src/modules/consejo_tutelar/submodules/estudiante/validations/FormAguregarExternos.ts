@@ -29,6 +29,9 @@ const validationSchemaAsesorExterno = yup.object({
     .string()
     .email('No es valido el correo electrónico')
     .required('El correo electrónico es requerido'),
+  idGenero: yup
+    .number()
+    .required('El genero es requerido, por favor seleccione uno'),
   institucion: yup.string().required('El institución es requerida'),
   grado: yup.string().required('El grado es requerido'),
   idParticipacion: yup.number().required('la participación es requerida'),
@@ -55,6 +58,7 @@ const initialValuesAsesorExterno: AsesorExterno = {
   apellidoMaterno: '',
   nombre: '',
   email: '',
+  idGenero: 1,
   institucion: '',
   grado: 'Maestría',
   idParticipacion: 2,

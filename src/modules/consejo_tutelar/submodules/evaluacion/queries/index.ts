@@ -27,17 +27,17 @@ export function useGetEstudianteCTEstatus(matricula: number) {
   );
 }
 
-export function useGetIntegrantesCTEliminados(matricula: number) {
+export function useGetIntegrantesCTRechazados(matricula: number) {
   return useQuery<Rechazados[]>(
     ['ct-estudiante-rechazados', matricula],
     async () => {
       const { CT } = await hasuraClient.request(
         gql`
-          query integrantesCTEliminados($matricula: Int!) {
+          query integrantesCTRechazados($matricula: Int!) {
             CT: db18_CT_Conformacion(
               where: { Matricula: { _eq: $matricula } }
             ) {
-              Rechazados: db18_CT_IntegrantesEliminados {
+              Rechazados: db18_CT_IntegrantesRechazados {
                 RazonRechazo
                 Ronda
                 RolQueRechazo: Rol
