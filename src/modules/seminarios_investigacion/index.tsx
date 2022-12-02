@@ -1,6 +1,5 @@
-import { Alert, CircularProgress, Container, Box, Grid, Typography } from '@mui/material';
+import { Alert, CircularProgress, Container, Box, Typography, Button, Grid } from '@mui/material';
 import { Perfil } from '@shared/components';
-import { EcosurSectionTitle } from 'ecosur-ui';
 import { EcosurContainer } from 'ecosur-ui';
 import { CardCT } from './components/evaluacion';
 import { CardActividades } from './components/evaluacion';
@@ -10,9 +9,9 @@ import { CardEvaluacion } from './components/evaluacion';
 import { useGetDataInfo } from './queries';
 import { DataID } from './types';
 import Roles from '@definitions/Roles';
-
 import { useRecoilValue } from 'recoil';
 import { rolStateAtom } from '@modules/auth/recoil';
+import { useRouter } from 'next/router';
 
 const PerfilWithStatus: React.FC<{matricula: number, status: string, seminario: number}> = ({matricula, status, seminario}) => {
   const evaluacionSeminarioComponentes = [  
@@ -41,7 +40,7 @@ const PerfilWithStatus: React.FC<{matricula: number, status: string, seminario: 
   )
 }
 
-export const EvaluacionSeminarioWithoutFetch: React.FC<{ dataID: DataID[], idEvaluacionSeminario: number }> = ({
+export const DetallesSeminarioWithoutFetch: React.FC<{ dataID: DataID[], idEvaluacionSeminario: number }> = ({
   dataID, 
   idEvaluacionSeminario,
 }) => {    
@@ -54,16 +53,21 @@ export const EvaluacionSeminarioWithoutFetch: React.FC<{ dataID: DataID[], idEva
     );
   } else {
     const idAlumnosMaterias = dataID[0].IdAlumnosMaterias;
+    console.log(idAlumnosMaterias);
+    
     const idMatricula = dataID[0].alumno.Matricula;
     const status = dataID[0].estatus.value;
-
-
     const EcosurComponentesInformacion = [  
-      // SEGUNDA SECCIÓN
+      // SEGUNDA SECCIÓs
       // ACTIVIDADES Y ARCHIVOS
       {
         componente: 
-        <Box sx={{ pb: 2 }}>
+        <Box
+          sx={{
+            height: 1,
+            width: 1,
+          }}
+        >
           <CardActividades IdAlumnosMaterias={idAlumnosMaterias} />
         </Box>,
         width: 8,
@@ -89,41 +93,37 @@ export const EvaluacionSeminarioWithoutFetch: React.FC<{ dataID: DataID[], idEva
           <CardPrograma IdAlumnosMaterias={idAlumnosMaterias} />
         </Box>,
         width: 12,
-      },  
-      // CUARTA SECCIÓN
-      // EVALUACION
-      {
-        componente: 
-        <Box sx={{ pb: 2 }}>
-          <CardEvaluacion IdAlumnosMaterias={idAlumnosMaterias} />
-        </Box>,
-        width: 12,
-      },         
+      },    
     ]
 
     return (
       <>
-        <EcosurSectionTitle label="Evaluación Seminario Investigación" variant="h5" />
-        <br />
         <Container maxWidth="xl" sx={{ bgcolor: 'background.default', border: 'none' }}>
-          {currentRol !== Roles.Estudiante && (
-            <PerfilWithStatus matricula={idMatricula} status={status} seminario={idEvaluacionSeminario} />
-          )}
-          {currentRol == Roles.Estudiante && (
+            {currentRol !== Roles.Estudiante && (
+              <PerfilWithStatus matricula={idMatricula} status={status} seminario={idEvaluacionSeminario} />
+            )}
+            {currentRol == Roles.Estudiante && (
+              <Box sx={{ pb: 4 }}>
+                      <CardCT IdEvaluacionSeminario={idEvaluacionSeminario} />
+              </Box>
+            )}          
+            <EcosurContainer data={EcosurComponentesInformacion}  />    
             <Box sx={{ pb: 2 }}>
-                    <CardCT IdEvaluacionSeminario={idEvaluacionSeminario} />
+              <CardEvaluacion IdAlumnosMaterias={idAlumnosMaterias} />              
             </Box>
-          )}          
-            <EcosurContainer data={EcosurComponentesInformacion}  />                  
         </Container>
       </>
     );
   }
 }; // CardCTWithoutFetch
 
-const EvaluacionSeminarioInvestigacion: React.FC<{
+const DetallesSeminarioInvestigacion: React.FC<{
   idEvaluacionSeminario: number;
 }> = ({ idEvaluacionSeminario: idEvaluacionSeminario }) => {
+  const router = useRouter();
+  const handleClickRow = () => {
+    router.push(`/seminarios_investigacion`);
+  };
   const { data, isError, isLoading, isSuccess } = useGetDataInfo(idEvaluacionSeminario);
   if (isError)
     return (
@@ -139,10 +139,15 @@ const EvaluacionSeminarioInvestigacion: React.FC<{
   return (
     <>
         <Box key={`ecosur-evaluacion-seminario-investigacion`} sx={{ border: 0 }}>
-            <EvaluacionSeminarioWithoutFetch dataID={dataID} idEvaluacionSeminario={idEvaluacionSeminario} />
+            <Grid container sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
+              <Grid item sx={{ pr: 2, pt: 2, pb: 2 }}>
+                <Button variant='contained' sx={{ mt: 2, mr: 1 }} size='medium' onClick={handleClickRow}>Regresar</Button>
+              </Grid>  
+            </Grid>   
+            <DetallesSeminarioWithoutFetch dataID={dataID} idEvaluacionSeminario={idEvaluacionSeminario} />
         </Box>
     </>       
   );
 };
 
-export default EvaluacionSeminarioInvestigacion;
+export default DetallesSeminarioInvestigacion;

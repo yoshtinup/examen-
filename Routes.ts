@@ -18,7 +18,15 @@ const Routes: RoutesProps[] = [
       Roles.Coordinacion_General_Posgrado,
       Roles.Servicios_Escolares,
     ],
+  },
+  {
+    path: '/seminarios_investigacion',
+    all_math: true,
+    roles: [
+      Roles.Servicios_Escolares,
+    ],
   }
 ];
 
 export default Routes;
+

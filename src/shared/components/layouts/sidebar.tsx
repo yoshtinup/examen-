@@ -30,7 +30,7 @@ const items: ItemsNav[] = [
     title: 'Consejo Tutelar',
   },
   {
-    href: '/evaluacion_seminarios_investigacion',
+    href: 'seminarios_investigacion',
     icon: <Icon />,
     title: 'Seminario Investigación',
   },

@@ -50,7 +50,7 @@ export const CardArchivos: React.FC<{
   }
   return (
     <>
-      <Card key={`ecosur-card-archivos-1`}>
+      <Card key={`ecosur-card-archivos`}>
           <CardArchivosWithoutFetch archivos={archivosInfo} bgColor={bgColor} />
       </Card>
     </>       

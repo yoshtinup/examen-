@@ -56,18 +56,6 @@ const EcosurCardArchivos = ({
           },
         }}
       >
-        {img ? (
-          <Grid item justifyContent='center' alignItems='center' bgcolor={color}>
-            <CardMedia
-              component='img'
-              image={img}
-              alt='Foto'
-              sx={{ width: 120, height: 120, margin: 'auto' }}
-            />
-          </Grid>
-        ) : (
-          ''
-        )}
         <Grid item sm sx={{ p: 2 }}>
           <Grid
             container

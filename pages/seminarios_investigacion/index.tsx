@@ -1,11 +1,12 @@
 import type { ReactElement } from 'react'
-import EvaluacionSeminarioInvestigacion from '@modules/seminarios_investigacion';
+import SeminariosEvaluacion from '@modules/seminarios_investigacion/submodules/servicios_escolares';
 import { Layout } from '@shared/components/layouts';
+import React from 'react';
 
 const Page = () => {
   return (
     <div>
-      <EvaluacionSeminarioInvestigacion idEvaluacionSeminario={340} />
+        <SeminariosEvaluacion />    
     </div>
   );
 };
