@@ -1,14 +1,9 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import { userStateAtom, rolStateAtom } from '@modules/auth/recoil';
-import Roles from '@definitions/Roles';
 import { jwtVerify } from 'jose';
-import jwt from 'jsonwebtoken';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
-import { AuthCode } from '@modules/auth/definitions/usuarioPosgrado';
-import { QueryClient } from 'react-query';
-import { authCode } from '@modules/auth/queries';
 import Routes from 'Routes';
 
 const DataComponent = () => {
@@ -34,11 +29,11 @@ const DataComponent = () => {
       !userCookie ||
       !jwtEcosurCookie
     ) {
-      return router.push('/login');
+      return router.push(`/login?redirect=${router.query.redirect}`);
     }
 
     try {
-      const decodeSelectedRolToken = await jwtVerify(
+      const decodeSelectedRol = await jwtVerify(
         selectedRolCookie,
         new TextEncoder().encode(process.env.JWT_SECRET)
       );
@@ -52,7 +47,7 @@ const DataComponent = () => {
       );
       const user = decodeUser.payload.user as object;
       const userRoles = decodeUserRoles.payload.userRoles as Array<number>;
-      const selectedRol = decodeSelectedRolToken.payload.selectedRol as number;
+      const selectedRol = decodeSelectedRol.payload.selectedRol as number;
       /* const roles: any = userRoles.map((value: Roles) => {
         return Roles[value];
       }); */
@@ -93,7 +88,7 @@ const DataComponent = () => {
       Cookies.remove('ecosurToken');
       if (error?.code) {
         setTimeout(() => {
-          router.push('/login');
+          router.push(`/login?redirect=${router.query.redirect}`);
         }, 10000);
         return;
       }

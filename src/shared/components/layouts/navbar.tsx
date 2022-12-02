@@ -5,6 +5,7 @@ import {
   Avatar,
   Box,
   IconButton,
+  InputLabel,
   Toolbar,
   Tooltip,
 } from '@mui/material';
@@ -13,6 +14,10 @@ import SearchIcon from '@mui/icons-material/Search';
 /* import { UserCircle as UserCircleIcon } from '../icons/user-circle'; */
 import UserCircleIcon from '@mui/icons-material/AccountCircle';
 import { AccountPopover } from './account-popover';
+import React from 'react';
+import { useRecoilValue } from 'recoil';
+import { EcosurAuth } from '@modules/auth/definitions';
+import { userStateAtom } from '@modules/auth/recoil';
 
 const NavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background,
@@ -23,12 +28,10 @@ type NavbarProps = {
   onSidebarOpen: () => void;
 };
 
-export const Navbar: FC<NavbarProps> = ({
-  onSidebarOpen,
-  ...other
-}) => {
+export const Navbar: FC<NavbarProps> = ({ onSidebarOpen, ...other }) => {
   const settingsRef = useRef(null);
   const [openAccountPopover, setOpenAccountPopover] = useState(false);
+  const user: EcosurAuth = useRecoilValue(userStateAtom);
 
   return (
     <>
@@ -68,6 +71,7 @@ export const Navbar: FC<NavbarProps> = ({
             </IconButton>
           </Tooltip>
           <Box sx={{ flexGrow: 1 }} />
+          <InputLabel className='text-white'>{user?.personal?.nombreCompleto || user?.estudiante?.nombreCompleto}</InputLabel>
           <Avatar
             onClick={() => setOpenAccountPopover(true)}
             ref={settingsRef}
