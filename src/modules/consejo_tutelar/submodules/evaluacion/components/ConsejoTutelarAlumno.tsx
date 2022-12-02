@@ -41,7 +41,12 @@ const ProcesoCT = () => {
     }
   );
   if (isLoading) return <CircularProgress />;
-  if (error) return <Alert>Error al cargar el status del proceso actual</Alert>;
+  if (error)
+    return (
+      <Alert severity="error">
+        Error al cargar el status del proceso actual
+      </Alert>
+    );
   const step = getStep(estudiante.IdEstatusCT);
   return (
     <Box sx={{ width: '100%' }}>
@@ -62,7 +67,12 @@ const SeccionRechazados = () => {
   const matricula = estudiante.Matricula;
   const { data, isLoading, error } = useGetIntegrantesCTRechazados(matricula);
   if (isLoading) return <CircularProgress />;
-  if (error) return <Alert>Error al cargar el status del proceso actual</Alert>;
+  if (error)
+    return (
+      <Alert severity="error">
+        Error al cargar la seccion de integrantes rechazados
+      </Alert>
+    );
   const cantidad = data.length;
   if (cantidad == 0) return <></>;
   return (

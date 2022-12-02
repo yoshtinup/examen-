@@ -37,7 +37,7 @@ export function useGetIntegrantesCTRechazados(matricula: number) {
             CT: db18_CT_Conformacion(
               where: { Matricula: { _eq: $matricula } }
             ) {
-              Rechazados: db18_CT_IntegrantesRechazados {
+              Rechazados: CT_IntegrantesRechazados {
                 RazonRechazo
                 Ronda
                 RolQueRechazo: Rol
