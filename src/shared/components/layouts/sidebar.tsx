@@ -27,7 +27,7 @@ const items: ItemsNav[] = [
   {
     href: 'seminarios_investigacion',
     icon: <Icon />,
-    title: 'Seminario Investigación',
+    title: 'Seminarios de Investigación',
   },
 ];
 

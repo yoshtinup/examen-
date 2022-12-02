@@ -1,5 +1,5 @@
 import { Alert, CircularProgress, Container, Box, Typography, Button, Grid } from '@mui/material';
-import { Perfil } from '@shared/components';
+import { HeaderSection, Perfil } from '@shared/components';
 import { EcosurContainer, EcosurSectionTitle } from 'ecosur-ui';
 import { CardCT } from './components/evaluacion';
 import { CardActividades } from './components/evaluacion';
@@ -18,8 +18,8 @@ const PerfilWithStatus: React.FC<{matricula: number, status: string, seminario: 
     {
       componente:       
          <>
-          <Box sx={{ pb: 2 }}>
-            <Perfil matricula={matricula} />
+          <Box sx={{ pb: 2, mt: 4, mb: 2 }}>
+            <Perfil matricula={matricula}  />
             <Typography sx={{ pl: 3 }} component='div'>
               <b>Estatus de evaluación: </b> {status}
             </Typography>
@@ -78,7 +78,6 @@ export const DetallesSeminarioWithoutFetch: React.FC<{ dataID: DataID[], idEvalu
           sx={{
             height: 1,
             width: 1,
-            pb: 2,
           }}
           >
             <CardArchivos IdAlumnoMateria={idAlumnosMaterias} />
@@ -138,15 +137,15 @@ const DetallesSeminarioInvestigacion: React.FC<{
   }
   return (
     <>
-        <EcosurSectionTitle label="Evaluación Seminario Investigación" variant="h5" />
-        <Box key={`ecosur-evaluacion-seminario-investigacion`} sx={{ border: 0 }}>
-            <Grid container sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
-              <Grid item sx={{ pr: 2, pt: 2, pb: 2 }}>
-                <Button variant='contained' sx={{ mt: 2, mr: 1 }} size='medium' onClick={handleClickRow}>Regresar</Button>
-              </Grid>  
-            </Grid>   
-            <DetallesSeminarioWithoutFetch dataID={dataID} idEvaluacionSeminario={idEvaluacionSeminario} />
-        </Box>
+      <Box key={`ecosur-evaluacion-seminario-investigacion`} sx={{ border: 0 }}>
+      <HeaderSection label='Seguimiento de EVALUACIÓN DE SEMINARIOS DE INVESTIGACIÓN' />
+        <Grid container sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
+          <Grid item sx={{ pr: 2, pb: 2 }}>
+            <Button variant='contained' sx={{ mr: 1 }} size='medium' onClick={handleClickRow}>Regresar</Button>
+          </Grid>  
+        </Grid>   
+        <DetallesSeminarioWithoutFetch dataID={dataID} idEvaluacionSeminario={idEvaluacionSeminario} />
+      </Box>
     </>       
   );
 };

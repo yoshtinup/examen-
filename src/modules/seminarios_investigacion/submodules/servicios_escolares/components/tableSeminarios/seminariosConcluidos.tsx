@@ -73,22 +73,13 @@ export const TableSeminariosConcluidosWithoutFetch: React.FC<{ seminarios: Concl
       { field: 'unidad', headerName: 'Unidad', width: 120 },
       { field: 'seminario', headerName: 'Seminario', width: 280 },
       { field: 'periodo', headerName: 'Periodo', width: 160 },
-      { field: 'opciones', headerName: 'Opciones', sortable: false, width: 200,
+      { field: 'opciones', headerName: 'Opciones', sortable: false, width: 120,
         renderCell: (params) => {
           const handleClickRow = () => {
             router.push(`/seminarios_investigacion/${params.id}`);
           };
                 
-          return (
-            <Grid container sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              <Grid item sx={{ pr: 1 }}>
-                <Button variant='contained' onClick={handleClickRow} size='small'>Detalles</Button>
-              </Grid>  
-              <Grid item>
-                <Button variant='contained' onClick={handleClickRow} color='info' size='small'>Acta</Button>
-              </Grid>                
-            </Grid>  
-          );
+          return <Button variant='contained' onClick={handleClickRow} size='small'>Detalles</Button>
         },
       },
     ];
