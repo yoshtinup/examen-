@@ -1,6 +1,6 @@
 import { Alert, CircularProgress, Container, Box, Typography, Button, Grid } from '@mui/material';
 import { Perfil } from '@shared/components';
-import { EcosurContainer } from 'ecosur-ui';
+import { EcosurContainer, EcosurSectionTitle } from 'ecosur-ui';
 import { CardCT } from './components/evaluacion';
 import { CardActividades } from './components/evaluacion';
 import { CardPrograma } from './components/evaluacion';
@@ -108,7 +108,7 @@ export const DetallesSeminarioWithoutFetch: React.FC<{ dataID: DataID[], idEvalu
               </Box>
             )}          
             <EcosurContainer data={EcosurComponentesInformacion}  />    
-            <Box sx={{ pb: 2 }}>
+            <Box sx={{ pb: 2, pt: 2 }}>
               <CardEvaluacion IdAlumnosMaterias={idAlumnosMaterias} />              
             </Box>
         </Container>
@@ -138,6 +138,7 @@ const DetallesSeminarioInvestigacion: React.FC<{
   }
   return (
     <>
+        <EcosurSectionTitle label="Evaluación Seminario Investigación" variant="h5" />
         <Box key={`ecosur-evaluacion-seminario-investigacion`} sx={{ border: 0 }}>
             <Grid container sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
               <Grid item sx={{ pr: 2, pt: 2, pb: 2 }}>

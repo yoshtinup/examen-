@@ -58,7 +58,7 @@ export const CardProgramaWithoutFetch: React.FC<{ cronograma: Evaluacion[], bgCo
     ]
     return (
       <Box>
-        <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
+        <Grid container sx={{ display: 'flex', flexDirection: 'column', pt: 3 }}>
            <Typography component='div'>
             <Grid container sx={{ display: 'flex', flexDirection: 'row', bgcolor: 'background.default' }}>
               <Box sx={{ p: 0 }}>
