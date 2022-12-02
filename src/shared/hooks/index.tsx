@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Swal from 'sweetalert2';
 import Roles from '@definitions/Roles';
 import { useRecoilValue } from 'recoil';
 import { rolStateAtom } from '@modules/auth/recoil';
@@ -24,3 +25,17 @@ export const WithRoles =
     }
     return null;
   };
+
+/**
+ * @param msg - mensaje para mostrar mientras se carga contenido
+ */
+export function showLoading(msg: string) {
+  Swal.fire({
+    title: 'Guardando',
+    html: msg,
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading(null);
+    },
+  });
+}

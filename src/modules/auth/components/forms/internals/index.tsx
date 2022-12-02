@@ -18,10 +18,12 @@ import jwt from 'jsonwebtoken';
 
 type Props = {
   rolesActive: boolean;
+  instructions: React.ReactNode;
 };
 
 export const LoginInternals: React.FC<React.PropsWithChildren<Props>> = ({
   rolesActive,
+  instructions,
 }) => {
   const schema = Yup.object().shape({
     rol: Yup.number()
@@ -38,8 +40,16 @@ export const LoginInternals: React.FC<React.PropsWithChildren<Props>> = ({
     'response_mode=query';
 
   const handleRequest = (data: any) => {
+    const today = new Date();
+    const beforeOneMonth = new Date().setMonth(today.getMonth() + 1);
+    const exp = beforeOneMonth - today.getTime();
+    const days = Math.ceil(exp / (1000 * 3600 * 24));
     const token = jwt.sign({ selectedRol: data.rol }, process.env.JWT_SECRET);
-    Cookies.set('selectedRol', token, { expires: 1 });
+    Cookies.set('selectedRol', token, {
+      expires: days,
+      samesite: 'Lax',
+      secure: true,
+    });
     router.push(`${process.env.LOGIN_MICROSOFT}/authorize?${params}`);
   };
 
@@ -59,27 +69,15 @@ export const LoginInternals: React.FC<React.PropsWithChildren<Props>> = ({
                 position: 'relative',
                 textAlign: 'center',
                 width: '360px',
+                padding: '38px 0px 5px 0px',
+                borderRadius: '2px',
               }}
             >
-              <Image
-                src="/icons/ecosur.svg"
-                alt="ECOSUR"
-                width={110}
-                height={150}
-              />
-              <p style={{ margin: '0px 0px 30px 0px', textAlign: 'justify' }}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Vestibulum quis est ex. Quisque non maximus elit, in malesuada
-                lacus. Curabitur non ornare lacus. Ut id arcu a augue eleifend
-                molestie ut sed erat. Donec et pharetra neque, a imperdiet
-                dolor. Sed at elit eget nibh malesuada dignissim quis et odio.
-                Suspendisse vehicula justo id felis tempor, et efficitur orci
-                condimentum.
-              </p>
+              {instructions}
               <div
                 style={
                   rolesActive
-                    ? { margin: '0px 0px 30px 0px' }
+                    ? { margin: '0px 0px 10px 0px' }
                     : { display: 'none' }
                 }
               >
@@ -94,7 +92,7 @@ export const LoginInternals: React.FC<React.PropsWithChildren<Props>> = ({
                     name="rol-select"
                   >
                     <MenuItem value={0} disabled>
-                      Selecciona un rol
+                      Seleccione un rol
                     </MenuItem>
                     <MenuItem
                       value={Roles.Academico}
@@ -149,8 +147,9 @@ export const LoginInternals: React.FC<React.PropsWithChildren<Props>> = ({
                   width={100}
                   height={40}
                   style={{
-                    background: '#ededed',
+                    background: '#fff',
                     borderRadius: '5px',
+                    border: '1px solid #ddd',
                     cursor: 'pointer',
                   }}
                 />

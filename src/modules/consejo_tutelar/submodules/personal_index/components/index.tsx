@@ -22,39 +22,32 @@ const ButtonRedirect: React.FC<{ matricula: number }> = ({ matricula }) => {
       startIcon={<AccountBoxIcon />}
       onClick={handleClickRow}
     >
-      Evaluar
+      Ver
     </Button>
   );
 };
 
-const columnsDefault: GridColDef[] = [
-  { field: 'matricula', headerName: 'Matricula', width: 92 },
+const columns: GridColDef[] = [
+  {
+    field: 'action',
+    headerName: 'Opciones',
+    sortable: false,
+    renderCell: (params: GridCellParams) => (
+      <ButtonRedirect matricula={params.row.matricula} />
+    ),
+    width: 150,
+  },
   { field: 'nombre', headerName: 'Nombre', width: 250 },
-  { field: 'orientacion', headerName: 'Orientacion', width: 250 },
-  { field: 'programa', headerName: 'Programa', width: 250 },
-  { field: 'generacion', headerName: 'Generacion' },
-  { field: 'leyendaEstatusGeneral', headerName: 'Estatus', width: 250 },
+  { field: 'programa', headerName: 'Programa', width: 500 },
+  { field: 'orientacion', headerName: 'Orientación', width: 250 },
+  { field: 'generacion', headerName: 'Generación' },
 ];
 
-const Table: React.FC<{ rows: Alumno[]; actionColumn?: boolean }> = ({
-  rows,
-  actionColumn = false,
-}) => {
-  const columns = [...columnsDefault];
-  if (actionColumn) {
-    columns.push({
-      field: 'action',
-      headerName: 'Action',
-      sortable: false,
-      renderCell: (params: GridCellParams) => (
-        <ButtonRedirect matricula={params.row.matricula} />
-      ),
-      width: 150,
-    });
-  }
+const Table: React.FC<{ rows: Alumno[] }> = ({ rows }) => {
   return (
-    <div style={{ height: '80vh', width: '100%' }}>
+    <div style={{ width: '100%', backgroundColor: 'white' }}>
       <DataGrid
+        className="datagrid"
         /* checkboxSelection */
         getRowId={row => row.matricula}
         rows={rows}

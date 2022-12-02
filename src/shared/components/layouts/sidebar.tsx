@@ -20,11 +20,6 @@ type ItemsNav = {
 
 const items: ItemsNav[] = [
   {
-    href: '/',
-    icon: <Icon />,
-    title: '',
-  },
-  {
     href: '/consejo_tutelar',
     icon: <Icon />,
     title: 'Consejo Tutelar',
@@ -41,10 +36,7 @@ type SidebarProps = {
   open: boolean;
 };
 
-export const Sidebar: FC<SidebarProps> = ({
-  open,
-  onClose,
-}) => {
+export const Sidebar: FC<SidebarProps> = ({ open, onClose }) => {
   const router = useRouter();
   const lgUp = useMediaQuery((theme: Theme) => theme.breakpoints.up('lg'), {
     defaultMatches: true,
@@ -75,41 +67,20 @@ export const Sidebar: FC<SidebarProps> = ({
         }}
       >
         <div>
-          <Box sx={{ p: 3 }}>
+          <Box
+            sx={{ p: 3 }}
+            style={{ borderBottom: '1px solid #ddd', textAlign: 'center' }}
+          >
             <NextLink href="/" passHref>
-              <a>logo</a>
+              <img
+                id="logoEcosur"
+                src="https://estancias-estudiantes-externos.ecosur.mx/static/media/logo-ecosur.1e134fb2163d7df4654a.png"
+                alt="logo"
+              />
             </NextLink>
           </Box>
-          <Box sx={{ px: 2 }}>
-            <Box
-              sx={{
-                alignItems: 'center',
-                backgroundColor: 'rgba(255, 255, 255, 0.04)',
-                cursor: 'pointer',
-                display: 'flex',
-                justifyContent: 'space-between',
-                px: 3,
-                py: '11px',
-                borderRadius: 1,
-              }}
-            >
-              <div>
-                <Typography color="inherit" variant="subtitle1">
-                  Acme Inc
-                </Typography>
-                <Typography color="neutral.400" variant="body2">
-                  Your tier : Premium
-                </Typography>
-              </div>
-            </Box>
-          </Box>
         </div>
-        <Divider
-          sx={{
-            borderColor: '#2D3748',
-            my: 3,
-          }}
-        />
+
         <Box sx={{ flexGrow: 1 }}>
           {items.map((item: ItemsNav) => (
             <NavItem

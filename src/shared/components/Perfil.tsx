@@ -5,23 +5,28 @@ import { EcosurProfileCard } from 'ecosur-ui';
 import { EstudianteGql } from '../types';
 import { useGetEstudianteInfo } from '../queries';
 
-export const PerfilWithoutFetch: React.FC<{ estudiante: EstudianteGql }> = ({
+type PerfilWithoutFetchProps = {
+  estudiante: EstudianteGql;
+  infoExtra?: object;
+};
+
+export const PerfilWithoutFetch: React.FC<PerfilWithoutFetchProps> = ({
   estudiante,
+  infoExtra = {},
 }) => {
   const estudianteInfo = {
-    matricula: estudiante.Matricula,
-    nombre: `${estudiante.Datos.Nombre}, ${estudiante.Datos.ApellidoPaterno} ${estudiante.Datos.ApellidoMaterno}`,
-    'Año de estudio actual': estudiante.AnioDeEstudiosActual.value,
-    tesis: estudiante.Tesis,
-    unidad: estudiante.UnidadAdscripcion.value,
-    orientacion: estudiante.Orientacion.Nombre,
-    generacion: estudiante.Generacion.Value,
+    nombre: `${estudiante.Datos.Nombre}, ${estudiante.Datos.ApellidoPaterno} ${estudiante.Datos.ApellidoMaterno} (${estudiante.Datos.Email})`,
     programa: estudiante.Programa.NombreLargo,
-    correo: estudiante.Datos.Email,
-    'Director de tesis': `${estudiante.DirectorTesis[0].Persona.Nombre}, ${estudiante.DirectorTesis[0].Persona.ApellidoPaterno} ${estudiante.DirectorTesis[0].Persona.ApellidoMaterno}`,
+    orientación: estudiante.Orientacion.Nombre,
+    generación: estudiante.Generacion.Value,
+    'Año de estudio actual': estudiante.AnioDeEstudiosActual.value,
+    'Unidad de adscripción': estudiante.UnidadAdscripcion.value,
     Estatus: estudiante.Estatus,
+    tesis: estudiante.Tesis,
+    'Director/a de tesis': `${estudiante.DirectorTesis[0].Persona.Nombre}, ${estudiante.DirectorTesis[0].Persona.ApellidoPaterno} ${estudiante.DirectorTesis[0].Persona.ApellidoMaterno}`,
+    ...infoExtra,
   };
-  return <EcosurProfileCard data={estudianteInfo} />;
+  return <EcosurProfileCard data={estudianteInfo} titleColor="#555" />;
 };
 
 export const Perfil: React.FC<{

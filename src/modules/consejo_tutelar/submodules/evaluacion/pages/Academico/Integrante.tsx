@@ -1,25 +1,28 @@
 import React from 'react';
 import { useMutation } from 'react-query';
 import { useRecoilValue } from 'recoil';
-import { matriculaState } from '../../recoil';
+import { estudianteCTState } from '../../recoil';
+import Swal from 'sweetalert2';
+import { showLoading } from '@shared/hooks';
 import message from '../message';
-import ConsejoTutelarQuerys from '@modules/consejo_tutelar/queries';
+import { ConsejoTutelarQuerys } from '@modules/consejo_tutelar/queries';
 import * as yup from 'yup';
 import { Formik, FormikProps, Form, Field } from 'formik';
 import { EcosurFormSelect, EcosurFormTextField } from 'ecosur-ui';
 import { Button, Stack, Container } from '@mui/material';
-
+import { Grid } from '@mui/material';
 import { EvaluacionIntegrante } from '@modules/consejo_tutelar/types';
 import { Perfil } from '../../components';
+import InstruccionesEnlaces from './InstruccionesIntegranteCT';
 
 const options = [
   {
     value: true,
-    label: 'Aprobar',
+    label: 'ACEPTAR ser parte del consejo tutelar',
   },
   {
     value: false,
-    label: 'No aprobar',
+    label: 'NO ACEPTAR ser parte del consejo tutelar',
   },
 ];
 
@@ -29,7 +32,7 @@ const initialValues: EvaluacionIntegrante = {
 };
 
 const validationSchema = yup.object({
-  aprobo: yup.boolean().nullable(false).required('Es requerida una evaluacion'),
+  aprobo: yup.boolean().nullable(false).required('Es requerida su evaluación'),
   comentario: yup
     .string()
     .nullable(true)
@@ -38,7 +41,7 @@ const validationSchema = yup.object({
       then: yup
         .string()
         .nullable(false)
-        .required('Es necesarion agregar un comentario'),
+        .required('Es necesario agregar un comentario'),
     })
     .notRequired(),
 });
@@ -49,59 +52,92 @@ type EvaluacionIntegranteData = {
 };
 
 const Integrante = () => {
-  const matricula = useRecoilValue<number>(matriculaState);
-  const { mutate, isLoading } = useMutation(
+  const estudiante = useRecoilValue(estudianteCTState);
+  const matricula = estudiante.Matricula;
+  const [disabled, setDisabled] = React.useState<boolean>(
+    estudiante.IdEstatusCT != 2
+  );
+  const { mutate } = useMutation(
     async (e: EvaluacionIntegranteData) =>
       await ConsejoTutelarQuerys.integranteRevisar(e.matricula, e.evaluacion),
     {
-      onSuccess: () => message(),
+      onSuccess: () => {
+        Swal.close();
+        message();
+        setDisabled(true);
+      },
       onError: () => message(true),
     }
   );
   const handleSubmit = (evaluacion: EvaluacionIntegrante) => {
-    console.log(evaluacion);
     mutate({ matricula, evaluacion });
+    showLoading('Su evaluación esta siendo enviada, por favor espere.');
   };
 
   return (
-    <Container maxWidth="md">
-      {/* FIXME: @iocampo agregar instrucciones */}
-      <Perfil />
-      <Formik
-        initialValues={initialValues}
-        onSubmit={handleSubmit}
-        validationSchema={validationSchema}
+    <Container maxWidth="xl">
+      <Grid
+        container
+        direction="row"
+        justifyContent="flex-start"
+        alignItems="center"
+        id="SectionLogin"
+        style={{ padding: '15px 50px' }}
       >
-        {(formik: FormikProps<EvaluacionIntegrante>) => (
-          <Form>
-            <Stack spacing={2} sx={{ p: 5 }}>
-              <Field
-                fullWidth
-                name="aprobo"
-                label="Seleccionar opcion"
-                options={options}
-                component={EcosurFormSelect}
-              />
-              {!formik.values.aprobo && (
-                <Field
-                  fullWidth
-                  id="comentario"
-                  name="comentario"
-                  label="Comentario"
-                  multiline
-                  rows={10}
-                  variant="outlined"
-                  placeholder="Escriba a qui su comentario"
-                  component={EcosurFormTextField}
-                />
-              )}
-              <Button variant="contained" type="submit" sx={{ width: 250 }}>
-                Gruardar Evaluacion
-              </Button>
-            </Stack>
-          </Form>
+        <InstruccionesEnlaces />
+        <h4>Datos del/la estudiante</h4>
+        <Perfil />
+        {!disabled && (
+          <>
+            <h4>Aceptar/declinar ser parte del consejo tutelar</h4>
+            <Grid container>
+              <Grid item xs={5}>
+                <Formik
+                  initialValues={initialValues}
+                  onSubmit={handleSubmit}
+                  validationSchema={validationSchema}
+                >
+                  {(formik: FormikProps<EvaluacionIntegrante>) => (
+                    <Form>
+                      <Stack spacing={2} sx={{ p: 5 }}>
+                        <Field
+                          fullWidth
+                          name="aprobo"
+                          label="Seleccione una opción"
+                          options={options}
+                          component={EcosurFormSelect}
+                        />
+                        {!formik.values.aprobo && (
+                          <Field
+                            fullWidth
+                            id="comentario"
+                            name="comentario"
+                            label="Razón de no aceptación"
+                            multiline
+                            rows={10}
+                            variant="outlined"
+                            placeholder="Escriba la razón por la que no acepta ser parte del consejo tutelar del estudiante"
+                            component={EcosurFormTextField}
+                          />
+                        )}
+                        <Button
+                          variant="contained"
+                          style={{ marginTop: '60px' }}
+                          type="submit"
+                          disabled={disabled}
+                          sx={{ width: 250 }}
+                        >
+                          Guardar
+                        </Button>
+                      </Stack>
+                    </Form>
+                  )}
+                </Formik>
+              </Grid>
+            </Grid>
+          </>
         )}
-      </Formik>
+      </Grid>
     </Container>
   );
 };

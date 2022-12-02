@@ -5,6 +5,7 @@ import {
   AsesorExterno,
 } from '@modules/consejo_tutelar/types';
 import Stack from '@mui/material/Stack';
+import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -14,9 +15,11 @@ import IconButton from '@mui/material/IconButton';
 const Label: React.FC<{ label: string; value: any }> = ({ label, value }) => (
   <div>
     <Typography display="inline" sx={{ mr: 1 }}>
-      <b>{label}</b>
+      {label}
     </Typography>
-    <Typography display="inline">{value}</Typography>
+    <Typography display="inline" style={{ color: '#4a4a4a' }}>
+      {value}
+    </Typography>
   </div>
 );
 
@@ -26,28 +29,34 @@ export const ExternoContentCard: React.FC<AsesorExterno> = props => {
       <Stack direction="row" spacing={2}>
         <Label label="Email:" value={props.email} />
         <Label label="Grado:" value={props.grado} />
+        {props.idParticipacion == 33 && (
+          <Label label="Nivel SNI:" value={props.codirectorInfo?.sNI} />
+        )}
       </Stack>
-      <Label label="Institucion:" value={props.institucion} />
-      <Label label="Argumentacion:" value={props.argumentacion} />
-      <Label label="Curriculum:" value={props.fileName} />
+      <Label label="Institución de adscripción:" value={props.institucion} />
       {props.idParticipacion == 33 && (
         <>
-          <Label label="SNI:" value={props.codirectorInfo?.sNI} />
           <Stack direction="row" spacing={2}>
             <Label
-              label="Num Pub Arb:"
+              label="Número de publicaciones arbitradas:"
               value={props.codirectorInfo?.numPubArb}
             />
             <Label
-              label="Num Est Maestria:"
+              label="Número de estudiantes de maestría graduados:"
               value={props.codirectorInfo?.numEstMaestria}
             />
             <Label
-              label="Num Est Doc:"
+              label="Número de estudiantes de doctorado graduados:"
               value={props.codirectorInfo?.numEstDoc}
             />
           </Stack>
         </>
+      )}
+      <Label label="Argumentación:" value={props.argumentacion} />
+      {props.fileName && (
+        <Link target="_blank" href={`${props.fileName}`}>
+          Ver Curriculum Vitae
+        </Link>
       )}
     </>
   );
@@ -75,18 +84,39 @@ export const IntegranteCTContentCard: React.FC<
     onRemoveItem,
     children,
   } = props;
+
+  const tipoParticipacion = idParticipacion == 33 ? 'Codirector' : 'Asesor';
   return (
     <CardContent>
-      <Grid container>
+      <Grid container style={{ backgroundColor: '#f3f5f7', padding: '15px' }}>
         <Grid item xs={11}>
-          <Label
-            label="Nombre:"
-            value={`${nombre} ${apellidoPaterno} ${apellidoMaterno}`}
-          />
-          <Label
-            label="Participacion:"
-            value={idParticipacion == 33 ? 'Codirector' : 'Asesor'}
-          />
+          <Typography display="inline" sx={{ mr: 1 }}>
+            <span
+              style={{ fontSize: '17px', fontWeight: 'bold' }}
+            >{`${nombre} ${apellidoPaterno} ${apellidoMaterno}`}</span>
+            <span
+              style={{
+                fontSize: '15px',
+                fontWeight: 'lighter',
+                color: '#4a4a4a',
+              }}
+            >
+              {'   '}({tipoParticipacion})
+            </span>
+          </Typography>
+
+          <p
+            style={{
+              fontSize: '12px',
+              color: '#3a3a3a',
+              fontWeight: 'bold',
+              paddingLeft: '10px',
+              marginTop: '0px',
+            }}
+          >
+            {`Integrante de CT ${tipo}`}
+          </p>
+
           {children}
         </Grid>
         <Grid item xs={1}>

@@ -1,21 +1,19 @@
 import React from 'react';
+
+import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
+import { Grid, Typography } from '@mui/material';
 import { userStateAtom } from '@modules/auth/recoil';
 import { EcosurAuth } from '@modules/auth/definitions';
-import { useMutation } from 'react-query';
-import ConsejoTutelarQuerys from '@modules/consejo_tutelar/queries';
+import { useMutation, useQueryClient } from 'react-query';
+import { ConsejoTutelarQuerys } from '@modules/consejo_tutelar/queries';
 import { useGetAlumnoCT, getGrado } from './queries';
-import { PersonalAcademicoGql, AsesorExternoGql } from './types';
 import Swal from 'sweetalert2';
-import {
-  Alert,
-  CircularProgress,
-  Box,
-  Stack,
-  Container,
-  Card,
-  Button,
-} from '@mui/material';
+import { showLoading } from '@shared/hooks';
+import { Alert, CircularProgress, Stack, Card, Button } from '@mui/material';
+import InstruccionesEnlaces from './Instrucciones';
+import { Estatus } from './components';
+
 import {
   PersonalAcademico,
   AsesorExterno,
@@ -38,32 +36,43 @@ type ConsejoTutelarData = {
 
 type ConsejoTutelar = {
   grado: 'maestria' | 'doctorado';
+  matricula: number;
+  DirectorTesis: string;
   externosItems: AsesorExterno[];
   internosItems: PersonalAcademico[];
 };
 
 const EstudiantePage: React.FC<ConsejoTutelar> = ({
   grado,
+  matricula,
+  DirectorTesis,
   externosItems,
   internosItems,
 }) => {
   const [disabled, setDisabled] = React.useState<boolean>(true);
-  const { mutate, isLoading } = useMutation(
+  const queryClient = useQueryClient();
+  const router = useRouter();
+  const handleShowProfile = () => router.push(`/consejo_tutelar/${matricula}`);
+
+  const { mutate } = useMutation(
     async (ct: ConsejoTutelarData) =>
       await ConsejoTutelarQuerys.registrar(ct.integrantes, ct.files),
     {
       onSuccess: () => {
+        queryClient.invalidateQueries(['ct-conformacion-alumno']);
+        Swal.close();
         Swal.fire({
           icon: 'success',
           title: 'El consejo tutelar',
-          text: 'Se guardo exitosamente',
+          text: 'Se guardó exitosamente',
         });
+        handleShowProfile();
       },
       onError: () => {
         Swal.fire({
           icon: 'error',
-          title: 'Error en el consejo tutelar',
-          text: 'No se pudo guardar su consejo tutelar, intentelo nuevamente, o verfique a sus integrantes',
+          title: 'Error',
+          text: 'No se guardó su consejo tutelar, verifique la información registrada e intentelo nuevamente.',
         });
         setDisabled(false);
       },
@@ -140,116 +149,104 @@ const EstudiantePage: React.FC<ConsejoTutelar> = ({
         .map(interno => interno.id),
     };
     if (consejoTutelar.externos.length === 0) consejoTutelar.externos = null;
-    console.log(consejoTutelar);
     mutate({ integrantes: consejoTutelar, files: externosFiles });
     setDisabled(true);
+    showLoading('Guardado su consejo tutelar, espere por favor');
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box
-        display="column"
-        alignItems="center"
-        justifyContent="center"
-        /* sx={{ width: '60vw' }} */
-      >
-        {/* FIXME: @iocampo agregar instrucciones */}
-        <BtnAgregarIntegrante
-          disabled={disabledBtnInternos}
-          onSubmit={addInterno}
-        />
-        <BtnAgregarIntegrante
-          disabled={disabledBtnExternos}
-          externo
-          onSubmit={addExterno}
-        />
-        <Stack spacing={1}>
-          {conformacionCT.internos.map((interno, index) => (
-            <Card sx={{ width: 600 }} key={`card-integrante-interno-${index}`}>
-              <IntegranteCTContentCard
-                index={index}
-                disabled={interno.aprobadoPorComite}
-                idParticipacion={2}
-                onRemoveItem={handleRemoveItem}
-                tipo="interno"
-                {...interno}
-              />
-            </Card>
-          ))}
-          {conformacionCT.externos.map((externo, index) => (
-            <Card sx={{ width: 600 }} key={`card-integrante-interno-${index}`}>
-              <IntegranteCTContentCard
-                index={index}
-                disabled={externo.aprobadoPorComite}
-                onRemoveItem={handleRemoveItem}
-                tipo="externo"
-                {...externo}
-              >
-                <ExternoContentCard {...externo} />
-              </IntegranteCTContentCard>
-            </Card>
-          ))}
-        </Stack>
-        <Button
-          sx={{ mt: 3 }}
-          onClick={handleClick}
-          disabled={disabled}
-          variant="contained"
-        >
-          Guardar
-        </Button>
-      </Box>
-    </Container>
+    <Grid
+      container
+      direction="row"
+      justifyContent="flex-start"
+      alignItems="center"
+      id="SectionLogin"
+      style={{ padding: '15px 50px' }}
+    >
+      <Estatus matricula={matricula} />
+      <InstruccionesEnlaces />
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Button onClick={handleShowProfile}>
+            Ver estatus del proceso de evaluación
+          </Button>
+          <h3>Lista de integrantes</h3>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <BtnAgregarIntegrante
+            disabled={disabledBtnInternos}
+            onSubmit={addInterno}
+          />
+          <BtnAgregarIntegrante
+            disabled={disabledBtnExternos}
+            externo
+            onSubmit={addExterno}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Typography>
+            {' '}
+            <b>Director/a de Tesis: </b>
+            {DirectorTesis}
+          </Typography>
+          <Stack spacing={1}>
+            {conformacionCT.internos.map((interno, index) => (
+              <Card key={`card-integrante-interno-${index}`}>
+                <IntegranteCTContentCard
+                  index={index}
+                  disabled={interno.aprobadoPorComite}
+                  idParticipacion={2}
+                  onRemoveItem={handleRemoveItem}
+                  tipo="interno"
+                  {...interno}
+                />
+              </Card>
+            ))}
+            {conformacionCT.externos.map((externo, index) => (
+              <Card key={`card-integrante-interno-${index}`}>
+                <IntegranteCTContentCard
+                  index={index}
+                  disabled={externo.aprobadoPorComite}
+                  onRemoveItem={handleRemoveItem}
+                  tipo="externo"
+                  {...externo}
+                >
+                  <ExternoContentCard {...externo} />
+                </IntegranteCTContentCard>
+              </Card>
+            ))}
+          </Stack>
+          <Button
+            sx={{ mt: 3 }}
+            onClick={handleClick}
+            disabled={disabled}
+            variant="contained"
+          >
+            Guardar consejo tutelar
+          </Button>
+        </Grid>
+      </Grid>
+    </Grid>
   );
 };
 
 const Estudiante = () => {
   const user: EcosurAuth = useRecoilValue(userStateAtom);
-  const { data, isError, isLoading, isSuccess } = useGetAlumnoCT(
-    user.estudiante?.matricula
-  );
-  if (isError)
+  const matricula: number = user.estudiante?.matricula ?? 0;
+  const grado = getGrado(user.estudiante?.clavePrograma ?? 1);
+  const { data, error, isLoading } = useGetAlumnoCT(matricula);
+  if (error)
     return <Alert severity="error">No se pudo cargar su consejo tutelar</Alert>;
   if (isLoading) return <CircularProgress />;
-  let integrantesInternos: PersonalAcademico[] = [];
-  let integrantesExternos: AsesorExterno[] = [];
-  let grado: 'maestria' | 'doctorado' = 'maestria';
-  if (isSuccess) {
-    integrantesInternos = data[0].AsesoresInternos.map(
-      (interno: PersonalAcademicoGql) => ({
-        id: interno.id,
-        nombre: interno.dataPersona.nombre,
-        apellidoMaterno: interno.dataPersona.ApellidoMaterno,
-        apellidoPaterno: interno.dataPersona.ApellidoPaterno,
-      })
-    );
-    integrantesExternos = data[0].AsesoresExternos.map(
-      (externo: AsesorExternoGql) => ({
-        id: externo.id,
-        nombre: externo.dataPersona.nombre,
-        apellidoMaterno: externo.dataPersona.ApellidoMaterno,
-        apellidoPaterno: externo.dataPersona.ApellidoPaterno,
-        email: externo.dataPersona.Email,
-        institucion: externo.dataPersona.Institucion,
-        grado: externo.dataPersona.Grado,
-        idParticipacion: externo.idParticipacion,
-        argumentacion: externo.datosExtra?.Argumentacion ?? '',
-        fileName: externo.datosExtra?.UrlCV ?? '',
-        codirectorInfo: {
-          sNI: externo.codirectorInfo?.SNI,
-          numPubArb: externo.codirectorInfo?.NumPubArb,
-          numEstMaestria: externo.codirectorInfo?.NumEstMaestria,
-          numEstDoc: externo.codirectorInfo?.NumEstDoc,
-        },
-      })
-    );
-    grado = getGrado(user.estudiante?.clavePrograma ?? 1);
-  }
   return (
     <EstudiantePage
       grado={grado}
-      internosItems={integrantesInternos}
-      externosItems={integrantesExternos}
+      matricula={matricula}
+      DirectorTesis={user.estudiante?.nombreDirectorTesis ?? ''}
+      internosItems={data.internos}
+      externosItems={data.externos}
     />
   );
 };

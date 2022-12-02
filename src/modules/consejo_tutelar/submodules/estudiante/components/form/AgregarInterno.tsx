@@ -15,7 +15,7 @@ import { PersonalAcademico } from '@modules/consejo_tutelar/types';
 const validationSchema = yup.object({
   id: yup.number().nullable(true).required('Es necesario selecionar un asesor'),
   apellidoPaterno: yup.string().required('El apellido es requerido'),
-  apellidoMaterno: yup.string().required('El apellido es requerido'),
+  apellidoMaterno: yup.string(),
   nombre: yup.string().required('El nombre es requerido'),
 });
 
@@ -43,7 +43,7 @@ const FormAgregarInterno: React.FC<FormAgregarProps> = ({
       onClose={handleClose}
       aria-describedby="seleccionar-interno-dialog-description"
     >
-      <DialogTitle>{'Selecciona tu asesor interno'}</DialogTitle>
+      <DialogTitle>{'Agregar integrante interno'}</DialogTitle>
       <Formik
         initialValues={initialValues}
         onSubmit={handleSubmit}
@@ -53,7 +53,10 @@ const FormAgregarInterno: React.FC<FormAgregarProps> = ({
           <DialogContent>
             <Stack spacing={2}>
               <DialogContentText id="seleccionar-interno-dialog-description">
-                hola mundo
+                Para agregar a una persona académica de ECOSUR, o bien
+                comisionados a ECOSUR por el Programa Investigadores por México,
+                localice su nombre en el siguiente cuadro, una vez localizado(a)
+                selecciónelo y haga clic en el botón “Agregar”.
               </DialogContentText>
               <Field
                 id="nombre"
@@ -65,7 +68,7 @@ const FormAgregarInterno: React.FC<FormAgregarProps> = ({
                   nombre,
                   apellidoPaterno,
                   apellidoMaterno,
-                }) => `${id} - ${nombre} ${apellidoPaterno} ${apellidoMaterno}`}
+                }) => `${nombre} ${apellidoPaterno} ${apellidoMaterno} - ${id}`}
                 unstructured={[
                   { key: 'id', defaultValue: null },
                   { key: 'nombre', defaultValue: '' },

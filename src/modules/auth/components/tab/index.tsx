@@ -43,28 +43,30 @@ export const BasicTabs: React.FC<BasicTabsProps> = ({ tabs }) => {
   };
 
   return (
-    <Box>
-      <Box
-        sx={{
-          borderBottom: 1,
-          borderColor: 'divider',
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        <Tabs value={value} onChange={handleChange}>
-          {tabs.map((data: any, idx: number) => {
-            return <Tab key={`tab-${idx}`} label={data.title} />;
-          })}
-        </Tabs>
+    <>
+      <Box>
+        <Box
+          sx={{
+            borderBottom: 1,
+            borderColor: 'divider',
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <Tabs value={value} onChange={handleChange}>
+            {tabs.map((data: any, idx: number) => {
+              return <Tab key={`tab-${idx}`} label={data.title} />;
+            })}
+          </Tabs>
+        </Box>
+        {tabs.map((data: any, idx: number) => {
+          return (
+            <TabPanel key={`tabPanel-${idx}`} index={idx} value={value}>
+              {data.component}
+            </TabPanel>
+          );
+        })}
       </Box>
-      {tabs.map((data: any, idx: number) => {
-        return (
-          <TabPanel key={`tabPanel-${idx}`} index={idx} value={value}>
-            {data.component}
-          </TabPanel>
-        );
-      })}
-    </Box>
+    </>
   );
 };
