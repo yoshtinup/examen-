@@ -7,6 +7,7 @@ import { DataGrid, GridColDef, GridToolbarContainer, GridToolbarFilterButton, Gr
 import { useGetSeminariosEnProceso } from '../../queries';
 import { EnProceso } from '../../types';
 import EcosurCommentDialog from '../DialogActa';
+import { Alumno } from '../../types/index';
 
 function CustomToolbar() {
   const  color = 'info';
@@ -60,9 +61,12 @@ function CustomFooter(props: {
 export const TableSeminariosEnProcesoWithoutFetch: React.FC<{ seminarios: EnProceso[] }> = ({
   seminarios,
 }) => {    
+  const handleClick = () => {
+    console.log('hola');
+  };
   const [open, setOpen] = React.useState<boolean>(false);
+  const [estatusDescription, setEstatusDescription] = React.useState<string>('');
   const handleClose = () => setOpen(false);
-  const handleOpen = () => setOpen(true);
   const user = {
     nombre: 'Eduardo',
   }
@@ -82,32 +86,25 @@ export const TableSeminariosEnProcesoWithoutFetch: React.FC<{ seminarios: EnProc
       { field: 'periodo', headerName: 'Periodo', width: 160 },
       { field: 'estatus', headerName: 'Estatus', width: 380 },
       { field: 'opciones', headerName: 'Opciones', sortable: false, width: 160,
-      renderCell: (params) => {
-        const handleClick = (comentario: string) => {
-        };
+        renderCell: (params) => {
+          const handleOpen = () => {
+            setEstatusDescription(params.row.estatus);
+            setOpen(true);
+          };
 
-        return (
-          <>
-            <Button
-              onClick={handleOpen}
-              variant="contained"
-              size="small"
-            >
-              Cambiar estatus
-            </Button>
-            <EcosurCommentDialog
-              data={user}
-              onClick={handleClick}
-              open={open}
-              handleClose={handleClose}
-              titulo={`Cambio de estatus de evaluación`}
-              label="Razón de cambio" 
-              selectTitle='Estatus' 
-            />
-          </>
-        )
+          return (
+            <>
+              <Button
+                onClick={handleOpen}
+                variant="contained"
+                size="small"
+              >
+                Cambiar estatus
+              </Button>
+            </>
+          )
+        },
       },
-    },
     ];
     let rows = [];
     seminarios.map((seminario) => (
@@ -163,6 +160,16 @@ export const TableSeminariosEnProcesoWithoutFetch: React.FC<{ seminarios: EnProc
             );
             setSelectedRows(selectedRows);
           }}
+        />
+        <EcosurCommentDialog
+          estatusDescrption={estatusDescription}
+          data={user}
+          onClick={handleClick}
+          open={open}
+          handleClose={handleClose}
+          titulo={`Cambio de estatus de evaluación`}
+          label="Razón de cambio" 
+          selectTitle='Estatus' 
         />
       </div>
     );

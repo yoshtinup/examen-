@@ -18,7 +18,11 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Alert,
+  CircularProgress,
 } from '@mui/material';
+import { useGetEstatus } from '../../queries/index';
+import { EstatusElement } from '../../types';
 
 interface EcosurCommentDialogProps {
   data: any;
@@ -29,12 +33,29 @@ interface EcosurCommentDialogProps {
   label?: string;
   instruccion?: boolean;
   selectTitle: string;
+  estatusDescrption: string;
 }
 
-const MenuItems = () => {
-  return (
-    <p>sadas</p>
-  );
+const menuItems = (estatusDescription: string) => {
+  const { data, isError, isLoading, isSuccess } = useGetEstatus();
+  if (isError) {
+    return (
+      <Alert severity="error">
+        No se pudo cargar la información de los seminarios.
+      </Alert>
+    );
+  }
+  if (isLoading) { return <CircularProgress />; }
+  let estatus: EstatusElement[];
+  if (isSuccess) {
+    estatus = data;
+  }
+  let menuItem = [];    
+  menuItem.push(<MenuItem key={`ecosur-menu-item-esattus-default`} value={-1}>{`Seleccione un estatus`}</MenuItem>);
+  estatus.map((estatus, index) => (
+    estatus.Descripcion != estatusDescription && menuItem.push(<MenuItem key={`ecosur-menu-item-${index}`} value={estatus.ID}>{`${estatus.Descripcion}`}</MenuItem>)
+  ));
+  return menuItem;
 }
 
 const EcosurCommentDialog = ({
@@ -46,6 +67,7 @@ const EcosurCommentDialog = ({
   label = 'Observación',
   instruccion: isTrue = false,
   selectTitle,
+  estatusDescrption,
 }: EcosurCommentDialogProps) => {
   let flexD = 'row';
   let size = undefined;
@@ -64,9 +86,9 @@ const EcosurCommentDialog = ({
     handleClose();
     setConfirm(true);
   };
-  const [age, setAge] = React.useState('10');
+  const [estatus, setEstatus] = React.useState('-1');
   const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value as string);
+    setEstatus(event.target.value as string);
   };
 
   return (
@@ -94,18 +116,16 @@ const EcosurCommentDialog = ({
             </Typography>
             <Box sx={{ minWidth: 120 }}>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                <InputLabel id="demo-simple-select-label">Estatus</InputLabel>
                 <Select
                 size='small'
                   labelId="ecosur-select-estatus"
                   id="ecosur-select-estatus"
-                  value={age}
+                  value={estatus}
                   label={selectTitle}
                   onChange={handleChange}
                 >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  {menuItems(estatusDescrption)}
                 </Select>
               </FormControl>
             </Box>

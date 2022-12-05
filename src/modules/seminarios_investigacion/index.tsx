@@ -52,9 +52,7 @@ export const DetallesSeminarioWithoutFetch: React.FC<{ dataID: DataID[], idEvalu
       </Alert>
     );
   } else {
-    const idAlumnosMaterias = dataID[0].IdAlumnosMaterias;
-    console.log(idAlumnosMaterias);
-    
+    const idAlumnosMaterias = dataID[0].IdAlumnosMaterias;    
     const idMatricula = dataID[0].alumno.Matricula;
     const status = dataID[0].estatus.value;
     const EcosurComponentesInformacion = [  

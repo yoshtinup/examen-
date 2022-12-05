@@ -111,3 +111,16 @@ export interface EnProceso {
 export interface Estatus {
     Descripcion: string;
 }
+
+export interface EstatusInfo {
+    data: DataEstatus;
+}
+
+export interface DataEstatus {
+    Estatus: EstatusElement[];
+}
+
+export interface EstatusElement {
+    Descripcion: string;
+    ID:          number;
+}
