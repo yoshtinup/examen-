@@ -100,3 +100,19 @@ export function useGetSeminariosConcluidos(anio: number) {
     return seminariosConcluidos;
   });
 }
+
+export function useGetEstatus() {
+  return useQuery(['estatus-info'], async () => {
+    const { estatus } = await hasuraClient.request(
+      gql`
+        query CatalogoEstatusEvaluacionSeminario {
+          estatus:db12_Seminarios_CatalogoEstatus(where:{IdSeminarios_CatalogoEstatus:{_neq:5}}){
+          Descripcion
+            ID:IdSeminarios_CatalogoEstatus
+          }
+        }                  
+      `,
+    );
+    return estatus;
+  });
+}

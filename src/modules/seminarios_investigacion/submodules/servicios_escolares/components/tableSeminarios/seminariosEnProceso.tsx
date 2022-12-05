@@ -6,6 +6,7 @@ import { DataGrid, GridColDef, GridToolbarContainer, GridToolbarFilterButton, Gr
   GridToolbarDensitySelector, gridPageCountSelector, gridPageSelector, useGridApiContext, useGridSelector, GridFooterContainer } from '@mui/x-data-grid';
 import { useGetSeminariosEnProceso } from '../../queries';
 import { EnProceso } from '../../types';
+import EcosurCommentDialog from '../DialogActa';
 
 function CustomToolbar() {
   const  color = 'info';
@@ -59,6 +60,12 @@ function CustomFooter(props: {
 export const TableSeminariosEnProcesoWithoutFetch: React.FC<{ seminarios: EnProceso[] }> = ({
   seminarios,
 }) => {    
+  const [open, setOpen] = React.useState<boolean>(false);
+  const handleClose = () => setOpen(false);
+  const handleOpen = () => setOpen(true);
+  const user = {
+    nombre: 'Eduardo',
+  }
   if (seminarios.length == 0) {
       return (
         <Alert severity="error">
@@ -74,6 +81,33 @@ export const TableSeminariosEnProcesoWithoutFetch: React.FC<{ seminarios: EnProc
       { field: 'seminario', headerName: 'Seminario', width: 280 },
       { field: 'periodo', headerName: 'Periodo', width: 160 },
       { field: 'estatus', headerName: 'Estatus', width: 380 },
+      { field: 'opciones', headerName: 'Opciones', sortable: false, width: 160,
+      renderCell: (params) => {
+        const handleClick = (comentario: string) => {
+        };
+
+        return (
+          <>
+            <Button
+              onClick={handleOpen}
+              variant="contained"
+              size="small"
+            >
+              Cambiar estatus
+            </Button>
+            <EcosurCommentDialog
+              data={user}
+              onClick={handleClick}
+              open={open}
+              handleClose={handleClose}
+              titulo={`Cambio de estatus de evaluación`}
+              label="Razón de cambio" 
+              selectTitle='Estatus' 
+            />
+          </>
+        )
+      },
+    },
     ];
     let rows = [];
     seminarios.map((seminario) => (

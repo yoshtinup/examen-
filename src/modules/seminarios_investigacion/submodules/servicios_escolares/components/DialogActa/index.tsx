@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react';
-import { EcosurProfileCard, EcosurFormSelect } from 'ecosur-ui';
+import { EcosurProfileCard } from 'ecosur-ui';
+import { SelectChangeEvent } from '@mui/material/Select';
 import {
   Button,
   DialogTitle,
@@ -11,6 +12,12 @@ import {
   TextField,
   useTheme,
   useMediaQuery,
+  Box,
+  Grid,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
 } from '@mui/material';
 
 interface EcosurCommentDialogProps {
@@ -21,6 +28,13 @@ interface EcosurCommentDialogProps {
   titulo?: string;
   label?: string;
   instruccion?: boolean;
+  selectTitle: string;
+}
+
+const MenuItems = () => {
+  return (
+    <p>sadas</p>
+  );
 }
 
 const EcosurCommentDialog = ({
@@ -31,6 +45,7 @@ const EcosurCommentDialog = ({
   titulo = 'Inserte un comentario',
   label = 'Observación',
   instruccion: isTrue = false,
+  selectTitle,
 }: EcosurCommentDialogProps) => {
   let flexD = 'row';
   let size = undefined;
@@ -44,11 +59,14 @@ const EcosurCommentDialog = ({
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
   let textComentario = '';
   const [confirm, setConfirm] = React.useState(true);
-
   const handleSubmit = () => {
     onClick(textComentario);
     handleClose();
     setConfirm(true);
+  };
+  const [age, setAge] = React.useState('10');
+  const handleChange = (event: SelectChangeEvent) => {
+    setAge(event.target.value as string);
   };
 
   return (
@@ -70,7 +88,28 @@ const EcosurCommentDialog = ({
             flexD={flexD}
             align={align}
           />
-          <EcosurFormSelect field={undefined} form={undefined} meta={undefined} options={[]} />
+          <Grid sx={{ display: 'flex', flexDirection: 'row', pl: 3, alignItems: 'center' }}>
+            <Typography gutterBottom sx={{ pr: 1 }}>
+              <b> Cambiar a: </b>
+            </Typography>
+            <Box sx={{ minWidth: 120 }}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                <Select
+                size='small'
+                  labelId="ecosur-select-estatus"
+                  id="ecosur-select-estatus"
+                  value={age}
+                  label={selectTitle}
+                  onChange={handleChange}
+                >
+                  <MenuItem value={10}>Ten</MenuItem>
+                  <MenuItem value={20}>Twenty</MenuItem>
+                  <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+          </Grid>
           <p />
           <Typography gutterBottom>
             <b> {label} </b>
