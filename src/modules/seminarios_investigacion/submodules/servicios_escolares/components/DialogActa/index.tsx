@@ -22,21 +22,20 @@ import {
   CircularProgress,
 } from '@mui/material';
 import { useGetEstatus } from '../../queries/index';
-import { EstatusElement } from '../../types';
+import { EstatusElement, Persona } from '../../types';
 
 interface EcosurCommentDialogProps {
-  data: any;
   handleClose: () => void;
   open: boolean;
-  onClick: (comentario: string) => void;
+  onClick: (id: Number) => void;
   titulo?: string;
   label?: string;
   instruccion?: boolean;
   selectTitle: string;
-  estatusDescrption: string;
+  estatusDescription: Persona;
 }
 
-const menuItems = (estatusDescription: string) => {
+const menuItems = (estatusDescription: Persona, setEstatus) => {
   const { data, isError, isLoading, isSuccess } = useGetEstatus();
   if (isError) {
     return (
@@ -46,20 +45,18 @@ const menuItems = (estatusDescription: string) => {
     );
   }
   if (isLoading) { return <CircularProgress />; }
-  let estatus: EstatusElement[];
+  let estatusLista: EstatusElement[];
   if (isSuccess) {
-    estatus = data;
+    estatusLista = data;
   }
-  let menuItem = [];    
-  menuItem.push(<MenuItem key={`ecosur-menu-item-esattus-default`} value={-1}>{`Seleccione un estatus`}</MenuItem>);
-  estatus.map((estatus, index) => (
-    estatus.Descripcion != estatusDescription && menuItem.push(<MenuItem key={`ecosur-menu-item-${index}`} value={estatus.ID}>{`${estatus.Descripcion}`}</MenuItem>)
-  ));
+  let menuItem = [];      
+  estatusLista.map((estatusInfo, index) => {
+    estatusInfo.Descripcion != estatusDescription.estatus && menuItem.push(<MenuItem key={`ecosur-menu-item-${index}`} value={`${estatusInfo.ID}`}>{`${estatusInfo.Descripcion}`}</MenuItem>)
+  });
   return menuItem;
 }
 
 const EcosurCommentDialog = ({
-  data = {},
   handleClose,
   open,
   onClick,
@@ -67,8 +64,13 @@ const EcosurCommentDialog = ({
   label = 'Observación',
   instruccion: isTrue = false,
   selectTitle,
-  estatusDescrption,
+  estatusDescription,
 }: EcosurCommentDialogProps) => {
+  const data = {
+    curso: estatusDescription.seminario,
+    estudiante: estatusDescription.nombre,
+    'Estatus actual': estatusDescription.estatus
+  }
   let flexD = 'row';
   let size = undefined;
   let align = 'center';
@@ -79,18 +81,18 @@ const EcosurCommentDialog = ({
   }
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-  let textComentario = '';
   const [confirm, setConfirm] = React.useState(true);
+  const [textComentario, setTextComentario] = React.useState('');
   const handleSubmit = () => {
-    onClick(textComentario);
+    onClick(Number(estatus));
     handleClose();
     setConfirm(true);
   };
-  const [estatus, setEstatus] = React.useState('-1');
+  const [estatus, setEstatus] = React.useState('');
   const handleChange = (event: SelectChangeEvent) => {
     setEstatus(event.target.value as string);
+    (textComentario.replace(/ /g, '').length >= 10 && estatus != '') ? setConfirm(false) : setConfirm(true);
   };
-
   return (
     <div>
       <Dialog
@@ -125,7 +127,7 @@ const EcosurCommentDialog = ({
                   label={selectTitle}
                   onChange={handleChange}
                 >
-                  {menuItems(estatusDescrption)}
+                  {menuItems(estatusDescription, setEstatus)}
                 </Select>
               </FormControl>
             </Box>
@@ -140,18 +142,18 @@ const EcosurCommentDialog = ({
             multiline
             rows={5}
             onChange={(newValue) => {
-              textComentario = newValue.target.value;
-              textComentario.replace(/ /g, '').length >= 10 ? setConfirm(false) : setConfirm(true);
+              setTextComentario(newValue.target.value);
+              (textComentario.replace(/ /g, '').length >= 10 && estatus != '') ? setConfirm(false) : setConfirm(true);
             }}
           />
         </DialogContent>
         <p />
         <DialogActions>
-          <Button variant='outlined' color='error' onClick={handleClose}>
+          <Button variant='outlined' color='error' onClick={() => { setEstatus(''); handleClose(); }}>
             Cancelar
           </Button>
-          <Button disabled={confirm} variant='contained' color='primary' onClick={handleSubmit}>
-            Agregar
+          <Button disabled={confirm} variant='contained' color='primary' onClick={() => { setEstatus(''), handleSubmit(); }}>
+            Guardar
           </Button>
         </DialogActions>
       </Dialog>

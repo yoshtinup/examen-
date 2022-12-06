@@ -1,3 +1,5 @@
+import { StringifyOptions } from "querystring";
+
 export interface Evaluaciones {
     data: Data;
 }
@@ -123,4 +125,14 @@ export interface DataEstatus {
 export interface EstatusElement {
     Descripcion: string;
     ID:          number;
+}
+
+export interface Persona {
+    id: number;
+    nombre: string;
+    programa: string;
+    unidad: string;
+    seminario: string;
+    estatus: string;
+    periodo: string;
 }
