@@ -82,7 +82,7 @@ export const Sidebar: FC<SidebarProps> = ({ open, onClose }) => {
               key={item.title}
               icon={item.icon}
               href={item.href}
-              title={item.title}
+              title={open ? item.title : ''}
             />
           ))}
         </Box>
@@ -100,7 +100,7 @@ export const Sidebar: FC<SidebarProps> = ({ open, onClose }) => {
           sx: {
             backgroundColor: 'neutral.900',
             color: '#FFFFFF',
-            width: 280,
+            width: open ? 280 : 80,
           },
         }}
         variant="permanent"
