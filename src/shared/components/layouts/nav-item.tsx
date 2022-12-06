@@ -30,10 +30,13 @@ export const NavItem = props => {
             color: active ? 'secondary.main' : 'neutral.300',
             fontWeight: active && 'fontWeightBold',
             justifyContent: 'flex-start',
-            px: 3,
+            px: 2,
             textAlign: 'left',
             textTransform: 'none',
             width: '100%',
+            '& span svg': {
+              fontSize: 25,
+            },
             '& .MuiButton-startIcon': {
               color: active ? 'secondary.main' : 'neutral.400',
             },

@@ -16,7 +16,7 @@ const ServiciosEscolaresPage = WithRol(Roles.Servicios_Escolares)(
   ServiciosEscolares
 );
 
-const ConsejoTutelar = () => {
+const Home = () => {
   return (
     <>
       <EstudiantePage />
@@ -25,4 +25,4 @@ const ConsejoTutelar = () => {
     </>
   );
 };
-export default ConsejoTutelar;
+export default Home;
