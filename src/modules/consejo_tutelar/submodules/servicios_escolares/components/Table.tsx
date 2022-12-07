@@ -95,7 +95,7 @@ const Table: React.FC<{
       renderCell: (params: GridCellParams) => (
         <>
           <Page
-            matricula={params.row.Matricula}
+            info={params.row}
             otherButttons={<ButtonRedirect matricula={params.row.Matricula} />}
           />
         </>

@@ -125,8 +125,8 @@ class ConsejoTutelarQuerys extends ApiQuerys {
       matricula: number
     ): Promise<any> {
       const msg = await this.api<Message>(
-        `registrar/evaluacion/${matricula}`,
-        this.getJsonRequest(data, 'PUT')
+        `generar_cartas/${matricula}`,
+        this.getJsonRequest(data, 'POST')
       );
       return msg;
     }

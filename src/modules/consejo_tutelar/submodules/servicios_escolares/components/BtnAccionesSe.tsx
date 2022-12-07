@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { EcosurFullDialog } from 'ecosur-ui';
 import { getCT } from '../queries';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 import {
   CT,
   Info,
@@ -20,6 +20,7 @@ import {
   EstatusIndividualSE,
   Cartas,
   ModificacionCt,
+  EnProceso,
 } from '../types';
 import { ConsejoTutelarQuerys } from '@modules/consejo_tutelar/queries';
 import Swal from 'sweetalert2';
@@ -38,55 +39,52 @@ import Swal from 'sweetalert2';
     status: 'Pendiente',
   },
 ]; */
-const estudiante = { matricula: 1234567, nombre: 'Miriam Cruz Aguilar' };
+//const estudiante = { matricula: 1234567, nombre: 'Miriam Cruz Aguilar' };
+
+function convertCT(data: Info): CT {
+  const integrantesCT = data.Integrantes.map((info: Integrante) => {
+    const [setEstatus] = info.EstatusIndividual.filter(
+      (estatus: EstatusIndividualSE) =>
+        estatus.Rol.trim() === 'Integrante de Consejo tutelar'
+    );
+    return {
+      Id: info.IdTutorSinodal,
+      Participacion: info.Participacion,
+      Nombre: info.Nombre,
+      Estatus: setEstatus ? `Aceptó el ${setEstatus.Fecha}` : 'Pendiente',
+    };
+  });
+
+  return {
+    Integrantes: integrantesCT,
+  };
+}
 
 type BtnAccionesSe = {
   resetAlert: () => void;
   alert: boolean;
-  matricula: number;
+  data: CT;
   label: string;
   labelSubmit: string;
   onSubmit: (ids: number[]) => void;
+  id: string;
 };
+
 const BtnAccionesSe: FC<PropsWithChildren<BtnAccionesSe>> = ({
   resetAlert,
   alert,
-  matricula,
+  data,
   label,
   labelSubmit,
   onSubmit,
   children,
+  id,
 }) => {
-  const { data, error, isLoading } = useQuery(
-    ['get-ct'],
-    async () => getCT(matricula),
-    { select: convertCT }
-  );
-
   const [openCartas, setOpenCartas] = useState<boolean>(false);
   const [idIntegrantes, setidIntegrantes] = useState<number[]>([]);
   const [checkedState, setCheckedState] = useState<boolean[]>(
     new Array(data?.Integrantes.length).fill(false)
   );
-
-  function convertCT(data: Info): CT {
-    const integrantesCT = data.Integrantes.map((info: Integrante) => {
-      const [setEstatus] = info.EstatusIndividual.filter(
-        (estatus: EstatusIndividualSE) =>
-          estatus.Rol.trim() === 'Integrante de Consejo tutelar'
-      );
-      return {
-        Id: info.IdTutorSinodal,
-        Participacion: info.Participacion,
-        Nombre: info.Nombre,
-        Estatus: setEstatus ? `Aceptó el ${setEstatus.Fecha}` : 'Pendiente',
-      };
-    });
-
-    return {
-      Integrantes: integrantesCT,
-    };
-  }
 
   const handleOnChangeCT = (position: number) => {
     const updatedCheckedState = checkedState.map((item, index) =>
@@ -105,27 +103,37 @@ const BtnAccionesSe: FC<PropsWithChildren<BtnAccionesSe>> = ({
   const handleToggleCartas = () => setOpenCartas(!openCartas);
 
   React.useEffect(() => {
-    setOpenCartas(false);
-    resetAlert();
+    if (alert) {
+      setOpenCartas(false);
+      setidIntegrantes([]);
+      checkedState.forEach((state, index) => {
+        if (state) {
+          console.log('checkedState');
+          console.log(checkedState);
+          checkedState[index] = false;
+          console.log(checkedState);
+          setCheckedState(checkedState);
+        }
+      });
+
+      resetAlert();
+      console.log('RESET ALL');
+    }
   }, [alert]);
 
   return (
     <>
-      <Button size="small" onClick={handleToggleCartas}>
+      <Button id={`${id}-btn`} size="small" onClick={handleToggleCartas}>
         {label}
       </Button>
       <EcosurFullDialog
-        id={'ct-generar-cargas'}
+        id={id}
         title="Generar Cartas"
         open={openCartas}
         handleClose={handleToggleCartas}
       >
         <Container maxWidth="sm">
           <h3>Integrantes del consejo tutelar</h3>
-          {isLoading ? <CircularProgress /> : null}
-          {error ? (
-            <Alert severity="error">No se pudo cargar su consejo tutelar</Alert>
-          ) : null}
           {data ? (
             <>
               <FormGroup>
@@ -152,13 +160,16 @@ const BtnAccionesSe: FC<PropsWithChildren<BtnAccionesSe>> = ({
 };
 
 interface Props {
-  matricula: number;
+  info: EnProceso;
   otherButttons: JSX.Element;
 }
 
-export default function Page({ matricula, otherButttons }: Props) {
-  const queryClient = useQueryClient();
-  const [comment, setComment] = useState<string>();
+const idDialogCartas = 'ct-generar-cargas-cartas';
+const idDialogModificacionCT = 'ct-generar-cargas-modificacion';
+let target: HTMLElement;
+
+export default function Page({ info, otherButttons }: Props) {
+  const [comment, setComment] = useState<string>('');
   const [alert, setAlert] = useState<boolean>(false);
   const [checkedEstudiante, setCheckedEstudiante] = useState<boolean>(false);
   const handleOnChangeEstudiante = () => {
@@ -166,34 +177,45 @@ export default function Page({ matricula, otherButttons }: Props) {
     setCheckedEstudiante(currentState);
   };
 
+  const reset = () => {
+    setComment('');
+    setCheckedEstudiante(false);
+  };
+
   const { mutate } = useMutation(
     async (ct: ModificacionCt | Cartas) => {
-      await ConsejoTutelarQuerys.accionesSE(ct, matricula);
+      Swal.fire({
+        target: target,
+        title: 'Enviando solicitud',
+        timerProgressBar: true,
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading(this);
+        },
+      });
+      await ConsejoTutelarQuerys.accionesSE(ct, info.Matricula);
     },
     {
       onSuccess: () => {
         Swal.fire({
-          customClass: {
-            container: 'sweetAlert2-container',
-          },
+          target: target,
           icon: 'success',
-          title: 'El consejo tutelar',
-          text: 'Se guardó exitosamente',
+          title: '¡Éxito!',
+          text: 'Procesando su solicitud...',
           allowOutsideClick: false,
         }).then(result => {
           if (result.isConfirmed) {
             setAlert(true);
+            reset();
           }
         });
       },
       onError: () => {
         Swal.fire({
-          customClass: {
-            container: 'sweetAlert2-container',
-          },
+          target: target,
           icon: 'error',
           title: 'Error',
-          text: 'No se guardó su consejo tutelar, verifique la información registrada e intentelo nuevamente.',
+          text: 'Hubo un problema al procesar tu solicitud, inténtelo nuevamente.',
           allowOutsideClick: false,
         }).then(result => {
           if (result.isConfirmed) {
@@ -205,53 +227,90 @@ export default function Page({ matricula, otherButttons }: Props) {
   );
 
   const handleOnSubmitCartas = (ids: number[]) => {
-    const cartas: Cartas = {
-      estudiante: checkedEstudiante,
-      integrantes: ids,
-    };
-    // console.log(cartas);
-    mutate(cartas);
+    target = document.getElementById(idDialogCartas);
+    console.log(ids, checkedEstudiante);
+    if (checkedEstudiante || ids.length > 0) {
+      const cartas: Cartas = {
+        estudiante: checkedEstudiante,
+        integrantes: ids,
+      };
+      mutate(cartas);
+      return;
+    }
+
+    Swal.fire({
+      target: target,
+      icon: 'info',
+      title: '¡Atención',
+      text: 'Debes seleccionar al menos un dato',
+      allowOutsideClick: false,
+    });
   };
 
   const handleOnSubmitModificarCt = (ids: number[]) => {
-    const modificacion: ModificacionCt = {
-      integrantes: ids,
-      comentario: comment,
-    };
-    // console.log(modificacion);
-    mutate(modificacion);
+    target = document.getElementById(idDialogModificacionCT);
+    console.log(ids, comment);
+    if (ids.length > 0 && comment) {
+      const modificacion: ModificacionCt = {
+        integrantes: ids,
+        comentario: comment,
+      };
+      mutate(modificacion);
+      return;
+    }
+
+    Swal.fire({
+      target: target,
+      icon: 'info',
+      title: '¡Atención!',
+      text: 'Debes seleccionar al menos un integrante y escribir un comentario',
+      allowOutsideClick: false,
+    });
   };
+
+  const { data, error, isLoading } = useQuery(
+    ['get-ct'],
+    async () => getCT(info.Matricula),
+    { select: convertCT }
+  );
+
+  if (isLoading) return <CircularProgress />;
+
+  if (error)
+    return <Alert severity="error">No se pudo cargar su consejo tutelar</Alert>;
 
   return (
     <div>
       <ButtonGroup variant="contained" aria-label="Disabled elevation buttons">
         {otherButttons}
         <BtnAccionesSe
+          id={idDialogCartas}
           onSubmit={handleOnSubmitCartas}
           resetAlert={() => {
             setAlert(false);
           }}
           alert={alert}
-          matricula={matricula}
+          data={data}
           label="Generar Cartas"
           labelSubmit="Generar cartas"
         >
           <h3>Alumno</h3>
           <FormControlLabel
-            key={`ct-integrantes-${estudiante.matricula}`}
+            key={`ct-integrantes-${info.Matricula}`}
             checked={checkedEstudiante}
             onChange={handleOnChangeEstudiante}
             control={<Checkbox />}
-            label={estudiante.nombre}
+            label={`${info.Alumno.Datos.Nombre} ${info.Alumno.Datos.ApellidoPaterno} ${info.Alumno.Datos.ApellidoMaterno}`}
           />
         </BtnAccionesSe>
         <BtnAccionesSe
+          id={idDialogModificacionCT}
           onSubmit={handleOnSubmitModificarCt}
           resetAlert={() => {
             setAlert(false);
           }}
           alert={alert}
-          matricula={matricula}
+          data={data}
           label="Modificar consejo tutelar"
           labelSubmit="Borrar integrantes"
         >

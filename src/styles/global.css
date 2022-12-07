@@ -61,7 +61,3 @@ body {
   font-size: 0.8em !important;
   font-weight: bold !important;
 }
-
-.sweetAlert2-container {
-  z-index: 300000;
-}
