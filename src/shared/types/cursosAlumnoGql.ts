@@ -4,6 +4,12 @@ export enum Estatus{
   EnProceso = 'En curso'
 }
 
+export interface CursosAlumnoGql {
+  Finalizados: CursoGql[],
+  Pendientes: CursoGql[],
+  EnProceso: CursoGql[]
+}
+
 export interface CursoGql {
   NombreMateria: string;
   Clave: string;
@@ -15,11 +21,10 @@ export interface CursoGql {
   IdMateriasOfertaAnual: number;
   IdMateriasOfertaClave: number;
   CalificacionNumerico: number;
+  BoletaCalificacion:BoletaCalificacionGql
   Estatus: Estatus;
 }
 
-export interface CursosAlumnoGql {
-  Finalizados: CursoGql[],
-  Pendientes: CursoGql[],
-  EnProceso: CursoGql[]
+export interface BoletaCalificacionGql {
+  url: string;
 }

@@ -15,6 +15,7 @@ export interface CardListItemSimple{
 }
 
 export interface CardListItemChildrens extends CardListItemSimple{
+  OpenDefault: boolean;
   Childrens?: CardListItemSimple[];
 }
 

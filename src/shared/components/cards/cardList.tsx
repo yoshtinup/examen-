@@ -8,7 +8,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 import { CardListItemChildrens, CardListItemSimple, CardListType, FontSize } from '@shared/types/cardsTypes';
-import { Divider } from '@mui/material';
+import { Divider, ListItem } from '@mui/material';
 
 const FireNav = styled(List)<{ component?: React.ElementType }>({
   '& .MuiListItemButton-root': {
@@ -42,14 +42,14 @@ export function CardList(props:any) {
           },
           palette: {
             mode: 'dark',
-            primary: { main: 'rgb(102, 157, 246)' },
-            background: { paper: 'rgb(5, 30, 52)' },
+            primary: { main: '#3B8370' },/*'rgb(102, 157, 246)' },*/
+            background: { paper: '#3B8370' },/*'rgb(5, 30, 52)' },*/
           },
         })}
       >
-        <Paper elevation={0} sx={{ maxWidth: 300 }}>
+        <Paper elevation={0} sx={{ maxWidth: '100%' }}>
           <FireNav component="nav" disablePadding>
-            <ListItemButton>
+            <ListItem>
               <ListItemIcon>
                 {data.Icono}
               </ListItemIcon>
@@ -68,13 +68,13 @@ export function CardList(props:any) {
                   letterSpacing: 0,
                 }}
               />
-            </ListItemButton>
+            </ListItem>
             <Divider />
             {data.Items.map((item:CardListItemChildrens, i) => {
               if(item.Childrens && item.Childrens.length > 0){
-                return <ItemWithChild item={item} />;
+                return <ItemWithChild key={i} item={item} />;
               }else{
-                return <ItemWithoutChild item={item} />;
+                return <ItemWithoutChild key={i} item={item} />;
               }
             })}
           </FireNav>
@@ -85,8 +85,8 @@ export function CardList(props:any) {
 }
 
 function ItemWithChild(props:any){
-  const [open, setOpen] = React.useState(false);
   const item:CardListItemChildrens = props.item;
+  const [open, setOpen] = React.useState(item.OpenDefault);
   if(!item){
     return <></>;
   }
@@ -149,28 +149,38 @@ function ItemWithoutChild(props:any){
   if(!item){
     return <></>;
   }
+  const ItemIcon =
+    <ListItemIcon>
+      {item.Icono}
+    </ListItemIcon>;
+  const ItemText =
+    <ListItemText
+      sx={{ my: 0 }}
+      primary={item.Titulo}
+      primaryTypographyProps={{
+        fontSize: item.FontSize ? item.FontSize : FontSize.middle,
+        fontWeight: 'medium',
+        letterSpacing: 0,
+      }}
+      secondary={item.Subtitulo}
+      secondaryTypographyProps={{
+        fontSize: item.FontSize ? (item.FontSize - 3) : (FontSize.middle - 3),
+        fontWeight: 'medium',
+        letterSpacing: 0,
+      }}
+    />;
   return (
     <>
-      <ListItemButton onClick={item.Onclick}>
-        <ListItemIcon>
-          {item.Icono}
-        </ListItemIcon>
-        <ListItemText
-          sx={{ my: 0 }}
-          primary={item.Titulo}
-          primaryTypographyProps={{
-            fontSize: item.FontSize ? item.FontSize : FontSize.middle,
-            fontWeight: 'medium',
-            letterSpacing: 0,
-          }}
-          secondary={item.Subtitulo}
-          secondaryTypographyProps={{
-            fontSize: item.FontSize ? (item.FontSize - 3) : (FontSize.middle - 3),
-            fontWeight: 'medium',
-            letterSpacing: 0,
-          }}
-        />
-      </ListItemButton>
+      {(item.Onclick && item.Onclick != null)
+        ?
+        <ListItemButton onClick={item.Onclick}>
+          {ItemIcon}{ItemText}
+        </ListItemButton>
+        :
+        <ListItem>
+          {ItemIcon}{ItemText}
+        </ListItem>
+      }
       <Divider />
     </>
   );

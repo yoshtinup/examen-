@@ -3,6 +3,7 @@ import { Box, useMediaQuery, Theme } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Navbar } from './navbar';
 import { Sidebar } from './sidebar';
+import { Footer } from './footer';
 
 const LayoutRoot = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -27,7 +28,7 @@ export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
             flex: '1 1 auto',
             flexDirection: 'column',
             width: '100%',
-            paddingLeft: lgUp ? (isSidebarOpen ? '280px' : '80px') : 0,
+            paddingLeft: lgUp ? (isSidebarOpen ? '280px' : '85px') : 0,
           }}
         >
           {children}
@@ -38,6 +39,7 @@ export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
         onClose={() => setSidebarOpen(false)}
         open={isSidebarOpen}
       />
+      <Footer open={isSidebarOpen} />
     </div>
   );
 };

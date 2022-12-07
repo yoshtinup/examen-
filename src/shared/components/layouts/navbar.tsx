@@ -40,10 +40,10 @@ export const Navbar: FC<NavbarProps> = ({ onSidebarOpen, open, ...other }) => {
         id="HeaderDataPersona"
         sx={{
           left: {
-            lg: open ? 280 : 80,
+            lg: open ? 280 : 85,
           },
           width: {
-            lg: open ? 'calc(100% - 280px)' : 'calc(100% - 80px)',
+            lg: open ? 'calc(100% - 280px)' : 'calc(100% - 85px)',
           },
         }}
         {...other}
