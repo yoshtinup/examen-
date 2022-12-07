@@ -37,7 +37,8 @@
     "recoil": "0.7.5",
     "sweetalert2": "^11.6.2",
     "uuid": "^9.0.0",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "react-hook-form": "^7.25.3"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "2.13.3",

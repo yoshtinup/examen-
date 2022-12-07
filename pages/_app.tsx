@@ -25,7 +25,6 @@ function MyApp({
 
   return (
     <RecoilRoot>
-      <DataComponent />
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <EcosurTheme>{getLayout(<Component {...pageProps} />)}</EcosurTheme>
