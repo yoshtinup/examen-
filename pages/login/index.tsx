@@ -146,7 +146,7 @@ const Auth = ({ user }: { user: EcosurAuth }) => {
       </Box>
       <Box
         sx={{ flexGrow: 1 }}
-        style={{ backgroundColor: '#fff', padding: '80px 0px' }}
+        style={{ backgroundColor: '#fff', padding: '80px 0px', minHeight: '88vh' }}
       >
         <Container maxWidth="lg">
           <Grid container justifyContent="center">
@@ -187,9 +187,9 @@ const Auth = ({ user }: { user: EcosurAuth }) => {
         </Container>
       </Box>
 
-      <Box sx={{ flexGrow: 1 }} style={{ padding: '20px 0px 0px' }}>
+      <Box sx={{ flexGrow: 1 }} style={{ padding: '20px 0' }}>
         <Container maxWidth="lg">
-          <Grid container justifyContent="flex-start" alignItems="center">
+          <Grid container justifyContent="center" alignItems="center">
             <Grid item xs={6} lg={8} sm={8}>
               <p style={{ color: '#6a6a6a' }}>
                 <b>Soporte técnico:</b> notificaciones.posgrado@ecosur.mx.{' '}

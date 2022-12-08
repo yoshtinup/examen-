@@ -20,6 +20,19 @@ const Routes: RoutesProps[] = [
       Roles.Servicios_Escolares,
     ],
   },
+  {
+    path: '/home',
+    all_math: true,
+    roles: [
+      Roles.Estudiante,
+      Roles.Academico,
+      Roles.Externo,
+      Roles.Responsable_Orientacion,
+      Roles.Coordinador_Unidad,
+      Roles.Coordinacion_General_Posgrado,
+      Roles.Servicios_Escolares,
+    ],
+  },
 ];
 
 export default Routes;
