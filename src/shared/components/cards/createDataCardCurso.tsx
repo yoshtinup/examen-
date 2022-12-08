@@ -3,13 +3,9 @@ import { Home, PermMedia, People, Dns } from "@mui/icons-material";
 import { CursoGql } from "@shared/types";
 import { CardListItemChildrens, CardListType, FontSize } from "@shared/types/cardsTypes";
 
-function ItemFileFunction(curso:CursoGql){
-  if(curso.BoletaCalificacion.url ){
-    const BaseUrlBoleta = 'https://serviciosposgrado.ecosur.mx/profesores/Content/Cursos/Calificaciones/BoletasEstudiantesMaterias/';
-    const Url = BaseUrlBoleta + curso.BoletaCalificacion.url;
-    return () => {window.open(Url)};
-  }
-  return null;
+function ItemFileFunction(url:string){
+  const Url = 'https://serviciosposgrado.ecosur.mx/profesores/Content/Cursos/Calificaciones/BoletasEstudiantesMaterias/' + url;
+  return () => {window.open(Url)};
 }
 
 export function getDataCardCursoFinalizado(curso:CursoGql, currentRol:Roles){
@@ -17,16 +13,24 @@ export function getDataCardCursoFinalizado(curso:CursoGql, currentRol:Roles){
   let Calificacion:CardListItemChildrens = ItemWithChildrens("Calificación", false);
   let Archivos:CardListItemChildrens = ItemWithChildrens("Archivos", false);
   if(currentRol === Roles.Estudiante){
+    /*QUEDA PENDIENTE LA VALIDACION DE LAS CALIFICACIONES CON EL ACTA DE EVALUACION*/
     const CalificacionCurso = "Curso: " + curso.CalificacionNumerico.toFixed(1);
     const CalificacionSeminario = "Seminario: " + curso.CalificacionNumerico.toFixed(1);
     Calificacion.Childrens.push(ItemSimple(CalificacionCurso, <People />));
     Calificacion.Childrens.push(ItemSimple(CalificacionSeminario, <Dns />));
     ItemCreateSubtitle(Calificacion);
     data.Items.push(Calificacion);
-    Archivos.Childrens.push(ItemSimple("Boleta de calificaiones", <People />, ItemFileFunction(curso)));
-    Archivos.Childrens.push(ItemSimple("Acta de evaluación seminario", <Dns />));
-    ItemCreateSubtitle(Archivos);
-    data.Items.push(Archivos);
+    if(curso.BoletaCalificacion && curso.BoletaCalificacion.url){
+      Archivos.Childrens.push(ItemSimple("Boleta de calificaiones", <People />, ItemFileFunction(curso.BoletaCalificacion.url)));
+    }
+    /*SUSTITUIR EL CAMPO BoletaCalificacion PARA VALIDAR EL ACTA DE EVALUACION
+    if(curso.BoletaCalificacion && curso.BoletaCalificacion.url){
+      Archivos.Childrens.push(ItemSimple("Acta de evaluación seminario", <Dns />, ItemFileFunction(curso.BoletaCalificacion.url)));
+    }*/
+    if(Archivos.Childrens.length > 0){
+      ItemCreateSubtitle(Archivos);
+      data.Items.push(Archivos);
+    }
   }
   return data;
 }

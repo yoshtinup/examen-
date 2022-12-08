@@ -8,7 +8,7 @@ type RoutesProps = {
 
 const Routes: RoutesProps[] = [
   {
-    path: '/home',
+    path: '/consejo_tutelar',
     all_math: true,
     roles: [
       Roles.Estudiante,
@@ -21,7 +21,7 @@ const Routes: RoutesProps[] = [
     ],
   },
   {
-    path: '/consejo_tutelar',
+    path: '/home',
     all_math: true,
     roles: [
       Roles.Estudiante,
