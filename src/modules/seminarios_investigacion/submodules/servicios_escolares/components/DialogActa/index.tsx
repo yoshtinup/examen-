@@ -27,7 +27,7 @@ import { EstatusElement, Persona } from '../../types';
 interface EcosurCommentDialogProps {
   handleClose: () => void;
   open: boolean;
-  onClick: (id: Number) => void;
+  onClick: (id: number, estatus: number, comentario: string) => void;
   titulo?: string;
   label?: string;
   instruccion?: boolean;
@@ -35,7 +35,7 @@ interface EcosurCommentDialogProps {
   estatusDescription: Persona;
 }
 
-const menuItems = (estatusDescription: Persona, setEstatus) => {
+const menuItems = (estatusDescription: Persona) => {
   const { data, isError, isLoading, isSuccess } = useGetEstatus();
   if (isError) {
     return (
@@ -51,7 +51,7 @@ const menuItems = (estatusDescription: Persona, setEstatus) => {
   }
   let menuItem = [];      
   estatusLista.map((estatusInfo, index) => {
-    estatusInfo.Descripcion != estatusDescription.estatus && menuItem.push(<MenuItem key={`ecosur-menu-item-${index}`} value={`${estatusInfo.ID}`}>{`${estatusInfo.Descripcion}`}</MenuItem>)
+    estatusInfo.Descripcion !== estatusDescription.estatus && menuItem.push(<MenuItem key={`ecosur-menu-item-${index}`} value={`${estatusInfo.ID}`}>{`${estatusInfo.Descripcion}`}</MenuItem>)
   });
   return menuItem;
 }
@@ -84,15 +84,16 @@ const EcosurCommentDialog = ({
   const [confirm, setConfirm] = React.useState(true);
   const [textComentario, setTextComentario] = React.useState('');
   const handleSubmit = () => {
-    onClick(Number(estatus));
+    onClick(estatusDescription.id, Number(estatus), textComentario);
     handleClose();
     setConfirm(true);
   };
   const [estatus, setEstatus] = React.useState('');
-  const handleChange = (event: SelectChangeEvent) => {
-    setEstatus(event.target.value as string);
-    (textComentario.replace(/ /g, '').length >= 10 && estatus != '') ? setConfirm(false) : setConfirm(true);
+  const handleChange = (event) => {
+    setEstatus(event.target.value);
+    (textComentario.replace(/ /g, '').length >= 10 && event.target.value !== '') ? setConfirm(false) : setConfirm(true);
   };
+
   return (
     <div>
       <Dialog
@@ -112,27 +113,26 @@ const EcosurCommentDialog = ({
             flexD={flexD}
             align={align}
           />
-          <Grid sx={{ display: 'flex', flexDirection: 'row', pl: 3, alignItems: 'center' }}>
+          <Grid sx={{ display: 'flex', flexDirection: 'row', pl: 3, alignItems: 'center', mb: 4 }}>
             <Typography gutterBottom sx={{ pr: 1 }}>
               <b> Cambiar a: </b>
             </Typography>
             <Box sx={{ minWidth: 120 }}>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Estatus</InputLabel>
+                <InputLabel id="ecosur-select-estatus-label">{selectTitle}</InputLabel>
                 <Select
-                size='small'
-                  labelId="ecosur-select-estatus"
+                  size='small'
+                  labelId="ecosur-select-estatus-label"
                   id="ecosur-select-estatus"
                   value={estatus}
                   label={selectTitle}
-                  onChange={handleChange}
+                  onChange={(e) => { handleChange(e); }}
                 >
-                  {menuItems(estatusDescription, setEstatus)}
+                  {menuItems(estatusDescription)}
                 </Select>
               </FormControl>
             </Box>
           </Grid>
-          <p />
           <Typography gutterBottom>
             <b> {label} </b>
           </Typography>
@@ -143,16 +143,26 @@ const EcosurCommentDialog = ({
             rows={5}
             onChange={(newValue) => {
               setTextComentario(newValue.target.value);
-              (textComentario.replace(/ /g, '').length >= 10 && estatus != '') ? setConfirm(false) : setConfirm(true);
+              (newValue.target.value.replace(/ /g, '').length >= 10 && estatus !== '') ? setConfirm(false) : setConfirm(true);
             }}
           />
         </DialogContent>
         <p />
         <DialogActions>
-          <Button variant='outlined' color='error' onClick={() => { setEstatus(''); handleClose(); }}>
+          <Button variant='outlined' color='error' onClick={() => { 
+              setEstatus(''); 
+              setConfirm(true); 
+              handleClose(); 
+            }}
+          >
             Cancelar
           </Button>
-          <Button disabled={confirm} variant='contained' color='primary' onClick={() => { setEstatus(''), handleSubmit(); }}>
+          <Button disabled={confirm} variant='contained' color='primary' onClick={() => { 
+              setEstatus(''); 
+              setConfirm(true);
+              handleSubmit(); 
+            }}
+          >
             Guardar
           </Button>
         </DialogActions>
@@ -162,3 +172,11 @@ const EcosurCommentDialog = ({
 };
 
 export default EcosurCommentDialog;
+function useEffect(arg0: () => void, arg1: undefined[]) {
+  throw new Error('Function not implemented.');
+}
+
+function setMovies(result: any) {
+  throw new Error('Function not implemented.');
+}
+

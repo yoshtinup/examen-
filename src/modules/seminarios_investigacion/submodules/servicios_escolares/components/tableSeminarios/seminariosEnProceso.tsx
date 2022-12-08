@@ -20,9 +20,11 @@ export const TableSeminariosEnProcesoWithoutFetch: React.FC<{ seminarios: EnProc
     estatus: '',
     periodo: ''
   }
-  const handleClick = (id: Number) => {
+  const handleClick = (id: number, estatus: number, comentario: string) => {
     setOpen(false);
     console.log(id);
+    console.log(estatus);
+    console.log(comentario);
   };
   const [open, setOpen] = React.useState<boolean>(false);
   const [estatusDescription, setEstatusDescription] = React.useState<Persona>(personaInfo);
@@ -119,8 +121,8 @@ export const TableSeminariosEnProcesoWithoutFetch: React.FC<{ seminarios: EnProc
         open={open}
         handleClose={handleClose}
         titulo={`Cambio de estatus de evaluación`}
-        label="Razón de cambio" 
-        selectTitle='Estatus' 
+        label="Razón de cambio:" 
+        selectTitle='Opciones' 
       />
     </div>
   );
