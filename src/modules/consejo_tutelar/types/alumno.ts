@@ -15,5 +15,8 @@ interface Alumno {
   evaluadoPorIntegranteCT?: boolean;
   estatusGeneral: number;
   leyendaEstatusGeneral?: string;
+  cartaAceptacion?: string;
+  direccion: string;
+  tesis: string;
 }
 export default Alumno;

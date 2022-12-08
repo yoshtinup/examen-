@@ -21,6 +21,19 @@ const Routes: RoutesProps[] = [
     ],
   },
   {
+    path: '/home',
+    all_math: true,
+    roles: [
+      Roles.Estudiante,
+      Roles.Academico,
+      Roles.Externo,
+      Roles.Responsable_Orientacion,
+      Roles.Coordinador_Unidad,
+      Roles.Coordinacion_General_Posgrado,
+      Roles.Servicios_Escolares,
+    ],
+  },
+  {
     path: '/seminarios_investigacion',
     all_math: true,
     roles: [
