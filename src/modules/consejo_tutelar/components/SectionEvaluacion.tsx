@@ -134,6 +134,11 @@ const IntegranteEvaluacion: React.FC<IntegranteEvaluacionProps> = ({
             : 'curriculum vitae'}
         </Link>
       )}
+      {integrantes.cartaAceptacion && (
+        <Link ml={4} target="_blank" href={`${integrantes.cartaAceptacion}`}>
+          Ver carta de aceptación
+        </Link>
+      )}
       <CardContent>
         <Stack spacing={2}>
           <Comentario statusIndividuals={comentarios} />

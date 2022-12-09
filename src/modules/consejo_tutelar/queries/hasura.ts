@@ -5,7 +5,7 @@ import { EstatusCTGql } from '../types';
 
 export function useGetEstudianteCTEstatus(matricula: number) {
   return useQuery<EstatusCTGql[]>(
-    ['ct-estudiante-estatus', matricula],
+    ['ct-estudiante-extra-info', matricula],
     async () => {
       const { ConformacionCT } = await hasuraClient.request(
         gql`

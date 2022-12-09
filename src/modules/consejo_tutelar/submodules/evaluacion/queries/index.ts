@@ -1,28 +1,28 @@
 import { useQuery } from 'react-query';
 import { gql } from 'graphql-request';
 import { hasuraClient } from '@shared/queries';
-import { EstatusCTGql, Rechazados } from '../types';
+import { ExtraInfoAlumnoCTGql, Rechazados } from '../types';
 
-export function useGetEstudianteCTEstatus(matricula: number) {
-  return useQuery<EstatusCTGql[]>(
-    ['ct-estudiante-estatus', matricula],
+export function useGetEstudianteCTExtraInfo(matricula: number) {
+  return useQuery<ExtraInfoAlumnoCTGql[]>(
+    ['ct-estudiante-extra-info', matricula],
     async () => {
-      const { ConformacionCT } = await hasuraClient.request(
+      const { Alumno } = await hasuraClient.request(
         gql`
-          query estatusConformacionCT($matricula: Int! = 202225101) {
-            ConformacionCT: db18_CT_Conformacion(
+          query cartaAlumnoCT($matricula: Int!) {
+            Alumno: db18_vw_CTAlumnos(
               where: { Matricula: { _eq: $matricula } }
+              limit: 1
             ) {
-              Estatus: db18_CT_CatalogoEstatusGeneral {
-                Id: IDEstatus
-                Leyenda: Estatus
-              }
+              CartaAceptacion
+              EstatusGeneral
+              LeyendaEstatusGeneral
             }
           }
         `,
         { matricula }
       );
-      return ConformacionCT;
+      return Alumno;
     }
   );
 }
