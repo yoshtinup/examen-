@@ -76,11 +76,15 @@ const Personal = () => {
   return (
     <>
       <Instrucciones rol={currentRol} />
-      {currentRol == Roles.Academico && <h1>Asesor/a</h1>}
+      {currentRol == Roles.Academico && (
+        <h2 style={{ paddingLeft: '17px', marginBottom: '0px' }}>Asesor/a</h2>
+      )}
       <PersonalFetch />
       {currentRol == Roles.Academico && (
         <>
-          <h1>Director/a de tesis</h1>
+          <h2 style={{ paddingLeft: '17px', marginBottom: '0px' }}>
+            Director/a de tesis
+          </h2>
           <PersonalFetch isDirector />
         </>
       )}

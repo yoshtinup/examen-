@@ -77,10 +77,11 @@ const SeccionRechazados = () => {
   if (cantidad == 0) return <></>;
   return (
     <div>
-      <h3 style={{ color: 'rgb(197, 107, 22) !important' }}>
-        Integrantes rechazados
-      </h3>
-
+      {data[0].Rechazados.length > 0 && (
+        <h3 style={{ color: 'rgb(197, 107, 22) !important' }}>
+          Integrantes rechazados
+        </h3>
+      )}
       {data[0].Rechazados.map((integrante: Rechazado, index: number) => (
         <Card
           key={`ct-rechazado-${index}`}
@@ -109,9 +110,9 @@ const SeccionRechazados = () => {
 };
 
 type ConsejoTutelarAlumnoBaseProps = {
-  integrantes: IntegranteCT[],
-  title?: string
-}
+  integrantes: IntegranteCT[];
+  title?: string;
+};
 
 export const ConsejoTutelarAlumnoBase: React.FC<
   React.PropsWithChildren<ConsejoTutelarAlumnoBaseProps>
@@ -126,12 +127,13 @@ export const ConsejoTutelarAlumnoBase: React.FC<
         <Perfil />
         <ProcesoCT />
         <SeccionEvaluacion
-          title={title ?? "Integrantes del consejo tutelar"}
+          title={title ?? 'Integrantes del consejo tutelar'}
           integrantes={integrantes}
           btnHide
         />
-        <SeccionRechazados />
+
         {children}
+        <SeccionRechazados />
       </Stack>
     </Container>
   );
