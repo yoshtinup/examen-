@@ -21,6 +21,7 @@ export interface DatosGql {
   ApellidoPaterno: string;
   Email: string;
   CVU: number;
+  IdAlumno: number;
 }
 
 export interface DirectorTesisGql {

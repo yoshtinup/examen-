@@ -1,12 +1,15 @@
 import { useContext } from 'react';
 import Router from 'next/router';
 import PropTypes from 'prop-types';
-import { Box, MenuItem, MenuList, Popover, Typography } from '@mui/material';
+import { Box, MenuItem, MenuList, Popover, Typography, Button } from '@mui/material';
 // import { auth, ENABLE_AUTH } from '../lib/auth';
 import Cookies from 'js-cookie';
+import React from 'react';
+import EcosurProfileDialog from '@modules/home/submodules/estudiante/components/Perfil';
+import { number } from 'yup';
 
 export const AccountPopover = props => {
-  const { anchorEl, onClose, open, ...other } = props;
+  const { anchorEl, onClose, open, matricula, ...other } = props;
   // const authContext = useContext(AuthContext);
 
   const handleSignOut = async () => {
@@ -55,6 +58,16 @@ export const AccountPopover = props => {
     }
   };
 
+  const [openPerfil, setOpenPerfil] = React.useState<boolean>(false);
+  const handleOpenPerfil = () => {
+    setOpenPerfil(true);
+  };
+  const handleClosePerfil = () => {
+    setOpenPerfil(false);
+  }
+
+console.log(matricula);
+
   return (
     <Popover
       anchorEl={anchorEl}
@@ -75,10 +88,21 @@ export const AccountPopover = props => {
           px: 2,
         }}
       >
-        <Typography variant="overline">Cuenta</Typography>
-        <Typography color="text.secondary" variant="body2">
-          Mis datos
-        </Typography>
+        {
+          matricula &&
+            <Box>
+              <Typography variant="overline">Cuenta</Typography>
+              <Typography color="text.secondary" variant="body2" component='div'>
+                <Button variant='text' color='inherit' onClick={handleOpenPerfil}>
+                  Mi Perfil
+                </Button>
+              </Typography>
+              <EcosurProfileDialog
+                open={openPerfil}
+                handleClose={handleClosePerfil}
+              />
+            </Box>
+        }
       </Box>
       <MenuList
         disablePadding
@@ -103,4 +127,5 @@ AccountPopover.propTypes = {
   anchorEl: PropTypes.any,
   onClose: PropTypes.func,
   open: PropTypes.bool.isRequired,
+  matricula: PropTypes.number || undefined,
 };

@@ -25,14 +25,14 @@ const PerfilWithStatus: React.FC<{matricula: number, status: string, seminario: 
             </Typography>
           </Box>
         </>,
-      width: 7,
+      width: 8,
     },  
     {
       componente: 
         <Box sx={{ pb: 2 }}>
           <CardCT IdEvaluacionSeminario={seminario} />
         </Box>,
-      width: 5,
+      width: 4,
     },  
   ]
   return (

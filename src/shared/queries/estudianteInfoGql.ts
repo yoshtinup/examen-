@@ -24,6 +24,7 @@ export function useGetEstudianteInfo(matricula: number) {
               ApellidoPaterno
               Email: CorreoElectronico
               CVU
+              IdAlumno
             }
             Programa {
               Id: IdPrograma

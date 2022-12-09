@@ -25,7 +25,7 @@ const items: ItemsNav[] = [
     title: 'Consejo Tutelar',
   },
   {
-    href: 'seminarios_investigacion',
+    href: '/seminarios_investigacion',
     icon: <Icon />,
     title: 'Seminarios de Investigación',
   },
