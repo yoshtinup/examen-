@@ -108,9 +108,14 @@ const SeccionRechazados = () => {
   );
 };
 
+type ConsejoTutelarAlumnoBaseProps = {
+  integrantes: IntegranteCT[],
+  title?: string
+}
+
 export const ConsejoTutelarAlumnoBase: React.FC<
-  React.PropsWithChildren<{ integrantes: IntegranteCT[] }>
-> = ({ integrantes, children }) => {
+  React.PropsWithChildren<ConsejoTutelarAlumnoBaseProps>
+> = ({ integrantes, title, children }) => {
   return (
     <Container
       maxWidth="lg"
@@ -121,7 +126,7 @@ export const ConsejoTutelarAlumnoBase: React.FC<
         <Perfil />
         <ProcesoCT />
         <SeccionEvaluacion
-          title="Integrantes del consejo tutelar en proceso de evaluación"
+          title={title ?? "Integrantes del consejo tutelar"}
           integrantes={integrantes}
           btnHide
         />

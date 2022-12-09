@@ -35,4 +35,5 @@ export interface IntegranteCT extends IntegrantePerfil {
   evaluadoPorCUP: boolean;
   estatusIndividual?: EstatusIndividual[];
   datosCodirector?: Codirector;
+  cartaAceptacion?: string;
 }
