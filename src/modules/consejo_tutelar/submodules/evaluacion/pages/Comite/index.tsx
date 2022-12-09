@@ -109,7 +109,10 @@ const ComiteEvaluacion: React.FC<{ integrantes: IntegranteCT[] }> = ({
   return (
     <>
       {evaluado && <Instrucciones rol={currentRol} />}
-      <ConsejoTutelarAlumnoBase integrantes={evaluados}>
+      <ConsejoTutelarAlumnoBase
+        title="Integrantes evaluados"
+        integrantes={evaluados}
+      >
         <SeccionEvaluacion
           title="Integrantes de consejo tutelar en proceso de evaluación"
           integrantes={pendientesEvaluar}
