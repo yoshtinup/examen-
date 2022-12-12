@@ -1,8 +1,10 @@
 import { SeccionEvaluacionBecarios } from './components';
-import { WithRol } from '@shared/hooks';
+import { WithRoles } from '@shared/hooks';
 import Roles from '@definitions/Roles';
 
-const EvaluacionPage = WithRol(Roles.Estudiante)(SeccionEvaluacionBecarios);
+const EvaluacionPage = WithRoles([Roles.Estudiante, Roles.Servicios_Escolares])(
+  SeccionEvaluacionBecarios
+);
 
 const EvaluacionBecarios = () => {
   return (

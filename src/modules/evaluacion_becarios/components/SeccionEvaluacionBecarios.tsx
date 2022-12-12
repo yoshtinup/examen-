@@ -8,21 +8,25 @@ import { useRecoilValue } from 'recoil';
 import { userStateAtom } from '@modules/auth/recoil';
 import { getEvaluaciones } from '../queries';
 import { CardList } from '@shared/components/cards';
-import {
-  CardListType,
-  CardListItemSimple,
-  CardListItemChildrens,
-} from '@shared/types/cardsTypes';
+import { CardListType, CardListItemSimple } from '@shared/types/cardsTypes';
 import { EvaluacionGql, Db12EvaluacionBecario } from '../types';
+import { useRouter } from 'next/router';
 
 const ServiciosEscolaresIndex: React.FC<{
   evaluations: EvaluacionGql;
 }> = ({ evaluations }) => {
+  const router = useRouter();
   const [mappedEvaluations, setMappedEvaluations] =
     React.useState<CardListType[]>();
+  const [evaluation, setEvaluation] = React.useState<number>();
 
   React.useEffect(() => {
     if (evaluations.db12_EvaluacionBecario) {
+      const getEvaluation = evaluations?.db12_EvaluacionBecario.filter(
+        data => data.PorcentajeAvance > 0
+      );
+      setEvaluation(getEvaluation[0].PorcentajeAvance);
+
       const newEvaluations: CardListType[] =
         evaluations?.db12_EvaluacionBecario.map(
           (data: Db12EvaluacionBecario) => {
@@ -32,7 +36,7 @@ const ServiciosEscolaresIndex: React.FC<{
               itemsEvaluation = [
                 {
                   Titulo: 'Porcentaje de avance',
-                  Subtitulo: data.PorcentajeAvance.toString(),
+                  Subtitulo: `${data.PorcentajeAvance}`,
                 },
                 {
                   Titulo: 'Recomendación',
@@ -40,7 +44,12 @@ const ServiciosEscolaresIndex: React.FC<{
                 },
                 {
                   Titulo: 'Formato de evaluación',
-                  Subtitulo: 'PREGUNTAR A ING. ISIS',
+                  Subtitulo: `https://serviciosposgr...`,
+                  Onclick: () => {
+                    router.push(
+                      `https://serviciosposgrado.ecosur.mx/profesores/Content/EvaluacionBecarios/${data.Acta}`
+                    );
+                  },
                 },
                 {
                   Titulo: 'Fecha de evaluación',
@@ -79,6 +88,11 @@ const ServiciosEscolaresIndex: React.FC<{
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant="body1" gutterBottom>
+            <b>PORCENTAJE DE AVANCE: {evaluation}%</b>
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="body1" gutterBottom>
             <b>EVALUACIONES</b>
           </Typography>
         </Grid>
@@ -97,7 +111,7 @@ const ServiciosEscolaresIndex: React.FC<{
 const SeccionEvaluacionBecariosFetch: React.FC<unknown> = () => {
   const { estudiante } = useRecoilValue(userStateAtom);
   const { data, error, isLoading } = useQuery('se-conformacion-ct', async () =>
-    getEvaluaciones(202011026)
+    getEvaluaciones(/* estudiante.matricula */ 202011026)
   );
 
   if (isLoading) return <CircularProgress />;
@@ -117,9 +131,6 @@ const SeccionEvaluacionBecariosFetch: React.FC<unknown> = () => {
 const SeccionEvaluacionBecarios = () => {
   return (
     <>
-      <Grid>
-        <div>INSTRUCCIONES ¿?</div>
-      </Grid>
       <SeccionEvaluacionBecariosFetch />
     </>
   );
