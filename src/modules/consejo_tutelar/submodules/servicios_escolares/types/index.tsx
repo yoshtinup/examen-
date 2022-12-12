@@ -64,8 +64,8 @@ interface EstatusIndividualSE {
 }
 
 interface Cartas {
-  estudiante: boolean;
   integrantes: number[];
+  estudiante: boolean;
 }
 
 interface ModificacionCt {

@@ -1,13 +1,15 @@
 import { useRouter } from 'next/router';
-import { Button } from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
 import {
   DataGrid,
   GridColDef,
   GridCellParams,
-  GridToolbar,
   GridToolbarContainer,
   GridToolbarExport,
   GridSelectionModel,
+  GridToolbarColumnsButton,
+  GridToolbarFilterButton,
+  GridToolbarDensitySelector,
 } from '@mui/x-data-grid';
 import { EnProceso, Concluidos } from '../types';
 import React from 'react';
@@ -116,7 +118,33 @@ const Table: React.FC<{
   }
 
   const CustomToolbar = () => {
-    return <GridToolbarContainer>{customToolBar}</GridToolbarContainer>;
+    return (
+      <Box style={{ display: 'flex' }}>
+        <Grid container justifyContent="flex-start">
+          <GridToolbarContainer>
+            <GridToolbarColumnsButton
+              onResize={undefined}
+              nonce={undefined}
+              onResizeCapture={undefined}
+            />
+            <GridToolbarFilterButton
+              onResize={undefined}
+              nonce={undefined}
+              onResizeCapture={undefined}
+            />
+            <GridToolbarDensitySelector
+              onResize={undefined}
+              nonce={undefined}
+              onResizeCapture={undefined}
+            />
+            <GridToolbarExport />
+          </GridToolbarContainer>
+        </Grid>
+        <Grid container justifyContent="flex-end">
+          {customToolBar}
+        </Grid>
+      </Box>
+    );
   };
 
   return (

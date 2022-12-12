@@ -24,6 +24,7 @@ import {
 } from '../types';
 import { ConsejoTutelarQuerys } from '@modules/consejo_tutelar/queries';
 import Swal from 'sweetalert2';
+import Box from '@mui/material/Box';
 
 function convertCT(data: Info): CT {
   const integrantesCT = data.Integrantes.map((info: Integrante) => {
@@ -31,11 +32,14 @@ function convertCT(data: Info): CT {
       (estatus: EstatusIndividualSE) =>
         estatus.Rol.trim() === 'Integrante de Consejo tutelar'
     );
+    const date = new Date(setEstatus.Fecha);
     return {
       Id: info.IdTutorSinodal,
       Participacion: info.Participacion,
       Nombre: info.Nombre,
-      Estatus: setEstatus ? `Aceptó el ${setEstatus.Fecha}` : 'Pendiente',
+      Estatus: setEstatus
+        ? `Aceptó el ${date.toLocaleDateString()}`
+        : 'Pendiente',
     };
   });
 
@@ -52,6 +56,7 @@ type BtnAccionesSe = {
   labelSubmit: string;
   onSubmit: (ids: number[]) => void;
   id: string;
+  instructions: JSX.Element;
 };
 
 const BtnAccionesSe: FC<PropsWithChildren<BtnAccionesSe>> = ({
@@ -63,6 +68,7 @@ const BtnAccionesSe: FC<PropsWithChildren<BtnAccionesSe>> = ({
   onSubmit,
   children,
   id,
+  instructions,
 }) => {
   const [openCartas, setOpenCartas] = useState<boolean>(false);
   const [idIntegrantes, setidIntegrantes] = useState<number[]>([]);
@@ -92,16 +98,12 @@ const BtnAccionesSe: FC<PropsWithChildren<BtnAccionesSe>> = ({
       setidIntegrantes([]);
       checkedState.forEach((state, index) => {
         if (state) {
-          console.log('checkedState');
-          console.log(checkedState);
           checkedState[index] = false;
-          console.log(checkedState);
           setCheckedState(checkedState);
         }
       });
 
       resetAlert();
-      console.log('RESET ALL');
     }
   }, [alert]);
 
@@ -117,7 +119,11 @@ const BtnAccionesSe: FC<PropsWithChildren<BtnAccionesSe>> = ({
         handleClose={handleToggleCartas}
       >
         <Container maxWidth="sm">
-          <h3>Integrantes del consejo tutelar</h3>
+          <Box sx={{ margin: '50px 0px 0px 0px' }}>
+            <h3 style={{ display: 'inline' }}>INSTRUCCIONES: </h3>{' '}
+            {instructions}
+          </Box>
+          <h3>Cartas de aceptación de integrantes</h3>
           {data ? (
             <>
               <FormGroup>
@@ -167,7 +173,7 @@ export default function Page({ info, otherButttons }: Props) {
   };
 
   const { mutate } = useMutation(
-    async (ct: ModificacionCt | Cartas) => {
+    async (ct: any) => {
       Swal.fire({
         target: target,
         title: 'Enviando solicitud',
@@ -177,8 +183,11 @@ export default function Page({ info, otherButttons }: Props) {
           Swal.showLoading(this);
         },
       });
-      console.log(ct);
-      await ConsejoTutelarQuerys.accionesSE(ct, info.Matricula);
+      if (ct?.comentario) {
+        await ConsejoTutelarQuerys.modificarCT(ct);
+      } else {
+        await ConsejoTutelarQuerys.generarCartas(ct, info.Matricula);
+      }
     },
     {
       onSuccess: () => {
@@ -213,7 +222,6 @@ export default function Page({ info, otherButttons }: Props) {
 
   const handleOnSubmitCartas = (ids: number[]) => {
     target = document.getElementById(idDialogCartas);
-    console.log(ids, checkedEstudiante);
     if (checkedEstudiante || ids.length > 0) {
       const cartas: Cartas = {
         estudiante: checkedEstudiante,
@@ -234,7 +242,6 @@ export default function Page({ info, otherButttons }: Props) {
 
   const handleOnSubmitModificarCt = (ids: number[]) => {
     target = document.getElementById(idDialogModificacionCT);
-    console.log(ids, comment);
     if (ids.length > 0 && comment) {
       const modificacion: ModificacionCt = {
         integrantes: ids,
@@ -278,8 +285,18 @@ export default function Page({ info, otherButttons }: Props) {
           data={data}
           label="Generar Cartas"
           labelSubmit="Generar cartas"
+          instructions={
+            <>
+              <label>
+                Seleccione a los integrantes del consejo tutelar que debe
+                generarse las cartas de aceptación y haga clic en el botón{' '}
+                <b>Generar cartas</b>. Estas serán enviadas por correo
+                electrónico a las personas correspondientes.{' '}
+              </label>
+            </>
+          }
         >
-          <h3>Alumno</h3>
+          <h3>Carta de aceptación de consejo tutelar</h3>
           <FormControlLabel
             key={`ct-integrantes-${info.Matricula}`}
             checked={checkedEstudiante}
@@ -297,9 +314,19 @@ export default function Page({ info, otherButttons }: Props) {
           alert={alert}
           data={data}
           label="Modificar consejo tutelar"
-          labelSubmit="Borrar integrantes"
+          labelSubmit="Eliminar integrantes"
+          instructions={
+            <>
+              <label>
+                Seleccione a los integrantes del consejo tutelar del estudiante
+                a eliminar, registre la razón y haga clic en el botón “Eliminar
+                integrantes”. Se notificará al estudiante para que ingrese y
+                complete su consejo tutelar.
+              </label>
+            </>
+          }
         >
-          <h3>Justificación del cambio</h3>
+          <h3>Razón de la eliminación de integrante/s</h3>
           <TextField
             multiline
             rows={10}

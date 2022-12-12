@@ -114,22 +114,21 @@ class ConsejoTutelarQuerys extends ApiQuerys {
     return msg;
   }
 
-   /**
-   * Evaluacion de un CT por parte del comite de Ecosur
-   * @param matricula - de un alumno con consejo tutelar
-   * @param evaluacion - informacion de rechazo o aceptacion por integrante de un CT
-   * @returns (Promise<Message>) Menaeje satisfactorio de error
-   */
-    async accionesSE(
-      data: Cartas | ModificacionCt,
-      matricula: number
-    ): Promise<any> {
-      const msg = await this.api<Message>(
-        `generar_cartas/${matricula}`,
-        this.getJsonRequest(data, 'POST')
-      );
-      return msg;
-    }
+  async generarCartas(data: Cartas, matricula: number): Promise<any> {
+    const msg = await this.api<Message>(
+      `generar_cartas/${matricula}`,
+      this.getJsonRequest(data, 'POST')
+    );
+    return msg;
+  }
+
+  async modificarCT(data: ModificacionCt): Promise<any> {
+    const msg = await this.api<Message>(
+      `eliminarintegrantesCT?comentario=${data.comentario}`,
+      this.getJsonRequest(data.integrantes, 'POST')
+    );
+    return msg;
+  }
 }
 
 /* const { isLoading, isSuccess, isError, data, error, refetch } = */
