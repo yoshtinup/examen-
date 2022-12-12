@@ -7,6 +7,17 @@ import Cookies from 'js-cookie';
 import React from 'react';
 import EcosurProfileDialog from '@modules/home/submodules/estudiante/components/Perfil';
 import { number } from 'yup';
+import { EstudianteGql } from '@shared/types';
+import { useGetEstudianteInfo } from '@shared/queries';
+
+function EstudianteInfo(matricula: number) {
+  const { data, isError, isLoading, isSuccess } = useGetEstudianteInfo(matricula);
+  let estudiante: EstudianteGql;
+  if (isSuccess) {
+    estudiante = data[0];
+    return estudiante;
+  }
+} 
 
 export const AccountPopover = props => {
   const { anchorEl, onClose, open, matricula, ...other } = props;
@@ -58,6 +69,8 @@ export const AccountPopover = props => {
     }
   };
 
+  const estudiante: EstudianteGql | null = EstudianteInfo(matricula?matricula:0);
+
   const [openPerfil, setOpenPerfil] = React.useState<boolean>(false);
   const handleOpenPerfil = () => {
     setOpenPerfil(true);
@@ -65,8 +78,6 @@ export const AccountPopover = props => {
   const handleClosePerfil = () => {
     setOpenPerfil(false);
   }
-
-console.log(matricula);
 
   return (
     <Popover
@@ -100,6 +111,7 @@ console.log(matricula);
               <EcosurProfileDialog
                 open={openPerfil}
                 handleClose={handleClosePerfil}
+                estudiante={estudiante}
               />
             </Box>
         }
