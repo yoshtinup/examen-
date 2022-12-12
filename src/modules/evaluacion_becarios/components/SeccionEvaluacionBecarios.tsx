@@ -69,20 +69,6 @@ const ServiciosEscolaresIndex: React.FC<{
             };
           }
         );
-      /* const copy = newEvaluations;
-      copy.push(newEvaluations[0]);
-      copy.push(newEvaluations[0]);
-      copy.push(newEvaluations[0]);
-      copy.push({
-        Titulo: 'Segundo semestre',
-        Items: [
-          {
-            Titulo: 'Estatus',
-            Subtitulo: 'Pendiente de evaluación',
-          },
-        ],
-      });
-      copy.push(newEvaluations[4]); */
 
       setMappedEvaluations(newEvaluations);
     }
@@ -111,7 +97,7 @@ const ServiciosEscolaresIndex: React.FC<{
 const SeccionEvaluacionBecariosFetch: React.FC<unknown> = () => {
   const { estudiante } = useRecoilValue(userStateAtom);
   const { data, error, isLoading } = useQuery('se-conformacion-ct', async () =>
-    getEvaluaciones(202221005)
+    getEvaluaciones(202011026)
   );
 
   if (isLoading) return <CircularProgress />;

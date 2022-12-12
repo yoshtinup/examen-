@@ -25,22 +25,6 @@ import {
 import { ConsejoTutelarQuerys } from '@modules/consejo_tutelar/queries';
 import Swal from 'sweetalert2';
 
-/* const consejoTutelar = [
-  {
-    id: 1,
-    nombre: 'Diego Cruz Aguilar',
-    participacion: 'Asesor',
-    status: 'Acepto',
-  },
-  {
-    id: 2,
-    nombre: 'Marla Cruz Aguilar',
-    participacion: 'Codirector',
-    status: 'Pendiente',
-  },
-]; */
-//const estudiante = { matricula: 1234567, nombre: 'Miriam Cruz Aguilar' };
-
 function convertCT(data: Info): CT {
   const integrantesCT = data.Integrantes.map((info: Integrante) => {
     const [setEstatus] = info.EstatusIndividual.filter(
@@ -128,7 +112,7 @@ const BtnAccionesSe: FC<PropsWithChildren<BtnAccionesSe>> = ({
       </Button>
       <EcosurFullDialog
         id={id}
-        title="Generar Cartas"
+        title={label}
         open={openCartas}
         handleClose={handleToggleCartas}
       >
@@ -193,6 +177,7 @@ export default function Page({ info, otherButttons }: Props) {
           Swal.showLoading(this);
         },
       });
+      console.log(ct);
       await ConsejoTutelarQuerys.accionesSE(ct, info.Matricula);
     },
     {

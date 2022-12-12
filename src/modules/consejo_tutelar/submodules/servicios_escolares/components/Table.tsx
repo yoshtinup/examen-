@@ -5,6 +5,8 @@ import {
   GridColDef,
   GridCellParams,
   GridToolbar,
+  GridToolbarContainer,
+  GridToolbarExport,
   GridSelectionModel,
 } from '@mui/x-data-grid';
 import { EnProceso, Concluidos } from '../types';
@@ -33,7 +35,8 @@ const Table: React.FC<{
   rows: EnProceso[] | Concluidos[];
   list?: (id: number[]) => void;
   actionColumn?: boolean;
-}> = ({ rows, list, actionColumn = false }) => {
+  customToolBar?: JSX.Element;
+}> = ({ rows, list, actionColumn = false, customToolBar }) => {
   const [checkboxSelection, setCheckboxSelection] = React.useState(true);
   const [selectionModel, setSelectionModel] =
     React.useState<GridSelectionModel>([]);
@@ -112,6 +115,10 @@ const Table: React.FC<{
     });
   }
 
+  const CustomToolbar = () => {
+    return <GridToolbarContainer>{customToolBar}</GridToolbarContainer>;
+  };
+
   return (
     <DataGrid
       checkboxSelection={checkboxSelection}
@@ -127,7 +134,7 @@ const Table: React.FC<{
       rows={rows}
       columns={columns}
       components={{
-        Toolbar: GridToolbar,
+        Toolbar: CustomToolbar,
       }}
       autoHeight={true}
       pageSize={30}

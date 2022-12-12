@@ -165,95 +165,101 @@ const ServiciosEscolaresIndex: React.FC<{
     }
   };
 
+  const notificationSelect = (
+    <>
+      <InputLabel
+        style={{
+          width: '100%',
+          textAlign: 'end',
+          padding: '20px 165px 0px 0px',
+        }}
+      >
+        Enviar notificaciones a:
+      </InputLabel>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        <Box
+          sx={{
+            margin: '10px',
+            display: 'flex',
+            alignItems: 'center',
+            padding: '10px',
+          }}
+        >
+          <Box>
+            <Button
+              variant="contained"
+              size="small"
+              onClick={sendSpecificNotification}
+            >
+              Seleccionados
+            </Button>
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            margin: '10px',
+            display: 'flex',
+            alignItems: 'center',
+            padding: '10px',
+            background: '#fff',
+            borderRadius: '10px',
+          }}
+        >
+          <FormControl
+            sx={{ m: 1, minWidth: 150, maxWidth: 150, margin: '5px' }}
+          >
+            <InputLabel id="notification-label">Notificación</InputLabel>
+            <Select
+              labelId="notification-label"
+              id="notification-select"
+              label="Notificación"
+              defaultValue={5}
+            >
+              {item.map(data => (
+                <MenuItem
+                  key={`select-notification-${data.id}`}
+                  value={data.value}
+                  onClick={() => {
+                    setAllStatus([data.value]);
+                  }}
+                >
+                  {data.text}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <Box>
+            <Button
+              variant="contained"
+              size="small"
+              onClick={sendGeneralNotification}
+            >
+              Enviar
+            </Button>
+          </Box>
+        </Box>
+      </Box>
+    </>
+  );
+
   const tabs = [
     {
       titulo: 'En proceso',
       componente: (
         <>
           <Grid container direction="row" justifyContent="flex-end">
-            <InputLabel
-              style={{
-                width: '100%',
-                textAlign: 'end',
-                padding: '20px 165px 0px 0px',
-              }}
-            >
-              Enviar notificaciones a:
-            </InputLabel>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              <Box
-                sx={{
-                  margin: '10px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '10px',
-                }}
-              >
-                <Box>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    onClick={sendSpecificNotification}
-                  >
-                    Seleccionados
-                  </Button>
-                </Box>
-              </Box>
-              <Box
-                sx={{
-                  margin: '10px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '10px',
-                  background: '#fff',
-                  borderRadius: '10px',
-                }}
-              >
-                <FormControl
-                  sx={{ m: 1, minWidth: 150, maxWidth: 150, margin: '5px' }}
-                >
-                  <InputLabel id="notification-label">Notificación</InputLabel>
-                  <Select
-                    labelId="notification-label"
-                    id="notification-select"
-                    label="Notificación"
-                    defaultValue={5}
-                  >
-                    {item.map(data => (
-                      <MenuItem
-                        key={`select-notification-${data.id}`}
-                        value={data.value}
-                        onClick={() => {
-                          setAllStatus([data.value]);
-                        }}
-                      >
-                        {data.text}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                <Box>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    onClick={sendGeneralNotification}
-                  >
-                    Enviar
-                  </Button>
-                </Box>
-              </Box>
-            </Box>
             <Box sx={{ width: '100%' }}>
               <Table
                 key="ct-table-list-1"
                 rows={rowsInProccess}
                 actionColumn={true}
                 list={selected}
+                customToolBar={notificationSelect}
               />
             </Box>
           </Grid>
