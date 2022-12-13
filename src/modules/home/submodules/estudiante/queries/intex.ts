@@ -17,6 +17,9 @@ export function useUpdateEmail(idAlumno: number, email: string) {
     return update_Alumnos;
   }, {
     enabled: false,
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true,
+    staleTime: 0,
+    cacheTime: 0,
+    refetchInterval: 0,
   });
 }

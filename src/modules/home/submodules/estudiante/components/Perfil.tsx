@@ -65,24 +65,6 @@ function validarEmail(email: string, newEmail: string) {
   }
 }
 
-function updateEmail(idAlumno: number, email: string) {
-  const { data, isError, isSuccess, refetch } = useUpdateEmail(idAlumno, email);
-  if (isError) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: 'No se pudo cambair su correo electrónico.',
-    });
-  }
-  if (isSuccess) {
-    Swal.fire({
-      icon: 'success',
-      title: 'El correo electrónico',
-      text: 'Se guardó exitosamente',
-    });
-  }
-}
-
 const EcosurProfileDialog = ({
   handleClose,
   open,
@@ -93,30 +75,32 @@ const EcosurProfileDialog = ({
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const [newEmail, setNewEmail] = React.useState(estudiante.Datos.Email);
-  const {isError, isSuccess, refetch, isIdle } = useUpdateEmail(estudiante.Datos.IdAlumno, newEmail);
+  const {isError, isSuccess, refetch }: any = useUpdateEmail(estudiante.Datos.IdAlumno, newEmail);
   const handleSubmit = () => {
-    refetch();
-    console.log(isSuccess);
-    if(isIdle) {console.log(isIdle);
-    }
-    handleClose();
     if (isError) {
+      handleClose();
       return(
       Swal.fire({
         icon: 'error',
-        title: 'Error',
-        text: 'No se pudo cambair su correo electrónico.',
+        title: 'ERROR',
+        text: 'No se pudo guardar su nuevo correo electrónico.',
       }));
     }
     if (isSuccess) {
-      return (
+      handleClose();
       Swal.fire({
         icon: 'success',
-        title: 'El correo electrónico',
-        text: 'Se guardó exitosamente',
-      }));
+        title: 'El correo electrónico se guardó exitosamente.',
+        text: 'La página se recargará.',
+        showCancelButton: false,
+        showConfirmButton: false,
+        allowOutsideClick: false
+      });
+      const timer = setTimeout(() => {
+        window.location.reload()
+      }, 5000);
+      return () => clearTimeout(timer);
     }
-    // window.location.reload();
   };  
   let userInfo: Object;
   let flexD = 'row';
@@ -206,9 +190,9 @@ const EcosurProfileDialog = ({
                 setNewEmail(value);
               }}>
             </TextField>
-            {
-              validarEmail(estudiante&&estudiante.Datos.Email, newEmail) && <Button size='small' variant='contained' onClick={handleSubmit}>Cambiar correo</Button>
-            }
+            <Box component='div'>
+              { validarEmail(estudiante&&estudiante.Datos.Email, newEmail) && <Button size='small' variant='contained' onClick={refetch}>Cambiar correo</Button> }
+            </Box>
           </Grid>
         </Grid>
       ,
@@ -218,6 +202,10 @@ const EcosurProfileDialog = ({
       verticalAlign: 'right',
     }
   ]
+  
+  useEffect(() => {
+    handleSubmit();
+  }, [isSuccess, isError])
 
   return (
     <div>
