@@ -86,6 +86,7 @@ function convertConformacionCTAlumno(
       idParticipacion: externo.idParticipacion,
       argumentacion: externo.datosExtra?.Argumentacion ?? '',
       fileName: externo.datosExtra?.UrlCV ?? '',
+      idGenero: 0,
       codirectorInfo: {
         sNI: externo.codirectorInfo?.SNI,
         numPubArb: externo.codirectorInfo?.NumPubArb,

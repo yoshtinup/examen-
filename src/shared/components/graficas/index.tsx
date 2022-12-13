@@ -1,0 +1,1 @@
+export { GraficaBarras } from './graficaBarras';

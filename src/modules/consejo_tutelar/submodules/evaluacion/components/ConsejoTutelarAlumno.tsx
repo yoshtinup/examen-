@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { useGetIntegrantesCTEliminados } from '../queries';
+import { useGetIntegrantesCTRechazados } from '../queries';
 import { ConsejoTutelarQuerys } from '@modules/consejo_tutelar/queries';
 import { useRecoilValue } from 'recoil';
 import { estudianteCTState } from '../recoil';
@@ -41,7 +41,12 @@ const ProcesoCT = () => {
     }
   );
   if (isLoading) return <CircularProgress />;
-  if (error) return <Alert>Error al cargar el status del proceso actual</Alert>;
+  if (error)
+    return (
+      <Alert severity="error">
+        Error al cargar el status del proceso actual
+      </Alert>
+    );
   const step = getStep(estudiante.IdEstatusCT);
   return (
     <Box sx={{ width: '100%' }}>
@@ -60,17 +65,23 @@ const ProcesoCT = () => {
 const SeccionRechazados = () => {
   const estudiante = useRecoilValue(estudianteCTState);
   const matricula = estudiante.Matricula;
-  const { data, isLoading, error } = useGetIntegrantesCTEliminados(matricula);
+  const { data, isLoading, error } = useGetIntegrantesCTRechazados(matricula);
   if (isLoading) return <CircularProgress />;
-  if (error) return <Alert>Error al cargar el status del proceso actual</Alert>;
+  if (error)
+    return (
+      <Alert severity="error">
+        Error al cargar la seccion de integrantes rechazados
+      </Alert>
+    );
   const cantidad = data.length;
   if (cantidad == 0) return <></>;
   return (
     <div>
-      <h3 style={{ color: 'rgb(197, 107, 22) !important' }}>
-        Integrantes rechazados
-      </h3>
-
+      {data[0].Rechazados.length > 0 && (
+        <h3 style={{ color: 'rgb(197, 107, 22) !important' }}>
+          Integrantes rechazados
+        </h3>
+      )}
       {data[0].Rechazados.map((integrante: Rechazado, index: number) => (
         <Card
           key={`ct-rechazado-${index}`}
@@ -98,9 +109,14 @@ const SeccionRechazados = () => {
   );
 };
 
+type ConsejoTutelarAlumnoBaseProps = {
+  integrantes: IntegranteCT[];
+  title?: string;
+};
+
 export const ConsejoTutelarAlumnoBase: React.FC<
-  React.PropsWithChildren<{ integrantes: IntegranteCT[] }>
-> = ({ integrantes, children }) => {
+  React.PropsWithChildren<ConsejoTutelarAlumnoBaseProps>
+> = ({ integrantes, title, children }) => {
   return (
     <Container
       maxWidth="lg"
@@ -111,12 +127,13 @@ export const ConsejoTutelarAlumnoBase: React.FC<
         <Perfil />
         <ProcesoCT />
         <SeccionEvaluacion
-          title="Integrantes del consejo tutelar en proceso de evaluación"
+          title={title ?? 'Integrantes del consejo tutelar'}
           integrantes={integrantes}
           btnHide
         />
-        <SeccionRechazados />
+
         {children}
+        <SeccionRechazados />
       </Stack>
     </Container>
   );

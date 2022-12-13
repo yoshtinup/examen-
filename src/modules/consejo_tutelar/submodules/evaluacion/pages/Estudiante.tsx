@@ -12,6 +12,8 @@ const Estudiante = () => {
   if (matricula == user.estudiante?.matricula) {
     return <ConsejoTutelarAlumno />;
   }
-  return <Alert>Solo puedes consultar tu propia informacion</Alert>;
+  return (
+    <Alert severity="error">Solo puedes consultar tu propia informacion</Alert>
+  );
 };
 export default Estudiante;

@@ -25,7 +25,9 @@ const LoadCT: React.FC<LoadCTProps> = ({
   );
   if (isLoading) return <CircularProgress />;
   if (error)
-    return <Alert severity="error">No se pudo acceder a la estancia</Alert>;
+    return (
+      <Alert severity="error">No se pudo acceder al consejo tutelar</Alert>
+    );
   return <Component integrantes={data === undefined ? [] : data} />;
 };
 
@@ -43,7 +45,7 @@ export const LoadCTChildrem: React.FC<
   );
   if (isLoading) return <CircularProgress />;
   if (error)
-    return <Alert severity="error">No se pudo acceder a la estancia</Alert>;
+    return <Alert severity="error">No se pudo acceder al consejo tutelar</Alert>;
   return (
     <Component integrantes={data === undefined ? [] : data}>
       {children}

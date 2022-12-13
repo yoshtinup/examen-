@@ -6,7 +6,7 @@ import { Layout } from '@shared/components/layouts';
 
 const Page = () => {
   return (
-    <Container maxWidth="xl" style={{ paddingTop: '30px' }}>
+    <Container maxWidth={false} style={{ padding: '30px' }}>
       <Box
         display="column"
         alignItems="center"

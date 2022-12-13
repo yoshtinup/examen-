@@ -1,6 +1,5 @@
 import React from 'react';
 import { useQuery } from 'react-query';
-import { Grid } from '@mui/material';
 import { ConsejoTutelarQuerys } from '@modules/consejo_tutelar/queries';
 import { Alumno } from '@modules/consejo_tutelar/types';
 import Roles from '@definitions/Roles';
@@ -9,8 +8,8 @@ import { rolStateAtom } from '@modules/auth/recoil';
 import { Alert, CircularProgress } from '@mui/material';
 import Table from './components';
 import { EcosurTabs } from 'ecosur-ui';
-
 import Instrucciones from './components/Instrucciones';
+import { WithRol } from '@shared/hooks';
 
 const filters = (rol: Roles, isDirector: boolean) => {
   if (isDirector) return (alumno: Alumno) => alumno.estatusGeneral > 3;
@@ -77,11 +76,15 @@ const Personal = () => {
   return (
     <>
       <Instrucciones rol={currentRol} />
-      <h1>Asesor/a</h1>
+      {currentRol == Roles.Academico && (
+        <h2 style={{ paddingLeft: '17px', marginBottom: '0px' }}>Asesor/a</h2>
+      )}
       <PersonalFetch />
       {currentRol == Roles.Academico && (
         <>
-          <h1>Director/a de tesis</h1>
+          <h2 style={{ paddingLeft: '17px', marginBottom: '0px' }}>
+            Director/a de tesis
+          </h2>
           <PersonalFetch isDirector />
         </>
       )}
