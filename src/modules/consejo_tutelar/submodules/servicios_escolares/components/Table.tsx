@@ -158,7 +158,7 @@ const Table: React.FC<{
       }}
       selectionModel={selectionModel}
       className="datagrid"
-      getRowId={row => row.IDConformacion}
+      getRowId={row => row.Matricula}
       rows={rows}
       columns={columns}
       components={{

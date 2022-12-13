@@ -17,7 +17,7 @@ import {
   CT,
   Info,
   Integrante,
-  EstatusIndividualSE,
+  EstatusIndividual,
   Cartas,
   ModificacionCt,
   EnProceso,
@@ -28,11 +28,15 @@ import Box from '@mui/material/Box';
 
 function convertCT(data: Info): CT {
   const integrantesCT = data.Integrantes.map((info: Integrante) => {
-    const [setEstatus] = info.EstatusIndividual.filter(
-      (estatus: EstatusIndividualSE) =>
-        estatus.Rol.trim() === 'Integrante de Consejo tutelar'
-    );
-    const date = new Date(setEstatus.Fecha);
+    const [setEstatus] = info.EstatusIndividual
+      ? info.EstatusIndividual.filter(
+          (estatus: EstatusIndividual) =>
+            estatus.Rol.trim() === 'Integrante de Consejo tutelar'
+        )
+      : [];
+
+    const date = info.EstatusIndividual ? new Date(setEstatus.Fecha) : null;
+
     return {
       Id: info.IdTutorSinodal,
       Participacion: info.Participacion,
@@ -269,7 +273,7 @@ export default function Page({ info, otherButttons }: Props) {
   if (isLoading) return <CircularProgress />;
 
   if (error)
-    return <Alert severity="error">No se pudo cargar su consejo tutelar</Alert>;
+    return <Alert severity="error">No se pueden cargar las acciones</Alert>;
 
   return (
     <div>
