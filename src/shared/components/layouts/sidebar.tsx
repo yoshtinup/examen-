@@ -29,6 +29,11 @@ const items: ItemsNav[] = [
     icon: <Icon />,
     title: 'Seminarios de Investigación',
   },
+  {
+    href: '/inscripciones',
+    icon: <Icon />,
+    title: 'Inscripciones',
+  },
 ];
 
 type SidebarProps = {
