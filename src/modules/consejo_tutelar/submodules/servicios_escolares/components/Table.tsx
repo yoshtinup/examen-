@@ -1,16 +1,19 @@
 import { useRouter } from 'next/router';
-import { Button } from '@mui/material';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import { Box, Button, Grid } from '@mui/material';
 import {
   DataGrid,
   GridColDef,
   GridCellParams,
-  GridToolbar,
-  GridRowParams,
+  GridToolbarContainer,
+  GridToolbarExport,
   GridSelectionModel,
+  GridToolbarColumnsButton,
+  GridToolbarFilterButton,
+  GridToolbarDensitySelector,
 } from '@mui/x-data-grid';
 import { EnProceso, Concluidos } from '../types';
 import React from 'react';
+import Page from './BtnAccionesSe';
 
 const ButtonRedirect: React.FC<{ matricula: number }> = ({ matricula }) => {
   const router = useRouter();
@@ -20,9 +23,9 @@ const ButtonRedirect: React.FC<{ matricula: number }> = ({ matricula }) => {
   return (
     <Button
       variant="contained"
-      color="success"
+      color="primary"
       size="small"
-      startIcon={<AccountBoxIcon />}
+      // startIcon={<AccountBoxIcon />}
       onClick={handleClickRow}
     >
       Detalles
@@ -32,9 +35,10 @@ const ButtonRedirect: React.FC<{ matricula: number }> = ({ matricula }) => {
 
 const Table: React.FC<{
   rows: EnProceso[] | Concluidos[];
-  list?: any;
+  list?: (id: number[]) => void;
   actionColumn?: boolean;
-}> = ({ rows, list, actionColumn = false }) => {
+  customToolBar?: JSX.Element;
+}> = ({ rows, list, actionColumn = false, customToolBar }) => {
   const [checkboxSelection, setCheckboxSelection] = React.useState(true);
   const [selectionModel, setSelectionModel] =
     React.useState<GridSelectionModel>([]);
@@ -94,9 +98,14 @@ const Table: React.FC<{
       headerName: 'Opciones',
       sortable: false,
       renderCell: (params: GridCellParams) => (
-        <ButtonRedirect matricula={params.row.Matricula} />
+        <>
+          <Page
+            info={params.row}
+            otherButttons={<ButtonRedirect matricula={params.row.Matricula} />}
+          />
+        </>
       ),
-      width: 150,
+      width: 500,
     });
   }
 
@@ -108,21 +117,52 @@ const Table: React.FC<{
     });
   }
 
+  const CustomToolbar = () => {
+    return (
+      <Box style={{ display: 'flex' }}>
+        <Grid container justifyContent="flex-start">
+          <GridToolbarContainer>
+            <GridToolbarColumnsButton
+              onResize={undefined}
+              nonce={undefined}
+              onResizeCapture={undefined}
+            />
+            <GridToolbarFilterButton
+              onResize={undefined}
+              nonce={undefined}
+              onResizeCapture={undefined}
+            />
+            <GridToolbarDensitySelector
+              onResize={undefined}
+              nonce={undefined}
+              onResizeCapture={undefined}
+            />
+            <GridToolbarExport />
+          </GridToolbarContainer>
+        </Grid>
+        <Grid container justifyContent="flex-end">
+          {customToolBar}
+        </Grid>
+      </Box>
+    );
+  };
+
   return (
     <DataGrid
       checkboxSelection={checkboxSelection}
       disableSelectionOnClick
       onSelectionModelChange={newSelectionModel => {
         setSelectionModel(newSelectionModel);
-        list(newSelectionModel);
+        const selected = newSelectionModel as number[];
+        list(selected);
       }}
       selectionModel={selectionModel}
       className="datagrid"
-      getRowId={row => row.IDConformacion}
+      getRowId={row => row.Matricula}
       rows={rows}
       columns={columns}
       components={{
-        Toolbar: GridToolbar,
+        Toolbar: CustomToolbar,
       }}
       autoHeight={true}
       pageSize={30}

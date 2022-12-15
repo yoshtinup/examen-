@@ -3,19 +3,22 @@ import Roles from '@definitions/Roles';
 export interface Personal {
   correo: string;
   nombreCompleto: string;
-  identificadorBDI: number;
+  identificadorBDI?: number;
   identificadorPosgrado: number;
-  nombreDepartamento: string;
-  nombreGrupo: string;
-  nombreUnidad: string;
-  idUnidad: string;
-  idGrupo: number;
-  idDpto: number;
+  nombreDepartamento?: string;
+  nombreGrupo?: string;
+  nombreUnidad?: string;
+  idUnidadBDI?: string;
+  idUnidadPosgrado: number;
+  claveUnidadPosgrado: string;
+  idGrupo?: number;
+  idDpto?: number;
   tipo: string;
-  sexo: string;
-  orientaciones?: string;
+  sexo?: string;
+  orientaciones?: number[];
   roles: Roles[];
 }
+
 export interface Estudiante {
   idAlumno: number;
   correo: string;
@@ -37,10 +40,12 @@ export interface Estudiante {
   idOrientacion: number;
   nombreOrientacion: string;
 }
+
 export interface EcosurAuth {
   personal?: Personal;
   estudiante?: Estudiante;
 }
+
 export interface AuthCode {
   token_type: string;
   scope: string;
@@ -48,6 +53,7 @@ export interface AuthCode {
   ext_expires_in: number;
   access_token: string;
 }
+
 export interface AuthToken {
   token: string;
 }

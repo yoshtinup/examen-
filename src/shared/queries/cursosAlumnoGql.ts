@@ -18,6 +18,9 @@ export function useGetCursosAlumno(matricula: number) {
             IdMateriasOfertaAnual
             IdMateriasOfertaClave
             CalificacionNumerico
+            BoletaCalificacion:db_alumnos_Materias{
+              url:NombreArchivoBoletaMateria
+            }
           }
         }
       `,

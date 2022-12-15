@@ -1,7 +1,7 @@
 import { ApiQuerys } from '@shared/queries';
 
 class ServiciosEscolaresQuerys extends ApiQuerys {
-  async sendGeneral(Ids: any[]): Promise<any> {
+  async sendGeneral(Ids: number[]): Promise<any> {
     const data: RequestInit = {
       body: JSON.stringify(Ids),
       headers: {

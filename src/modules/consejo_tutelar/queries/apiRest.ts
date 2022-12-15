@@ -7,6 +7,8 @@ import {
   Message,
   EvaluacionIntegrante,
   EvaluacionComite,
+  Cartas,
+  ModificacionCt,
 } from '../types';
 
 /**
@@ -108,6 +110,22 @@ class ConsejoTutelarQuerys extends ApiQuerys {
     const msg = await this.api<Message>(
       `registrar/evaluacion/${matricula}`,
       this.getJsonRequest(evaluacion, 'PUT')
+    );
+    return msg;
+  }
+
+  async generarCartas(data: Cartas, matricula: number): Promise<any> {
+    const msg = await this.api<Message>(
+      `generar_cartas/${matricula}`,
+      this.getJsonRequest(data, 'POST')
+    );
+    return msg;
+  }
+
+  async modificarCT(data: ModificacionCt): Promise<any> {
+    const msg = await this.api<Message>(
+      `eliminarintegrantesCT?comentario=${data.comentario}`,
+      this.getJsonRequest(data.integrantes, 'POST')
     );
     return msg;
   }

@@ -33,4 +33,66 @@ interface Datos {
   ApellidoPaterno: string;
 }
 
-export type { Data, EnProceso, Concluidos };
+interface Info {
+  Integrantes: Integrante[];
+}
+
+interface Integrante {
+  IdTutorSinodal: number;
+  Participacion: string;
+  Nombre: string;
+  EstatusIndividual?: EstatusIndividual[];
+}
+
+interface EstatusIndividual {
+  Nombre: string;
+  Estatus: string;
+  Rol: string;
+  Fecha: Date;
+  MotivoRechazo?: string;
+}
+
+interface CT {
+  Integrantes: Integrantes[];
+}
+
+interface Integrantes {
+  Id: number;
+  Participacion: string;
+  Nombre: string;
+  Estatus: string;
+}
+
+interface Cartas {
+  integrantes: number[];
+  estudiante: boolean;
+}
+
+interface ModificacionCt {
+  integrantes: number[];
+  comentario: string;
+}
+
+interface Generaciones {
+  generaciones: Generacion[];
+}
+
+interface Generacion {
+  Generacion: string;
+  IdGeneracion: number;
+}
+
+export type {
+  Data,
+  EnProceso,
+  Concluidos,
+  Info,
+  CT,
+  Integrante,
+  Integrantes,
+  EstatusIndividual,
+  Cartas,
+  ModificacionCt,
+  Generaciones,
+  Generacion,
+};

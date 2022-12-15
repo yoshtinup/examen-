@@ -61,3 +61,7 @@ body {
   font-size: 0.8em !important;
   font-weight: bold !important;
 }
+
+.grafica-barras-item-barra:hover{
+  opacity: 0.9;
+}
