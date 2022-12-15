@@ -17,7 +17,7 @@ import {
   CT,
   Info,
   Integrante,
-  EstatusIndividual,
+  EstatusIndividualSE,
   Cartas,
   ModificacionCt,
   EnProceso,
@@ -28,14 +28,14 @@ import Box from '@mui/material/Box';
 
 function convertCT(data: Info): CT {
   const integrantesCT = data.Integrantes.map((info: Integrante) => {
-    const [setEstatus] = info.EstatusIndividual
-      ? info.EstatusIndividual.filter(
-          (estatus: EstatusIndividual) =>
+    const [setEstatus] = info.EstatusIndividualSE
+      ? info.EstatusIndividualSE.filter(
+          (estatus: EstatusIndividualSE) =>
             estatus.Rol.trim() === 'Integrante de Consejo tutelar'
         )
       : [];
 
-    const date = info.EstatusIndividual ? new Date(setEstatus.Fecha) : null;
+    const date = info.EstatusIndividualSE ? new Date(setEstatus.Fecha) : null;
 
     return {
       Id: info.IdTutorSinodal,
