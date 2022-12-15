@@ -20,7 +20,6 @@ import { jwtVerify } from 'jose';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import Routes from '../../Routes';
-import { textAlign } from '@mui/system';
 
 type TabsProperties = {
   title: string;
