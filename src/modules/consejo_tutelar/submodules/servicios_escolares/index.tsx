@@ -286,10 +286,10 @@ const ServiciosEscolaresIndex: React.FC<{
                           label="Generación"
                           name="generations-select"
                           defaultValue={
-                            chargeGenerations.generaciones[0].IdGeneracion
+                            chargeGenerations?.generaciones[0]?.IdGeneracion
                           }
                         >
-                          {chargeGenerations.generaciones.map(
+                          {chargeGenerations?.generaciones.map(
                             (generation: Generacion, idx: number) => {
                               return (
                                 <MenuItem

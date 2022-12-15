@@ -7,14 +7,19 @@ const enlacesImportantes = () => {
         <h3>Instrucciones</h3>
         <p>
           En estas interfaces podrá dar seguimiento al proceso de conformación
-          de consejo tutelar de estudiantes de Posgrado. Por defecto se cargan
-          las conformaciones de los estudiantes del año en curso, si requiere
-          consultar años anteriores selecciónelo en el campo “Año de proceso”.
+          de consejo tutelar de estudiantes de Posgrado.
         </p>
         <p>
-          Los estudiantes se presentan en dos pestañas En proceso: estudiantes
-          que están en proceso de evaluación Concluidos: estudiantes que ya
-          concluyeron el proceso
+          Los estudiantes se presentan en dos pestañas
+          <ul>
+            <li>
+              En proceso: estudiantes que están en proceso de evaluación, en
+              ellas puede enviar recordatorios de acuerdo con el estatus que se
+              encuentre el proceso de conformación, generar las cartas de
+              aceptación y eliminar a integrantes del CT.
+            </li>
+            <li>Concluidos: estudiantes que ya concluyeron el proceso.</li>
+          </ul>
         </p>
       </Grid>
     </Grid>
