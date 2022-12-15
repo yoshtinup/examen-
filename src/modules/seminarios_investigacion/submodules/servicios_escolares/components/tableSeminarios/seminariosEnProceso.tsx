@@ -80,12 +80,14 @@ export const TableSeminariosEnProcesoWithoutFetch: React.FC<{ seminarios: EnProc
         (selectedRows.length !== 0) ?
           <Grid container sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', bgcolor: 'background.default', pb: 2, pt: 1.8 }}>                
             <Grid item>
+                {/* FIX ME: Agregar endpoint para las notificaciones específicas */}
               <Button variant='contained' size='small' onClick={() => console.log(JSON.stringify(selectedRows))}>Enviar recordatorio a seleccionados</Button>
             </Grid>     
           </Grid>  
         :
           <Grid container sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', bgcolor: 'background.default', pb: 2, pt: 0.6 }}>
             <Grid item sx={{ pr: 2 }}>
+              {/* FIX ME: Agregar endpoint para las notificaciones generales */}
               <Button variant='contained' size='small'>Enviar recordatorio general</Button>
             </Grid>
             <Grid item>

@@ -4,13 +4,17 @@ import { Alert, CircularProgress, Button, Card, Grid, InputLabel, MenuItem, Form
 import { SelectChangeEvent } from '@mui/material/Select';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useGetEstudiantesPendientes } from '../../queries';
-import { Inscripcion } from '../../types';
+import { Inscripcion, ProgramaUnidad } from '../../types';
 import moment from 'moment';
 
-const SelectPrograma = props => {
+const SelectPrograma = (props: any) => {
+  let programas = [];
   const handleChangeNotificacion = (event: SelectChangeEvent) => {
     props.setPrograma(event.target.value as string);
   };
+  props.programas.map((programa: ProgramaUnidad, index: number) => {
+    programas.push(<MenuItem key={index+1} value={`${programa.value}`}>{programa.label}</MenuItem>);
+  })
   
   return (
     <Box sx={{ minWidth: 120 }}>
@@ -22,23 +26,50 @@ const SelectPrograma = props => {
           value={props.programa}
           label="Programa"
           onChange={handleChangeNotificacion}
-          >
-          <MenuItem value='Todos'>Todos</MenuItem>
-          <MenuItem value={1}>Academicos 1</MenuItem>
-          <MenuItem value={2}>Academicos 2</MenuItem>
-          <MenuItem value={3}>Academicos 3</MenuItem>
-          <MenuItem value={4}>Academicos 4</MenuItem>
-          <MenuItem value={5}>Academicos 5</MenuItem>
+        >
+          <MenuItem key={0} value='Todos'>Todos</MenuItem>
+          {programas}
         </Select>
       </FormControl>
     </Box>
   );
 }
 
-export const TableEstudiantesPendientesWithoutFetch: React.FC<{ estudiantes: Inscripcion[] }> = ({
+const SelectUnidad = (props: any) => {
+  let unidades = [];
+  const handleChangeNotificacion = (event: SelectChangeEvent) => {
+    props.setUnidad(event.target.value as string);
+  };
+  props.unidades.map((unidad: ProgramaUnidad, index: number) => {
+    unidades.push(<MenuItem key={index+1} value={`${unidad.value}`}>{unidad.label}</MenuItem>);
+  })
+
+  return (
+    <Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth size='small'>
+        <InputLabel id="ecosur-select-unidad">Opciones</InputLabel>
+        <Select
+          labelId="select-unidad"
+          id="select-unidad"
+          value={props.unidad}
+          label="Unidad"
+          onChange={handleChangeNotificacion}
+        >
+          <MenuItem key={0} value='Todos'>Todos</MenuItem>
+          {unidades}
+        </Select>
+      </FormControl>
+    </Box>
+  );
+}
+
+export const TableEstudiantesPendientesWithoutFetch: React.FC<{ estudiantes: Inscripcion[], programas: ProgramaUnidad[], unidades: ProgramaUnidad[] }> = ({
+  unidades,
+  programas,
   estudiantes,
 }) => {    
   const [programa, setPrograma] = useState<string>('Todos');
+  const [unidad, setUnidad] = useState<string>('Todos');
   const columns: GridColDef[] = [
     { field: 'estudiante', headerName: 'Estudiante', width: 350,
         renderCell: (params) => {
@@ -59,7 +90,7 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{ estudiantes: Ins
           return (
             <Grid sx={{ display: 'flex', flexDirection: 'column' }}>
               <Typography variant='body2'>
-                {`${params.row.estudiante} (${params.row.id} -`}
+                {`${params.row.materia}`}
               </Typography>
               <Typography variant='body2'>
                 {`Clave: ${params.row.clave} - Créditos: ${params.row.creditos}`}
@@ -103,10 +134,11 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{ estudiantes: Ins
     { field: 'opcion', headerName: 'Opción', sortable: false, width: 160,
       renderCell: (params) => {
         const handleClick = () => {
+          // FIX ME: Agregar enlace a endpoint para realizar notificaciones.
         };        
         return (
           <>
-            <Button size='small' variant='outlined'>
+            <Button size='small' variant='outlined' onClick={handleClick}>
               <Grid sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Typography variant='body2'>
                   Enviar
@@ -122,7 +154,11 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{ estudiantes: Ins
     }
   ];
   let rows = [];
-  estudiantes.map((estudiante) => (
+  let estudiantesList: Inscripcion[] = estudiantes;
+  estudiantesList = estudiantes.filter(estudiante => 
+    ((programa == 'Todos') ? estudiante.Programa != programa : estudiante.Programa == programa) && 
+    ((unidad == 'Todos') ? estudiante.UnidadAdscripcion != unidad : estudiante.UnidadAdscripcion == unidad));
+  estudiantesList.map((estudiante) => (
     rows.push({
       id: estudiante.Matricula,
       estudiante: estudiante.Estudiante,
@@ -138,6 +174,7 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{ estudiantes: Ins
       periodoInicioCurso: estudiante.Iniciocurso,
       periodoFinCurso: estudiante.Fincurso,
       periodo: 'fdas',
+      materia: estudiante.Materia
     })
   ))
 
@@ -156,12 +193,18 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{ estudiantes: Ins
   return (
     <div style={{ height: 500, width: '100%' }}>
       <Grid container sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', bgcolor: 'background.default', pb: 2, pt: 0.6 }}>
-        <Grid item sx={{ pr: 2 }}>
+        <Grid item sx={{ mr: 2 }}>
           <b>Programa:</b>
         </Grid>
         <Grid item>
-          <SelectPrograma estudiantes={estudiantes} setPrograma={setPrograma} programa={programa} />
-        </Grid>                   
+          <SelectPrograma estudiantes={estudiantes} setPrograma={setPrograma} programa={programa} programas={programas} />
+        </Grid>     
+        <Grid item sx={{ mr: 2, ml: 2 }}>
+          <b>Unidad:</b>
+        </Grid>
+        <Grid item>
+          <SelectUnidad estudiantes={estudiantes} setUnidad={setUnidad} unidad={unidad} unidades={unidades} />
+        </Grid>                        
       </Grid>  
       <DataGrid
         sx={{ pb: 7 }}
@@ -188,7 +231,45 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{ estudiantes: Ins
   );
 }; // TableEstudiantesPendientesWithoutFetch
 
+function setProgramasList(estudiantes: Inscripcion[]): ProgramaUnidad[] {
+  let programas: ProgramaUnidad[] = [];
+  let result: string[] = [];
+  let validar: boolean;
+  estudiantes.map((estudiante) => {
+    validar = result.includes(estudiante.Programa)
+    if (!validar) {
+      result.push(estudiante.Programa);
+      programas.push({
+        label: estudiante.Programa,
+        value: estudiante.Programa
+      });
+    }
+  })
+
+  return programas;
+}
+
+function setUnidadList(estudiantes: Inscripcion[]): ProgramaUnidad[] {
+  let programas: ProgramaUnidad[] = [];
+  let result: string[] = [];
+  let validar: boolean;
+  estudiantes.map((estudiante) => {
+    validar = result.includes(estudiante.UnidadAdscripcion)
+    if (!validar) {
+      result.push(estudiante.UnidadAdscripcion);
+      programas.push({
+        label: estudiante.UnidadAdscripcion,
+        value: estudiante.UnidadAdscripcion
+      });
+    }
+  })
+
+  return programas;
+}
+
 export const TableEstudiantesPendientes: React.FC<{  }> = ({  }) => {
+  let programas: ProgramaUnidad[];
+  let unidad: ProgramaUnidad[];
   // const { data, isError, isLoading, isSuccess } = useGetEstudiantesPendientes();
   // if (isError) {
   //   return (
@@ -202,7 +283,7 @@ export const TableEstudiantesPendientes: React.FC<{  }> = ({  }) => {
   // if (isSuccess) {
   //   estudiantesPendientes = data;
   // }
-
+  
   let estudiantesPendientes: Inscripcion[] =  
   [
     {
@@ -210,10 +291,11 @@ export const TableEstudiantesPendientes: React.FC<{  }> = ({  }) => {
       "Matricula": 202021001,
       "emailEstudiante": "maria.alcazar@estudianteposgrado.ecosur.mx",
       "Programa": "Doctorado en Ciencias en Ecología y Desarrollo Sustentable",
-      "UnidadAdscripcion": "San Cristóbal",
+      "UnidadAdscripcion": "Chiapas",
       "Curso": "Sexto Semestre",
       "Clave": "SD7015",
       "Creditos": 25,
+      "Materia": 'Seminario',
       "Cuatrimestre": "Sexto semestre",
       "FechaInicioInscripcion": "2022-12-09T00:00:00",
       "FechaFinInscripcion": "2022-12-16T23:59:00",
@@ -229,18 +311,54 @@ export const TableEstudiantesPendientes: React.FC<{  }> = ({  }) => {
       "Curso": "Sexto Semestre",
       "Clave": "SD7015",
       "Creditos": 25,
+      "Materia": 'Seminario',
       "Cuatrimestre": "Sexto semestre",
       "FechaInicioInscripcion": "2022-12-09T00:00:00",
       "FechaFinInscripcion": "2022-12-16T23:59:00",
       "Iniciocurso": "2022-07-01T00:00:00",
       "Fincurso": "2022-12-16T00:00:00"
-    }
+    },
+    {
+      "Estudiante": "Fernando Magdalena Alcázar Gómez",
+      "Matricula": 202021003,
+      "emailEstudiante": "fernando.alcazar@estudianteposgrado.ecosur.mx",
+      "Programa": "Doctorado en Ecología y Desarrollo Sustentable",
+      "UnidadAdscripcion": "Chetumal",
+      "Curso": "Sexto Semestre",
+      "Clave": "SD7015",
+      "Creditos": 25,
+      "Materia": 'Seminario',
+      "Cuatrimestre": "Sexto semestre",
+      "FechaInicioInscripcion": "2022-12-09T00:00:00",
+      "FechaFinInscripcion": "2022-12-16T23:59:00",
+      "Iniciocurso": "2022-07-01T00:00:00",
+      "Fincurso": "2022-12-16T00:00:00"
+    },
+    {
+      "Estudiante": "Fernanda Magdalena Alcázar Gómez",
+      "Matricula": 202021004,
+      "emailEstudiante": "fernanda.alcazar@estudianteposgrado.ecosur.mx",
+      "Programa": "Doctorado en Ciencias en Ecología y Desarrollo Sustentable",
+      "UnidadAdscripcion": "Chetumal",
+      "Curso": "Sexto Semestre",
+      "Clave": "SD7015",
+      "Creditos": 25,
+      "Materia": 'Seminario',
+      "Cuatrimestre": "Sexto semestre",
+      "FechaInicioInscripcion": "2022-12-09T00:00:00",
+      "FechaFinInscripcion": "2022-12-16T23:59:00",
+      "Iniciocurso": "2022-07-01T00:00:00",
+      "Fincurso": "2022-12-16T00:00:00"
+    }   
   ]
+  
+  programas = setProgramasList(estudiantesPendientes);  
+  unidad = setUnidadList(estudiantesPendientes);  
 
   return (
     <>
         <Card key={`ecosur-lista-estudiantes-pendientes`} sx={{ border: 'none', boxShadow: 'none' }}>             
-            <TableEstudiantesPendientesWithoutFetch estudiantes={estudiantesPendientes} />
+            <TableEstudiantesPendientesWithoutFetch estudiantes={estudiantesPendientes} programas={programas} unidades={unidad} />
         </Card>
     </>       
   );

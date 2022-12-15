@@ -35,13 +35,7 @@ export const ListaInscripciones = ({  }) => {
               </Typography>
               <Typography variant='body2' sx={{ pb: 3 }}>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus commodi reiciendis quae. Ab non, exercitationem officiis earum tempore placeat iure distinctio iste ipsum reprehenderit quae delectus, ea rerum nostrum atque?
-              </Typography>  
-              <Grid container sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', pr: 2 }}>
-                <Grid item sx={{ pr: 2 }}>
-                  Filtrar por: 
-                </Grid>  
-                <EcosurSelect label='Año' value={anio} handleChange={handleChangeFiltro} />
-              </Grid>        
+              </Typography>        
               <Box sx={{ width: 1 }}>
                 <EcosurTabs data={tablasSeminarios} align='left' key='ecosur-tabs-seminarios' />        
               </Box>   

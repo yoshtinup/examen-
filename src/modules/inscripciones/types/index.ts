@@ -15,9 +15,15 @@ export interface Inscripcion {
     Curso:                  string;
     Clave:                  string;
     Creditos:               number;
+    Materia:                string;
     Cuatrimestre:           string;
     FechaInicioInscripcion: string;
     FechaFinInscripcion:    string;
     Iniciocurso:            string;
     Fincurso:               string;
 }
+
+export interface ProgramaUnidad {
+    label: string;
+    value: any;
+  }

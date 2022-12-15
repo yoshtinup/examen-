@@ -13,6 +13,7 @@ export function useGetEstudiantesPendientes() {
             emailEstudiante
             Programa
             UnidadAdscripcion
+            Materia
             Curso
             Clave
             Creditos
