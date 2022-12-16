@@ -7,9 +7,11 @@ import {
   Message,
   EvaluacionIntegrante,
   EvaluacionComite,
+} from '../types';
+import {
   Cartas,
   ModificacionCt,
-} from '../types';
+} from '../submodules/servicios_escolares/types';
 
 /**
  * Clase que encapsula las consultas del Procesos de conformacion de CT

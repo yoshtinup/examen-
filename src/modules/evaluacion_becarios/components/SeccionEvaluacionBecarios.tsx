@@ -63,15 +63,21 @@ const ServiciosEscolaresIndex: React.FC<{
               Items:
                 data.Estatus.Value === 'Evaluado y firmado'
                   ? [
-                      { Titulo: 'Estatus', Subtitulo: data.Estatus.Value },
+                      {
+                        Titulo: 'Estatus',
+                        OpenDefault: false,
+                        Subtitulo: data.Estatus.Value,
+                      },
                       {
                         Titulo: 'Evaluación',
+                        OpenDefault: true,
                         Childrens: itemsEvaluation,
                       },
                     ]
                   : [
                       {
                         Titulo: 'Estatus',
+                        OpenDefault: false,
                         Subtitulo: data.Estatus.Value,
                       },
                     ],
