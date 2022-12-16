@@ -41,10 +41,10 @@ interface Integrante {
   IdTutorSinodal: number;
   Participacion: string;
   Nombre: string;
-  EstatusIndividual?: EstatusIndividual[];
+  EstatusIndividualSE?: EstatusIndividualSE[];
 }
 
-interface EstatusIndividual {
+interface EstatusIndividualSE {
   Nombre: string;
   Estatus: string;
   Rol: string;
@@ -90,7 +90,7 @@ export type {
   CT,
   Integrante,
   Integrantes,
-  EstatusIndividual,
+  EstatusIndividualSE,
   Cartas,
   ModificacionCt,
   Generaciones,
