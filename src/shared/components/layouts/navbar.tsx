@@ -33,7 +33,7 @@ export const Navbar: FC<NavbarProps> = ({ onSidebarOpen, open, ...other }) => {
   const settingsRef = useRef(null);
   const [openAccountPopover, setOpenAccountPopover] = useState(false);
   const user: EcosurAuth = useRecoilValue(userStateAtom);
-
+  
   return (
     <>
       <NavbarRoot
@@ -88,6 +88,7 @@ export const Navbar: FC<NavbarProps> = ({ onSidebarOpen, open, ...other }) => {
         anchorEl={settingsRef.current}
         open={openAccountPopover}
         onClose={() => setOpenAccountPopover(false)}
+        matricula={user?.estudiante?.matricula}
       />
     </>
   );

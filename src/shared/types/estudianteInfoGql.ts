@@ -20,7 +20,9 @@ export interface DatosGql {
   ApellidoMaterno: string;
   ApellidoPaterno: string;
   Email: string;
+  CorreoElectronicoEcosur: string;
   CVU: number;
+  IdAlumno: number;
 }
 
 export interface DirectorTesisGql {

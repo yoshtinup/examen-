@@ -33,6 +33,21 @@ const Routes: RoutesProps[] = [
       Roles.Servicios_Escolares,
     ],
   },
+  {
+    path: '/seminarios_investigacion',
+    all_math: true,
+    roles: [
+      Roles.Servicios_Escolares,
+    ],
+  },
+  {
+    path: '/inscripciones',
+    all_math: false,
+    roles: [
+      Roles.Servicios_Escolares,
+    ],
+  }  
 ];
 
 export default Routes;
+
