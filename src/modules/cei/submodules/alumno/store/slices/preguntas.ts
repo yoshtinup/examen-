@@ -1,6 +1,7 @@
 import { PreguntaItemProps } from '@moduleCEIAlumnos/__generated__/globalTypes';
 import DataService from '@moduleCEIAlumnos/services/data';
 import { atom, selector, useRecoilValue } from 'recoil';
+import { v1 } from 'uuid';
 
 export interface Preguntas {
   listPreguntas: Array<PreguntaItemProps>;
@@ -32,15 +33,12 @@ export const fetchQuestions = () => async (dispatch: any) => {
   const response = useRecoilValue(preguntasSelector);
 };
 
-/*export const preguntasAtom = atom({
-  key: 'preguntas',
-  default: initialState,
-});*/
-
 export const preguntasSelector = selector({
-  key: 'preguntas',
+  key: `preguntas/${v1()}`,
   get: async ({ get }) => {
     const response = await DataService.getPreguntas();
-    return { listPreguntas: [...response.data].sort(SortByOrder) } as Preguntas;
+    return response
+      ? ({ listPreguntas: [...response.data].sort(SortByOrder) } as Preguntas)
+      : { listPreguntas: [] };
   },
 });

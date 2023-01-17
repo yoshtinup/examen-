@@ -1,3 +1,5 @@
+import { v1 } from 'uuid';
+
 interface CurrentAlumnoItem {
   matricula: number;
   idFormulariosRespuestas: number;
@@ -5,12 +7,12 @@ interface CurrentAlumnoItem {
   status: string;
 }
 
-interface CurrentAlumno {
+/*interface CurrentAlumno {
   alumno: CurrentAlumnoItem;
-}
+}*/
 
 import { atom } from 'recoil';
 export const alumnoAtom = atom({
-  key: 'alumno',
+  key: `alumno/${v1()}`,
   default: {} as CurrentAlumnoItem,
 });
