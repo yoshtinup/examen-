@@ -26,6 +26,7 @@ type AlumnoDetallesFetchProps = {
 };
 
 import '@modules/cei/submodules/alumno/appGlobal';
+import { SnackbarProvider } from 'notistack';
 
 // Componente de inicio
 const PropuestaAlumno = () => {
@@ -36,7 +37,6 @@ const PropuestaAlumno = () => {
       history: [],
     });
 
-  //const [user] = useRecoilState(authAtom);
   const [alumno, setAlumno] = useRecoilState(alumnoAtom);
   const [documents, setDocuments] = useState<DocumentoItemProps[]>([]);
 
@@ -110,7 +110,6 @@ const PropuestaAlumno = () => {
 
   return (
     <>
-      <SnackBarUtilitiesConfigurator />
       <Box sx={{ width: '100%' }}>
         <Typography component="div" variant="h5">
           Información general

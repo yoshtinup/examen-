@@ -1,4 +1,4 @@
-import { TypeWithKey } from '../models/type-with-key';
+import { TypeWithKey } from '../../modules/cei/submodules/alumno/models/type-with-key';
 
 export const getValidationError = (errorCode: any) => {
   console.log('errorCode ', errorCode);

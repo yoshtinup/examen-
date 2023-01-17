@@ -7,6 +7,8 @@ import { RecoilRoot } from 'recoil';
 import { EcosurTheme } from 'ecosur-ui';
 import DataComponent from '@modules/auth/components/data';
 import '../src/styles/global.css';
+import { SnackbarProvider } from 'notistack';
+import { SnackBarUtilitiesConfigurator } from '@shared/utilities/snackbar-manager';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -24,13 +26,17 @@ function MyApp({
   const getLayout = Component.getLayout ?? (page => page);
 
   return (
-    <RecoilRoot>
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-          <EcosurTheme>{getLayout(<Component {...pageProps} />)}</EcosurTheme>
-        </Hydrate>
-      </QueryClientProvider>
-    </RecoilRoot>
+    <SnackbarProvider>
+      <SnackBarUtilitiesConfigurator />
+      <RecoilRoot>
+        <DataComponent />
+        <QueryClientProvider client={queryClient}>
+          <Hydrate state={pageProps.dehydratedState}>
+            <EcosurTheme>{getLayout(<Component {...pageProps} />)}</EcosurTheme>
+          </Hydrate>
+        </QueryClientProvider>
+      </RecoilRoot>
+    </SnackbarProvider>
   );
 }
 

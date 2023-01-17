@@ -1,14 +1,13 @@
 import axios from 'axios';
-import { getValidationError } from '../utilities/get-validation-error';
-import { SnackBarUtilities } from '../utilities/snackbar-manager';
 import Cookies from 'js-cookie';
+import { SnackBarUtilities } from '@shared/utilities/snackbar-manager';
+import { getValidationError } from '@shared/utilities/get-validation-error';
 
 const updateHeader = request => {
   const headerCEI = {
-    Authorization: 'Bearer ' + Cookies.get('EcosurToken'),
+    Authorization: 'Bearer ' + Cookies.get('ecosurToken'),
     'Content-Type': 'application/json',
   };
-
   request.headers = headerCEI;
   return request;
 };
@@ -34,9 +33,12 @@ const HttpClient = () => {
       return response;
     },
     error => {
-      SnackBarUtilities.error(getValidationError(error.response.statusText));
-      console.log('Error', getValidationError(error.response.statusText));
-      return Promise.reject(error.response.statusText);
+      console.log(error.response);
+      SnackBarUtilities.error([
+        error.response.config.baseURL + error.response.config.url,
+        getValidationError(error.response.statusText),
+      ]);
+      return Promise.reject(error);
     }
   );
 
