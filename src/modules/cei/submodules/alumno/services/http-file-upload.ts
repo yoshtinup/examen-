@@ -5,6 +5,6 @@ export default axios.create({
   baseURL: process.env.API_CEI,
   headers: {
     'Content-Type': 'multipart/form-data',
-    Authorization: 'Bearer ' + Cookies.get('EcosurToken'),
+    Authorization: 'Bearer ' + Cookies.get('ecosurToken'),
   },
 });
