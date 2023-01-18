@@ -26,7 +26,7 @@ function MyApp({
   const getLayout = Component.getLayout ?? (page => page);
 
   return (
-    <SnackbarProvider>
+    <SnackbarProvider dense>
       <SnackBarUtilitiesConfigurator />
       <RecoilRoot>
         <DataComponent />
