@@ -197,9 +197,9 @@ const FormStructure: FC<PropuestaFormProps> = ({
   });
 
   const infoEstatus =
-    estatusWarning.includes(status) && status
+    status && estatusWarning.includes(status)
       ? 'warning'
-      : estatusSuccess.includes(status) && status
+      : status && estatusSuccess.includes(status)
       ? 'success'
       : 'info';
 
