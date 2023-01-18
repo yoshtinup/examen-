@@ -11,7 +11,7 @@ const PresidentePage = WithRol(Roles.PresidenteCEI)(DashboardPresidente);
 const CEI = () => {
   return (
     <>
-      <PropuestaAlumno />
+      <EstudiantePage />
       <RevisorPage />
       <PresidentePage />
     </>
