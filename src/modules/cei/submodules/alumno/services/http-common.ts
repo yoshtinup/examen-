@@ -14,7 +14,6 @@ const updateHeader = request => {
 
 const HttpClient = () => {
   const url = process.env.API_CEI;
-  console.log('apiceii', url);
   const instance = axios.create({
     baseURL: url,
     headers: {
@@ -37,6 +36,9 @@ const HttpClient = () => {
       SnackBarUtilities.error([
         error.response.config.baseURL + error.response.config.url,
         getValidationError(error.response.statusText),
+        error.response.data && error.response.data.message
+          ? error.response.data.message
+          : null,
       ]);
       return Promise.reject(error);
     }
