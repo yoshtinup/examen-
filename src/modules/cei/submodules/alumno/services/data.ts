@@ -11,11 +11,13 @@ import httpLogin from './http-login';
 
 class DataService {
   getPropuestaAlumno(id: string) {
-    return http.get<AlumnoDetallesItemProps[]>(`/propuestas/${id}`);
+    return http
+      .get<AlumnoDetallesItemProps[]>(`/propuestas/${id}`)
+      .catch(() => {});
   }
 
   getAlumno() {
-    return http.get<AlumnoWithoutPropuestaProps>(`/alumno`);
+    return http.get<AlumnoWithoutPropuestaProps>(`/alumno`).catch(() => {});
   }
 
   getEstatus() {
@@ -27,7 +29,7 @@ class DataService {
   }
 
   getPreguntas() {
-    return http.get<Array<PreguntaItemProps>>('/preguntas');
+    return http.get<Array<PreguntaItemProps>>('/preguntas').catch(() => {});
   }
 
   enviarEvaluacion(data: FormData) {
