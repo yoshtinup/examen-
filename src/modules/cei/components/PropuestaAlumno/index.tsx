@@ -10,14 +10,12 @@ import { fetchQuestions } from '@moduleCEIAlumnos/store/slices/preguntas';
 //Components
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import LinearProgress from '@mui/material/LinearProgress';
 import Information from '@moduleCEIAlumnos/components/alumno/Information';
 import FormStructure from '@moduleCEIAlumnos/components/FormStructure';
 import TableDocuments from '@moduleCEIAlumnos/components/ListDocuments';
 
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { alumnoAtom } from '@modules/cei/submodules/alumno/store/slices/alumno';
-import { SnackBarUtilitiesConfigurator } from '@modules/cei/submodules/alumno/utilities/snackbar-manager';
 
 type AlumnoDetallesFetchProps = {
   loading: boolean;
@@ -26,7 +24,9 @@ type AlumnoDetallesFetchProps = {
 };
 
 import '@modules/cei/submodules/alumno/appGlobal';
-import { SnackbarProvider } from 'notistack';
+import { EcosurAuth } from '@modules/auth/definitions';
+import { userStateAtom } from '@modules/auth/recoil';
+import { CircularProgress } from '@mui/material';
 
 // Componente de inicio
 const PropuestaAlumno = () => {
@@ -37,12 +37,15 @@ const PropuestaAlumno = () => {
       history: [],
     });
 
+  const user: EcosurAuth = useRecoilValue(userStateAtom);
   const [alumno, setAlumno] = useRecoilState(alumnoAtom);
   const [documents, setDocuments] = useState<DocumentoItemProps[]>([]);
 
   // Obtener las propuestas de forma asincrona
   async function fetchAlumnoPropuesta() {
-    const [propuesta, exist] = await getPropuestaAlumno(String(202112001));
+    const [propuesta, exist] = await getPropuestaAlumno(
+      String(user.estudiante.matricula)
+    );
     if (exist) {
       // dividir entre actual y historico
       let tempDocuments: DocumentoItemProps[] = [];
@@ -71,7 +74,8 @@ const PropuestaAlumno = () => {
         current: current[0],
         history: history,
       });
-    } else {
+    }
+    if (propuesta) {
       // Si no existe la propuesta se asignan genricos al despachador
       const currentPropuesta = {
         matricula: propuesta[0].matricula,
@@ -93,6 +97,19 @@ const PropuestaAlumno = () => {
     fetchAlumnoPropuesta();
   }, []);
 
+  if (alumno.matricula === undefined) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          width: '100%',
+        }}
+      ></Box>
+    );
+  }
+
   if (alumnoInformation.loading) {
     return (
       <Box
@@ -103,7 +120,7 @@ const PropuestaAlumno = () => {
           width: '100%',
         }}
       >
-        <LinearProgress />
+        <CircularProgress />
       </Box>
     );
   }
