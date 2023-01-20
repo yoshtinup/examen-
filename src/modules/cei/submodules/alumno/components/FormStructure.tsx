@@ -7,6 +7,7 @@ import {
   PreguntaItemProps,
   DocumentProps,
   FormStructureProps,
+  DocumentoItemProps,
 } from '@moduleCEIAlumnos/__generated__/globalTypes';
 
 //import { useAppSelector } from '@moduleCEIAlumnos/hooks';
@@ -31,11 +32,13 @@ import Alert from '@mui/material/Alert';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { alumnoAtom } from '../store/slices/alumno';
 import { Preguntas, preguntasSelector } from '../store/slices/preguntas';
+import TableDocuments from './ListDocuments';
 
 interface PropuestaProps {
   respuestas: Array<PreguntaRespuestaItemProps>;
   apelacion: string;
   sugerencias: Array<SugerenciaItemProps>;
+  documentos: Array<DocumentoItemProps>;
 }
 
 interface PropuestaFormProps extends PropuestaProps {
@@ -82,6 +85,7 @@ const Propuesta: FC<PropuestaGridProps> = ({
   control,
   setValue,
   historico = false,
+  documentos,
 }) => {
   const alumno = useRecoilValue(alumnoAtom);
   const [apelacionActive, setApelacionActive] = useState<boolean>(
@@ -98,15 +102,21 @@ const Propuesta: FC<PropuestaGridProps> = ({
     <Grid container spacing={3}>
       <Grid item xs={12} sm={8}>
         {historico ? (
-          <FormDetalles answers={respuestas} history={historico} />
+          <>
+            <FormDetalles answers={respuestas} history={historico} />
+            <TableDocuments documents={documentos} />
+          </>
         ) : (
-          <FormDetalles
-            answers={respuestas}
-            history={historico}
-            fields={fields}
-            control={control}
-            setValue={setValue}
-          />
+          <>
+            <FormDetalles
+              answers={respuestas}
+              history={historico}
+              fields={fields}
+              control={control}
+              setValue={setValue}
+            />
+            <TableDocuments documents={documentos} />
+          </>
         )}
       </Grid>
 
@@ -152,6 +162,7 @@ const getHistoryFormat = (alumnosInfo: Array<AlumnoDetallesItemProps>) => {
         sugerencias={info.sugerencias}
         apelacion={info.apelacion}
         historico={true}
+        documentos={info.documentos}
       />
     ),
   }));
@@ -172,6 +183,7 @@ const FormStructure: FC<PropuestaFormProps> = ({
   apelacion,
   propuestasHistoricas,
   status,
+  documentos,
 }) => {
   const questions: Preguntas = useRecoilValue(preguntasSelector);
   function getAnswer(id: number): string {
@@ -251,6 +263,7 @@ const FormStructure: FC<PropuestaFormProps> = ({
               fields={fields}
               control={control}
               setValue={setValue}
+              documentos={documentos}
             />
           ),
         }}

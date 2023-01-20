@@ -68,6 +68,7 @@ const PropuestaAlumno = () => {
         idFormulariosRespuestas: current[0].idPropuesta,
         tesis: current[0].titulo,
         status: current[0].estatus,
+        documentos: current[0].documentos,
       };
 
       setAlumno(currentPropuesta);
@@ -83,6 +84,7 @@ const PropuestaAlumno = () => {
         idFormulariosRespuestas: 0,
         tesis: propuesta[0].titulo,
         status: 'Propuesta sin guardar',
+        docummentos: [],
       };
       setAlumno(currentPropuesta);
       setAlumnoInformation({
@@ -139,10 +141,8 @@ const PropuestaAlumno = () => {
           apelacion={alumnoInformation.current.apelacion}
           status={alumno.status}
           propuestasHistoricas={alumnoInformation.history}
+          documentos={alumnoInformation.current.documentos}
         />
-        <Box>
-          <TableDocuments documents={documents} />
-        </Box>
       </Box>
     </>
   );
