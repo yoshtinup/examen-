@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AxiosResponse } from 'axios';
 import {
   RespuestaItemProps,
@@ -92,16 +92,16 @@ const ActionButtons = ({ onClick }: { onClick: any }) => {
     data: FormStructureProps
   ) {
     const jsonData: string = JSON.stringify({
-      apelacion: data.appeal,
-      documentos: data.documents,
-      propuesta: {
-        _18FormulariosRespuestasPlantillas: data.answers
+      Apelacion: data.appeal,
+      Documentos: data.documents,
+      Propuesta: {
+        _18_FormulariosRespuestasPlantillas: data.answers
           .filter(
             answers => answers.visible === true && answers.respuesta != ''
           )
           .map(answer => ({
             idPlantillaPreguntas: answer.idPlantillaPreguntas,
-            respuesta: answer.respuesta,
+            Respuesta: answer.respuesta,
           })),
       },
     });
@@ -112,18 +112,17 @@ const ActionButtons = ({ onClick }: { onClick: any }) => {
     formData.append('jsonData', jsonData);
     send(formData)
       .then(response => {
-        const newAlumno = Object.assign(alumno, {
+        const newAlumno = () => ({
+          ...alumno,
           status: response.data.status,
         });
-
         setAlumno(newAlumno);
-        console.log(!buttonsSave.includes(response.data.status));
         setDisabled(!buttonsSave.includes(response.data.status));
         setMsgTemp(
           'Se a guardado con exito, cuando este listo, favor de confirmar el envío'
         );
       })
-      .catch(() => {
+      .catch(error => {
         setMsgTemp('Error al intentar guardar, verifique sus respuestas');
       });
   }
