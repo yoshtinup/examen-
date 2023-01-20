@@ -46,6 +46,7 @@ const PropuestaAlumno = () => {
     const [propuesta, exist] = await getPropuestaAlumno(
       String(user.estudiante.matricula)
     );
+    console.log('propuesta', propuesta, exist);
     if (exist) {
       // dividir entre actual y historico
       let tempDocuments: DocumentoItemProps[] = [];
@@ -61,6 +62,7 @@ const PropuestaAlumno = () => {
         (e: AlumnoDetallesItemProps) => e.historico == false,
         propuesta
       );
+
       const currentPropuesta = {
         matricula: current[0].matricula,
         idFormulariosRespuestas: current[0].idPropuesta,
@@ -74,8 +76,7 @@ const PropuestaAlumno = () => {
         current: current[0],
         history: history,
       });
-    }
-    if (propuesta) {
+    } else {
       // Si no existe la propuesta se asignan genricos al despachador
       const currentPropuesta = {
         matricula: propuesta[0].matricula,
@@ -95,7 +96,7 @@ const PropuestaAlumno = () => {
   useEffect(() => {
     fetchQuestions();
     fetchAlumnoPropuesta();
-  }, []);
+  }, [setAlumno]);
 
   if (alumno.matricula === undefined) {
     return (
