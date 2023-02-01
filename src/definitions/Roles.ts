@@ -6,7 +6,7 @@ enum Roles {
   Coordinacion_General_Posgrado,
   Servicios_Escolares,
   Estudiante,
-  RevisorCEI,
-  PresidenteCEI,
+  Revisor_CEI,
+  Presidente_CEI,
 }
 export default Roles;

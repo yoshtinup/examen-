@@ -20,6 +20,16 @@ const Routes: RoutesProps[] = [
       Roles.Servicios_Escolares,
     ],
   },
+  {
+    path: '/cei',
+    all_math: true,
+    roles: [
+      Roles.Coordinacion_General_Posgrado,
+      Roles.Presidente_CEI,
+      Roles.Revisor_CEI,
+      Roles.Estudiante,
+    ],
+  },
 ];
 
 export default Routes;
