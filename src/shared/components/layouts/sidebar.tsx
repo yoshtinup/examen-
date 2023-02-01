@@ -24,6 +24,11 @@ const items: ItemsNav[] = [
     icon: <Icon />,
     title: 'Consejo Tutelar',
   },
+  {
+    href: '/cei',
+    icon: <Icon />,
+    title: 'CEI',
+  },
 ];
 
 type SidebarProps = {
