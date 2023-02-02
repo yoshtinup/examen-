@@ -34,6 +34,9 @@ import TableDocuments from '../components/ListDocuments';
 import Chip from '@mui/material/Chip';
 import StatusIcon from '../components/EtatusIcon';
 import { ListItem } from '@mui/material';
+import { useRouter } from 'next/router';
+import { useRecoilState } from 'recoil';
+import { alumnoAtom } from '../store/slices/alumno';
 
 const AbPresidente = withPresidenteRole(ActionButtonsPresidente);
 const AbEvaluador = withEvaluadorRole(ActionButtonsEvaluador);
@@ -132,8 +135,9 @@ type AlumnoDetallesFetchProps = {
  * @returns
  */
 function Detalles() {
-  const { alumno } = useAppSelector(state => state.alumno);
-  //const { matricula } = useParams<keyof DetallesParams>() as DetallesParams
+  const [alumno, setAlumno] = useRecoilState(alumnoAtom);
+  const router = useRouter();
+  const matricula = router.query.matricula.toString();
   const [alumnoInformation, setAlumnoInformation] =
     useState<AlumnoDetallesFetchProps>({
       loading: true,
@@ -143,7 +147,6 @@ function Detalles() {
 
   const [documents, setDocuments] = useState<DocumentoItemProps[]>([]);
   const [empty, setEmpty] = useState<boolean>(true);
-  //const dispatch = useAppDispatch();
 
   useEffect(() => {
     // obtener una propuesta por matricula del alumno
@@ -176,7 +179,7 @@ function Detalles() {
           evaluadores: current[0].evaluadores,
         };
         // Enviar a redux el actual alumno
-        //dispatch(setAlumno({alumno: currentPropuesta}))
+        setAlumno({ alumno: currentPropuesta });
         setAlumnoInformation({
           loading: false,
           current: current[0],
@@ -184,7 +187,7 @@ function Detalles() {
         });
       }
     });
-  }, [dispatch]);
+  }, []);
 
   if (alumnoInformation.loading) {
     return (
@@ -223,7 +226,7 @@ function Detalles() {
         Detalles de la propuesta
       </Typography>
       <Typography component="div" variant="h6">
-        {alumno.estatus}
+        {alumno.alumno.estatus}
       </Typography>
       <TwoTabs
         tab1={{

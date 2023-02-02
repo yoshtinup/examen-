@@ -1,8 +1,11 @@
-import { useEffect, useState} from 'react'
-import { useAppSelector } from '../../hooks'
-import { EvaluadorItemProps, AsignEvaluadorProps, AlertMessageProps } from '../../__generated__/globalTypes'
-import {AxiosResponse} from 'axios';
-import DataService from '../../services/data'
+import { useEffect, useState } from 'react';
+import {
+  EvaluadorItemProps,
+  AsignEvaluadorProps,
+  AlertMessageProps,
+} from '../../__generated__/globalTypes';
+import { AxiosResponse } from 'axios';
+import DataService from '../../services/data';
 import Button from '@mui/material/Button';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -13,67 +16,63 @@ import Alert from '@mui/material/Alert';
 import parse from 'autosuggest-highlight/parse';
 import match from 'autosuggest-highlight/match';
 
-
 type EvaluadorComponentProps = {
-  loading: boolean,
-  evaluadores: EvaluadorItemProps[]
-}
+  loading: boolean;
+  evaluadores: EvaluadorItemProps[];
+};
 
 // Cuerpo del dialogo para asignar evaluador
 export default function BodyAsignarEvaluador() {
-  const [value, setValue] = useState<EvaluadorItemProps | null >(null);
+  const [value, setValue] = useState<EvaluadorItemProps | null>(null);
   const [alert, setAlert] = useState<AlertMessageProps | null>(null);
   const [btnState, setBtnState] = useState<boolean>(false);
 
   const [listEvaluador, setListEvaluador] = useState<EvaluadorComponentProps>({
     loading: true,
-    evaluadores: []
+    evaluadores: [],
   });
 
-  const { alumno } = useAppSelector((state) => state.alumno)
+  const { alumno } = useAppSelector(state => state.alumno);
 
   // Asignar evaluador a la propuesta
   function setEvaluador() {
-    setBtnState(true)
+    setBtnState(true);
     const evaluador: AsignEvaluadorProps = {
       idintegrantesComiteEtica: value ? value.id : 0,
       idEstatusRevision: 1,
-      ...alumno
-    }
+      ...alumno,
+    };
     DataService.setEvaluador(evaluador)
       .then(() => {
         setAlert({
-          severity: "success",
-          message: "El evaluador asignado con exito"
-        })
+          severity: 'success',
+          message: 'El evaluador asignado con exito',
+        });
       })
       .catch((e: any) => {
         setAlert({
-          severity: "warning",
-          message: e.response.data
-        })
+          severity: 'warning',
+          message: e.response.data,
+        });
       });
-    setBtnState(false)
+    setBtnState(false);
   }
 
   useEffect(() => {
     DataService.getEvaluadores().then((response: AxiosResponse) => {
       const allEvaluadores: EvaluadorItemProps[] = response.data;
-      setListEvaluador({ loading: false, evaluadores: allEvaluadores});
+      setListEvaluador({ loading: false, evaluadores: allEvaluadores });
     });
   }, [setListEvaluador]);
-  if (listEvaluador.loading){
-    return(
+  if (listEvaluador.loading) {
+    return (
       <>
         <DialogContent>
-          <DialogContentText>
-            Cargando lista de evaluadores
-          </DialogContentText>
+          <DialogContentText>Cargando lista de evaluadores</DialogContentText>
         </DialogContent>
       </>
-    )
-  }
-  else{
+    );
+  } else {
     return (
       <>
         <DialogContent>
@@ -88,9 +87,9 @@ export default function BodyAsignarEvaluador() {
             id="AsignarEvaluador-hi"
             options={listEvaluador.evaluadores}
             sx={{ width: 300 }}
-            getOptionLabel={(option) => `${option.id} :: ${option.nombre}`}
-						isOptionEqualToValue ={(option, value) => option.id === value.id}
-            renderInput={(params) => (
+            getOptionLabel={option => `${option.id} :: ${option.nombre}`}
+            isOptionEqualToValue={(option, value) => option.id === value.id}
+            renderInput={params => (
               <TextField {...params} label="Buscar Evaluador" margin="normal" />
             )}
             renderOption={(props, option, { inputValue }) => {
@@ -114,14 +113,20 @@ export default function BodyAsignarEvaluador() {
                 </li>
               );
             }}
-            />
+          />
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={setEvaluador} disabled={btnState}>
             Asignar
           </Button>
         </DialogActions>
-        {alert ? <Alert variant="filled" severity={alert.severity}>{alert.message}</Alert> : <></> }
+        {alert ? (
+          <Alert variant="filled" severity={alert.severity}>
+            {alert.message}
+          </Alert>
+        ) : (
+          <></>
+        )}
       </>
     );
   }

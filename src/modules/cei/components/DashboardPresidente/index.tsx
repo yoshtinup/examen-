@@ -11,8 +11,8 @@ const DashboardPresidente = () => {
         <Button variant="contained" endIcon={<Settings />}>
           Herramientas de administración
         </Button>
-        <Home />
       </Link>
+      <Home />
     </>
   );
 };

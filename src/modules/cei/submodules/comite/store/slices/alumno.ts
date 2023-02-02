@@ -1,4 +1,8 @@
 // Slice con la informacion basica de un alumno util para realizar llamados
+
+import { atom } from 'recoil';
+import { v1 } from 'uuid';
+
 // a la api y pasar solo a que propuesta se le realiza una accion
 interface CurrentAlumnoItem {
   matricula: number;
@@ -36,3 +40,7 @@ export const setAlumno = (alumno: CurrentAlumno) => (dispatch: any) => {
 
 export default alumnoSlice.reducer
 */
+export const alumnoAtom = atom({
+  key: `alumno/${v1()}`,
+  default: initialState,
+});

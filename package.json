@@ -21,6 +21,7 @@
     "@mui/system": "^5.10.10",
     "@mui/x-data-grid": "^5.17.8",
     "@mui/x-date-pickers": "^5.0.5",
+    "autosuggest-highlight": "^3.3.4",
     "ecosur-ui": "git+http://AplicacionWeb:xZTsJXniM_a5oZdMrswY@utilitics.ecosur.mx:8087/infonomia/ecosur-ui.git",
     "formik": "^2.2.9",
     "graphql": "16.6.0",

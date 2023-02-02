@@ -23,66 +23,18 @@ export const initialState = {
   history_cursor: [0],
 } as ListAlumnosCursors;
 
-/*
-// ambos reductores en esencia son iguales solo que gestionan a propuestas
-// historicas y actuales
-const alumnosSlice = createSlice({
-  name: 'alumnos',
-  initialState,
-  reducers: {
-    setAlumnosList: (state: any, action: PayloadAction<ListAlumnosSet>) => {
-      if (action.payload.propuestas.length != 0){
-        state.current = action.payload.propuestas;
-        if (state.current_cursor.indexOf(action.payload.cursor) == -1){
-          state.current_cursor.push(action.payload.cursor)
-        }
-      }
-    },
-    setAlumnosHistoryList: (state: any, action: PayloadAction<ListAlumnosSet>) => {
-      if (action.payload.propuestas.length != 0){
-        state.history = action.payload.propuestas;
-        if (state.history_cursor.indexOf(action.payload.cursor) == -1){
-          state.history_cursor.push(action.payload.cursor)
-        }
-      }
-    },
-    removeCurrentCursor: (state: any) => {
-      state.current_cursor.pop()
-      state.current_cursor.pop()
-    },
-    removeHistoryCursor: (state: any) => {
-      state.history_cursor.pop()
-      state.history_cursor.pop()
-    }
-  }
-})
-
-export default alumnosSlice.reducer
-*/
-
-export const {
-  setAlumnosList,
-  setAlumnosHistoryList,
-  removeCurrentCursor,
-  removeHistoryCursor,
-} = alumnosSlice.actions;
-
 // Obtener las propuestas dependiendo si es un presidente o revisor
 export const fetchAllAlumnos = (cursor: number) => async () => {
   const current = await DataService.getPropuestasAlumnos(cursor);
-  const [alumnos, setAlumnos] = useRecoilState(alumnosSelector);
-  const cursors = alumnos.current_cursor.concat(current.data.cursor);
-  setAlumnos(alumnos => ({
-    ...alumnos,
-    current: current.data.data,
-    current_cursor: cursors,
-  }));
+  return current.data;
 };
 
 // Obtener las propuestas historicas dependiendo si es un presidente o revisor
 export const fetchAllAlumnosHistorico = (cursor: number) => async () => {
   const history = await DataService.getPropuestasAlumnos(cursor, true);
-  const [alumnosHistory, setAlumnosHistory] = useRecoilState(alumnosSelector);
+  return history.data;
+
+  const [alumnosHistory, setAlumnosHistory] = useRecoilState(alumnosAtom);
   const cursors = alumnosHistory.history_cursor.concat(history.data.cursor);
 
   setAlumnosHistory(alumnosHistory => ({
@@ -94,14 +46,25 @@ export const fetchAllAlumnosHistorico = (cursor: number) => async () => {
 
 // eliminar un cursor de navegacion
 export const removeCursor = (history: boolean) => (dispatch: any) => {
+  const [alumnosState, setAlumnosState] = useRecoilState(alumnosAtom);
   if (history) {
-    dispatch(removeHistoryCursor());
+    setAlumnosState(alumnosState => ({
+      ...alumnosState,
+      history_cursor: alumnosState.history_cursor.filter(
+        (value, index) => index !== alumnosState.history_cursor.length - 1
+      ),
+    }));
   } else {
-    dispatch(removeCurrentCursor());
+    setAlumnosState(alumnosState => ({
+      ...alumnosState,
+      current_cursor: alumnosState.current_cursor.filter(
+        (value, index) => index !== alumnosState.current_cursor.length - 1
+      ),
+    }));
   }
 };
 
-export const alumnosSelector = atom({
+export const alumnosAtom = atom({
   key: `alumnos/${v1()}`,
   default: initialState,
 });

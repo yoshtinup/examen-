@@ -1,7 +1,5 @@
 import * as React from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { useAppSelector } from '../../hooks';
-import { useNavigate } from 'react-router-dom';
 import {
   DataGrid,
   GridToolbar,
@@ -18,6 +16,9 @@ import {
   AlumnoItemProps,
   EvaluadorItemProps,
 } from '../../__generated__/globalTypes';
+import { useRecoilState } from 'recoil';
+import { alumnosAtom } from '../../store/slices/alumnos';
+import { useRouter } from 'next/router';
 
 // function CustomToolbar() {
 //   return (
@@ -49,7 +50,9 @@ const generateEvaluadores = (evaluadores: EvaluadorItemProps[]) =>
  * @returns
  */
 const ButtonRedirect: React.FC<{ matricula: number }> = ({ matricula }) => {
+  const router = useRouter();
   const handleClickRow = () => {
+    router.push(`/cei/${matricula}`);
     //navigate(`/evaluacionprotocolos/comite/detalles/${matricula}`);
   };
   return (
@@ -121,11 +124,12 @@ const InformationTable: React.FC<Props> = ({ history }) => {
   // Obtener coleccion de propuestas actuales o historicas
   // const [items, setItems] = React.useState()
   // React.useEffect(())
+  const [alumnosState] = useRecoilState(alumnosAtom);
   let items: AlumnoItemProps[];
   if (history) {
-    items = useAppSelector(state => state.alumnos.history);
+    items = alumnosState.history;
   } else {
-    items = useAppSelector(state => state.alumnos.current);
+    items = alumnosState.current;
   }
 
   // const CP: React.FC = () => ( <CustomPagination history={history} /> )

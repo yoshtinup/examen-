@@ -1,5 +1,6 @@
-import withRole from './withRole'
+import Roles from '@definitions/Roles';
+import { WithRol } from '@shared/hooks';
 
 // Hook para mostrar solo por rol
-export const withPresidenteRole = withRole('Presidente')
-export const withEvaluadorRole = withRole('Evaluador')
+export const withPresidenteRole = WithRol(Roles.Presidente_CEI);
+export const withEvaluadorRole = WithRol(Roles.Revisor_CEI);
