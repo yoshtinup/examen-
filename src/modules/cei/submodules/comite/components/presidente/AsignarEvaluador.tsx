@@ -15,6 +15,8 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Alert from '@mui/material/Alert';
 import parse from 'autosuggest-highlight/parse';
 import match from 'autosuggest-highlight/match';
+import { useRecoilState } from 'recoil';
+import { alumnoAtom } from '../../store/slices/alumno';
 
 type EvaluadorComponentProps = {
   loading: boolean;
@@ -32,7 +34,7 @@ export default function BodyAsignarEvaluador() {
     evaluadores: [],
   });
 
-  const { alumno } = useAppSelector(state => state.alumno);
+  const [alumno, setAlumno] = useRecoilState(alumnoAtom);
 
   // Asignar evaluador a la propuesta
   function setEvaluador() {
@@ -40,10 +42,26 @@ export default function BodyAsignarEvaluador() {
     const evaluador: AsignEvaluadorProps = {
       idintegrantesComiteEtica: value ? value.id : 0,
       idEstatusRevision: 1,
-      ...alumno,
+      ...alumno.alumno,
     };
     DataService.setEvaluador(evaluador)
-      .then(() => {
+      .then(res => {
+        const { data } = res;
+        console.log(data);
+        setAlumno(current => ({
+          ...current,
+          alumno: {
+            ...current.alumno,
+            evaluadores: [
+              ...current.alumno.evaluadores,
+              {
+                id: data.evaluador.idPersonalAcademico,
+                nombre: data.evaluador.nombre_s_ + ' ',
+                estatus: 'Pendiente de revisión',
+              },
+            ],
+          },
+        }));
         setAlert({
           severity: 'success',
           message: 'El evaluador asignado con exito',
@@ -87,7 +105,7 @@ export default function BodyAsignarEvaluador() {
             id="AsignarEvaluador-hi"
             options={listEvaluador.evaluadores}
             sx={{ width: 300 }}
-            getOptionLabel={option => `${option.id} :: ${option.nombre}`}
+            getOptionLabel={option => `${option.nombre}`}
             isOptionEqualToValue={(option, value) => option.id === value.id}
             renderInput={params => (
               <TextField {...params} label="Buscar Evaluador" margin="normal" />

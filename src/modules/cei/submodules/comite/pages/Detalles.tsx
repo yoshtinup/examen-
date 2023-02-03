@@ -7,11 +7,8 @@ import {
   EvaluadorItemProps,
 } from '../__generated__/globalTypes';
 //Utils
-//import { useParams } from 'react-router-dom'
 import { arrayDivisorByCondition } from '../helpers/arrayUtils';
 import DataService from '../services/data';
-//import { useAppDispatch, useAppSelector } from '../hooks';
-//import { setAlumno } from '../store/slices/alumno'
 //Components
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -37,11 +34,15 @@ import { ListItem } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
 import { alumnoAtom } from '../store/slices/alumno';
+import { Delete } from '@mui/icons-material';
 
 const AbPresidente = withPresidenteRole(ActionButtonsPresidente);
 const AbEvaluador = withEvaluadorRole(ActionButtonsEvaluador);
+const ChipPresidenteRole = withPresidenteRole(Chip);
+const ChipEvaluadorRole = withEvaluadorRole(Chip);
 
 type PropuestaProps = {
+  idFormularioRespuesta?: number;
   preguntas?: Array<PreguntaItemProps>;
   sugerencias?: Array<SugerenciaItemProps>;
   apelacion?: string;
@@ -54,11 +55,15 @@ type PropuestaProps = {
  * @returns
  */
 const Propuesta: FC<PropuestaProps> = ({
+  idFormularioRespuesta,
   preguntas,
   sugerencias,
   apelacion,
   evaluadores,
 }) => {
+  const handleDelete = (idFormularioRespuesta, idPersonalAcademico) => {
+    console.log('delete', idPersonalAcademico, idFormularioRespuesta);
+  };
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} sm={8}>
@@ -68,11 +73,22 @@ const Propuesta: FC<PropuestaProps> = ({
         {evaluadores &&
           evaluadores.map((evaluador, index) => (
             <ListItem>
-              <Chip
+              <ChipEvaluadorRole
                 key={evaluador.nombre}
                 icon={<StatusIcon status={evaluador.estatus} />}
                 label={
                   evaluador.nombre.slice(0, 10) + ' - ' + evaluador.estatus
+                }
+              />
+              <ChipPresidenteRole
+                key={evaluador.nombre}
+                icon={<StatusIcon status={evaluador.estatus} />}
+                label={
+                  evaluador.nombre.slice(0, 10) + ' - ' + evaluador.estatus
+                }
+                deleteIcon={<Delete />}
+                onDelete={() =>
+                  handleDelete(idFormularioRespuesta, evaluador.id)
                 }
               />
             </ListItem>
@@ -189,6 +205,17 @@ function Detalles() {
     });
   }, []);
 
+  useEffect(() => {
+    console.log(alumno);
+    setAlumnoInformation(item => ({
+      ...item,
+      current: {
+        ...item.current,
+        evaluadores: alumno.alumno.evaluadores,
+      },
+    }));
+  }, [alumno]);
+
   if (alumnoInformation.loading) {
     return (
       <Box
@@ -233,6 +260,7 @@ function Detalles() {
           label: 'Propuesta Actual',
           component: (
             <Propuesta
+              idFormularioRespuesta={alumnoInformation.current.idPropuesta}
               preguntas={alumnoInformation.current.preguntas}
               sugerencias={alumnoInformation.current.sugerencias}
               apelacion={alumnoInformation.current.apelacion}
