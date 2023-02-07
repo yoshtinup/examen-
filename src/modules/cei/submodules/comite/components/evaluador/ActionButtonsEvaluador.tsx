@@ -1,42 +1,44 @@
-import { useEffect, useState } from 'react'
-import { useAppSelector } from '../../hooks'
-import { EstatusItemProps, EstatusItemSetProps } from '../../__generated__/globalTypes'
-import {AxiosResponse} from 'axios';
-import DataService from '../../services/data'
-import GenericModActionButtons from '../GenericActionButtons'
-import BodyDropdownButton from '../modal/DropdownButton'
-import BodyRechazarEvaluacion from './RechazarEvaluacion'
+import { useEffect, useState } from 'react';
+import {
+  EstatusItemProps,
+  EstatusItemSetProps,
+} from '../../__generated__/globalTypes';
+import { AxiosResponse } from 'axios';
+import DataService from '../../services/data';
+import GenericModActionButtons from '../GenericActionButtons';
+import BodyDropdownButton from '../modal/DropdownButton';
+import BodyRechazarEvaluacion from './RechazarEvaluacion';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
-
+import { useRecoilState } from 'recoil';
+import { alumnoAtom } from '../../store/slices/alumno';
 
 const modalRechazarEvaluacion = {
   label: 'Rechazar Evaluacion',
   title: 'Rechazar Evaluacion',
-  component: <BodyRechazarEvaluacion />
-}
+  component: <BodyRechazarEvaluacion />,
+};
 
 type EstatusFetchProps = {
-  loading: boolean,
-  status: Array<EstatusItemProps>
-}
+  loading: boolean;
+  status: Array<EstatusItemProps>;
+};
 
 /**
  * Implementacion de la logica de los botones de accion del evaluador
-* @returns
-*/
+ * @returns
+ */
 export default function ActionButtonsEvaluador() {
-
-  const { alumno } = useAppSelector((state) => state.alumno)
+  const [alumno] = useRecoilState(alumnoAtom);
   const [listEstatus, setListEstatus] = useState<EstatusFetchProps>({
     loading: true,
-    status: []
-  })
+    status: [],
+  });
 
   useEffect(() => {
     DataService.getEstatusEvaluacion().then((response: AxiosResponse) => {
       const allEstatus = response.data;
-      setListEstatus({ loading: false, status: allEstatus});
+      setListEstatus({ loading: false, status: allEstatus });
     });
   }, [setListEstatus]);
 
@@ -46,24 +48,31 @@ export default function ActionButtonsEvaluador() {
    * @param {string} observaciones
    * @returns
    */
-  function setDictamen(statusId: string, observaciones: string){
+  function setDictamen(
+    statusId: string,
+    observaciones: string,
+    isTemporal: boolean = false
+  ) {
     const status: EstatusItemSetProps = {
-      idPropuesta: alumno.idFormulariosRespuestas,
-      matricula: alumno.matricula,
+      idPropuesta: alumno.alumno.idFormulariosRespuestas,
+      matricula: alumno.alumno.matricula,
       idEstatus: Number(statusId),
       observaciones: observaciones,
-    }
-    return DataService.setEstatusRevision(status)
+      isTemporal: isTemporal,
+    };
+    return DataService.setEstatusRevision(status);
   }
 
-  if (listEstatus.loading){
+  if (listEstatus.loading) {
     return (
-      <Box sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        width: '100%'
-      }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          width: '100%',
+        }}
+      >
         <LinearProgress />
       </Box>
     );
@@ -72,10 +81,19 @@ export default function ActionButtonsEvaluador() {
   const modalAsignarDictamen = {
     label: 'Asignar estatus',
     title: 'Asignar estatus',
-    component: <BodyDropdownButton options={ listEstatus.status } label="Asignar estatus" onSubmit={ setDictamen }/>
-  }
+    component: (
+      <BodyDropdownButton
+        options={listEstatus.status}
+        label="Asignar estatus"
+        onSubmit={setDictamen}
+      />
+    ),
+  };
 
   return (
-    <GenericModActionButtons button1={ modalAsignarDictamen } button2={ modalRechazarEvaluacion }/>
+    <GenericModActionButtons
+      button1={modalAsignarDictamen}
+      button2={modalRechazarEvaluacion}
+    />
   );
 }

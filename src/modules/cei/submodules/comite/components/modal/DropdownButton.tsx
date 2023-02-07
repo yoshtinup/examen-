@@ -21,7 +21,7 @@ import { useRecoilState } from 'recoil';
 interface DropDownOption {
   options: Array<EstatusItemProps>;
   label: string;
-  onSubmit(optionValue: string, sugerencia: string): any;
+  onSubmit(optionValue: string, sugerencia: string, isTemporal?: boolean): any;
 }
 
 /**
@@ -57,6 +57,30 @@ const BodyDropdownButton: React.FC<DropDownOption> = ({
       </MenuItem>
     ));
   };
+
+  function handleSaveTemp() {
+    onSubmit(currentOption, sugerencia, true)
+      .then((response: any) => {
+        console.log(response);
+        setAlumno(current => ({
+          ...current,
+          alumno: {
+            ...current.alumno,
+            estatus: response.data.estatus,
+          },
+        }));
+        setAlert({
+          severity: 'success',
+          message: 'El estatus tempral se ha guardado con exito',
+        });
+      })
+      .catch(() => {
+        setAlert({
+          severity: 'warning',
+          message: 'El estatus temporal no pudo guardarse',
+        });
+      });
+  }
 
   // llama a la funcion que asigna un estatus
   function handleAction() {
@@ -113,6 +137,7 @@ const BodyDropdownButton: React.FC<DropDownOption> = ({
         </FormControl>
       </DialogContent>
       <DialogActions>
+        <Button onClick={handleSaveTemp}>Guardar temporal</Button>
         <Button onClick={handleAction} autoFocus>
           Guardar
         </Button>

@@ -124,6 +124,7 @@ export type EstatusItemSetProps = {
   matricula: number;
   idEstatus: number;
   observaciones: string;
+  isTemporal: boolean;
 };
 
 //
