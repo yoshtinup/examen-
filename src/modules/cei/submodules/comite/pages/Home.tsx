@@ -36,9 +36,7 @@ function getTable(label: string, history: boolean = false) {
  */
 const Home = () => {
   const [alumnosState, setAlumnosState] = useRecoilState(alumnosAtom);
-  console.log('alumnosState', alumnosState);
   useEffect(() => {
-    console.log('entro al use effect');
     // Obtener los alumnos con propuestas de l ciclo
     fetchAllAlumnos(alumnosState.current_cursor[0])().then(res => {
       const cursors = alumnosState.current_cursor.concat(res.cursor);

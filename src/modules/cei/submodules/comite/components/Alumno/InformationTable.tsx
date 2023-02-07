@@ -19,6 +19,7 @@ import {
 import { useRecoilState } from 'recoil';
 import { alumnosAtom } from '../../store/slices/alumnos';
 import { useRouter } from 'next/router';
+import { Alert, AlertTitle } from '@mui/material';
 
 // function CustomToolbar() {
 //   return (
@@ -133,6 +134,16 @@ const InformationTable: React.FC<Props> = ({ history }) => {
   }
 
   // const CP: React.FC = () => ( <CustomPagination history={history} /> )
+  if (items.length < 1) {
+    return (
+      <>
+        <Alert severity="info">
+          <AlertTitle>Comite de ética</AlertTitle>
+          <h4>Usted no cuenta con propuestas en este apartado</h4>
+        </Alert>
+      </>
+    );
+  }
 
   return (
     <>
