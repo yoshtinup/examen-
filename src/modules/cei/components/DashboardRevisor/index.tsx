@@ -1,5 +1,11 @@
+import Home from '@modules/cei/submodules/comite/pages/Home';
+
 const DashboardRevisor = () => {
-  return <>Dashboard Revisor</>;
+  return (
+    <>
+      <Home />
+    </>
+  );
 };
 
 export default DashboardRevisor;
