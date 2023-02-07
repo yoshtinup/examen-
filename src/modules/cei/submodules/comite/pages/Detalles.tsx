@@ -5,6 +5,7 @@ import {
   SugerenciaItemProps,
   DocumentoItemProps,
   EvaluadorItemProps,
+  AlertMessageProps,
 } from '../__generated__/globalTypes';
 //Utils
 import { arrayDivisorByCondition } from '../helpers/arrayUtils';
@@ -30,7 +31,7 @@ import TwoTabs from '../components/TwoTabs';
 import TableDocuments from '../components/ListDocuments';
 import Chip from '@mui/material/Chip';
 import StatusIcon from '../components/EtatusIcon';
-import { ListItem } from '@mui/material';
+import { Alert, ListItem } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
 import { alumnoAtom } from '../store/slices/alumno';
@@ -61,8 +62,43 @@ const Propuesta: FC<PropuestaProps> = ({
   apelacion,
   evaluadores,
 }) => {
+  const [alumno, setAlumno] = useRecoilState(alumnoAtom);
+  const [alert, setAlert] = useState<AlertMessageProps | null>(null);
+
   const handleDelete = (idFormularioRespuesta, idPersonalAcademico) => {
     console.log('delete', idPersonalAcademico, idFormularioRespuesta);
+    DataService.setEliminarEvaluador({
+      idFormularioRespuesta,
+      idPersonalAcademico,
+    })
+      .then(res => {
+        const { data } = res;
+        console.log(data);
+        setAlumno(current => ({
+          ...current,
+          alumno: {
+            ...current.alumno,
+            evaluadores: [
+              ...current.alumno.evaluadores.filter(ele => {
+                return ele.id != idPersonalAcademico;
+              }),
+            ],
+          },
+        }));
+        setAlert({
+          severity: 'success',
+          message: 'El evaluador se elimino con exito',
+        });
+        setTimeout(() => {
+          setAlert(null);
+        }, 3000);
+      })
+      .catch((e: any) => {
+        setAlert({
+          severity: 'warning',
+          message: 'No se pudo eliminar al evaluador, intentelo nuevamente',
+        });
+      });
   };
   return (
     <Grid container spacing={3}>
@@ -72,16 +108,14 @@ const Propuesta: FC<PropuestaProps> = ({
         )}
         {evaluadores &&
           evaluadores.map((evaluador, index) => (
-            <ListItem>
+            <ListItem key={index}>
               <ChipEvaluadorRole
-                key={evaluador.nombre}
                 icon={<StatusIcon status={evaluador.estatus} />}
                 label={
                   evaluador.nombre.slice(0, 10) + ' - ' + evaluador.estatus
                 }
               />
               <ChipPresidenteRole
-                key={evaluador.nombre}
                 icon={<StatusIcon status={evaluador.estatus} />}
                 label={
                   evaluador.nombre.slice(0, 10) + ' - ' + evaluador.estatus
@@ -93,6 +127,13 @@ const Propuesta: FC<PropuestaProps> = ({
               />
             </ListItem>
           ))}
+        {alert ? (
+          <Alert variant="filled" severity={alert.severity}>
+            {alert.message}
+          </Alert>
+        ) : (
+          <></>
+        )}
       </Grid>
       <Grid item xs={12} sm={8}>
         <FormDetalles questions={preguntas} />
@@ -122,6 +163,7 @@ const getHistoryFormat = (alumnosInfo: Array<AlumnoDetallesItemProps>) => {
     date: info.fechaEnvio?.toString() ?? '',
     component: (
       <Propuesta
+        key={info.idPropuesta}
         preguntas={info.preguntas}
         sugerencias={info.sugerencias}
         apelacion={info.apelacion}
@@ -260,6 +302,7 @@ function Detalles() {
           label: 'Propuesta Actual',
           component: (
             <Propuesta
+              key={alumnoInformation.current.idPropuesta}
               idFormularioRespuesta={alumnoInformation.current.idPropuesta}
               preguntas={alumnoInformation.current.preguntas}
               sugerencias={alumnoInformation.current.sugerencias}

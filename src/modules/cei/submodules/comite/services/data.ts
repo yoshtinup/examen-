@@ -10,13 +10,10 @@ import {
   LoginInput,
   LoginResponse,
   LoginResponseWithoutToken,
+  EliminarEvaluadorProps,
+  FetchAlumnosPropuestas,
 } from '../__generated__/globalTypes';
 import http from './http-common';
-
-interface FetchAlumnosPropuestas {
-  cursor: number;
-  data: AlumnoItemProps[];
-}
 
 // Conjunto de endpoits de la api usados para este projecto
 // Si desea conocer el comportamiento de estos leea la documentacion de la api
@@ -81,6 +78,10 @@ class DataService {
 
   sendEvaluadoresPendientes() {
     http.get('/notificacion/pendiente/evaluadores');
+  }
+
+  setEliminarEvaluador(data: EliminarEvaluadorProps) {
+    return http.post('/evaluador/eliminarevaluador', data);
   }
 }
 
