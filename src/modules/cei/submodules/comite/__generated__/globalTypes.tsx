@@ -160,6 +160,14 @@ export interface FetchAlumnosPropuestas {
 // End Evaluador type
 //
 
+export interface Evaluacion {
+  esTemporal: boolean;
+  idEstatus: number;
+  idFormulariosRespuestas: number;
+  idUsuario: number;
+  observaciones: string;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

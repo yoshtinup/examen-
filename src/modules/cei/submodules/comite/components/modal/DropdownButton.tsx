@@ -17,6 +17,8 @@ import {
 } from '../../__generated__/globalTypes';
 import { alumnoAtom } from '../../store/slices/alumno';
 import { useRecoilState } from 'recoil';
+import { evaluacionAtom } from '../../store/slices/evaluacion';
+import { useEffect } from 'react';
 
 interface DropDownOption {
   options: Array<EstatusItemProps>;
@@ -35,8 +37,11 @@ const BodyDropdownButton: React.FC<DropDownOption> = ({
   onSubmit,
 }) => {
   const [alert, setAlert] = React.useState<AlertMessageProps | null>(null);
-  const [currentOption, setCurrentOption] = React.useState('');
-  const [sugerencia, setSugerencia] = React.useState('');
+  const [evaluacion, setEvaluacion] = useRecoilState(evaluacionAtom);
+  const [currentOption, setCurrentOption] = React.useState(
+    evaluacion.idEstatus.toString()
+  );
+  const [sugerencia, setSugerencia] = React.useState(evaluacion.observaciones);
   const [alumno, setAlumno] = useRecoilState(alumnoAtom);
   console.log('alumno', alumno);
 
@@ -107,6 +112,11 @@ const BodyDropdownButton: React.FC<DropDownOption> = ({
       });
   }
 
+  useEffect(() => {
+    setCurrentOption(evaluacion.idEstatus.toString());
+    setSugerencia(evaluacion.observaciones);
+  }, [evaluacion]);
+
   return (
     <>
       <DialogContent>
@@ -133,13 +143,16 @@ const BodyDropdownButton: React.FC<DropDownOption> = ({
             minRows={3}
             placeholder="Agregar sugerencia"
             onChange={handleChangeSugerencia}
+            value={sugerencia}
           />
         </FormControl>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleSaveTemp}>Guardar temporal</Button>
-        <Button onClick={handleAction} autoFocus>
-          Guardar
+        <Button variant="contained" color="info" onClick={handleSaveTemp}>
+          Guardar temporal
+        </Button>
+        <Button variant="contained" onClick={handleAction} autoFocus>
+          Evaluar
         </Button>
       </DialogActions>
       {alert ? (

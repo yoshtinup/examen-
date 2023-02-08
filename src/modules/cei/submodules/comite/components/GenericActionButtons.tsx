@@ -3,6 +3,10 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
 import CustomDialog from './modal/CustomDialog';
 import { useRouter } from 'next/router';
+import DataService from '../services/data';
+import { useRecoilState } from 'recoil';
+import { alumnoAtom } from '../store/slices/alumno';
+import { evaluacionAtom } from '../store/slices/evaluacion';
 
 type ActionButtonProps = {
   // etiqueta del boton
@@ -33,7 +37,27 @@ const GenericModActionButtons: React.FC<ActionButtonsProps> = ({
   // Manejo del estado para la apertura de los dialogos de confirmacion para el
   // boton 1
   const [openMod1, setOpenMod1] = React.useState(false);
-  const handleOpenMod1 = () => setOpenMod1(true);
+  const [alumno] = useRecoilState(alumnoAtom);
+  const [_, setEvaluacion] = useRecoilState(evaluacionAtom);
+  const handleOpenMod1 = () => {
+    setOpenMod1(true);
+
+    DataService.getEvaluacionTemporal(
+      alumno.alumno.idFormulariosRespuestas
+    ).then(response => {
+      console.log(response);
+      if (response.status == 200) {
+        setEvaluacion({
+          idEstatus: response.data.idEstatus,
+          observaciones: response.data.observaciones,
+        });
+      }
+
+      if (response.status == 204) {
+        console.log('reset');
+      }
+    });
+  };
   const handleCloseMod1 = () => setOpenMod1(false);
 
   // Manejo del estado para la apertura de los dialogos de confirmacion para el

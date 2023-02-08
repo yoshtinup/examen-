@@ -12,6 +12,7 @@ import {
   LoginResponseWithoutToken,
   EliminarEvaluadorProps,
   FetchAlumnosPropuestas,
+  Evaluacion,
 } from '../__generated__/globalTypes';
 import http from './http-common';
 
@@ -54,6 +55,10 @@ class DataService {
 
   getEvaluadores() {
     return http.get<Array<EvaluadorItemProps>>('/evaluador');
+  }
+
+  getEvaluacionTemporal(id: number) {
+    return http.get<Evaluacion>(`/evaluador/tempevaluacion/${id}`);
   }
 
   setEvaluador(data: AsignEvaluadorProps) {
