@@ -26,7 +26,7 @@ type AlumnoDetallesFetchProps = {
 import '@modules/cei/submodules/alumno/appGlobal';
 import { EcosurAuth } from '@modules/auth/definitions';
 import { userStateAtom } from '@modules/auth/recoil';
-import { CircularProgress } from '@mui/material';
+import { Card, CircularProgress, Container } from '@mui/material';
 
 // Componente de inicio
 const PropuestaAlumno = () => {
@@ -129,22 +129,24 @@ const PropuestaAlumno = () => {
   }
 
   return (
-    <>
-      <Box sx={{ width: '100%' }}>
-        <Typography component="div" variant="h5">
-          Información general
-        </Typography>
-        <Information alumnoInfo={alumnoInformation.current} />
-        <FormStructure
-          respuestas={alumnoInformation.current.preguntas}
-          sugerencias={alumnoInformation.current.sugerencias}
-          apelacion={alumnoInformation.current.apelacion}
-          status={alumno.status}
-          propuestasHistoricas={alumnoInformation.history}
-          documentos={alumnoInformation.current.documentos}
-        />
-      </Box>
-    </>
+    <Container fixed>
+      <Card>
+        <Box sx={{ width: '100%' }}>
+          <Typography component="div" variant="h5">
+            Información general
+          </Typography>
+          <Information alumnoInfo={alumnoInformation.current} />
+          <FormStructure
+            respuestas={alumnoInformation.current.preguntas}
+            sugerencias={alumnoInformation.current.sugerencias}
+            apelacion={alumnoInformation.current.apelacion}
+            status={alumno.status}
+            propuestasHistoricas={alumnoInformation.history}
+            documentos={alumnoInformation.current.documentos}
+          />
+        </Box>
+      </Card>
+    </Container>
   );
 };
 
