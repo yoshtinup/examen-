@@ -1,17 +1,21 @@
-import { DataGrid, GridColDef, GridValueGetterParams, GridValueGetterFullParams,GridCellParams } from '@mui/x-data-grid';
+import {
+  DataGrid,
+  GridColDef,
+  GridValueGetterParams,
+  GridValueGetterFullParams,
+  GridCellParams,
+} from '@mui/x-data-grid';
 import Link from '@mui/material/Link';
-import { DocumentoItemProps } from '../__generated__/globalTypes'
-
+import { DocumentoItemProps } from '../__generated__/globalTypes';
 
 /**
  * Abre los links de un documento
  * @param url
  */
 const openInNewTab = (url: string) => {
-  const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
-  if (newWindow) newWindow.opener = null
-}
-
+  const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+  if (newWindow) newWindow.opener = null;
+};
 
 // Definicon de la tabla de documentos
 const columns: GridColDef[] = [
@@ -43,23 +47,27 @@ const columns: GridColDef[] = [
     sortable: false,
     width: 100,
     valueGetter: (params: GridValueGetterParams) =>
-      `${(params as GridValueGetterFullParams).row.historico ? 'Histórica' : 'Actual'}`,
-  }
+      `${
+        (params as GridValueGetterFullParams).row.historico
+          ? 'Histórica'
+          : 'Actual'
+      }`,
+  },
 ];
 
 type ArrayDocuments = {
-  documents?: Array<DocumentoItemProps>
-}
+  documents?: Array<DocumentoItemProps>;
+};
 
 /**
  * Genera una tabla con todos los documentos de una propuesta(historicos
  * y actuales)
-* @param
-* @returns
-*/
-export default function TableDocuments({documents}: ArrayDocuments){
+ * @param
+ * @returns
+ */
+export default function TableDocuments({ documents }: ArrayDocuments) {
   return (
-  <div style={{width: '25%' }}>
+    <div style={{ width: '50%' }}>
       <DataGrid
         rows={documents}
         columns={columns}
