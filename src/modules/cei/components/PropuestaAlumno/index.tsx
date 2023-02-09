@@ -46,7 +46,6 @@ const PropuestaAlumno = () => {
     const [propuesta, exist] = await getPropuestaAlumno(
       String(user.estudiante.matricula)
     );
-    console.log('propuesta', propuesta, exist);
     if (exist) {
       // dividir entre actual y historico
       let tempDocuments: DocumentoItemProps[] = [];

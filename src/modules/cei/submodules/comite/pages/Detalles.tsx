@@ -67,14 +67,12 @@ const Propuesta: FC<PropuestaProps> = ({
   const [alert, setAlert] = useState<AlertMessageProps | null>(null);
 
   const handleDelete = (idFormularioRespuesta, idPersonalAcademico) => {
-    console.log('delete', idPersonalAcademico, idFormularioRespuesta);
     DataService.setEliminarEvaluador({
       idFormularioRespuesta,
       idPersonalAcademico,
     })
       .then(res => {
         const { data } = res;
-        console.log(data);
         setAlumno(current => ({
           ...current,
           alumno: {
@@ -95,9 +93,16 @@ const Propuesta: FC<PropuestaProps> = ({
         }, 3000);
       })
       .catch((e: any) => {
+        let message = '';
+        if (e.response.status == 400) {
+          message = e.response.data;
+        }
+
         setAlert({
           severity: 'warning',
-          message: 'No se pudo eliminar al evaluador, intentelo nuevamente',
+          message:
+            'No se pudo eliminar al evaluador, intentelo nuevamente. ' +
+            message,
         });
       });
   };
@@ -249,7 +254,6 @@ function Detalles() {
   }, []);
 
   useEffect(() => {
-    console.log(alumno);
     setAlumnoInformation(item => ({
       ...item,
       current: {

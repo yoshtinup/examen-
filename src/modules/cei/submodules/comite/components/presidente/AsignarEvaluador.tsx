@@ -47,7 +47,6 @@ export default function BodyAsignarEvaluador() {
     DataService.setEvaluador(evaluador)
       .then(res => {
         const { data } = res;
-        console.log(data);
         setAlumno(current => ({
           ...current,
           alumno: {

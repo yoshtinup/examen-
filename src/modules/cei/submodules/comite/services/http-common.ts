@@ -32,7 +32,6 @@ const HttpClient = () => {
       return response;
     },
     error => {
-      console.log(error.response);
       SnackBarUtilities.error([
         error.response.config.baseURL + error.response.config.url,
         getValidationError(error.response.statusText),

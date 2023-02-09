@@ -45,7 +45,6 @@ const GenericModActionButtons: React.FC<ActionButtonsProps> = ({
     DataService.getEvaluacionTemporal(
       alumno.alumno.idFormulariosRespuestas
     ).then(response => {
-      console.log(response);
       if (response.status == 200) {
         setEvaluacion({
           idEstatus: response.data.idEstatus,

@@ -38,8 +38,6 @@ export const GenericQuestionItem: React.FC<parameterQuestion> = ({
   setValue,
 }) => {
   const questions: Preguntas = useRecoilValue(preguntasSelector);
-  // render++
-  // console.log(render)
 
   /**
    * Algoritmo recursivo que recorre en forma de albol las subpreguntas

@@ -46,7 +46,6 @@ export default function BodyRechazarEvaluacion() {
         });
       })
       .catch((e: any) => {
-        console.log('error', e.response);
         let msg = '';
         if (e.response.status == 403) {
           msg = ', usted ya realizó una evaluación ó un rechazo anteriormente';

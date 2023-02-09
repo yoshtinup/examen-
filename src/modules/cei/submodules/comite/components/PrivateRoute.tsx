@@ -25,7 +25,6 @@ const PrivateRoute = ({ children }: { children: JSX.Element }) => {
           );
         })
         .catch(() => {
-          console.log('No hay una sesion presente en el navegador');
           dispatch(loginFinish());
         });
     }

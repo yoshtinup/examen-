@@ -43,7 +43,6 @@ const BodyDropdownButton: React.FC<DropDownOption> = ({
   );
   const [sugerencia, setSugerencia] = React.useState(evaluacion.observaciones);
   const [alumno, setAlumno] = useRecoilState(alumnoAtom);
-  console.log('alumno', alumno);
 
   const handleChange = (event: SelectChangeEvent<typeof currentOption>) => {
     setCurrentOption(event.target.value as string);
@@ -66,7 +65,6 @@ const BodyDropdownButton: React.FC<DropDownOption> = ({
   function handleSaveTemp() {
     onSubmit(currentOption, sugerencia, true)
       .then((response: any) => {
-        console.log(response);
         setAlumno(current => ({
           ...current,
           alumno: {
@@ -91,7 +89,6 @@ const BodyDropdownButton: React.FC<DropDownOption> = ({
   function handleAction() {
     onSubmit(currentOption, sugerencia)
       .then((response: any) => {
-        console.log(response);
         setAlumno(current => ({
           ...current,
           alumno: {
