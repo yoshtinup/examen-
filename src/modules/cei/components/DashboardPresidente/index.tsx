@@ -5,11 +5,7 @@ import { Container } from '@mui/system';
 import Link from 'next/link';
 
 const DashboardPresidente = () => {
-  return (
-    <Container>
-      <Home />
-    </Container>
-  );
+  return <Home />;
 };
 
 export default DashboardPresidente;
