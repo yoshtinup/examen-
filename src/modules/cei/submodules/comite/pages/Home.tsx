@@ -14,6 +14,7 @@ import TwoTabs from '../components/TwoTabs';
 import { WithRol } from '@shared/hooks';
 import Roles from '@definitions/Roles';
 import { useRecoilState } from 'recoil';
+import { rolStateAtom } from '@modules/auth/recoil';
 
 const PresidenteHeaderAction = WithRol(Roles.Presidente_CEI)(HeaderAction);
 
@@ -36,6 +37,8 @@ function getTable(label: string, history: boolean = false) {
  */
 const Home = () => {
   const [alumnosState, setAlumnosState] = useRecoilState(alumnosAtom);
+  const [rolState] = useRecoilState(rolStateAtom);
+  const isPresidente = Roles[rolState] == 'Presidente_CEI' ? true : false;
   useEffect(() => {
     // Obtener los alumnos con propuestas de l ciclo
     fetchAllAlumnos(alumnosState.current_cursor[0])().then(res => {
@@ -47,15 +50,20 @@ const Home = () => {
       }));
     });
 
-    // Obtener los alumnos con propuestas historicas
-    fetchAllAlumnosHistorico(alumnosState.history_cursor[0])().then(res => {
-      const cursors = alumnosState.history_cursor.concat(res.cursor);
-      setAlumnosState(alumnos => ({
-        ...alumnos,
-        history: res.data,
-        history_cursor: cursors,
-      }));
-    });
+    if (isPresidente) {
+      // Obtener los alumnos con propuestas historicas
+      fetchAllAlumnosHistorico(
+        alumnosState.history_cursor[0],
+        isPresidente
+      )().then(res => {
+        const cursors = alumnosState.history_cursor.concat(res.cursor);
+        setAlumnosState(alumnos => ({
+          ...alumnos,
+          history: res.data,
+          history_cursor: cursors,
+        }));
+      });
+    }
   }, []);
   // Solo se muestra para el rol Presidente
   return (

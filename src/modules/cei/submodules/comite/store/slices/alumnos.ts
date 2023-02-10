@@ -24,16 +24,21 @@ export const initialState = {
 } as ListAlumnosCursors;
 
 // Obtener las propuestas dependiendo si es un presidente o revisor
-export const fetchAllAlumnos = (cursor: number) => async () => {
-  const current = await DataService.getPropuestasAlumnos(cursor);
-  return current.data;
-};
+export const fetchAllAlumnos =
+  (cursor: number, isPresidente: boolean) => async () => {
+    const current = await DataService.getPropuestasAlumnos(cursor);
+    return current.data;
+  };
 
 // Obtener las propuestas historicas dependiendo si es un presidente o revisor
-export const fetchAllAlumnosHistorico = (cursor: number) => async () => {
-  const history = await DataService.getPropuestasAlumnos(cursor, true);
-  return history.data;
-};
+export const fetchAllAlumnosHistorico =
+  (cursor: number, isPresidente: boolean) => async () => {
+    const history = await DataService.getPropuestasAlumnos(
+      cursor,
+      isPresidente
+    );
+    return history.data;
+  };
 
 // eliminar un cursor de navegacion
 export const removeCursor = (history: boolean) => (dispatch: any) => {

@@ -35,9 +35,13 @@ class DataService {
     return http.get<Numeralia>('/propuestas/numeralia');
   }
 
-  getPropuestasAlumnos(cursor: number = 0, history: boolean = false) {
+  getPropuestasAlumnos(
+    cursor: number = 0,
+    history: boolean = false,
+    isPresidente = false
+  ) {
     return http.get<FetchAlumnosPropuestas>(
-      `/propuestas?historico=${history}&cursor=${cursor}`
+      `/propuestas?historico=${history}&cursor=${cursor}&isPresidente=${isPresidente}`
     );
   }
 
