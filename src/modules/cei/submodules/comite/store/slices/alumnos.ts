@@ -33,15 +33,6 @@ export const fetchAllAlumnos = (cursor: number) => async () => {
 export const fetchAllAlumnosHistorico = (cursor: number) => async () => {
   const history = await DataService.getPropuestasAlumnos(cursor, true);
   return history.data;
-
-  const [alumnosHistory, setAlumnosHistory] = useRecoilState(alumnosAtom);
-  const cursors = alumnosHistory.history_cursor.concat(history.data.cursor);
-
-  setAlumnosHistory(alumnosHistory => ({
-    ...alumnosHistory,
-    history: history.data.data,
-    history_cursor: cursors,
-  }));
 };
 
 // eliminar un cursor de navegacion
