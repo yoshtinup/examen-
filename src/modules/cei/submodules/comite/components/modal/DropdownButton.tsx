@@ -101,10 +101,14 @@ const BodyDropdownButton: React.FC<DropDownOption> = ({
           message: 'El estatus asignado con exito',
         });
       })
-      .catch(() => {
+      .catch(e => {
+        let msg = '';
+        if (e.response.status == 400) {
+          msg = '. ' + e.response.data;
+        }
         setAlert({
           severity: 'warning',
-          message: 'El estatus no pudo asignarse',
+          message: 'El estatus no pudo asignarse' + msg,
         });
       });
   }
