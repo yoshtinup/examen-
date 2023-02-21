@@ -15,8 +15,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { alumnoAtom } from '../../store/slices/alumno';
+import { interfaceRule } from '../../store/slices/interface-rules';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -33,8 +34,8 @@ const style = {
 // Estatus de Activacion
 
 const cartaAceptacion = [
-  'Aprobado por CEI',
-  'Aprobado por CEI con sugerencias',
+  'Aprobado por el CEI',
+  'Aprobado por el CEI con sugerencias',
   'Aprobado por evaluación',
 ];
 
@@ -42,10 +43,9 @@ const cartaAceptacion = [
 const buttonsSave = [
   'Pendiente de envío',
   'Propuesta sin guardar',
-  'No aprobado por CEI con sugerencias',
+  'No aprobado por el CEI con sugerencias',
   'Pendiente de validar con sugerencias',
-  'No aprobado por CEI',
-  'En revisión por CEI',
+  'No aprobado por el CEI',
 ];
 
 /**
@@ -55,10 +55,11 @@ const buttonsSave = [
  */
 const ActionButtons = ({ onClick }: { onClick: any }) => {
   const [alumno, setAlumno] = useRecoilState(alumnoAtom);
-
+  const showInterfece = useRecoilValue(interfaceRule);
   const [aceptacionActive, setAceptacionActive] = useState<boolean>(
     !cartaAceptacion.includes(alumno.status)
   );
+  console.log('alumno.status', alumno.status);
   const [disabled, setDisabled] = useState<boolean>(
     !buttonsSave.includes(alumno.status)
   );
@@ -157,7 +158,7 @@ const ActionButtons = ({ onClick }: { onClick: any }) => {
 
   return (
     <>
-      {globalThis.SHOWINTERFACE.showButtons ? (
+      {showInterfece.showButtons ? (
         <ButtonGroup
           disableElevation
           size="small"

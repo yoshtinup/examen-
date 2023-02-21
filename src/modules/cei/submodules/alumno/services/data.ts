@@ -4,6 +4,7 @@ import {
   AlumnoDetallesItemProps,
   AlumnoWithoutPropuestaProps,
   LoginProps,
+  ShowInterface,
 } from '../__generated__/globalTypes';
 import http from './http-common';
 import httpFileUpload from './http-file-upload';
@@ -47,6 +48,10 @@ class DataService {
     return httpLogin.post<LoginProps>(
       `/Login/validacion_Autorizacion?Email=${email}`
     );
+  }
+
+  getInterfaceRules() {
+    return http.get<ShowInterface>('/alumno/rulesshowinterface');
   }
 }
 

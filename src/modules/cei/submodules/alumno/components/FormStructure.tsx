@@ -33,6 +33,8 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { alumnoAtom } from '../store/slices/alumno';
 import { Preguntas, preguntasSelector } from '../store/slices/preguntas';
 import TableDocuments from './ListDocuments';
+import { interfaceRule } from '../store/slices/interface-rules';
+import Apelacion from './alumno/Apelacion';
 
 interface PropuestaProps {
   respuestas: Array<PreguntaRespuestaItemProps>;
@@ -56,13 +58,13 @@ interface PropuestaGridProps extends PropuestaProps {
 const estatusWarning = [
   'Pendiente de envío',
   'Propuesta sin guardar',
-  'No aprobado por CEI con sugerencias',
+  'No aprobado por el CEI con sugerencias',
   'Pendiente de validar con sugerencias',
 ];
 
 const estatusSuccess = [
-  'Aprobado por CEI',
-  'Aprobado por CEI con sugerencias',
+  'Aprobado por el CEI',
+  'Aprobado por el CEI con sugerencias',
   'Aprobado por evaluación',
 ];
 
@@ -73,8 +75,9 @@ const estatusSuccess = [
  */
 const statusActive: string[] = [
   'Pendiente de envío',
-  'No aprobado por CEI con sugerencias',
-  'En revisión por CEI',
+  'No aprobado por el CEI con sugerencias',
+  'En revisión por el CEI',
+  'Pendiente de validar con sugerencias',
 ];
 
 const Propuesta: FC<PropuestaGridProps> = ({
@@ -91,6 +94,7 @@ const Propuesta: FC<PropuestaGridProps> = ({
   const [apelacionActive, setApelacionActive] = useState<boolean>(
     statusActive.includes(alumno.status) && sugerencias.length > 0
   );
+  const showInterfece = useRecoilValue(interfaceRule);
 
   useEffect(() => {
     setApelacionActive(
@@ -121,7 +125,7 @@ const Propuesta: FC<PropuestaGridProps> = ({
       </Grid>
 
       <Grid item xs={12} sm={4}>
-        {globalThis.SHOWINTERFACE.showAppeal && apelacionActive && (
+        {showInterfece.showAppeal && apelacionActive && (
           <>
             <HeaderTitle
               label={
@@ -140,9 +144,10 @@ const Propuesta: FC<PropuestaGridProps> = ({
             </Paper>
           </>
         )}
-        {globalThis.SHOWINTERFACE.showSuggestions ? (
+        {showInterfece.showSuggestions ? (
           <Sugerencias sugerencias={sugerencias} />
         ) : null}
+        {apelacion && <Apelacion apelacion={apelacion} />}
       </Grid>
     </Grid>
   );
@@ -186,6 +191,7 @@ const FormStructure: FC<PropuestaFormProps> = ({
   documentos,
 }) => {
   const questions: Preguntas = useRecoilValue(preguntasSelector);
+  const showInterfece = useRecoilValue(interfaceRule);
   function getAnswer(id: number): string {
     return respuestas.find(answer => answer.id === id)?.current_value ?? '';
   }
@@ -234,7 +240,7 @@ const FormStructure: FC<PropuestaFormProps> = ({
         Formulario de Propuesta
       </Typography>
 
-      {globalThis.SHOWINTERFACE.showRealStatus ? (
+      {showInterfece.showRealStatus ? (
         <Alert variant="outlined" severity={infoEstatus}>
           <Typography component="div" variant="h6">
             Estatus de su propuesta: {status}{' '}
