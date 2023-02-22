@@ -53,6 +53,10 @@ class DataService {
   getInterfaceRules() {
     return http.get<ShowInterface>('/alumno/rulesshowinterface');
   }
+
+  getCartaAceptacion(id: number) {
+    return http.get(`/carta_aceptacion/${id}`);
+  }
 }
 
 export default new DataService();

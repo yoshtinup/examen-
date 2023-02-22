@@ -82,10 +82,13 @@ const ActionButtons = ({ onClick }: { onClick: any }) => {
     setDisabled(!buttonsSave.includes(alumno.status));
   };
   const handleShowCarta = () => {
-    window.open(
-      `https://apicei.web.ecosur.mx/images/cartas/${alumno.idFormulariosRespuestas}.pdf`,
-      '_blank'
-    );
+    DataService.getCartaAceptacion(alumno.idFormulariosRespuestas)
+      .then(response => {
+        if (response.data.includes('https://')) {
+          window.open(response.data, '_blank');
+        }
+      })
+      .catch(() => {});
   };
 
   function setData(
