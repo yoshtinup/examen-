@@ -26,9 +26,10 @@ const NavbarRoot = styled(AppBar)(({ theme }) => ({
 
 type NavbarProps = {
   onSidebarOpen: () => void;
+  open: Boolean;
 };
 
-export const Navbar: FC<NavbarProps> = ({ onSidebarOpen, ...other }) => {
+export const Navbar: FC<NavbarProps> = ({ onSidebarOpen, open, ...other }) => {
   const settingsRef = useRef(null);
   const [openAccountPopover, setOpenAccountPopover] = useState(false);
   const user: EcosurAuth = useRecoilValue(userStateAtom);
@@ -39,10 +40,10 @@ export const Navbar: FC<NavbarProps> = ({ onSidebarOpen, ...other }) => {
         id="HeaderDataPersona"
         sx={{
           left: {
-            lg: 280,
+            lg: open ? 280 : 85,
           },
           width: {
-            lg: 'calc(100% - 280px)',
+            lg: open ? 'calc(100% - 280px)' : 'calc(100% - 85px)',
           },
         }}
         {...other}
@@ -60,7 +61,6 @@ export const Navbar: FC<NavbarProps> = ({ onSidebarOpen, ...other }) => {
             sx={{
               display: {
                 xs: 'inline-flex',
-                lg: 'none',
               },
             }}
           >

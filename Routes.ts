@@ -28,6 +28,18 @@ const Routes: RoutesProps[] = [
       Roles.Presidente_CEI,
       Roles.Revisor_CEI,
       Roles.Estudiante,
+    ],
+  },
+  {
+    path: '/home',
+    all_math: true,
+    roles: [
+      Roles.Estudiante,
+      Roles.Academico,
+      Roles.Externo,
+      Roles.Responsable_Orientacion,
+      Roles.Coordinador_Unidad,
+      Roles.Coordinacion_General_Posgrado,
       Roles.Servicios_Escolares,
     ],
   },
