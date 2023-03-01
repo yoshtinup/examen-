@@ -26,7 +26,10 @@ export const initialState = {
 // Obtener las propuestas dependiendo si es un presidente o revisor
 export const fetchAllAlumnos =
   (cursor: number, isPresidente: boolean) => async () => {
-    const current = await DataService.getPropuestasAlumnos(cursor);
+    const current = await DataService.getPropuestasAlumnos(
+      cursor,
+      isPresidente
+    );
     return current.data;
   };
 

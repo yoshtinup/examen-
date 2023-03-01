@@ -39,16 +39,19 @@ const Home = () => {
   const [alumnosState, setAlumnosState] = useRecoilState(alumnosAtom);
   const [rolState] = useRecoilState(rolStateAtom);
   const isPresidente = Roles[rolState] == 'Presidente_CEI' ? true : false;
+
   useEffect(() => {
     // Obtener los alumnos con propuestas de l ciclo
-    fetchAllAlumnos(alumnosState.current_cursor[0])().then(res => {
-      const cursors = alumnosState.current_cursor.concat(res.cursor);
-      setAlumnosState(alumnos => ({
-        ...alumnos,
-        current: res.data,
-        current_cursor: cursors,
-      }));
-    });
+    fetchAllAlumnos(alumnosState.current_cursor[0], isPresidente)().then(
+      res => {
+        const cursors = alumnosState.current_cursor.concat(res.cursor);
+        setAlumnosState(alumnos => ({
+          ...alumnos,
+          current: res.data,
+          current_cursor: cursors,
+        }));
+      }
+    );
 
     if (isPresidente) {
       // Obtener los alumnos con propuestas historicas
