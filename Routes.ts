@@ -28,6 +28,7 @@ const Routes: RoutesProps[] = [
       Roles.Presidente_CEI,
       Roles.Revisor_CEI,
       Roles.Estudiante,
+      Roles.Servicios_Escolares,
     ],
   },
   {
