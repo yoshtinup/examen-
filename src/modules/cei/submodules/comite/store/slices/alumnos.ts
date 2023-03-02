@@ -28,8 +28,10 @@ export const fetchAllAlumnos =
   (cursor: number, isPresidente: boolean) => async () => {
     const current = await DataService.getPropuestasAlumnos(
       cursor,
+      false,
       isPresidente
     );
+
     return current.data;
   };
 
@@ -38,6 +40,7 @@ export const fetchAllAlumnosHistorico =
   (cursor: number, isPresidente: boolean) => async () => {
     const history = await DataService.getPropuestasAlumnos(
       cursor,
+      true,
       isPresidente
     );
     return history.data;
