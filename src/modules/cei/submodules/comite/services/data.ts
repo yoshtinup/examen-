@@ -40,8 +40,13 @@ class DataService {
     history: boolean = false,
     isPresidente = false
   ) {
+    if (isPresidente) {
+      return http.get<FetchAlumnosPropuestas>(
+        `/presidente/propuestasalumnos?historico=${history}&cursor=${cursor}`
+      );
+    }
     return http.get<FetchAlumnosPropuestas>(
-      `/propuestas?historico=${history}&cursor=${cursor}&isPresidente=${isPresidente}`
+      `/propuestas?historico=${history}&cursor=${cursor}`
     );
   }
 
