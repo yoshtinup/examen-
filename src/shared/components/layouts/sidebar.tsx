@@ -24,6 +24,16 @@ const items: ItemsNav[] = [
     icon: <Icon />,
     title: 'Consejo Tutelar',
   },
+  {
+    href: '/seminarios_investigacion',
+    icon: <Icon />,
+    title: 'Seminarios de Investigación',
+  },
+  {
+    href: '/inscripciones',
+    icon: <Icon />,
+    title: 'Inscripciones',
+  },
 ];
 
 type SidebarProps = {
