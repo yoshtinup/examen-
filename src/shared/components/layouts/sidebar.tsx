@@ -24,6 +24,8 @@ const items: ItemsNav[] = [
     icon: <Icon />,
     title: 'Consejo Tutelar',
   },
+
+  /* Cambio de la rama development */
   {
     href: '/seminarios_investigacion',
     icon: <Icon />,
@@ -34,6 +36,8 @@ const items: ItemsNav[] = [
     icon: <Icon />,
     title: 'Inscripciones',
   },
+
+  /* Cambio de la rama integrate-cei */
   {
     href: '/cei',
     icon: <Icon />,
