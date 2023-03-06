@@ -34,6 +34,11 @@ const items: ItemsNav[] = [
     icon: <Icon />,
     title: 'Inscripciones',
   },
+  {
+    href: '/cei',
+    icon: <Icon />,
+    title: 'CEI',
+  },
 ];
 
 type SidebarProps = {

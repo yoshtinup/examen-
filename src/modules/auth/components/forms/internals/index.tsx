@@ -134,6 +134,22 @@ export const LoginInternals: React.FC<React.PropsWithChildren<Props>> = ({
                     >
                       Servicios escolares
                     </MenuItem>
+                    <MenuItem
+                      value={Roles.Presidente_CEI}
+                      onClick={() => {
+                        values.rol = Roles.Presidente_CEI;
+                      }}
+                    >
+                      Presidente CEI
+                    </MenuItem>
+                    <MenuItem
+                      value={Roles.Revisor_CEI}
+                      onClick={() => {
+                        values.rol = Roles.Revisor_CEI;
+                      }}
+                    >
+                      Revisor CEI
+                    </MenuItem>
                   </Select>
                 </FormControl>
                 <Typography color="error" variant="caption" paragraph>
