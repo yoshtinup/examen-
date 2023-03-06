@@ -13,11 +13,16 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { EcosurTabs } from 'ecosur-ui';
 import InstruccionesEnlacesIndex from './components/InstruccionesEnlacesIndex';
-import { getALLConformacionesCT, ServiciosEscolaresQuerys } from './queries';
-import { Data, EnProceso, Concluidos } from './types';
+import {
+  getALLConformacionesCT,
+  getConformacionesConcluidas,
+  getGenerationsList,
+  ServiciosEscolaresQuerys,
+} from './queries';
+import { Data, EnProceso, Concluidos, Generaciones, Generacion } from './types';
 import Swal from 'sweetalert2';
 
-const item = [
+const items = [
   {
     id: 0,
     text: 'Estudiantes',
@@ -47,21 +52,14 @@ const item = [
 
 const ServiciosEscolaresIndex: React.FC<{
   rows: Data;
-  updateCompleted: any;
-  chargeGenerations?: any;
+  updateCompleted: (generation: number) => void;
+  chargeGenerations: Generaciones;
 }> = ({ rows, updateCompleted, chargeGenerations }) => {
   const queryClient = new QueryClient();
   const rowsInProccess: EnProceso[] = rows.EnProceso;
   const rowsCompleted: Concluidos[] = rows.Concluidos;
   const [allIds, setAllIds] = React.useState([]);
-  const [allStatus, setAllStatus] = React.useState([1, 2, 3, 5]);
-  const [selectGeneration, setSelectGeneration] = React.useState<number>(
-    new Date().getFullYear()
-  ); // Esto va a cambiar
-  const [generations, setGenerations] = React.useState<number[]>([
-    selectGeneration,
-  ]);
-  //const [generations, setGenerations] = React.useState<number[]>(chargeGenerations);
+  const [allStatus, setAllStatus] = React.useState(5);
 
   const selected = (id: number[]) => {
     const temporalAllIds = allIds;
@@ -95,7 +93,7 @@ const ServiciosEscolaresIndex: React.FC<{
         ['ct-generalNotifications-send'],
         () =>
           ServiciosEscolaresQuerys.sendGeneral(
-            allStatus.includes(5) ? [1, 2, 3, 5] : allStatus
+            allStatus === 5 ? [1, 2, 3, 5] : [allStatus]
           )
       );
       Swal.fire({
@@ -171,89 +169,93 @@ const ServiciosEscolaresIndex: React.FC<{
       componente: (
         <>
           <Grid container direction="row" justifyContent="flex-end">
-            <InputLabel
-              style={{
-                width: '100%',
-                textAlign: 'end',
-                padding: '20px 165px 0px 0px',
-              }}
-            >
-              Enviar notificaciones a:
-            </InputLabel>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              <Box
-                sx={{
-                  margin: '10px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '10px',
-                }}
-              >
-                <Box>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    onClick={sendSpecificNotification}
-                  >
-                    Seleccionados
-                  </Button>
-                </Box>
-              </Box>
-              <Box
-                sx={{
-                  margin: '10px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '10px',
-                  background: '#fff',
-                  borderRadius: '10px',
-                }}
-              >
-                <FormControl
-                  sx={{ m: 1, minWidth: 150, maxWidth: 150, margin: '5px' }}
-                >
-                  <InputLabel id="notification-label">Notificación</InputLabel>
-                  <Select
-                    labelId="notification-label"
-                    id="notification-select"
-                    label="Notificación"
-                    defaultValue={5}
-                  >
-                    {item.map(data => (
-                      <MenuItem
-                        key={`select-notification-${data.id}`}
-                        value={data.value}
-                        onClick={() => {
-                          setAllStatus([data.value]);
-                        }}
-                      >
-                        {data.text}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                <Box>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    onClick={sendGeneralNotification}
-                  >
-                    Enviar
-                  </Button>
-                </Box>
-              </Box>
-            </Box>
             <Box sx={{ width: '100%' }}>
               <Table
                 key="ct-table-list-1"
                 rows={rowsInProccess}
                 actionColumn={true}
                 list={selected}
+                customToolBar={
+                  <>
+                    <Box>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <InputLabel>Enviar notificaciones a:</InputLabel>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <Box>
+                          <Box>
+                            <Button
+                              variant="contained"
+                              size="small"
+                              onClick={sendSpecificNotification}
+                            >
+                              Seleccionados
+                            </Button>
+                          </Box>
+                        </Box>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            background: '#fff',
+                            borderRadius: '10px',
+                          }}
+                        >
+                          <FormControl
+                            sx={{
+                              m: 1,
+                              minWidth: 150,
+                              maxWidth: 150,
+                            }}
+                          >
+                            <InputLabel id="notification-label">
+                              Notificación
+                            </InputLabel>
+                            <Select
+                              labelId="notification-label"
+                              id="notification-select"
+                              label="Notificación"
+                              defaultValue={allStatus}
+                            >
+                              {items.map(data => {
+                                return (
+                                  <MenuItem
+                                    key={`select-notification-${data.id}`}
+                                    value={data.value}
+                                    onClick={() => {
+                                      setAllStatus(data.value);
+                                    }}
+                                  >
+                                    {data.text}
+                                  </MenuItem>
+                                );
+                              })}
+                            </Select>
+                          </FormControl>
+                          <Box>
+                            <Button
+                              variant="contained"
+                              size="small"
+                              onClick={sendGeneralNotification}
+                            >
+                              Enviar
+                            </Button>
+                          </Box>
+                        </Box>
+                      </Box>
+                    </Box>
+                  </>
+                }
               />
             </Box>
           </Grid>
@@ -265,39 +267,48 @@ const ServiciosEscolaresIndex: React.FC<{
       componente: (
         <>
           <Grid container direction="row" justifyContent="flex-end">
-            <Grid container direction="row" justifyContent="flex-end">
-              <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id="generations-label">Generación</InputLabel>
-                <Select
-                  labelId="generations-label"
-                  id="generations-select"
-                  autoWidth
-                  label="Generación"
-                  name="generations-select"
-                  defaultValue={selectGeneration}
-                >
-                  {generations.map((generation: any, idx: number) => {
-                    return (
-                      <MenuItem
-                        key={`items-year-${idx}`}
-                        value={generation}
-                        onClick={() => {
-                          setSelectGeneration(generation);
-                          updateCompleted();
-                        }}
-                      >
-                        {generation}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
-            </Grid>
             <Box sx={{ width: '100%' }}>
               <Table
                 key="ct-table-list-2"
                 rows={rowsCompleted}
                 actionColumn={false}
+                customToolBar={
+                  <>
+                    <Grid container direction="row" justifyContent="flex-end">
+                      <FormControl sx={{ m: 1, minWidth: 150 }}>
+                        <InputLabel id="generations-label">
+                          Generación
+                        </InputLabel>
+                        <Select
+                          labelId="generations-label"
+                          id="generations-select"
+                          autoWidth
+                          label="Generación"
+                          name="generations-select"
+                          defaultValue={
+                            chargeGenerations?.generaciones[0]?.IdGeneracion
+                          }
+                        >
+                          {chargeGenerations?.generaciones.map(
+                            (generation: Generacion, idx: number) => {
+                              return (
+                                <MenuItem
+                                  key={`items-year-${idx}`}
+                                  value={generation.IdGeneracion}
+                                  onClick={() => {
+                                    updateCompleted(generation.IdGeneracion);
+                                  }}
+                                >
+                                  {generation.Generacion}
+                                </MenuItem>
+                              );
+                            }
+                          )}
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                  </>
+                }
               />
             </Box>
           </Grid>
@@ -314,21 +325,46 @@ const ServiciosEscolaresFetch: React.FC<unknown> = () => {
   const { data, error, isLoading } = useQuery('se-conformacion-ct', async () =>
     getALLConformacionesCT()
   );
+
   const [dataCT, setDataCT] = React.useState<Data>(data);
   const [errorCT, setErrorCT] = React.useState<unknown>(error);
   const [isLoadingCT, setIsLoadingCT] = React.useState<boolean>(isLoading);
+
+  const [dataGenerations, setDataGenerations] = React.useState<Generaciones>();
+  const [errorGenerations, setErrorGenerations] = React.useState<unknown>();
+  const [isLoadingGenerations, setIsLoadingGenerations] =
+    React.useState<boolean>();
+
+  React.useEffect(() => {
+    getAllGenrations();
+  }, []);
+
+  const getAllGenrations = async () => {
+    setIsLoadingGenerations(true);
+    try {
+      const result: Generaciones = await queryClient.fetchQuery(
+        ['se-conformacion-ct-generations'],
+        () => getGenerationsList()
+      );
+
+      setDataGenerations(result);
+      setIsLoadingGenerations(false);
+    } catch (error) {
+      setErrorGenerations(error);
+      setIsLoadingGenerations(false);
+    }
+  };
 
   React.useEffect(() => {
     setDataCT(data === undefined ? { EnProceso: [], Concluidos: [] } : data);
   }, [data]);
 
-  const getALLConformaciones = async () => {
+  const getALLConformaciones = async (generation: number) => {
     setIsLoadingCT(true);
     try {
       const result = await queryClient.fetchQuery(['se-conformacion-ct'], () =>
-        getALLConformacionesCT()
+        getConformacionesConcluidas(generation)
       );
-      //console.log(result);
       setDataCT({ EnProceso: dataCT.EnProceso, Concluidos: result.Concluidos });
       setIsLoadingCT(false);
     } catch (error) {
@@ -344,6 +380,7 @@ const ServiciosEscolaresFetch: React.FC<unknown> = () => {
     <ServiciosEscolaresIndex
       rows={dataCT}
       updateCompleted={getALLConformaciones}
+      chargeGenerations={dataGenerations}
     />
   );
 };
