@@ -1,0 +1,52 @@
+FROM node:16-alpine as dependencies
+WORKDIR /sip
+COPY package.json yarn.lock ./
+RUN apk add --no-cache git openssh
+RUN yarn install --frozen-lockfile
+
+FROM node:16-alpine as builder
+WORKDIR /sip
+ARG LOGIN_API
+ARG LOGIN_MICROSOFT
+ARG LOGIN_CLIENT_ID
+ARG LOGIN_SCOPE
+ARG LOGIN_REDIRECT_URI
+ARG LOGIN_GRANT_TYPE
+ARG LOGIN_CLIENT_SECRET
+ARG JWT_SECRET
+ARG HASURA_URL
+ARG HASURA_SECRET
+ARG API_CEI
+ARG LOGIN_ALUMNOS_POSGRADO
+ARG RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED
+ARG API_URL
+RUN printf 'LOGIN_API='$DEV_LOGIN_API'\n\
+  LOGIN_MICROSOFT='$DEV_LOGIN_MICROSOFT'\n\
+  LOGIN_CLIENT_ID='${DEV_LOGIN_CLIENT_ID}'\n\
+  LOGIN_SCOPE='${DEV_LOGIN_SCOPE}'\n\
+  LOGIN_REDIRECT_URI='${DEV_LOGIN_REDIRECT_URI}'\n\
+  LOGIN_GRANT_TYPE='${DEV_LOGIN_GRANT_TYPE}'\n\
+  LOGIN_CLIENT_SECRET='${DEV_LOGIN_CLIENT_SECRET}'\n\
+  JWT_SECRET='${DEV_JWT_SECRET}'\n\
+  HASURA_URL='${DEV_HASURA_URL}'\n\
+  HASURA_SECRET='${DEV_HASURA_SECRET}'\n\
+  API_CEI='${DEV_API_CEI}'\n\
+  LOGIN_ALUMNOS_POSGRADO='${DEV_LOGIN_ALUMNOS_POSGRADO}'\n\
+  RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED='${DEV_RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED}'\n\
+  API_URL='${DEV_API_URL} > .env
+COPY . .
+COPY --from=dependencies /sip/node_modules ./node_modules
+RUN yarn build
+
+FROM node:16-alpine as runner
+WORKDIR /sip
+#ENV NODE_ENV production
+COPY --from=builder /sip/next.config.js ./
+COPY --from=builder /sip/public ./public
+COPY --from=builder /sip/.next ./.next
+COPY --from=builder /sip/node_modules ./node_modules
+COPY --from=builder /sip/package.json ./package.json
+COPY --from=builder /sip/.env ./.env
+
+EXPOSE 3000
+CMD ["yarn", "start"]
