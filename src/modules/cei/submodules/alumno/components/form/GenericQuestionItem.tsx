@@ -13,7 +13,6 @@ import FormInputFile from './FormInputFile';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   Preguntas,
-  preguntasAtom,
   preguntasSelector,
 } from '../../store/slices/preguntas';
 
