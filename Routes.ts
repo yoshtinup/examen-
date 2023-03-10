@@ -45,6 +45,13 @@ const Routes: RoutesProps[] = [
     ],
   },
   {
+    path: '/evaluaciondocente',
+    all_math: true,
+    roles: [
+      Roles.Estudiante,
+    ],
+  },
+  {
     path: '/seminarios_investigacion',
     all_math: true,
     roles: [
