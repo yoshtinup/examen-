@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+//import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface DocumentProps {
   idType: number,
@@ -12,7 +12,7 @@ interface Documents {
 export const initialState = { documentos: [] } as Documents
 
 
-const documentSlice = createSlice({
+/*const documentSlice = createSlice({
   name: 'documentos',
   initialState,
   reducers: {
@@ -28,11 +28,11 @@ const documentSlice = createSlice({
     }
   }
 })
+*/
 
-
-export const { setDocumentReducer } = documentSlice.actions
+//export const { setDocumentReducer } = documentSlice.actions
 
 export const setDocument = (document: DocumentProps) => (dispatch: any) => {
-  dispatch(setDocumentReducer(document))
+  //dispatch(setDocumentReducer(document))
 }
-export default documentSlice.reducer
+//export default documentSlice.reducer

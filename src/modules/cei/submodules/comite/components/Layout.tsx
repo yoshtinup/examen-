@@ -4,7 +4,7 @@ import { Container } from '@mui/material';
 import NavMenu from './NavMenu';
 
 // Componente que envuelve a cada componente principal
-export default class Layout extends React.PureComponent<{}, { children?: React.ReactNode }> {
+export default class Layout extends React.PureComponent<any, { children?: React.ReactNode }> {
     public render() {
         return (
             <React.Fragment>

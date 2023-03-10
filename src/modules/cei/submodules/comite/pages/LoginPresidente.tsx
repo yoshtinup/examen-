@@ -13,10 +13,10 @@ import EmailIcon from '@mui/icons-material/Email';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import PersonIcon from '@mui/icons-material/Person';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 import DataService from '../services/data'
-import { useAppDispatch, useAppSelector } from '../hooks'
-import { loginFinish, loginSuccess } from '../store/slices/auth'
+//import { useAppDispatch, useAppSelector } from '../hooks'
+//import { loginFinish, loginSuccess } from '../store/slices/auth'
 
 
 /**
@@ -32,9 +32,9 @@ const LoginPresidente = () => {
 	const [showPassword, setShowPassword] = React.useState(false);
 	const handleClickShowPassword = () => setShowPassword(!showPassword);
 	const handleMouseDownPassword = () => setShowPassword(!showPassword);
-	const { isAuthenticated, loading } = useAppSelector(state => state.auth);
-	const dispatch = useAppDispatch()
-	const navigate = useNavigate()
+	//const { isAuthenticated, loading } = useAppSelector(state => state.auth);
+	//const dispatch = useAppDispatch()
+	//const navigate = useNavigate()
 
 	useEffect(() => {
 		if (email.trim() && password.trim()) {
@@ -57,8 +57,8 @@ const LoginPresidente = () => {
 			DataService.loginPresidente({ email: email, password: password })
 				.then(response => {
 					localStorage.setItem('SII-Token', response.data.token);
-					dispatch(loginSuccess({Id: response.data.id, role: response.data.role}));
-					navigate("/evaluacionprotocolos/comite/")
+					//dispatch(loginSuccess({Id: response.data.id, role: response.data.role}));
+					//navigate("/evaluacionprotocolos/comite/")
 				})
 				.catch(() => {
 					setIsError(true)

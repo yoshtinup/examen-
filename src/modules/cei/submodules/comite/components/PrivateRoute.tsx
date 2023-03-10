@@ -12,12 +12,12 @@ import DataService from '../services/data';
  * @returns
  */
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
-  const { isAuthenticated, loading } = useAppSelector(state => state.auth);
-  const location = useLocation();
-  const dispatch = useAppDispatch();
+  //const { isAuthenticated, loading } = useAppSelector(state => state.auth);
+  //const location = useLocation();
+  //const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    /*if (!isAuthenticated) {
       DataService.getLogin()
         .then(response => {
           dispatch(
@@ -27,21 +27,21 @@ const PrivateRoute = ({ children }: { children: JSX.Element }) => {
         .catch(() => {
           dispatch(loginFinish());
         });
-    }
+    }*/
   }, []);
 
-  if (loading) {
+  /*if (loading) {
     return <p>Checking authenticaton..</p>;
-  }
+  }*/
 
-  if (!isAuthenticated) {
+  /*if (!isAuthenticated) {
     return (
       <Navigate
         to="/evaluacionprotocolos/comite/login"
         state={{ from: location }}
       />
     );
-  }
+  }*/
 
   return children;
 };

@@ -46,6 +46,7 @@ export default function ActionButtonsPresidente() {
       matricula: alumno.alumno.matricula,
       idEstatus: Number(statusId),
       observaciones: observaciones,
+      isTemporal: false
     };
     return DataService.setEstatus(status);
   }
