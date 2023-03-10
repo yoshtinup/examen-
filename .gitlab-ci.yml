@@ -19,7 +19,7 @@ build_prod:
             --build-arg HASURA_URL=$HASURA_URL
             --build-arg HASURA_SECRET=$HASURA_SECRET
             --build-arg API_URL=$API_URL
-            --no-cache -t sip:latest --force-rm .
+            --no-cache -t sip:latest --add-host utilitics.ecosur.mx:10.1.5.112 --force-rm .
     environment:
         name: production
     only:
@@ -45,7 +45,7 @@ build_dev:
             --build-arg HASURA_SECRET=$DEV_LOGIN_ALUMNOS_POSGRADO
             --build-arg HASURA_SECRET=$DEV_RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED
             --build-arg API_URL=$DEV_API_URL
-            --no-cache -t sip:latest -f Dockerfile-dev --force-rm .
+            --no-cache -t sip:latest --add-host utilitics.ecosur.mx:10.1.5.112 -f Dockerfile-dev --force-rm .
     environment:
         name: development
     only:
