@@ -31,20 +31,20 @@ build_dev:
     stage: build
     script:
         - docker build
-            --build-arg LOGIN_API=$DEV_LOGIN_API
-            --build-arg LOGIN_MICROSOFT=$DEV_LOGIN_MICROSOFT
-            --build-arg LOGIN_CLIENT_ID=$DEV_LOGIN_CLIENT_ID
-            --build-arg LOGIN_SCOPE=$DEV_LOGIN_SCOPE
-            --build-arg LOGIN_REDIRECT_URI=$DEV_LOGIN_REDIRECT_URI
-            --build-arg LOGIN_GRANT_TYPE=$DEV_LOGIN_GRANT_TYPE
-            --build-arg LOGIN_CLIENT_SECRET=$DEV_LOGIN_CLIENT_SECRET
-            --build-arg JWT_SECRET=$DEV_JWT_SECRET
-            --build-arg HASURA_URL=$DEV_HASURA_URL
-            --build-arg HASURA_SECRET=$DEV_HASURA_SECRET
-            --build-arg HASURA_SECRET=$DEV_API_CEI
-            --build-arg HASURA_SECRET=$DEV_LOGIN_ALUMNOS_POSGRADO
-            --build-arg HASURA_SECRET=$DEV_RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED
-            --build-arg API_URL=$DEV_API_URL
+            --build-arg DEV_LOGIN_API=$DEV_LOGIN_API
+            --build-arg DEV_LOGIN_MICROSOFT=$DEV_LOGIN_MICROSOFT
+            --build-arg DEV_LOGIN_CLIENT_ID=$DEV_LOGIN_CLIENT_ID
+            --build-arg DEV_LOGIN_SCOPE=$DEV_LOGIN_SCOPE
+            --build-arg DEV_LOGIN_REDIRECT_URI=$DEV_LOGIN_REDIRECT_URI
+            --build-arg DEV_LOGIN_GRANT_TYPE=$DEV_LOGIN_GRANT_TYPE
+            --build-arg DEV_LOGIN_CLIENT_SECRET=$DEV_LOGIN_CLIENT_SECRET
+            --build-arg DEV_JWT_SECRET=$DEV_JWT_SECRET
+            --build-arg DEV_HASURA_URL=$DEV_HASURA_URL
+            --build-arg DEV_HASURA_SECRET=$DEV_HASURA_SECRET
+            --build-arg DEV_HASURA_SECRET=$DEV_API_CEI
+            --build-arg DEV_HASURA_SECRET=$DEV_LOGIN_ALUMNOS_POSGRADO
+            --build-arg DEV_HASURA_SECRET=$DEV_RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED
+            --build-arg DEV_API_URL=$DEV_API_URL
             --no-cache -t sip:latest --add-host utilitics.ecosur.mx:10.1.5.112 -f Dockerfile-dev --force-rm .
     environment:
         name: development
