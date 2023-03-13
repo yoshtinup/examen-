@@ -41,9 +41,9 @@ build_dev:
             --build-arg DEV_JWT_SECRET=$DEV_JWT_SECRET
             --build-arg DEV_HASURA_URL=$DEV_HASURA_URL
             --build-arg DEV_HASURA_SECRET=$DEV_HASURA_SECRET
-            --build-arg DEV_HASURA_SECRET=$DEV_API_CEI
-            --build-arg DEV_HASURA_SECRET=$DEV_LOGIN_ALUMNOS_POSGRADO
-            --build-arg DEV_HASURA_SECRET=$DEV_RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED
+            --build-arg DEV_API_CEI=$DEV_API_CEI
+            --build-arg DEV_LOGIN_ALUMNOS_POSGRADO=$DEV_LOGIN_ALUMNOS_POSGRADO
+            --build-arg DEV_RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED=$DEV_RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED
             --build-arg DEV_API_URL=$DEV_API_URL
             --no-cache -t sip:latest --add-host utilitics.ecosur.mx:10.1.5.112 -f Dockerfile-dev --force-rm .
     environment:
