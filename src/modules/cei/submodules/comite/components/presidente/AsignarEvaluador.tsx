@@ -97,14 +97,14 @@ export default function BodyAsignarEvaluador() {
             Busque al evaluador que desea asignar
           </DialogContentText>
           <Autocomplete
-            value={value}
-            onChange={(event: any, newValue: EvaluadorItemProps | null) => {
+            value={[value]}
+            onChange={(event: any, newValue: any) => {
               setValue(newValue);
             }}
             id="AsignarEvaluador-hi"
             options={listEvaluador.evaluadores}
             sx={{ width: 300 }}
-            getOptionLabel={option => `${option.nombre}`}
+            getOptionLabel={(option: EvaluadorItemProps) => `${option.nombre}`}
             isOptionEqualToValue={(option, value) => option.id === value.id}
             renderInput={params => (
               <TextField {...params} label="Buscar Evaluador" margin="normal" />
