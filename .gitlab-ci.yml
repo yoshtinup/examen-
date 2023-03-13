@@ -66,7 +66,7 @@ deploy_dev:
     stage: deploy
     script:
         - docker stop sip && docker rm sip
-        - docker run -d --name sip --network=paginaweb sip:latest
+        - docker run -d --name sip --network=infonomia sip:latest
         - docker rmi $(docker images -f "dangling=true" -q)
     environment:
         name: development
