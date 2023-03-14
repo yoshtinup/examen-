@@ -8,6 +8,7 @@ const updateHeader = request => {
     Authorization: 'Bearer ' + Cookies.get('ecosurToken'),
     'Content-Type': 'application/json',
   };
+  console.log('Token',headerCEI.Authorization);
   request.headers = headerCEI;
   return request;
 };
@@ -23,7 +24,7 @@ const HttpClient = () => {
   });
 
   instance.interceptors.request.use(request => {
-    if (request.baseURL.includes('api-cei')) return updateHeader(request);
+    if (request.baseURL.includes('api-cei') || request.baseURL.includes(':5001')) return updateHeader(request);
     return request;
   });
 
