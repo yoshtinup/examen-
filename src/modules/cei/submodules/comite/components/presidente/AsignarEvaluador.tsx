@@ -97,9 +97,9 @@ export default function BodyAsignarEvaluador() {
             Busque al evaluador que desea asignar
           </DialogContentText>
           <Autocomplete
-            value={[value]}
             onChange={(event: any, newValue: any) => {
               setValue(newValue);
+              console.log(newValue);
             }}
             id="AsignarEvaluador-hi"
             options={listEvaluador.evaluadores}
