@@ -17,16 +17,21 @@ export async function middleware(request: NextRequest) {
   };
 
   const redirect = request.nextUrl.searchParams.get('redirect');
+  let selectedRol = null;
+
+  try {
+    const decodeSelectedRoles = await jwtVerify(
+      selectedRolCookie,
+      new TextEncoder().encode(process.env.JWT_SECRET)
+    );
+    selectedRol = decodeSelectedRoles.payload.selectedRol as Roles;
+  } catch {
+    return;
+  }
 
   if (request.nextUrl.pathname.includes('/login'))
     try {
       if (!ecosurTokenCookie || !selectedRolCookie) throw 'Error en los tokens';
-
-      const decodeSelectedRoles = await jwtVerify(
-        selectedRolCookie,
-        new TextEncoder().encode(process.env.JWT_SECRET)
-      );
-      const selectedRol = decodeSelectedRoles.payload.selectedRol as Roles;
 
       Routes.forEach(values => {
         if (values.roles.includes(selectedRol)) {
@@ -70,15 +75,15 @@ export async function middleware(request: NextRequest) {
 
     const userRoles = decodeUserRoles.payload.userRoles as Array<number>;
 
-    Routes.forEach(values => {
-      const condicion: boolean = values.all_math
-        ? request.nextUrl.pathname.includes(values.path)
-        : request.nextUrl.pathname === values.path;
+    Routes.forEach(route => {
+      const condicion: boolean = route.all_math
+        ? request.nextUrl.pathname.includes(route.path)
+        : request.nextUrl.pathname === route.path;
       if (condicion) {
-        //if (request.nextUrl.pathname.startsWith(values.path)) {
-        userRoles.forEach(value => {
-          check.isPermited = values.roles.includes(value);
-        });
+        const existRoleInRoute = route.roles.some(r => userRoles.includes(r));
+        const selectedRoleExistInRoute = route.roles.includes(selectedRol);
+        check.isPermited =
+          existRoleInRoute && selectedRoleExistInRoute ? true : false;
       }
     });
 
@@ -110,5 +115,6 @@ export const config = {
     '/consejo_tutelar/:path*',
     '/academicoexterno/:path*',
     '/estudiante/:path*',
+    '/cei/:path*',
   ],
 };

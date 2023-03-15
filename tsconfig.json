@@ -31,6 +31,12 @@
       "@modules": [
         "src/modules"
       ],
+      "@moduleCEIAlumnos/*": [
+        "src/modules/cei/submodules/alumno/*"
+      ],
+      "@moduleCEIAlumnos/": [
+        "src/modules/cei/submodules/alumno/"
+      ],
       "@shared/*": [
         "src/shared/*"
       ],

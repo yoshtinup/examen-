@@ -5,6 +5,7 @@ import {
   AsesorExterno,
 } from '@modules/consejo_tutelar/types';
 import Stack from '@mui/material/Stack';
+import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -52,7 +53,11 @@ export const ExternoContentCard: React.FC<AsesorExterno> = props => {
         </>
       )}
       <Label label="Argumentación:" value={props.argumentacion} />
-      <Label label="Curriculum Vitae:" value={props.fileName} />
+      {props.fileName && (
+        <Link target="_blank" href={`${props.fileName}`}>
+          Ver Curriculum Vitae
+        </Link>
+      )}
     </>
   );
 };

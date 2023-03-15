@@ -3,15 +3,17 @@ import { Alert } from '@mui/material';
 import { estudianteCTState } from '../recoil';
 import { userStateAtom } from '@modules/auth/recoil';
 import { EcosurAuth } from '@modules/auth/definitions';
-import { Perfil } from '../components';
+import { ConsejoTutelarAlumno } from '../components';
 
 const Estudiante = () => {
   const user: EcosurAuth = useRecoilValue(userStateAtom);
   const estudiante = useRecoilValue(estudianteCTState);
   const matricula = estudiante.Matricula;
   if (matricula == user.estudiante?.matricula) {
-    return <Perfil />;
+    return <ConsejoTutelarAlumno />;
   }
-  return <Alert>Solo puedes consultar tu propia informacion</Alert>;
+  return (
+    <Alert severity="error">Solo puedes consultar tu propia informacion</Alert>
+  );
 };
 export default Estudiante;

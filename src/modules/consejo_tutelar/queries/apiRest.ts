@@ -8,6 +8,10 @@ import {
   EvaluacionIntegrante,
   EvaluacionComite,
 } from '../types';
+import {
+  Cartas,
+  ModificacionCt,
+} from '../submodules/servicios_escolares/types';
 
 /**
  * Clase que encapsula las consultas del Procesos de conformacion de CT
@@ -15,6 +19,11 @@ import {
  * @constructor (string) recibe un token para realizar la solicitudes http
  */
 class ConsejoTutelarQuerys extends ApiQuerys {
+  async getStatusGeneral(): Promise<string[]> {
+    const status = await this.api<{ data: string[] }>(`estatus_general`);
+    return status.data;
+  }
+
   /**
    * Consulta la lista de alumnos que cuentan con un consejo tutelar
    * @returns (Promise<Alumno[]>) Retorna la lista de alumnos que cuentan con un ct
@@ -102,7 +111,23 @@ class ConsejoTutelarQuerys extends ApiQuerys {
   ): Promise<Message> {
     const msg = await this.api<Message>(
       `registrar/evaluacion/${matricula}`,
-      this.getJsonRequest(evaluacion, 'POST')
+      this.getJsonRequest(evaluacion, 'PUT')
+    );
+    return msg;
+  }
+
+  async generarCartas(data: Cartas, matricula: number): Promise<any> {
+    const msg = await this.api<Message>(
+      `generar_cartas/${matricula}`,
+      this.getJsonRequest(data, 'POST')
+    );
+    return msg;
+  }
+
+  async modificarCT(data: ModificacionCt): Promise<any> {
+    const msg = await this.api<Message>(
+      `eliminarintegrantesCT?comentario=${data.comentario}`,
+      this.getJsonRequest(data.integrantes, 'POST')
     );
     return msg;
   }

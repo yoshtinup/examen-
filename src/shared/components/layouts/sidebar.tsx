@@ -24,6 +24,25 @@ const items: ItemsNav[] = [
     icon: <Icon />,
     title: 'Consejo Tutelar',
   },
+
+  /* Cambio de la rama development */
+  {
+    href: '/seminarios_investigacion',
+    icon: <Icon />,
+    title: 'Seminarios de Investigación',
+  },
+  {
+    href: '/inscripciones',
+    icon: <Icon />,
+    title: 'Inscripciones',
+  },
+
+  /* Cambio de la rama integrate-cei */
+  {
+    href: '/cei',
+    icon: <Icon />,
+    title: 'CEI',
+  },
 ];
 
 type SidebarProps = {
@@ -53,39 +72,39 @@ export const Sidebar: FC<SidebarProps> = ({ open, onClose }) => {
   );
 
   const content = (
-    <>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          height: '100%',
-        }}
-      >
-        <div>
-          <Box sx={{ p: 3 }} style={{ borderBottom: '1px solid #ddd' }}>
-            <NextLink href="/" passHref>
-              <img
-                id="logoEcosur"
-                src="https://estancias-estudiantes-externos.ecosur.mx/static/media/logo-ecosur.1e134fb2163d7df4654a.png"
-                alt="logo"
-              />
-            </NextLink>
-          </Box>
-        </div>
-
-        <Box sx={{ flexGrow: 1 }}>
-          {items.map((item: ItemsNav) => (
-            <NavItem
-              key={item.title}
-              icon={item.icon}
-              href={item.href}
-              title={item.title}
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+      }}
+    >
+      <div>
+        <Box
+          sx={{ p: 3 }}
+          style={{ borderBottom: '1px solid #ddd', textAlign: 'center' }}
+        >
+          <NextLink href="/" passHref>
+            <img
+              id="logoEcosur"
+              src="https://estancias-estudiantes-externos.ecosur.mx/static/media/logo-ecosur.1e134fb2163d7df4654a.png"
+              alt="logo"
             />
-          ))}
+          </NextLink>
         </Box>
-        <Divider sx={{ borderColor: '#2D3748' }} />
+      </div>
+
+      <Box sx={{ flexGrow: 1 }}>
+        {items.map((item: ItemsNav) => (
+          <NavItem
+            key={item.title}
+            icon={item.icon}
+            href={item.href}
+            title={open ? item.title : ''}
+          />
+        ))}
       </Box>
-    </>
+    </Box>
   );
 
   if (lgUp) {
@@ -97,7 +116,7 @@ export const Sidebar: FC<SidebarProps> = ({ open, onClose }) => {
           sx: {
             backgroundColor: 'neutral.900',
             color: '#FFFFFF',
-            width: 280,
+            width: open ? 280 : 85,
           },
         }}
         variant="permanent"

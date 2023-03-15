@@ -1,6 +1,7 @@
 #logoEcosur {
-  height: 107px;
-  padding-left: 12%;
+  width: 100%;
+  max-width: 90px;
+  object-fit: cover;
 }
 
 .css-1hmtsgi-MuiButtonBase-root-MuiTab-root.Mui-selected {
@@ -39,9 +40,28 @@ body {
   font-weight: bold !important;
 }
 .datagrid {
-  background-color: #f6f7f9 !important;
+  background-color: #fbfbfb !important;
 }
 
 .MuiDataGrid-columnHeaderTitle {
   font-weight: bold !important;
+}
+
+.css-axb9qb {
+  padding: 0px !important;
+}
+
+.labelSection,
+.iconLabelSection {
+  color: #c56b16 !important;
+}
+
+.MuiCardHeader-content .MuiCardHeader-subheader {
+  color: #777 !important;
+  font-size: 0.8em !important;
+  font-weight: bold !important;
+}
+
+.grafica-barras-item-barra:hover{
+  opacity: 0.9;
 }

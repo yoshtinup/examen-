@@ -72,13 +72,16 @@ export const LoginExternals: React.FC<
   const handleRequest = (user: any) => {
     if (!user.password) {
       resetPassword(
+        user.email,
         `${process.env.LOGIN_API}/Autorizacion/Usuario/Externo/RecuperarPassword`
       )
         .then(result => {
+          if (!result.message) throw result.title;
+
           Swal.fire({
             icon: 'success',
             title: 'Correo enviado',
-            text: 'Se ha enviado sus datos de acceso, revise su correo electrónico',
+            text: 'Se han enviado sus datos de acceso, revise su correo electrónico',
           });
         })
         .catch(err => {
@@ -190,9 +193,9 @@ export const LoginExternals: React.FC<
             >
               <form noValidate onSubmit={handleSubmit}>
                 <p style={{ textAlign: 'justify', padding: '20px 0px' }}>
-                  Para acceder debe contar con un usuario y contraseña provisto
-                  por el Posgrado de ECOSUR. Escríbalos en los siguientes
-                  recuadros.
+                  Acceda con su correo electrónico y contraseña. Si no tiene o
+                  recuerda su contraseña haga clic en el enlace{' '}
+                  <b>¿Haz olvidado tu contraseña?</b> para obtenerla.
                 </p>
                 <Input
                   type="email"

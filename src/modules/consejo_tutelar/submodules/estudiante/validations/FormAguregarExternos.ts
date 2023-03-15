@@ -3,17 +3,39 @@ import * as yup from 'yup';
 
 const validationSchemaAsesorExterno = yup.object({
   id: yup.number().nullable(true).notRequired(),
-  apellidoPaterno: yup.string().required('El apellido es requerido'),
-  apellidoMaterno: yup.string().required('El apellido es requerido'),
-  nombre: yup.string().required('El nombre es requerido'),
+  apellidoPaterno: yup
+    .string()
+    .required('El apellido es requerido')
+    .matches(
+      /[\p{Letter}\p{Mark}\s-]+/gu,
+      'Solo se aceptan letras del alfabeto'
+    ),
+  apellidoMaterno: yup
+    .string()
+    .matches(
+      /[\p{Letter}\p{Mark}\s-]+/gu,
+      'Solo se aceptan letras del alfabeto'
+    ),
+  nombre: yup
+    .string()
+    .required('El nombre es requerido')
+    .matches(
+      /[\p{Letter}\p{Mark}\s-]+/gu,
+      'Solo se aceptan letras del alfabeto'
+    ),
+  // NOTE: Esta regex no permite numeros intermedios
+  // .matches(/^[\p{Letter}\p{Mark}\s-]+$/u, 'Solo se aceptan letras del alfabeto'),
   email: yup
     .string()
-    .email('No es un email valido')
-    .required('El email es requerido'),
-  institucion: yup.string().required('El institucion es requerida'),
+    .email('No es valido el correo electrónico')
+    .required('El correo electrónico es requerido'),
+  idGenero: yup
+    .number()
+    .required('El genero es requerido, por favor seleccione uno'),
+  institucion: yup.string().required('El institución es requerida'),
   grado: yup.string().required('El grado es requerido'),
-  idParticipacion: yup.number().required('la participacion es requerida'),
-  argumentacion: yup.string().required('La argumentacion es requerida'),
+  idParticipacion: yup.number().required('la participación es requerida'),
+  argumentacion: yup.string().required('La argumentación es requerida'),
   codirectorInfo: yup
     .object()
     .nullable(true)
@@ -23,7 +45,7 @@ const validationSchemaAsesorExterno = yup.object({
         .object({
           sNI: yup.string().required('Este campo es requerido'),
           numPubArb: yup.number().required('Este campo es requerido'),
-          numEstMaestria: yup.number().required('Este campo es requirido'),
+          numEstMaestria: yup.number().required('Este campo es requerido'),
           numEstDoc: yup.number().required('Este campo es requerido'),
         })
         .required(),
@@ -36,8 +58,9 @@ const initialValuesAsesorExterno: AsesorExterno = {
   apellidoMaterno: '',
   nombre: '',
   email: '',
+  idGenero: 1,
   institucion: '',
-  grado: 'maestria',
+  grado: 'Maestría',
   idParticipacion: 2,
   argumentacion: '',
   codirectorInfo: {
