@@ -1,3 +1,4 @@
+
 export interface Empty {
   estatus: Estatus;
   datosSeminario: DatosSeminario;
@@ -100,3 +101,62 @@ export interface Estatus {
   esDirector: boolean;
   firmado: boolean;
 }
+
+
+export interface DatosCongreso {
+  id: number;
+  key: number;
+  tipoParticipacion: string;
+  titulo: string;
+  lugar: string;
+  fecha: string;
+}
+
+export interface DatosEstancia {
+  id: number,
+  key: number,
+  ambito: string,
+  universidadCentro: string,
+  areaDeAdscripcion: string,
+  fechaInicio: string,
+  fechaConclusion: string
+}
+
+export interface DatosCursoExterno {
+  id: number,
+  key: number,
+  otraInstitucion: string,
+  nombreCurso: string,
+  fechaInicio: string,
+  fechaConclusion: string
+}
+
+export interface DatosActividad {
+  id: number,
+  key: number,
+  actividad: string,
+  meses: string
+}
+
+export interface Actividades {
+  estatus: number,
+  datosCongreso: DatosCongreso[],
+  datosEstancias: DatosEstancia[],
+  datosCursosExternos: DatosCursoExterno[],
+  datosPublicaciones: DatosPublicacione[],
+  datosActividades: DatosActividad[],
+  tieneCongresos: boolean,
+  tieneEstancias: boolean,
+  tieneCursos: boolean,
+  tienePublicaciones: boolean,
+  congresosEliminados: [],
+  estanciasEliminadas: [],
+  cusrosExternosEliminados: [],
+  publicacionesEliminadas: [],
+  actividadesEliminadas: [],
+  idAlumnoMaterias: number
+
+}
+
+
+

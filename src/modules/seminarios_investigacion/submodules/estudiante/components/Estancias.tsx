@@ -21,6 +21,10 @@ import Switch from './Switch';
 import { texto, notificaciones } from './TextoInterfaces';
 import { formCompleto, rangoFechasValido } from './funcionesGeneral';
 import Table from './TableEstancias';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { actividadesState } from 'pages/seminarios_investigacion/store/actividadesState';
+import { DatosEstancia } from '../types';
+import axios from 'axios'
 /*import {
   agregarEstancia,
   handleSinEstancia,
@@ -28,6 +32,9 @@ import Table from './TableEstancias';
 */
 
 export default props => {
+  const setEstanciaState = useSetRecoilState(actividadesState)
+
+
   const [validForm, setValidForm] = useState(false);
   const [fechaFinCorrecta, setFechaFinCorrecta] = useState(false);
   const [estancia, setEstancia] = useState({
@@ -118,6 +125,14 @@ export default props => {
     }
     setFechaFinCorrecta(rangoFechasValidas);
   };
+  const addEstanciaState = (estanciaDado: DatosEstancia) =>{
+    setEstanciaState( actividadesState => ({
+      ...actividadesState,
+      datosEstancias: [
+        ...actividadesState.datosEstancias, estanciaDado
+      ]
+    }))
+  }
 
   const addEstancia = () => {
     const updatedEstancia = Object.assign({}, estancia, {
@@ -125,8 +140,8 @@ export default props => {
       fechaInicio: moment(estancia.fechaInicio).format('DD/MM/yyyy'),
       fechaConclusion: moment(estancia.fechaConclusion).format('DD/MM/yyyy'),
     });
+    addEstanciaState(updatedEstancia)
     //dispatch(agregarEstancia(updatedEstancia));
-    setEstancia(resetEstancia);
   };
 
   const formValid = estancia => {

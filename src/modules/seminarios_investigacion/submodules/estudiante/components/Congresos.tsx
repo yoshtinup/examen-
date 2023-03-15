@@ -21,6 +21,11 @@ import Switch from './Switch';
 import { texto } from './TextoInterfaces';
 import { formCompleto } from './funcionesGeneral';
 import Table from './TableCongresos';
+
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { actividadesState } from 'pages/seminarios_investigacion/store/actividadesState';
+import { Actividades, DatosActividad, DatosCongreso } from '../types'; 
+
 /*import {
   agregarCongreso,
   handleSinCongreso,
@@ -28,6 +33,8 @@ import Table from './TableCongresos';
 */
 
 export default props => {
+  const setActividadState = useSetRecoilState(actividadesState);
+  
   const [validForm, setValidForm] = useState(false);
   const [congreso, setCongreso] = useState({
     id: 0,
@@ -95,13 +102,47 @@ export default props => {
     });
   };
 
+  const congresoAd: DatosCongreso = {
+    
+    id: 0,
+    key: 0,
+    fecha: new Date().toString(),
+    lugar: congreso.lugar,
+    tipoParticipacion: congreso.tipoParticipacion,
+    titulo: congreso.titulo
+  };
+
+
+
+  const addCogresoState = (congresoDado: DatosCongreso) => {
+    
+    setActividadState( actividadState => ({
+      ...actividadState,
+      datosCongreso: [
+        ...actividadState.datosCongreso, congresoDado
+      ]
+    }))
+    
+  
+    
+  }
+
   const addCongreso = () => {
+    const idRandom = Math.random()*100;
     let updatedCongreso = Object.assign({}, congreso, {
       ...congreso,
+      id: idRandom,
+      key: idRandom,
       fecha: moment(congreso.fecha).format('DD/MM/yyyy'),
     });
-    //dispatch(agregarCongreso(updatedCongreso));
-    setCongreso(resetCongreso);
+    console.log("updatedCongreso");
+    console.log(updatedCongreso);
+    console.log(congreso.fecha)
+    console.log(congreso.titulo)
+    console.log(congreso.tipoParticipacion)
+    addCogresoState(updatedCongreso)
+    
+
   };
 
   const Indicator = () => <p />;
@@ -110,10 +151,12 @@ export default props => {
     setValidForm(formCompleto(congreso));
   }, [congreso]);
 
+  // console.log("props.estatus.id: "+props.estatus.id)
   return (
     <Box>
       <Grid container spacing={3}>
-        {props.estatus.id === 1 && (
+        {props.estatus.id === 2 && (
+          
           <>
             {/* <Grid item xs={12}>
               <FormControlLabel
@@ -217,11 +260,14 @@ export default props => {
         )}
         <Grid item xs={12}>
           <div className="table-responsive">
-            <Table
-              key="ct-table-list-1"
-              rows={props.datosCongreso}
-              actionColumn={true}
-            />
+            
+              <Table
+                key="ct-table-list-1"
+                rows={props.datosCongreso}
+                actionColumn={true}
+              />
+
+            
           </div>
         </Grid>
       </Grid>

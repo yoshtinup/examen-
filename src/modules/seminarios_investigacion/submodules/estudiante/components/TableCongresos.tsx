@@ -54,9 +54,12 @@ const Table: React.FC<{ rows: DatosCongreso[]; actionColumn?: boolean }> = ({
       width: 150,
     });
   }
+  // console.log("rows")
+  // console.log(rows)
   return (
     <div style={{ width: '100%' }}>
       <DataGrid
+        // key={row.}
         className="datagrid"
         getRowId={row => row.id}
         rows={rows}

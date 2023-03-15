@@ -1,4 +1,10 @@
-import React, { useEffect } from 'react';
+import { useRecoilValue, useRecoilState } from 'recoil'
+import { actividadesState as actState } from 'pages/seminarios_investigacion/store/actividadesState';
+import { Actividades } from './types';
+// import { Actividades } from "../submodules/estudiante/types";
+
+import actividadesService from  'pages/seminarios_investigacion/services/actividadesService'
+import React, { useEffect, useState } from 'react';
 import {
   Container,
   Grid,
@@ -6,6 +12,7 @@ import {
   Button,
   makeStyles,
   CircularProgress,
+  Alert
 } from '@mui/material';
 import { Save, Send } from '@mui/icons-material';
 import 'moment/locale/es';
@@ -19,129 +26,72 @@ import { texto, notificaciones } from './components/TextoInterfaces';
 import Instrucciones from './components/Instrucciones';
 import Pestanias from './components/Pestanias';
 import datos from './components/initialState';
+import { actividadesState } from 'pages/seminarios_investigacion/store/actividadesState';
+import { useQuery, QueryClient } from "react-query"
+
+
+import axios from 'axios'
+import  SeminarioInvestigacion  from '@modules/seminarios_investigacion/queries/apiRest';
+
 
 const meses = [1, 2, 3, 4, 5, 6];
 const loadingIcon = size => (
   <CircularProgress variant="indeterminate" color="inherit" size={size} />
 );
 
+const getActividadesSeminario = async () => {
+  let data
+  // const response = await fetch('http://localhost:3001/actividades', {
+  const response = await fetch('http://localhost:3001/actividadesget', {
+      headers: {
+          'Content-Type': 'application-json',
+          // 'Content': 'application-json'
+      }
+  })
+  .then(response => response.json())
+  .then(datos => data = datos);
+  return data
+}
+
+
+
+
 const Evaluacion = props => {
+  
+  const [gridState, setGridState] = useState()
+  const [actividadesList, setActividadesList2] = useRecoilState(actState)
   const idSeminario = props.idseminario;
+  
 
-  console.log(idSeminario);
-  //FIXME: IOG obtener los datos del estudiante
-
-  //const datosGuardar = useStore().getState().seminarios.datosGuardar;
-  const guardarTemporal = null;
   const enviarEvaluacion = null;
   const datosActividades = null;
-  /*
-  const hayActividades = () => {
-    if (!datosActividades) {
-      return false;
-    }
-    let fa = {
-      f1: false,
-      f2: false,
-      f3: false,
-      f4: false,
-      f5: false,
-      f6: false,
-    };
-    meses.forEach(mes => {
-      datosActividades.forEach(item => {
-        if (item.meses.includes(mes)) {
-          fa[`f${mes}`] = true;
-          return;
-        }
-      });
-    });
-    return fa.f1 && fa.f2 && fa.f3 && fa.f4 && fa.f5 && fa.f6;
-  };*/
-  /*
-  const activadoSinActividades = () => {
-    if (datosGuardar.tieneCongresos && props.datosCongreso.length === 0) {
-      const MessageSinCongresos = () => (
-        <span
-          dangerouslySetInnerHTML={{
-            __html:
-              'Registre al menos un congreso o active la opción <b>No participé en congresos</b>',
-          }}
-        />
-      );
-      notificaciones.activarSinActividades(MessageSinCongresos);
-      return false;
-    }
-    if (datosGuardar.tieneEstancias && props.datosEstancias.length === 0) {
-      const MessageSinEstancias = () => (
-        <span
-          dangerouslySetInnerHTML={{
-            __html:
-              'Registre al menos una estancia o active la opción <b>No realicé estancias</b>',
-          }}
-        />
-      );
-      notificaciones.activarSinActividades(MessageSinEstancias);
-      return false;
-    }
-    if (datosGuardar.tieneCursos && props.datosCursosExternos.length === 0) {
-      const MessageSinCursos = () => (
-        <span
-          dangerouslySetInnerHTML={{
-            __html:
-              'Registre al menos un curso o active la opción <b>No tomé cursos externos</b>',
-          }}
-        />
-      );
-      notificaciones.activarSinActividades(MessageSinCursos);
-      return false;
-    }
-    if (
-      datosGuardar.tienePublicaciones &&
-      props.datosPublicaciones.length === 0
-    ) {
-      const MessageSinPublicaciones = () => (
-        <span
-          dangerouslySetInnerHTML={{
-            __html:
-              'Registre al menos una publicación o active la opción <b>No realicé publicaciones</b>',
-          }}
-        />
-      );
-      notificaciones.activarSinActividades(MessageSinPublicaciones);
-      return false;
-    }
-    return true;
-  };
-*/
-  /*
-  const guardarTemporal = () => {
-    if (activadoSinActividades()) {
-      dispatch(guardarTemporalSeminario(datosGuardar, idSeminario));
-    }
-  };
 
+  const enviarAFirma = () =>{
+    console.log('enviar a firma')
+  }
 
-  const enviarEvaluacion = () => {
-    if (activadoSinActividades()) {
-      if (user.IdPrograma === '2') {
-        let actividades = hayActividades(datosActividades);
-        if (!actividades) {
-          notificaciones.registrarActividades();
-          return;
-        } else {
-          dispatch(guardarFinalizarSeminario(datosGuardar, idSeminario));
-        }
-      } else {
-        dispatch(guardarFinalizarSeminario(datosGuardar, idSeminario));
-      }
-    }
-  };
+  const guardarActividades = () => {
+    console.log('guardar las actividades')
+  }
 
-  useEffect(() => {
-     dispatch(cargarDatosSeminario(idSeminario));
-  }, [idSeminario]);
-*/
+  
+
+  
+  const solicitarDatosSeminarioInv = async () => {
+    const actividadesSeminario = await SeminarioInvestigacion.getDatosEvaluacionSeminario(idSeminario)
+    setActividadesList2(actividadesSeminario) 
+  }
+  useEffect(()=>{
+    solicitarDatosSeminarioInv()
+
+  },[])
+  
+  //FIXME: IOG obtener los datos del estudiante
+
+  
+  
+
+  
 
   return (
     <>
@@ -185,7 +135,7 @@ const Evaluacion = props => {
                         )
                       }
 
-                      <Pestanias {...datos} />
+                      <Pestanias { ...actividadesList} />
                       {
                         //Pintamos los botones de guardar solo si el estatus es 1
                         datos.estatus && datos.estatus.id === 1 && (
@@ -194,7 +144,7 @@ const Evaluacion = props => {
                               variant="contained"
                               color="primary"
                               className={` btn btn-success`}
-                              onClick={() => guardarTemporal()}
+                              onClick={() => guardarActividades()}
                               endIcon={<Save />}
                             >
                               Guardar
@@ -202,7 +152,7 @@ const Evaluacion = props => {
                             <Button
                               variant="contained"
                               color="primary"
-                              onClick={() => enviarEvaluacion()}
+                              onClick={() => enviarAFirma()}
                               endIcon={<Send />}
                             >
                               Firmar

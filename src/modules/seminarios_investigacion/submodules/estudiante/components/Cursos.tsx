@@ -19,12 +19,19 @@ import MomentUtils from '@date-io/moment';
 import Switch from './Switch';
 import { texto, notificaciones } from './TextoInterfaces';
 import { formCompleto, rangoFechasValido } from './funcionesGeneral';
+
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { actividadesState } from 'pages/seminarios_investigacion/store/actividadesState';
+import { DatosCursoExterno } from '../types';
+
 //import { agregarCurso, handleSinCursos } from 'actions/seminario-investigacion';
 import Table from './TableCursos';
 
-import { DatosCursosExterno } from '../types/index';
+import axios from 'axios'
 
 export default props => {
+  const setCursoState = useSetRecoilState(actividadesState)
+
   const [validForm, setValidForm] = useState(false);
   const [fechaFinCorrecta, setFechaFinCorrecta] = useState(false);
   const [curso, setCurso] = useState({
@@ -112,14 +119,28 @@ export default props => {
     setFechaFinCorrecta(rangoFechasValidas);
   };
 
+  const addCursoExternoState = (cursoExternoDado: DatosCursoExterno) =>{
+    
+    setCursoState(actividadesState => ({
+      ...actividadesState,
+      datosCursosExternos: [
+        ...actividadesState.datosCursosExternos, cursoExternoDado
+      ]
+    }))
+    
+  }
+
   const addCurso = () => {
+    const idRandom = Math.random()*100;
     const updatedCurso = Object.assign({}, curso, {
       ...curso,
       fechaInicio: moment(curso.fechaInicio).format('DD/MM/yyyy'),
       fechaConclusion: moment(curso.fechaConclusion).format('DD/MM/yyyy'),
+      id: idRandom,
+      key: idRandom,
     });
+    addCursoExternoState(updatedCurso)
     //dispatch(agregarCurso(updatedCurso));
-    setCurso(resetCurso);
   };
 
   const formValid = curso => {
@@ -131,7 +152,7 @@ export default props => {
     setValidForm(datosLlenos && rangoFechasValidas);
   };
 
-  const Indicator = () => <p />;
+  // const Indicator = () => <p />;
 
   useEffect(() => {
     formValid(curso);

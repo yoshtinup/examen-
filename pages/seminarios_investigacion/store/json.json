@@ -1,0 +1,74 @@
+{
+    "estatus": 0,
+    "congreso": [
+        {
+            "id": 0,
+            "key": 0,
+            "tipoParticipacion": "string",
+            "titulo": "string",
+            "lugar": "string",
+            "fecha": "string"
+        }
+    ],
+    "estancias": [
+        {
+            "id": 0,
+            "key": 0,
+            "ambito": "string",
+            "universidadCentro": "string",
+            "areaDeAdscripcion": "string",
+            "fechaInicio": "string",
+            "fechaConclusion": "string"
+        }
+    ],
+    "cursosExternos": [
+        {
+            "id": 0,
+            "key": 0,
+            "otraInstitucion": "string",
+            "nombreCurso": "string",
+            "fechaInicio": "string",
+            "fechaConclusion": "string"
+        }
+    ],
+    "publicaciones": [
+        {
+            "id": 0,
+            "key": 0,
+            "titulo": "string",
+            "publicacionEn": "string",
+            "tipoParticipacion": "string",
+            "idTipoPublicacion": 0,
+            "tipoPublicacion": "string",
+            "tipoArbitrado": "string"
+        }
+    ],
+    "actividades": [
+        {
+            "id": 0,
+            "key": 0,
+            "actividad": "string",
+            "meses": "string"
+        }
+    ],
+    "tieneCongresos": true,
+    "tieneEstancias": true,
+    "tieneCursos": true,
+    "tienePublicaciones": true,
+    "congresosEliminados": [
+        0
+    ],
+    "estanciasEliminadas": [
+        0
+    ],
+    "cursosExternosEliminados": [
+        0
+    ],
+    "publicacionesEliminadas": [
+        0
+    ],
+    "actividadesEliminadas": [
+        0
+    ],
+    "idAlumnosMaterias": 0
+}

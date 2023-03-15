@@ -14,6 +14,11 @@ import {
 } from '@mui/material';
 import NoDataOnTable from './NoDataOnTable';
 import { texto } from './TextoInterfaces';
+
+import { useSetRecoilState } from 'recoil';
+import { actividadesState } from 'pages/seminarios_investigacion/store/actividadesState';
+import { DatosActividad } from '../types';
+import axios from 'axios'
 /* import { agregarActividad } from 'actions/seminario-investigacion' */
 /* import { cronogramaBase64 } from './cronograma' */
 
@@ -29,6 +34,9 @@ const MenuProps = {
 };
 
 export default props => {
+  const setActividadState = useSetRecoilState(actividadesState)
+  
+
   const [modalVisible, setModalVisible] = useState(false);
   const [validForm, setValidForm] = useState(false);
   const [mes, setMes] = useState([]);
@@ -61,8 +69,19 @@ export default props => {
     setValidForm(mes.length > 0);
   };
 
+  const addActividadState = (actividadDado: DatosActividad) => {
+    setActividadState( actividadesState => ({
+      ...actividadesState,
+      datosActividades: [
+        ...actividadesState.datosActividades, actividadDado
+      ]
+    }))
+  }
+
   const addActividad = () => {
     let meses = [];
+    const idRandom = Math.random()*100;
+
     mes.forEach(item => {
       let mes = dataMeses.find(mes => mes.text === item);
       meses.push(mes.value);
@@ -70,7 +89,11 @@ export default props => {
     const updatedActividad = Object.assign({}, actividad, {
       ...actividad,
       meses: meses.toString(),
+      id: idRandom,
+      key: idRandom,
     });
+
+    addActividadState(updatedActividad)
     //dispatch(agregarActividad(updatedActividad));
     setActividad(resetActividad);
     setMes([]);

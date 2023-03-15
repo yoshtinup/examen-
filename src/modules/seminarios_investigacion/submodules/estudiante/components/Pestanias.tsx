@@ -16,7 +16,7 @@ import Actividades from './Actividades';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
+  
   return (
     <div
       className="tabpanel"
@@ -52,7 +52,9 @@ export default props => {
   /*const user: EcosurAuth = useRecoilValue(userStateAtom);
   const idPrograma = user.estudiante?.clavePrograma;
   */
-  console.log(props);
+
+  console.log("Mis props en pestanias")
+  console.log(props)
   const idPrograma = 1;
   const [tab, setValue] = useState(0);
 
@@ -98,12 +100,18 @@ export default props => {
           </AppBar>
           {
             <TabPanel value={tab} index={0}>
-              <Congresos
-                datosCongreso={props.datosCongreso}
-                removerCongreso={props.removerCongreso}
-                estatus={props.estatus}
-                tieneCongresos={props.tieneCongresos}
-              />
+              {/* { props.datoscongreso.lenght && <Component> </Component>} */}
+              {/* {props.datosCongreso.length > 0 && */}
+                <Congresos
+                  datosCongreso={props.datosCongreso}
+                  removerCongreso={props.removerCongreso}
+                  estatus={props.estatus}
+                  tieneCongresos={props.tieneCongresos}
+                />
+              
+              {/* } */}
+              
+              
             </TabPanel>
           }
           <TabPanel value={tab} index={1}>

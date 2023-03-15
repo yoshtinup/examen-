@@ -16,12 +16,21 @@ import Switch from './Switch';
 import { texto } from './TextoInterfaces';
 import { formCompleto } from './funcionesGeneral';
 import Table from './TablePublicaciones';
+
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { actividadesState } from 'pages/seminarios_investigacion/store/actividadesState';
+import { DatosPublicacione } from '../types';
+import axios from 'axios'
+
 /*import {
   agregarPublicacion,
   handleSinPublicaciones,
 } from 'actions/seminario-investigacion';*/
 
 export default props => {
+  const setPublicacionState = useSetRecoilState(actividadesState)
+
+ 
   const [validForm, setValidForm] = useState(false);
   const [publicacion, setPublicacion] = useState({
     id: 0,
@@ -76,13 +85,26 @@ export default props => {
     });
   };
 
+  const addPublicacionesState = (publicacionDado: DatosPublicacione) => {
+    setPublicacionState( actividadesState => ({
+      ...actividadesState,
+      datosPublicaciones: [
+        ...actividadesState.datosPublicaciones, publicacionDado
+      ]
+    }))
+    
+  }
   const addPublicacion = () => {
+    const idRandom = Math.random()*100;
     const updatedPublicacion = Object.assign({}, publicacion, {
       ...publicacion,
+      id: idRandom,
+      key: idRandom,
       idTipoPublicacion: Number(publicacion.idTipoPublicacion),
+      
     });
+    addPublicacionesState(updatedPublicacion)
     //dispatch(agregarPublicacion(updatedPublicacion));
-    setPublicacion(resetPublicacion);
   };
 
   const Indicator = () => <p />;
