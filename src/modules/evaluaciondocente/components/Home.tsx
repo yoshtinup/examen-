@@ -1,7 +1,6 @@
 import { Grid } from '@mui/material';
 
 const Home = () => {
-
     return (
       <Grid container spacing={10}>
         <Grid item xs={18}>

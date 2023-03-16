@@ -1,8 +1,5 @@
 export interface DatosActividades {
     nombre: string
-    fechaImparticion: string
-    evaluoCurso: boolean
-    idUnidad: number
     profesores: Profesore[]
   }
   
