@@ -13,6 +13,7 @@ import { SubmitButton } from './components/atoms/Styles';
 import { useState } from 'react';
 const HomePage = WithRol(Roles.Estudiante)(Home);
 import EvaluacionDocenteQuerys from './queries/apiRest';
+import { Actividades } from './types/evaluacionState';
 
 const EvaluacionDocente = ({ docentes }) => {
   const [planeacion, setPlaneacion] = useState({
@@ -28,7 +29,7 @@ const EvaluacionDocente = ({ docentes }) => {
   });
 
   const handleSend = async () => {
-    const data = {
+    const data: Actividades = {
       idMateriasOfertaAnual: 8632,
       planeacionDelCurso: planeacion,
       valoracionDelCurso: valoracion,
