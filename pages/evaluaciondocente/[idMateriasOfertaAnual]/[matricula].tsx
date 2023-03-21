@@ -8,49 +8,64 @@ import { useRouter } from 'next/router';
 import EvaluacionDocenteQuerys from '@modules/evaluaciondocente/queries/apiRest';
 
 const PageData = () => {
-  const router = useRouter()
+  const router = useRouter();
   console.log(router.query.idMateriasOfertaAnual);
-  const [docente, setDocente]=useState<DatosActividades>({nombre: "", profesores: []});
-  
-  const profesor = docente.profesores;
+  const [docente, setDocente] = useState<DatosActividades>({
+    nombre: '',
+    profesores: [],
+  });
+  //const [docente, setDocente]=useState<DatosActividades>({nombre: "", profesores: []});
+  //const profesor = docente.profesores;
 
-  const obtenerDatos = async () => {
-    const resultado = await EvaluacionDocenteQuerys.getObtenerDatos(router.query.idMateriasOfertaAnual)
-    console.log(resultado)
-  } 
+  const materia = router.query.idMateriasOfertaAnual;
+
+  const obtenerDatos = async idMateriasOfertaAnual => {
+    console.log('router.query.idMateriasOfertaAnual', idMateriasOfertaAnual);
+    const resultado = await EvaluacionDocenteQuerys.getObtenerDatos(
+      idMateriasOfertaAnual
+    );
+    setDocente(resultado);
+    //console.log(resultado)
+  };
   useEffect(() => {
-    obtenerDatos()
-    },[]);
-   console.log(docente.profesores);
+    if (materia !== undefined) {
+      obtenerDatos(materia);
+    }
+  }, [materia]);
+
+  //console.log(docente.profesores)
 
   return (
-    <Container maxWidth= "xl" style = {{paddingTop: '30px'}}>
-      <HeaderSection label="EVALUACIÓN DOCENTE"/>
+    <Container maxWidth="xl" style={{ paddingTop: '30px' }}>
+      <HeaderSection label="EVALUACIÓN DOCENTE" />
       <Box
         display="column"
         alignItems="center"
         justifyContent="center"
         style={{ padding: '30px !important', backgroundColor: '#fff' }}
       >
-        <h3>Asignatura: {docente.nombre}</h3>
-        {profesor.map((i)=>(
-          <div key={i.idProfesores}>
-            <h3>Personal Docente: {i.name}</h3>
+        {docente && (
+          <div>
+            <h3>Asignatura: {docente.nombre}</h3>
+
+            <div>
+              {docente.profesores.map(i => (
+                <div key={i.idProfesores}>
+                  <h3>Docente: {i.name}</h3>
+                </div>
+              ))}
+            </div>
           </div>
-        ))}
-      
-        <EvaluacionDocente />
+        )}
+
+        <EvaluacionDocente docentes={docente.profesores} />
       </Box>
     </Container>
   );
 };
 
-PageData.getLayout = function getLayout(page:ReactElement){
+PageData.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 
 export default PageData;
-
-      
-      
-      

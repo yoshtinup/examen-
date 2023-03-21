@@ -1,25 +1,30 @@
-import React from "react";
-import { TextDocContainer, TextStrongBlue } from "../atoms/Styles";
-import { doc1, doc2, doc3 } from "../atoms/Text";
+import Swal from 'sweetalert2';
+import { TextDocContainer, TextStrongBlue } from '../atoms/Styles';
+import FormEvaluacion from './FormEvaluacion';
+import ReactDOMServer from 'react-dom/server';
 
-const DocContainer = () => {
+const DocContainer = ({ docentes }) => {
+  const handleClick = profesor => {
+    const html = ReactDOMServer.renderToStaticMarkup(
+      <FormEvaluacion profesor={profesor} />
+    );
+    Swal.fire({
+      html: html,
+      showCancelButton: false,
+      showConfirmButton: false,
+    });
+  };
+
   return (
     <>
-      <TextDocContainer>
-        {doc1}  <TextStrongBlue>Evaluar</TextStrongBlue>{" "}
-        <TextStrongBlue> Ver</TextStrongBlue>{" "}
-        <TextStrongBlue>Eliminar</TextStrongBlue>{" "}
-      </TextDocContainer>
-      <TextDocContainer>
-        {doc2} <TextStrongBlue>Evaluar</TextStrongBlue>{" "}
-        <TextStrongBlue>Ver</TextStrongBlue>{" "}
-        <TextStrongBlue>Eliminar</TextStrongBlue>{" "}
-      </TextDocContainer>
-      <TextDocContainer>
-        {doc3} <TextStrongBlue>Evaluar</TextStrongBlue>{"   "}
-        <TextStrongBlue>Ver</TextStrongBlue>{" "}
-        <TextStrongBlue>Eliminar</TextStrongBlue>{" "}
-      </TextDocContainer>
+      {docentes.map((elm, i) => (
+        <TextDocContainer key={i}>
+          {elm.name}{' '}
+          <TextStrongBlue onClick={() => handleClick(elm)}> Evaluar{' '}</TextStrongBlue>
+          <TextStrongBlue>Ver </TextStrongBlue>
+          <TextStrongBlue >Eliminar </TextStrongBlue>
+        </TextDocContainer>
+      ))}
     </>
   );
 };

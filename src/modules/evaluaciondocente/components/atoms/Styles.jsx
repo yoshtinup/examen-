@@ -32,6 +32,7 @@ export const DocInformation = styled.div`
   font-family:  Helvetica, Arial, sans-serif;
   color: #000000;
   font-size: 16px;
+  float: right;
 `;
 
 export const SubjectContainer = styled.div`
@@ -89,6 +90,9 @@ export const TextStrongBlue = styled.div`
   flex-direction: row;
   font-family:  Helvetica, Arial, sans-serif;
   justify-content: center;
+  cursor: pointer,
+  letter-spacing: 10px;
+  padding-right: 10px;
 `;
 
 export const TextDocContainer = styled.div`
@@ -187,7 +191,7 @@ export const SubmitButton = styled.button`
   background-color: #008080;
   border: #cc5741;
   border-radius: 14px;
-  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  transition: width 2s, height 2s, transform 2s;
   margin-right: auto;
   align-items: center;
   font-family:  Helvetica, Arial, sans-serif;

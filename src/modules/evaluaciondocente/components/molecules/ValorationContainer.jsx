@@ -1,17 +1,21 @@
-import React from "react";
-import { TextBlue, TextContainer, ValInput } from "../atoms/Styles";
-import { ValRes, ValRes2, ValText } from "../atoms/Text";
+import React from 'react';
+import { TextBlue, TextContainer, ValInput } from '../atoms/Styles';
+import { ValRes, ValRes2, ValText } from '../atoms/Text';
 
-const ValorationContainer = () => {
+const ValorationContainer = ({ valoracion, setValoracion }) => {
+  const handleChange = e => {
+    setValoracion({ ...valoracion, [e.target.id]: e.target.value });
+  };
+
   return (
     <>
       <TextBlue>Valoración</TextBlue>
       <TextContainer> {ValText} </TextContainer>
-      <ValInput />
+      <ValInput id="valoracion_P_1" onChange={handleChange} />
       <TextContainer> {ValRes} </TextContainer>
-      <ValInput />
+      <ValInput id="valoracion_P_2" onChange={handleChange} />
       <TextContainer> {ValRes2} </TextContainer>
-      <ValInput />
+      <ValInput id="valoracion_P_3" onChange={handleChange} />
     </>
   );
 };
