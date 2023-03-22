@@ -1,4 +1,4 @@
-export interface DatosActividades {
+export interface DocentesState {
     nombre: string
     profesores: Profesore[]
   }

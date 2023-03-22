@@ -9,6 +9,9 @@ const DocContainer = ({ docentes }) => {
       <FormEvaluacion profesor={profesor} />
     );
     Swal.fire({
+      width: '75%',
+      //grow: 'fullscreen',
+      padding: '5rem',
       html: html,
       showCancelButton: false,
       showConfirmButton: false,

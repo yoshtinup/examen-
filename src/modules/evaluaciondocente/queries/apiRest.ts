@@ -1,9 +1,9 @@
 import { ApiQuerys } from '@shared/queries';
-import { DatosActividades } from '../types/evaluacionState';
+import { DocentesState } from '../types/evaluacionState';
 
 class EvaluacionDocenteQuerys extends ApiQuerys {
   async getObtenerDatos(idMateriasOfertaAnual): Promise<any> {
-    const datosMateria = await this.api<{data: DatosActividades;}>
+    const datosMateria = await this.api<{data: DocentesState;}>
     (`obtenerDatos?idMateriasOfertaAnual=${idMateriasOfertaAnual}`);
     console.log('Materia:', datosMateria);
     return datosMateria;

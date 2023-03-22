@@ -1,5 +1,5 @@
 export type {
-    DatosActividades,
+    DocentesState,
     Actividades,
     Profesore,
     PlaneacionDelCurso,

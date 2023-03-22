@@ -3,14 +3,14 @@ import { HeaderSection } from '@shared/components';
 import { Layout } from '@shared/components/layouts';
 import EvaluacionDocente from '@modules/evaluaciondocente';
 import { useEffect, useState, ReactElement } from 'react';
-import { DatosActividades } from '@modules/evaluaciondocente/types/evaluacionState';
+import { DocentesState } from '@modules/evaluaciondocente/types/evaluacionState';
 import { useRouter } from 'next/router';
 import EvaluacionDocenteQuerys from '@modules/evaluaciondocente/queries/apiRest';
 
 const PageData = () => {
   const router = useRouter();
   console.log(router.query.idMateriasOfertaAnual);
-  const [docente, setDocente] = useState<DatosActividades>({
+  const [docente, setDocente] = useState<DocentesState>({
     nombre: '',
     profesores: [],
   });
