@@ -2,9 +2,10 @@ import React from 'react';
 import { TextBlue, TextContainer, ValInput } from '../atoms/Styles';
 import { ValRes, ValRes2, ValText } from '../atoms/Text';
 
-const ValorationContainer = ({ valoracion, setValoracion }) => {
+const ValorationContainer = () => {
   const handleChange = e => {
-    setValoracion({ ...valoracion, [e.target.id]: e.target.value });
+    //Utilizar la de recoil
+    //setValoracion({ ...valoracion, [e.target.id]: e.target.value });
   };
 
   return (
