@@ -3,37 +3,37 @@ import { HeaderSection } from '@shared/components';
 import { Layout } from '@shared/components/layouts';
 import EvaluacionDocente from '@modules/evaluaciondocente';
 import { useEffect, useState, ReactElement } from 'react';
-import { DocentesState } from '@modules/evaluaciondocente/types/evaluacionState';
+import { DatosMateria } from '@modules/evaluaciondocente/types/evaluacionState';
 import { useRouter } from 'next/router';
 import EvaluacionDocenteQuerys from '@modules/evaluaciondocente/queries/apiRest';
 
 const PageData = () => {
   const router = useRouter();
   console.log(router.query.idMateriasOfertaAnual);
-  const [docente, setDocente] = useState<DocentesState>({
+  const [materia, setMateria] = useState<DatosMateria>({
+    idMateriasOfertaAnual: 0,
     nombre: '',
-    profesores: [],
   });
-  //const [docente, setDocente]=useState<DatosActividades>({nombre: "", profesores: []});
-  //const profesor = docente.profesores;
 
-  const materia = router.query.idMateriasOfertaAnual;
+  const idMateria = router.query.idMateriasOfertaAnual;
 
   const obtenerDatos = async idMateriasOfertaAnual => {
     console.log('router.query.idMateriasOfertaAnual', idMateriasOfertaAnual);
     const resultado = await EvaluacionDocenteQuerys.getObtenerDatos(
       idMateriasOfertaAnual
     );
-    setDocente(resultado);
-    //console.log(resultado)
+    setMateria({
+      idMateriasOfertaAnual: parseInt(idMateria.toString()),
+      nombre: resultado.nombre,
+    });
+    //Guardar estado en recoil en el profesoresState
+    setProfesores(resultado.profesores);
   };
   useEffect(() => {
-    if (materia !== undefined) {
-      obtenerDatos(materia);
+    if (idMateria !== undefined) {
+      obtenerDatos(idMateria);
     }
-  }, [materia]);
-
-  //console.log(docente.profesores)
+  }, [idMateria]);
 
   return (
     <Container maxWidth="xl" style={{ paddingTop: '30px' }}>
@@ -44,12 +44,12 @@ const PageData = () => {
         justifyContent="center"
         style={{ padding: '30px !important', backgroundColor: '#fff' }}
       >
-        {docente && (
+        {materia && (
           <div>
-            <h3>Asignatura: {docente.nombre}</h3>
+            <h3>Asignatura: {materia.nombre}</h3>
 
             <div>
-              {docente.profesores.map(i => (
+              {profesores.map(i => (
                 <div key={i.idProfesores}>
                   <h3>Docente: {i.name}</h3>
                 </div>
@@ -58,7 +58,7 @@ const PageData = () => {
           </div>
         )}
 
-        <EvaluacionDocente docentes={docente.profesores} />
+        <EvaluacionDocente docentes={profesores} />
       </Box>
     </Container>
   );

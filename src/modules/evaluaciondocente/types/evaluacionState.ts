@@ -1,22 +1,21 @@
-export interface DatosActividades {
-  nombre: string;
-  profesores: Profesore[];
+export interface DatosMateria {
+  idMateriasOfertaAnual: number;
+  nombre?: string;
+  matricula?: string;
 }
 
-export interface Profesore {
+export interface Profesor {
   idProfesores: number;
   name?: string;
 }
 
-export interface Actividades {
-  idMateriasOfertaAnual: number;
-  matricula?: string;
-  profesores: Profesore[];
+export interface Actividades extends DatosMateria {
+  profesores: Profesor[];
   planeacionDelCurso: PlaneacionDelCurso;
   valoracionDelCurso: ValoracionDelCurso;
 }
 
-export interface Profesore {
+export interface Profesor {
   idProfesores: number;
   name?: string;
   respuestas: Respuestas;
