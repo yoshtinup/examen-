@@ -20,17 +20,18 @@ const DocContainer = () => {
 
   return (
     <>
-      {docentes.map((elm, i) => (
-        <TextDocContainer key={i}>
-          {elm.name}{' '}
-          <TextStrongBlue onClick={() => handleClick(elm)}>
-            {' '}
-            Evaluar{' '}
-          </TextStrongBlue>
-          <TextStrongBlue>Ver </TextStrongBlue>
-          <TextStrongBlue>Eliminar </TextStrongBlue>
-        </TextDocContainer>
-      ))}
+      {/*
+        profesores.map((elm, i) => (
+          <TextDocContainer key={i}>
+            {elm.name}{' '}
+            <TextStrongBlue onClick={() => handleClick(elm)}>
+              {' '}
+              Evaluar{' '}
+            </TextStrongBlue>
+            <TextStrongBlue>Ver </TextStrongBlue>
+            <TextStrongBlue>Eliminar </TextStrongBlue>
+          </TextDocContainer>
+        ))*/}
     </>
   );
 };
