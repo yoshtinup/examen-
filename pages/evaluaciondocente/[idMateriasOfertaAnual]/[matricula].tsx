@@ -3,13 +3,16 @@ import { HeaderSection } from '@shared/components';
 import { Layout } from '@shared/components/layouts';
 import EvaluacionDocente from '@modules/evaluaciondocente';
 import { useEffect, useState, ReactElement } from 'react';
-import { DatosMateria } from '@modules/evaluaciondocente/types/evaluacionState';
+import { DatosMateria, Profesor } from '@modules/evaluaciondocente/types/evaluacionState';
 import { useRouter } from 'next/router';
 import EvaluacionDocenteQuerys from '@modules/evaluaciondocente/queries/apiRest';
+import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
+import { profesoresState } from '@modules/evaluaciondocente/recoil/profesoresState';
 
 const PageData = () => {
   const router = useRouter();
   console.log(router.query.idMateriasOfertaAnual);
+  const [profesores, setProfesores] = useRecoilState(profesoresState)
   const [materia, setMateria] = useState<DatosMateria>({
     idMateriasOfertaAnual: 0,
     nombre: '',
@@ -47,7 +50,7 @@ const PageData = () => {
         {materia && (
           <div>
             <h3>Asignatura: {materia.nombre}</h3>
-
+            <h3></h3>
             <div>
               {profesores.map(i => (
                 <div key={i.idProfesores}>

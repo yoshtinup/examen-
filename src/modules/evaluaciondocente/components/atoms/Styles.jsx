@@ -128,7 +128,7 @@ export const DropdownContainer = styled.div`
 `;
 
 export const DropdownButton = styled.button`
-  width: 300px;
+  width: 350px;
   font-family:  Helvetica, Arial, sans-serif;
   font-size: 16px;
   height: 45px;
