@@ -8,11 +8,37 @@ import {
   GridToolbar,
 } from '@mui/x-data-grid';
 import { DatosCursosExterno } from '@modules/seminarios_investigacion/submodules/estudiante/types';
+import { actividadesState as actState } from 'pages/seminarios_investigacion/store/actividadesState';
+import Swal from 'sweetalert2';
+import { useRecoilState } from 'recoil';
+
 
 const ButtonRedirect: React.FC<{ matricula: number }> = ({ matricula }) => {
   const router = useRouter();
+  const [actividadesList, setActividadesList] = useRecoilState(actState)
   const handleClickRow = () => {
     /* router.push(`/consejo_tutelar/${matricula}`); */
+    Swal.fire({
+      title: '¿Deseas eliminar este curso?',
+      // text: "Confirmalo!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Eliminar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setActividadesList((prev) => ({
+          ...prev,
+          datosCursosExternos: prev.datosCursosExternos.filter(dato => dato.key !== matricula),
+        }))
+        Swal.fire(
+          'Eliminado!',
+          'Congreso Eliminado Localmente.',
+          'success'
+        )
+      }
+    })
   };
   return (
     <Button
@@ -45,7 +71,7 @@ const Table: React.FC<{
       headerName: '',
       sortable: false,
       renderCell: (params: GridCellParams) => (
-        <ButtonRedirect matricula={params.row.id} />
+        <ButtonRedirect matricula={params.row.key} />
       ),
       width: 150,
     });
@@ -54,7 +80,7 @@ const Table: React.FC<{
     <div style={{ width: '100%' }}>
       <DataGrid
         className="datagrid"
-        getRowId={row => row.id}
+        getRowId={row => row.key}
         rows={rows}
         columns={columns}
         components={{

@@ -89,7 +89,7 @@ export default props => {
     const updatedActividad = Object.assign({}, actividad, {
       ...actividad,
       meses: meses.toString(),
-      id: idRandom,
+      id: 0,
       key: idRandom,
     });
 
@@ -114,7 +114,7 @@ export default props => {
   return (
     <Box>
       <Grid container spacing={3}>
-        {props.estatus.id === 1 && (
+        {props.estatus === 1 && (
           <>
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
               <Button

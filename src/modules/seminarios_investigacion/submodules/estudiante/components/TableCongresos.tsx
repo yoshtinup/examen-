@@ -8,11 +8,45 @@ import {
   GridToolbar,
 } from '@mui/x-data-grid';
 import { DatosCongreso } from '@modules/seminarios_investigacion/submodules/estudiante/types';
+import { useRecoilState } from 'recoil';
+import { actividadesState as actState } from 'pages/seminarios_investigacion/store/actividadesState';
+import Swal from 'sweetalert2';
 
-const ButtonRedirect: React.FC<{ matricula: number }> = ({ matricula }) => {
+
+
+const ButtonRedirect: React.FC<{ matricula: number, id: number }> = ({ matricula, id }) => {
   const router = useRouter();
+  const [actividadesList, setActividadesList] = useRecoilState(actState)
+
   const handleClickRow = () => {
     /* router.push(`/consejo_tutelar/${matricula}`); */
+    Swal.fire({
+      title: '¿Deseas eliminar este congreso?',
+      // text: "Confirmalo!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Eliminar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setActividadesList((prev) => ({
+          ...prev,
+          datosCongreso: prev.datosCongreso.filter(dato => dato.key !== matricula),
+        }))
+        Swal.fire(
+          'Eliminado!',
+          'Congreso Eliminado Localmente.',
+          'success'
+        )
+      }
+    })
+    console.log("Eliminar congreso", matricula)
+    console.log("El id es", id)
+    // console.log("estadoTabla", actividadesList.datosCongreso)
+    // let datosCongresoN = actividadesList.datosCongreso.filter(num => num.key !== matricula);
+    // console.log(datosCongresoN); 
+    
   };
   return (
     <Button
@@ -49,7 +83,7 @@ const Table: React.FC<{ rows: DatosCongreso[]; actionColumn?: boolean }> = ({
       headerName: '',
       sortable: false,
       renderCell: (params: GridCellParams) => (
-        <ButtonRedirect matricula={params.row.id} />
+        <ButtonRedirect matricula={params.row.key} id={params.row.id} />
       ),
       width: 150,
     });
@@ -61,7 +95,7 @@ const Table: React.FC<{ rows: DatosCongreso[]; actionColumn?: boolean }> = ({
       <DataGrid
         // key={row.}
         className="datagrid"
-        getRowId={row => row.id}
+        getRowId={row => row.key}
         rows={rows}
         columns={columns}
         components={{

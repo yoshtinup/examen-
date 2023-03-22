@@ -136,7 +136,7 @@ export default props => {
       ...curso,
       fechaInicio: moment(curso.fechaInicio).format('DD/MM/yyyy'),
       fechaConclusion: moment(curso.fechaConclusion).format('DD/MM/yyyy'),
-      id: idRandom,
+      id: 0,
       key: idRandom,
     });
     addCursoExternoState(updatedCurso)
@@ -162,7 +162,7 @@ export default props => {
     <Box>
       <Grid container spacing={3}>
         <>
-          {props.estatus.id === 1 && (
+          {props.estatus === 1 && (
             <>
               <Grid container spacing={3}>
                 <>

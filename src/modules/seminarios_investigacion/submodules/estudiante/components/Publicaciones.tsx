@@ -98,7 +98,7 @@ export default props => {
     const idRandom = Math.random()*100;
     const updatedPublicacion = Object.assign({}, publicacion, {
       ...publicacion,
-      id: idRandom,
+      id: 0,
       key: idRandom,
       idTipoPublicacion: Number(publicacion.idTipoPublicacion),
       
@@ -116,7 +116,7 @@ export default props => {
   return (
     <Box>
       <Grid container spacing={3}>
-        {props.estatus.id === 1 && (
+        {props.estatus === 1 && (
           <>
             <Grid item xs={12}></Grid>
 

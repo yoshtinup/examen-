@@ -131,7 +131,7 @@ export default props => {
     const idRandom = Math.random()*100;
     let updatedCongreso = Object.assign({}, congreso, {
       ...congreso,
-      id: idRandom,
+      id: 0,
       key: idRandom,
       fecha: moment(congreso.fecha).format('DD/MM/yyyy'),
     });
@@ -155,7 +155,7 @@ export default props => {
   return (
     <Box>
       <Grid container spacing={3}>
-        {props.estatus.id === 2 && (
+        {props.estatus === 1 && (
           
           <>
             {/* <Grid item xs={12}>

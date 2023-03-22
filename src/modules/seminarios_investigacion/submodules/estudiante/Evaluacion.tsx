@@ -72,6 +72,18 @@ const Evaluacion = props => {
 
   const guardarActividades = () => {
     console.log('guardar las actividades')
+    console.log("actividadesList", actividadesList)
+    // const headers = { 
+    //     'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVkZ2FyZG8uZW5jaW5vQGd1ZXN0LmVjb3N1ci5teCIsInJvbCI6IkludGVybm8iLCJuYmYiOjE2Nzg4OTE1NzgsImV4cCI6MTY4MTU2OTk3OCwiaWF0IjoxNjc4ODkxNTc4fQ.NVGiPs5eUyEmbGCoqe-ZEdqe7LhFwJ5Jf4FpD_avpVk',
+    // };
+    // axios.post('https://dev-api-posgrado.utic.ecosur.mx/EvaluacionSeminariosInvestigacion/Alumno/guardar', actividadesList, { headers })
+    // .then(response => response.data.id )
+    // .catch(error => {
+    //     console.error('There was an error!', error);
+    // });
+
+    
+    SeminarioInvestigacion.guardarActividadesPosgrado(actividadesList)
   }
 
   
@@ -80,10 +92,20 @@ const Evaluacion = props => {
   const solicitarDatosSeminarioInv = async () => {
     const actividadesSeminario = await SeminarioInvestigacion.getDatosEvaluacionSeminario(idSeminario)
     setActividadesList2(actividadesSeminario) 
+    setActividadesList2((prev) => ({
+      ...prev,
+      estatus: 1,
+      congresosEliminados: [],
+      actividadesEliminadas: [],
+      cursosExternosEliminados: [],
+      estanciasEliminadas: [],
+      publicacionesEliminadas: [],
+      idEvaluacionSeminarioInvestigacion: 5609
+    }))
   }
   useEffect(()=>{
     solicitarDatosSeminarioInv()
-
+    
   },[])
   
   //FIXME: IOG obtener los datos del estudiante

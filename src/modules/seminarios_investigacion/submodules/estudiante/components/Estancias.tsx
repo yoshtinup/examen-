@@ -135,10 +135,13 @@ export default props => {
   }
 
   const addEstancia = () => {
+    const idRandom = Math.random()*100;
     const updatedEstancia = Object.assign({}, estancia, {
       ...estancia,
       fechaInicio: moment(estancia.fechaInicio).format('DD/MM/yyyy'),
       fechaConclusion: moment(estancia.fechaConclusion).format('DD/MM/yyyy'),
+      id: 0,
+      key: idRandom,
     });
     addEstanciaState(updatedEstancia)
     //dispatch(agregarEstancia(updatedEstancia));
@@ -162,7 +165,7 @@ export default props => {
   return (
     <Box>
       <Grid container spacing={3}>
-        {props.estatus.id === 1 && (
+        {props.estatus === 1 && (
           <>
             <Grid item xs={12}>
               {/* <FormControlLabel
