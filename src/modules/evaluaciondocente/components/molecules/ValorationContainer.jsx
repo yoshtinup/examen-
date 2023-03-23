@@ -1,22 +1,31 @@
-import React from 'react';
-import { TextBlue, TextContainer, ValInput } from '../atoms/Styles';
-import { ValRes, ValRes2, ValText } from '../atoms/Text';
+import { TextBlue } from '../atoms/Styles';
+import { ValoracionQuestions } from '../atoms/Text';
+import TextValoration from '../atoms/TextValoration';
 
-const ValorationContainer = () => {
-  const handleChange = e => {
-    //Utilizar la de recoil
-    //setValoracion({ ...valoracion, [e.target.id]: e.target.value });
-  };
-
+const ValorationContainer = ({ error }) => {
   return (
     <>
       <TextBlue>Valoración</TextBlue>
-      <TextContainer> {ValText} </TextContainer>
-      <ValInput id="valoracion_P_1" onChange={handleChange} />
-      <TextContainer> {ValRes} </TextContainer>
-      <ValInput id="valoracion_P_2" onChange={handleChange} />
-      <TextContainer> {ValRes2} </TextContainer>
-      <ValInput id="valoracion_P_3" onChange={handleChange} />
+      {ValoracionQuestions.map(val => {
+        const inputErrorMesssage = '';
+        if (error.length > 0) {
+          const inputError = error.find(
+            x =>
+              x.error.toLowerCase().includes(val.id.toLocaleLowerCase()) ===
+              true
+          );
+          inputErrorMesssage = inputError ? inputError.message : null;
+        }
+        return (
+          <TextValoration
+            key={val.id}
+            id={val.id}
+            text={val.text}
+            required={val.required}
+            error={inputErrorMesssage ? inputErrorMesssage : null}
+          />
+        );
+      })}
     </>
   );
 };

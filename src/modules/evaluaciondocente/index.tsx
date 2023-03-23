@@ -9,7 +9,6 @@ import DocContainer from './components/molecules/DocContainer';
 import QuestContainer from './components/molecules/QuestContainer';
 import ValdocContainer from './components/molecules/ValdocContainer';
 import ValorationContainer from './components/molecules/ValorationContainer';
-import { SubmitButton } from './components/atoms/Styles';
 const HomePage = WithRol(Roles.Estudiante)(Home);
 import EvaluacionDocenteQuerys from './queries/apiRest';
 import { Actividades } from './types/evaluacionState';
@@ -18,14 +17,20 @@ import { materiaState } from './recoil/materiaState';
 import { planeacionState } from './recoil/planeacionState';
 import { valoracionState } from './recoil/valoracionState';
 import { profesoresState } from './recoil/profesoresState';
+import { useState } from 'react';
+import Button from '@mui/material/Button';
+import SendIcon from '@mui/icons-material/Send';
 
-const EvaluacionDocente = ({ docentes }) => {
+const EvaluacionDocente = () => {
   const materia = useRecoilValue(materiaState);
   const planeacionDelCurso = useRecoilValue(planeacionState);
   const valoracionDelCurso = useRecoilValue(valoracionState);
   const profesores = useRecoilValue(profesoresState);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState([]);
 
   const handleSend = async () => {
+    setIsLoading(true);
     const data: Actividades = {
       idMateriasOfertaAnual: materia.idMateriasOfertaAnual,
       planeacionDelCurso,
@@ -34,7 +39,13 @@ const EvaluacionDocente = ({ docentes }) => {
     };
 
     const resultado = await EvaluacionDocenteQuerys.sendEvaluacion(data);
-    console.log(resultado);
+    if (resultado.status == 400) {
+      const mapError = Object.entries(resultado.errors).map(([key, val]) => {
+        return { error: key, message: val[0] };
+      });
+      setError(mapError);
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -46,11 +57,20 @@ const EvaluacionDocente = ({ docentes }) => {
       <Introduction />
       <Plan />
       <QuestContainer />
-      <ValorationContainer />
+      <ValorationContainer error={error} />
       <ValdocContainer />
       <DocContainer />
-      <br />
-      <SubmitButton onClick={handleSend}>Enviar evaluación</SubmitButton>
+      {!isLoading && (
+        <Button
+          size="large"
+          color="success"
+          variant="contained"
+          endIcon={<SendIcon />}
+          onClick={handleSend}
+        >
+          <span>Enviar evaluación</span>
+        </Button>
+      )}
     </>
   );
 };

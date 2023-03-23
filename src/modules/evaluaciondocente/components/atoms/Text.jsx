@@ -5,9 +5,9 @@
 // export const DOCENTES_TEXT =
 //   "Eduardo Suares Morales, Manuel Elias Gutierrez, Martha Elena Valdez Moreno";
 
-// export const Text_Introduction = `El cuestionario esta configurado por seis dimeciones 
-// cuantitativas, que se realacionan con competencias docentes y al final una dimencion 
-// cualitativa adicional para verter comentarios que completan la evaluacion. Las respuestas 
+// export const Text_Introduction = `El cuestionario esta configurado por seis dimeciones
+// cuantitativas, que se realacionan con competencias docentes y al final una dimencion
+// cualitativa adicional para verter comentarios que completan la evaluacion. Las respuestas
 // son confidenciales y los resultados seran utilizados para fines de evaluacion por parte del
 // Comite de Evaluacion Docente. por lo tanto, el profesor o profesora evaluada no recivira los
 // resultados direactamente. solo el resultado por dimensiones, las respuestas a las valoraciones
@@ -35,17 +35,28 @@ asignatura`;
 
 export const Quest3 = `3.- Las sesiones inician y finalizan en el tiempo convenido`;
 
-export const Quest4 = `4.- Las calificaciones, son informativas en el tiempo acordado`
+export const Quest4 = `4.- Las calificaciones, son informativas en el tiempo acordado`;
 
-export const ValText = "Emite una opinion general sobre la asignatura y da una recomendacion para su mejora";
+export const ValoracionQuestions = [
+  {
+    id: 'valoracion_P_1',
+    text: 'Emite una opinion general sobre la asignatura y da una recomendacion para su mejora',
+    required: true,
+  },
+  {
+    id: 'valoracion_P_2',
+    text: '¿Qué fue lo que mas te gusto de la asignatura?',
+    required: true,
+  },
+  {
+    id: 'valoracion_P_3',
+    text: '¿Qué aspecto de la asignatura cambiarias?',
+    required: false,
+  },
+];
 
-export const ValRes = "¿Qué fue lo que mas te gusto de la asignatura?";
+export const doc1 = 'Eduardo Suarez Morales';
 
-export const ValRes2 = "¿Qué aspecto de la asignatura cambiarias?";
+export const doc2 = 'Manuel Elias Gutierrez';
 
-export const doc1 = "Eduardo Suarez Morales";
-
-export const doc2 = "Manuel Elias Gutierrez";
-
-export const doc3 = "Martha Elena Valdez Moreno";
-
+export const doc3 = 'Martha Elena Valdez Moreno';
