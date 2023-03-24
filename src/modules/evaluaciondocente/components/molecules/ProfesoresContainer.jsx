@@ -3,7 +3,7 @@ import { TextDocContainer, TextStrongBlue } from '../atoms/Styles';
 import FormEvaluacion from './FormEvaluacion';
 import ReactDOMServer from 'react-dom/server';
 
-const DocContainer = () => {
+const ProfesoresContainer = () => {
   const handleClick = profesor => {
     const html = ReactDOMServer.renderToStaticMarkup(
       <FormEvaluacion profesor={profesor} />
@@ -36,4 +36,4 @@ const DocContainer = () => {
   );
 };
 
-export default DocContainer;
+export default ProfesoresContainer;

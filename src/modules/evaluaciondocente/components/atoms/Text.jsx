@@ -23,19 +23,31 @@ export const Text_Instruction2 = `2. Haga clic en el boton "Enviar evaluacion". 
 enviada no podra modificarla. Todos los campos deben ser contestados para enviar su evaluacion`;
 
 export const Text_Planing = `Habilidad para preparar y ejecutar la asignatura. Con base
-en los contenidos, participacion del personal docente, y caracteristicas del grupo de 
+en los contenidos, participacion del personal docente, y características del grupo de 
 estudiantes.`;
 
-export const Quest1 = `1.- El programa de la asignatura (objetivos, contenidos, organizacion, 
-actividadesde aprendizaje, criterios de evaluacion del aprendizaje, fuentes de informacion)
-se presenta, acuerda y entrega, en la primera sesion.`;
-
-export const Quest2 = `2.- La participación del personal docente es coordinada y oportuna para la
-asignatura`;
-
-export const Quest3 = `3.- Las sesiones inician y finalizan en el tiempo convenido`;
-
-export const Quest4 = `4.- Las calificaciones, son informativas en el tiempo acordado`;
+export const PlaneacionQuestions = [
+  {
+    id: 'p_I_1',
+    text: 'El programa de la asignatura (objetivos, contenidos, organizacion, actividadesde aprendizaje, criterios de evaluacion del aprendizaje, fuentes de informacion) se presenta, acuerda y entrega, en la primera sesion',
+    required: true,
+  },
+  {
+    id: 'p_I_2',
+    text: 'La participación del personal docente es coordinada y oportuna para la asignatura',
+    required: true,
+  },
+  {
+    id: 'p_I_3',
+    text: 'Las sesiones inician y finalizan en el tiempo convenido',
+    required: true,
+  },
+  {
+    id: 'p_I_4',
+    text: 'Las calificaciones, son informativas en el tiempo acordado',
+    required: true,
+  },
+];
 
 export const ValoracionQuestions = [
   {

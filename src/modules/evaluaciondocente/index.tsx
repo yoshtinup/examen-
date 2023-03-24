@@ -2,11 +2,10 @@ import { Home } from './components';
 import { WithRol } from '@shared/hooks';
 import Roles from '@definitions/Roles';
 import Introduction from './components/atoms/Introduction';
-import Plan from './components/atoms/Plan';
 import SubjectInf from './components/atoms/SubjectInf';
 import Title from './components/atoms/Title';
-import DocContainer from './components/molecules/DocContainer';
-import QuestContainer from './components/molecules/QuestContainer';
+import ProfesoresContainer from './components/molecules/ProfesoresContainer';
+import PlaningContainer from './components/molecules/PlaningContainer';
 import ValdocContainer from './components/molecules/ValdocContainer';
 import ValorationContainer from './components/molecules/ValorationContainer';
 const HomePage = WithRol(Roles.Estudiante)(Home);
@@ -55,11 +54,10 @@ const EvaluacionDocente = () => {
       <br />
       <SubjectInf />
       <Introduction />
-      <Plan />
-      <QuestContainer />
+      <PlaningContainer error={error}/>
       <ValorationContainer error={error} />
       <ValdocContainer />
-      <DocContainer />
+      <ProfesoresContainer />
       {!isLoading && (
         <Button
           size="large"
