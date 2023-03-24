@@ -41,7 +41,7 @@ export default props => {
     key: 0,
     titulo: '',
     lugar: '',
-    fecha: new Date(),
+    fecha: new Date().toString(),
     tipoParticipacion: '',
   });
   let resetCongreso = {
@@ -49,7 +49,7 @@ export default props => {
     key: 0,
     titulo: '',
     lugar: '',
-    fecha: new Date(),
+    fecha: new Date().toString(),
     tipoParticipacion: '',
   };
 
@@ -96,6 +96,10 @@ export default props => {
   };
 
   const handleDateChange = fecha => {
+  
+    const fechaConvertir = new Date(fecha)
+    // const fechaAdd = fechaConvertir.getFullYear().toString() + "-"+fechaConvertir.getMonth().toString() + "-" + fechaConvertir.getDay().toString()
+    // console.log("fecha", fechaAdd)
     setCongreso({
       ...congreso,
       fecha,
@@ -133,7 +137,7 @@ export default props => {
       ...congreso,
       id: 0,
       key: idRandom,
-      fecha: moment(congreso.fecha).format('DD/MM/yyyy'),
+      fecha: moment(congreso.fecha).format('yyyy-MM-DD'),
     });
     console.log("updatedCongreso");
     console.log(updatedCongreso);
@@ -208,6 +212,8 @@ export default props => {
                       label={texto.tabs.tabCongresos.form.fecha.label}
                       onChange={fecha => handleDateChange(fecha)}
                       renderInput={params => <TextField {...params} />}
+                      inputFormat="YYYY-MM-DD"
+                      views={["year", "month", "day"]}
                     />
                   </LocalizationProvider>
                 </FormControl>

@@ -10,11 +10,12 @@ import {
 import { DatosEstancia } from '@modules/seminarios_investigacion/submodules/estudiante/types';
 import { actividadesState as actState } from 'pages/seminarios_investigacion/store/actividadesState';
 import Swal from 'sweetalert2';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
-const ButtonRedirect: React.FC<{ matricula: number }> = ({ matricula }) => {
+const ButtonRedirect: React.FC<{ matricula: number, id: number }> = ({ matricula, id }) => {
   const router = useRouter();
   const [actividadesList, setActividadesList] = useRecoilState(actState)
+  const setActividadState = useSetRecoilState(actState);
 
   const handleClickRow = () => {
     /* router.push(`/consejo_tutelar/${matricula}`); */
@@ -27,6 +28,14 @@ const ButtonRedirect: React.FC<{ matricula: number }> = ({ matricula }) => {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Eliminar'
     }).then((result) => {
+      if(id!== 0){
+        setActividadState( actividadState => ({
+          ...actividadState,
+          publicacionesEliminadas: [
+            ...actividadState.publicacionesEliminadas, id
+          ]
+        }))
+      }
       if (result.isConfirmed) {
         setActividadesList((prev) => ({
           ...prev,
@@ -76,7 +85,7 @@ const Table: React.FC<{ rows: DatosEstancia[]; actionColumn?: boolean }> = ({
       headerName: '',
       sortable: false,
       renderCell: (params: GridCellParams) => (
-        <ButtonRedirect matricula={params.row.key} />
+        <ButtonRedirect matricula={params.row.key} id={params.row.id}/>
       ),
       width: 150,
     });

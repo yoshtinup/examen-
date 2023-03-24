@@ -10,7 +10,8 @@ export const actividadesState = atom({
         datosEstancias:[],
         datosCursosExternos:[], 
         datosPublicaciones:[], 
-        datosActividades:[]
+        datosActividades:[],
+        datosSeminario: {}
     } as Actividades
     
 })

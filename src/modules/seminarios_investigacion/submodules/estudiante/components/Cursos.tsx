@@ -134,8 +134,9 @@ export default props => {
     const idRandom = Math.random()*100;
     const updatedCurso = Object.assign({}, curso, {
       ...curso,
-      fechaInicio: moment(curso.fechaInicio).format('DD/MM/yyyy'),
-      fechaConclusion: moment(curso.fechaConclusion).format('DD/MM/yyyy'),
+      // fechaInicio: moment(curso.fechaInicio).format('DD-MM-yyyy'),
+      fechaInicio: moment(curso.fechaInicio).format('yyyy'),
+      fechaConclusion: moment(curso.fechaConclusion).format('yyyy'),
       id: 0,
       key: idRandom,
     });
@@ -208,6 +209,8 @@ export default props => {
                           label={texto.tabs.tabCursos.form.fechaInicio.label}
                           onChange={fecha => handleFechaInicio(fecha)}
                           renderInput={params => <TextField {...params} />}
+                          // inputFormat="YYYY-MM-DD"
+                          // views={["year", "month", "day"]}
                         />
                       </LocalizationProvider>
                     </FormControl>
@@ -222,6 +225,8 @@ export default props => {
                           }
                           onChange={fecha => handleFechaConclusion(fecha)}
                           renderInput={params => <TextField {...params} />}
+                          // inputFormat="YYYY-MM-DD"
+                          // views={["year", "month", "day"]}
                         />
                       </LocalizationProvider>
                     </FormControl>

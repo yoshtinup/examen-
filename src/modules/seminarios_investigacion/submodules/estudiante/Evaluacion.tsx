@@ -28,6 +28,7 @@ import Pestanias from './components/Pestanias';
 import datos from './components/initialState';
 import { actividadesState } from 'pages/seminarios_investigacion/store/actividadesState';
 import { useQuery, QueryClient } from "react-query"
+import Swal from 'sweetalert2';
 
 
 import axios from 'axios'
@@ -84,6 +85,22 @@ const Evaluacion = props => {
 
     
     SeminarioInvestigacion.guardarActividadesPosgrado(actividadesList)
+    .then((respuesta)=>{
+      if(respuesta.message){
+        Swal.fire({
+          icon: 'success',
+          title: 'Enhorabuena!',
+          text: respuesta.message
+        })
+      }else{
+        Swal.fire({
+          icon: 'error',
+          title: 'Upss!',
+          text: respuesta.errors
+        })
+      }
+      console.log("respuesta", respuesta)
+    })
   }
 
   
@@ -91,7 +108,7 @@ const Evaluacion = props => {
   
   const solicitarDatosSeminarioInv = async () => {
     const actividadesSeminario = await SeminarioInvestigacion.getDatosEvaluacionSeminario(idSeminario)
-    setActividadesList2(actividadesSeminario) 
+    setActividadesList2(actividadesSeminario)
     setActividadesList2((prev) => ({
       ...prev,
       estatus: 1,
@@ -102,6 +119,7 @@ const Evaluacion = props => {
       publicacionesEliminadas: [],
       idEvaluacionSeminarioInvestigacion: 5609
     }))
+    // console.log("idseminario", actividadesList.datosSeminario)
   }
   useEffect(()=>{
     solicitarDatosSeminarioInv()

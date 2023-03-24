@@ -8,7 +8,7 @@ import {
   GridToolbar,
 } from '@mui/x-data-grid';
 import { DatosCongreso } from '@modules/seminarios_investigacion/submodules/estudiante/types';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { actividadesState as actState } from 'pages/seminarios_investigacion/store/actividadesState';
 import Swal from 'sweetalert2';
 
@@ -17,9 +17,12 @@ import Swal from 'sweetalert2';
 const ButtonRedirect: React.FC<{ matricula: number, id: number }> = ({ matricula, id }) => {
   const router = useRouter();
   const [actividadesList, setActividadesList] = useRecoilState(actState)
+  const setActividadState = useSetRecoilState(actState);
+
 
   const handleClickRow = () => {
     /* router.push(`/consejo_tutelar/${matricula}`); */
+    
     Swal.fire({
       title: '¿Deseas eliminar este congreso?',
       // text: "Confirmalo!",
@@ -29,6 +32,14 @@ const ButtonRedirect: React.FC<{ matricula: number, id: number }> = ({ matricula
       cancelButtonColor: '#d33',
       confirmButtonText: 'Eliminar'
     }).then((result) => {
+      if(id!== 0){
+        setActividadState( actividadState => ({
+          ...actividadState,
+          congresosEliminados: [
+            ...actividadState.congresosEliminados, id
+          ]
+        }))
+      }
       if (result.isConfirmed) {
         setActividadesList((prev) => ({
           ...prev,

@@ -140,6 +140,7 @@ export interface DatosActividad {
 
 export interface Actividades {
   estatus: number,
+  datosSeminario: DatosSeminario,
   datosCongreso: DatosCongreso[],
   datosEstancias: DatosEstancia[],
   datosCursosExternos: DatosCursoExterno[],
@@ -149,10 +150,10 @@ export interface Actividades {
   tieneEstancias: boolean,
   tieneCursos: boolean,
   tienePublicaciones: boolean,
-  congresosEliminados: [],
-  estanciasEliminadas: [],
+  congresosEliminados: number[],
+  estanciasEliminadas: number[],
   cusrosExternosEliminados: [],
-  publicacionesEliminadas: [],
+  publicacionesEliminadas: number[],
   actividadesEliminadas: [],
   idAlumnoMaterias: number
 

@@ -52,8 +52,8 @@ export default props => {
     key: 0,
     universidadCentro: '',
     areaDeAdscripcion: '',
-    fechaInicio: new Date(),
-    fechaConclusion: new Date(),
+    fechaInicio: new Date().toString(),
+    fechaConclusion: new Date().toString(),
     ambito: '',
   };
 
@@ -138,8 +138,8 @@ export default props => {
     const idRandom = Math.random()*100;
     const updatedEstancia = Object.assign({}, estancia, {
       ...estancia,
-      fechaInicio: moment(estancia.fechaInicio).format('DD/MM/yyyy'),
-      fechaConclusion: moment(estancia.fechaConclusion).format('DD/MM/yyyy'),
+      fechaInicio: moment(estancia.fechaInicio).format('yyyy-MM-DD'),
+      fechaConclusion: moment(estancia.fechaConclusion).format('yyyy-MM-DD'),
       id: 0,
       key: idRandom,
     });
@@ -218,6 +218,8 @@ export default props => {
                       label={texto.tabs.tabEstancias.form.fechaInicio.label}
                       onChange={fecha => handleFechaInicio(fecha)}
                       renderInput={params => <TextField {...params} />}
+                      inputFormat="YYYY-MM-DD"
+                      views={["year", "month", "day"]}
                     />
                   </LocalizationProvider>
                 </FormControl>
@@ -230,6 +232,8 @@ export default props => {
                       label={texto.tabs.tabEstancias.form.fechaConclusion.label}
                       onChange={fecha => handleFechaConclusion(fecha)}
                       renderInput={params => <TextField {...params} />}
+                      inputFormat="YYYY-MM-DD"
+                      views={["year", "month", "day"]}
                     />
                   </LocalizationProvider>
                 </FormControl>
