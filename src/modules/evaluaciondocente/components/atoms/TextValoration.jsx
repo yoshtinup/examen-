@@ -9,7 +9,7 @@ const TextValoration = ({ id, text, required, error }) => {
   const [localError, setLocalError] = useState(error);
   const handleChange = e => {
     if (e.target.value === '' && e.target.hasAttribute('required')) {
-      setLocalError('Dato requeridos');
+      setLocalError('Respuesta requerida');
     }
     setValoracion({ ...valoracion, [e.target.id]: e.target.value });
   };
