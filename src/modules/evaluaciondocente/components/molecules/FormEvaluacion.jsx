@@ -1,4 +1,9 @@
+import { profesoresState } from '@modules/evaluaciondocente/recoil/profesoresState';
+import { Grid, Typography } from '@mui/material';
 import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import PreguntaTextArea from './PreguntaTextArea';
+import SelectControl from './SelectControl';
 
 export const opcionesEvaluacion = [
   { key: 0, text: '' },
@@ -18,19 +23,19 @@ const preguntasEvaluacionADocentes = [
     preguntas: [
       {
         key: 'P_II_5',
-        text: '5.- La persona docente colabora en el desarrollo de mis habilidades de investigar o plantear y resolver problemas',
+        text: '1.- La persona docente colabora en el desarrollo de mis habilidades de investigar o plantear y resolver problemas',
       },
       {
         key: 'P_II_6',
-        text: '6.- La persona docente a través de la asignatura, busca que reflexione sobre las necesidades sociales o ambientales de mi entorno. ',
+        text: '2.- La persona docente a través de la asignatura, busca que reflexione sobre las necesidades sociales o ambientales de mi entorno. ',
       },
       {
         key: 'P_II_7',
-        text: '7.- La persona docente enriquece el aprendizaje al realimentar actividades grupales, tareas, exámenes o exposiciones y, sus comentarios me han apoyado en la reflexión sobre aciertos y desaciertos. ',
+        text: '3.- La persona docente enriquece el aprendizaje al realimentar actividades grupales, tareas, exámenes o exposiciones y, sus comentarios me han apoyado en la reflexión sobre aciertos y desaciertos. ',
       },
       {
         key: 'P_II_8',
-        text: '8.- La persona docente propicia que relacione la teoría con ejemplos, experiencias o situaciones prácticas.',
+        text: '4.- La persona docente propicia que relacione la teoría con ejemplos, experiencias o situaciones prácticas.',
       },
     ],
   },
@@ -42,15 +47,15 @@ const preguntasEvaluacionADocentes = [
     preguntas: [
       {
         key: 'P_III_9',
-        text: '9.- La persona docente crea ambientes de aprendizaje variados. ',
+        text: '5.- La persona docente crea ambientes de aprendizaje variados. ',
       },
       {
         key: 'P_III_10',
-        text: '10.- La forma en que la persona docente imparte la asignatura me ha estimulado a generar ideas, soluciones y aserciones propias. ',
+        text: '6.- La forma en que la persona docente imparte la asignatura me ha estimulado a generar ideas, soluciones y aserciones propias. ',
       },
       {
         key: 'P_III_11',
-        text: '11.- La persona docente genera un ambiente adecuado para la libre expresión de las ideas. ',
+        text: '7.- La persona docente genera un ambiente adecuado para la libre expresión de las ideas. ',
       },
     ],
   },
@@ -62,19 +67,19 @@ const preguntasEvaluacionADocentes = [
     preguntas: [
       {
         key: 'P_IV_12',
-        text: '12.- La persona docente proporciona criterios específicos para realizar las actividades de aprendizaje. ',
+        text: '8.- La persona docente proporciona criterios específicos para realizar las actividades de aprendizaje. ',
       },
       {
         key: 'P_IV_13',
-        text: '13.- Los productos generados por las actividades de aprendizaje realizadas son considerados como parte de la acreditación de la asignatura. ',
+        text: '9.- Los productos generados por las actividades de aprendizaje realizadas son considerados como parte de la acreditación de la asignatura. ',
       },
       {
         key: 'P_IV_14',
-        text: '14.- Las evaluaciones de las actividades de aprendizaje se desarrollan acorde a los criterios proporcionados ',
+        text: '10.- Las evaluaciones de las actividades de aprendizaje se desarrollan acorde a los criterios proporcionados ',
       },
       {
         key: 'P_IV_15',
-        text: '15.- La persona docente muestra apertura para la corrección de errores de apreciación en la evaluación. ',
+        text: '11.- La persona docente muestra apertura para la corrección de errores de apreciación en la evaluación. ',
       },
     ],
   },
@@ -86,15 +91,15 @@ const preguntasEvaluacionADocentes = [
     preguntas: [
       {
         key: 'P_V_16',
-        text: '16.- La persona docente utiliza las tecnologías de información y comunicación de acuerdo con las necesidades de los estudiantes y el programa de la asignatura.',
+        text: '12.- La persona docente utiliza las tecnologías de información y comunicación de acuerdo con las necesidades de los estudiantes y el programa de la asignatura.',
       },
       {
         key: 'P_V_17',
-        text: '17.- La persona docente promueve el uso de las tecnologías de información y comunicación para la realización de las actividades académicas.',
+        text: '13.- La persona docente promueve el uso de las tecnologías de información y comunicación para la realización de las actividades académicas.',
       },
     ],
   },
-  /* {
+  {
     seccion: 'Ética y valores',
     key: 'VI',
     descripcion: 'Con base en el Código de conducta de ECOSUR. ',
@@ -155,14 +160,17 @@ const preguntasEvaluacionADocentes = [
         ],
       },
     ],
-  }, */
+  },
 ];
 
 const FormEvaluacion = ({ profesor }) => {
-  const [data, setData] = useState();
+  const [profesores, setProfesores] = useRecoilState(profesoresState);
+  const handleChange = e => {
+    console.log('piipiy', e.target.id, e.target.getAttribute('name'));
+  };
 
   return (
-    <div>
+    <>
       <div>Profesor: {profesor.name}</div>
       <br />
       {preguntasEvaluacionADocentes.map((elm, i) => (
@@ -170,15 +178,41 @@ const FormEvaluacion = ({ profesor }) => {
           {console.log(elm)}
           <p className="title">{elm.seccion}</p>
           <p className="subtitle">{elm.descripcion}</p>
-          {elm.preguntas.map((item, i) => (
-            <div>
-              <p>{item.text}</p>
-              <input type="text" />
-            </div>
-          ))}
+          {elm.preguntas &&
+            elm.preguntas.map((item, i) => (
+              <>
+                <Typography variant="body2" style={{ marginBottom: '10px' }}>
+                  {' '}
+                  <b>{item.text}</b>{' '}
+                </Typography>
+                {item.type ? (
+                  <Grid item xs={9}>
+                    <PreguntaTextArea
+                      item={item}
+                      state={prof.respuestas.textAreas[item.key]}
+                      id={i}
+                      handleChange={handleChange}
+                      msgError={msgError}
+                      leyenda={prof.name}
+                    />
+                  </Grid>
+                ) : (
+                  <>
+                    <Grid item xs={6}>
+                      <SelectControl
+                        item={item}
+                        state={''}
+                        id={i}
+                        handleChange={handleChange}
+                      />
+                    </Grid>
+                  </>
+                )}
+              </>
+            ))}
         </div>
       ))}
-    </div>
+    </>
   );
 };
 
