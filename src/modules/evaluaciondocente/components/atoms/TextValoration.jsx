@@ -26,7 +26,7 @@ const TextValoration = ({ id, text, required, error }) => {
         required={required}
       />
       {(localError || error) && (
-        <Alert variant="filled" severity="error">
+        <Alert variant="filled" severity="warning">
           {localError}&nbsp;
           {error ? error : ''}
         </Alert>

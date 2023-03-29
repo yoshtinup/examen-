@@ -8,6 +8,7 @@ import {
   CardActions,
   Modal,
   Alert,
+  Grid,
 } from '@mui/material';
 import {
   preguntasEvaluacionADocentes,
@@ -47,17 +48,35 @@ const EvaluacionProfesor = ({ profesor }) => {
       : false;
 
   return (
-    <div>
-      <p>{profesor.name}</p>
-      <Button onClick={handleEvaluarClick} variant="outlined" color="info">
-        Evaluar
-      </Button>
-      {!profesorEvaluado && (
-        <Alert variant="filled" severity="warning">
-          {' '}
-          Es necesario evaluar por completo al profesor
-        </Alert>
-      )}
+    <Grid item xs={4}>
+      <Card>
+        <CardContent>
+          <p>{profesor.name}</p>
+        </CardContent>
+        <CardActions>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-end',
+            }}
+          >
+            <Button
+              onClick={handleEvaluarClick}
+              variant="outlined"
+              color="info"
+            >
+              Evaluar
+            </Button>
+          </Box>
+          {!profesorEvaluado && (
+            <Alert variant="filled" severity="warning">
+              {' '}
+              Es necesario evaluar por completo al profesor
+            </Alert>
+          )}
+        </CardActions>
+      </Card>
       <Modal
         open={mostrarModal}
         onClose={handleClose}
@@ -86,7 +105,7 @@ const EvaluacionProfesor = ({ profesor }) => {
           </Card>
         </Box>
       </Modal>
-    </div>
+    </Grid>
   );
 };
 

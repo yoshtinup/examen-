@@ -19,6 +19,7 @@ import { profesoresState } from './recoil/profesoresState';
 import { useState } from 'react';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
+import { Box } from '@mui/material';
 
 const EvaluacionDocente = () => {
   const materia = useRecoilValue(materiaState);
@@ -54,21 +55,30 @@ const EvaluacionDocente = () => {
       <br />
       <SubjectInf />
       <Introduction />
-      <PlaningContainer error={error}/>
+      <PlaningContainer error={error} />
       <ValorationContainer error={error} />
       <ValdocContainer />
       <ProfesoresContainer />
-      {!isLoading && (
-        <Button
-          size="large"
-          color="success"
-          variant="contained"
-          endIcon={<SendIcon />}
-          onClick={handleSend}
-        >
-          <span>Enviar evaluación</span>
-        </Button>
-      )}
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-end',
+        }}
+      >
+        <div style={{ height: 15 }}></div>
+        {!isLoading && (
+          <Button
+            size="large"
+            color="success"
+            variant="contained"
+            endIcon={<SendIcon />}
+            onClick={handleSend}
+          >
+            <span>Enviar evaluación</span>
+          </Button>
+        )}
+      </Box>
     </>
   );
 };

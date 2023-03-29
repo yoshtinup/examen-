@@ -2,12 +2,12 @@ import EvaluacionProfesor from './EvaluacionProfesor';
 import { profesoresState } from '@modules/evaluaciondocente/recoil/profesoresState';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-
+import { Grid } from '@mui/material';
 const ProfesoresContainer = () => {
   const profesores = useRecoilValue(profesoresState);
   console.log(profesores);
   return (
-    <div>
+    <Grid container spacing={2}>
       {profesores.map(profesor => (
         <EvaluacionProfesor
           key={profesor.idProfesores}
@@ -17,7 +17,7 @@ const ProfesoresContainer = () => {
           }}
         />
       ))}
-    </div>
+    </Grid>
   );
 };
 
