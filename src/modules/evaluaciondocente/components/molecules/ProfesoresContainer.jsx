@@ -1,61 +1,67 @@
-import { useState } from 'react';
-import Swal from 'sweetalert2';
-import { TextDocContainer } from '../atoms/Styles';
-import FormEvaluacion from './FormEvaluacion';
-import { useRecoilState } from 'recoil';
+import EvaluacionProfesor from './EvaluacionProfesor';
 import { profesoresState } from '@modules/evaluaciondocente/recoil/profesoresState';
-import { Button, Paper, Modal } from '@mui/material';
-import { Box } from '@mui/system';
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: '80%',
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-  height: 600,
-  overflow: 'scroll',
-  display: 'block',
-};
+import React from 'react';
+import { useRecoilState } from 'recoil';
 
 const ProfesoresContainer = () => {
   const [profesores, setProfesores] = useRecoilState(profesoresState);
-  const [open, setOpen] = useState(false);
-  const [profesor, setProfesor] = useState({});
-  const handleClick = profesor => {
-    setOpen(true);
-    setProfesor(profesor);
+
+  const handleRespuestasChange = (
+    idProfesor,
+    respuestaKey,
+    respuestaValue,
+    type
+  ) => {
+    type == 'select'
+      ? setProfesores(prevProfesores =>
+          prevProfesores.map(profesor => {
+            if (profesor.idProfesores === idProfesor) {
+              return {
+                ...profesor,
+                respuestas: {
+                  ...profesor.respuestas,
+                  selects: {
+                    ...profesor.respuestas?.selects,
+                    [respuestaKey]: respuestaValue,
+                  },
+                },
+              };
+            }
+            return profesor;
+          })
+        )
+      : setProfesores(prevProfesores =>
+          prevProfesores.map(profesor => {
+            if (profesor.idProfesores === idProfesor) {
+              return {
+                ...profesor,
+                respuestas: {
+                  ...profesor.respuestas,
+                  textAreas: {
+                    ...profesor.respuestas?.textAreas,
+                    [respuestaKey]: respuestaValue,
+                  },
+                },
+              };
+            }
+            return profesor;
+          })
+        );
   };
-  const handleClose = () => setOpen(false);
 
   return (
-    <>
-      {profesores.map((elm, i) => (
-        <>
-          <Paper elevation={2} square>
-            <TextDocContainer key={i}>{elm.name} </TextDocContainer>
-            <Button
-              variant="outlined"
-              color="info"
-              onClick={() => handleClick(elm)}
-            >
-              Evaluar
-            </Button>
-          </Paper>
-          <br></br>
-        </>
+    <div>
+      {profesores.map(profesor => (
+        <EvaluacionProfesor
+          key={profesor.idProfesores}
+          profesor={{
+            ...profesor,
+            respuestas: profesor.respuestas || { selects: {}, textAreas: {} },
+          }}
+          handleRespuestasChange={handleRespuestasChange}
+        />
       ))}
-
-      <Modal open={open} onClose={handleClose}>
-        <Box sx={style}>
-          <FormEvaluacion profesor={profesor} />
-        </Box>
-      </Modal>
-    </>
+    </div>
   );
 };
 
