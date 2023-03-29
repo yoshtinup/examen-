@@ -18,7 +18,7 @@ export interface Actividades extends DatosMateria {
 export interface Profesor {
   idProfesores: number;
   name?: string;
-  respuestas: Respuestas;
+  respuestas?: Respuestas;
 }
 
 export interface Respuestas {
