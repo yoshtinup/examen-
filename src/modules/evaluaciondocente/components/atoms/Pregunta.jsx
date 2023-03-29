@@ -1,31 +1,51 @@
 import React, { useState } from 'react';
 import { MenuItem, Select, FormControl, Alert } from '@mui/material';
 import { opcionesEvaluacion } from '../atoms/Text';
+import { useRecoilState } from 'recoil';
+import { profesoresState } from '@modules/evaluaciondocente/recoil/profesoresState';
 
-const Pregunta = ({
-  pregunta,
-  respuestaValue,
-  handleRespuestasChange,
-  profesor,
-}) => {
+const Pregunta = ({ pregunta, respuestaValue, profesor }) => {
+  const [profesores, setProfesores] = useRecoilState(profesoresState);
   const [valido, setValido] = useState(true);
 
   const handleSelectChange = event => {
-    handleRespuestasChange(
-      profesor.idProfesores,
-      event.target.name,
-      event.target.value,
-      'select'
+    setProfesores(prevProfesores =>
+      prevProfesores.map(prof => {
+        if (prof.idProfesores === profesor.idProfesores) {
+          return {
+            ...prof,
+            respuestas: {
+              ...prof.respuestas,
+              selects: {
+                ...prof.respuestas?.selects,
+                [event.target.name]: event.target.value,
+              },
+            },
+          };
+        }
+        return prof;
+      })
     );
     setValido(event.target.value !== 0);
   };
 
   const handleTextAreaChange = event => {
-    handleRespuestasChange(
-      profesor.idProfesores,
-      event.target.name,
-      event.target.value,
-      'textArea'
+    setProfesores(prevProfesores =>
+      prevProfesores.map(prof => {
+        if (prof.idProfesores === profesor.idProfesores) {
+          return {
+            ...prof,
+            respuestas: {
+              ...prof.respuestas,
+              textAreas: {
+                ...prof.respuestas?.textAreas,
+                [event.target.name]: event.target.value,
+              },
+            },
+          };
+        }
+        return prof;
+      })
     );
     setValido(event.target.value.trim() !== '');
   };

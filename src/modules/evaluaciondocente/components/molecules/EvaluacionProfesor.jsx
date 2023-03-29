@@ -28,7 +28,7 @@ const style = {
   display: 'block',
 };
 
-const EvaluacionProfesor = ({ profesor, handleRespuestasChange }) => {
+const EvaluacionProfesor = ({ profesor }) => {
   const [mostrarModal, setMostrarModal] = useState(false);
 
   const handleEvaluarClick = () => {
@@ -75,7 +75,6 @@ const EvaluacionProfesor = ({ profesor, handleRespuestasChange }) => {
                   key={seccion.key}
                   seccion={seccion}
                   profesor={profesor}
-                  handleRespuestasChange={handleRespuestasChange}
                 />
               ))}
             </CardContent>

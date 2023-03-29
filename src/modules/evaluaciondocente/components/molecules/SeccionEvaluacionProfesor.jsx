@@ -1,11 +1,7 @@
 import React from 'react';
 import Pregunta from '../atoms/Pregunta';
 
-const SeccionEvaluacionProfesor = ({
-  seccion,
-  profesor,
-  handleRespuestasChange,
-}) => {
+const SeccionEvaluacionProfesor = ({ seccion, profesor }) => {
   return (
     <div>
       <h3>{seccion.seccion}</h3>
@@ -16,7 +12,6 @@ const SeccionEvaluacionProfesor = ({
             key={pregunta.key}
             pregunta={pregunta}
             respuestaValue={profesor.respuestas.selects[pregunta.key]}
-            handleRespuestasChange={handleRespuestasChange}
             profesor={profesor}
           />
         ))}
@@ -37,7 +32,6 @@ const SeccionEvaluacionProfesor = ({
                         ? profesor.respuestas?.textAreas?.[pregunta.key]
                         : profesor.respuestas?.selects?.[pregunta.key]
                     }
-                    handleRespuestasChange={handleRespuestasChange}
                     profesor={profesor}
                   />
                 ))}
