@@ -98,9 +98,17 @@ const EvaluacionProfesor = ({ profesor }) => {
               ))}
             </CardContent>
             <CardActions>
-              <Button position="right" onClick={handleClose} size="small">
-                Terminar evaluación
-              </Button>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'flex-end',
+                }}
+              >
+                <Button variant="contained" onClick={handleClose}>
+                  Terminar evaluación
+                </Button>
+              </Box>
             </CardActions>
           </Card>
         </Box>
