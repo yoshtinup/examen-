@@ -3,15 +3,9 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Alert from '@mui/material/Alert';
-import {
-  DropdownButton,
-  DropdownContainer,
-  TextContainer,
-  DropdownList,
-  DropdownListItem,
-} from './Styles';
+import { TextContainer } from './Styles';
 import { planeacionState } from '@modules/evaluaciondocente/recoil/planeacionState';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 const opcionesEvaluacion = [
   { key: 0, text: '' },
@@ -22,34 +16,34 @@ const opcionesEvaluacion = [
   { key: 1, text: 'Muy mal, Muy insatisfecho/a' },
 ];
 
-const PlanValoration = ({ id, text, required, error }) => {
+const PlanValoration = ({ pregunta, respuestaValue }) => {
   const [selectedOption, setSelectedOption] = useRecoilState(planeacionState);
   const [valido, setValido] = useState(true);
- 
-  const handleChange = (e, child) => {
-    setSelectedOption({...selectedOption,[child.props.parent]: e.target.value});
-    console.log(child.props.parent);
-    console.log(e.target.value);
-   
+
+  const handleChange = e => {
+    setSelectedOption({
+      ...selectedOption,
+      [e.target.name]: e.target.value,
+    });
     setValido(e.target.value !== 0);
-    console.log(valido);
-  }
+  };
 
   return (
-    <div key={id}>
-      <FormControl 
-      fullWidth>
-      <TextContainer> {text} </TextContainer>
-      <Select
-        id= {id}
-        value={selectedOption.text}
-        onChange={handleChange}
-        required={required}
-        displayEmpty
-        inputProps={{ 'aria-label': 'Without label' }}
-      >
-        {opcionesEvaluacion.map(oeval => <MenuItem parent={id} value={oeval.key}>{oeval.text}</MenuItem>)}
-      </Select>
+    <div key={pregunta.id}>
+      <FormControl fullWidth>
+        <TextContainer> {pregunta.text} </TextContainer>
+        <Select
+          name={pregunta.id}
+          value={!respuestaValue ? 0 : respuestaValue}
+          onChange={handleChange}
+          required={pregunta.required}
+        >
+          {opcionesEvaluacion.map(opcion => (
+            <MenuItem key={opcion.key} value={opcion.key}>
+              {opcion.text}
+            </MenuItem>
+          ))}
+        </Select>
       </FormControl>
       {!valido && (
         <Alert variant="filled" severity="warning">
@@ -57,7 +51,6 @@ const PlanValoration = ({ id, text, required, error }) => {
         </Alert>
       )}
     </div>
-    
   );
 };
 

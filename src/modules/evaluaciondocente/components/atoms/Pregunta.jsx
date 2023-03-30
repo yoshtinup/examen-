@@ -9,7 +9,6 @@ const Pregunta = ({ pregunta, respuestaValue, profesor }) => {
   const [valido, setValido] = useState(true);
 
   const handleSelectChange = event => {
-    console.log(event.target);
     setProfesores(prevProfesores =>
       prevProfesores.map(prof => {
         if (prof.idProfesores === profesor.idProfesores) {
@@ -64,6 +63,7 @@ const Pregunta = ({ pregunta, respuestaValue, profesor }) => {
             onChange={handleTextAreaChange}
             key={pregunta.id}
             style={{ minWidth: '70%' }}
+            required={pregunta.required}
           ></textarea>
         ) : (
           <FormControl sx={{ m: 1, minWidth: 300 }}>
@@ -71,6 +71,7 @@ const Pregunta = ({ pregunta, respuestaValue, profesor }) => {
               name={pregunta.id}
               value={!respuestaValue ? 0 : respuestaValue}
               onChange={handleSelectChange}
+              required={pregunta.required}
             >
               {opcionesEvaluacion.map(opcion => (
                 <MenuItem key={opcion.key} value={opcion.key}>
