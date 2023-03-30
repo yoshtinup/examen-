@@ -8,7 +8,7 @@ const opcionesEvaluacion = [
   { key: 2, text: 'Mal, Poco satisfecho/a' },
   { key: 1, text: 'Muy mal, Muy insatisfecho/a' },
 ];
-
+//cons
 const SelectControl = memo(
   ({ item, state = {}, handleChange = null, id = 0, msgError }) => {
     const idElemento = id.toString();

@@ -242,7 +242,7 @@ export const preguntasEvaluacionADocentes = [
     ],
   },
 ];
-
+//ss
 export const opcionesEvaluacion = [
   { key: 0, text: '' },
   { key: 5, text: 'Bastante bien, Muy satisfecho/a' },
