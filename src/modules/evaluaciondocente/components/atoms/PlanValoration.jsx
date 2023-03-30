@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Alert from '@mui/material/Alert';
 import {
   DropdownButton,
   DropdownContainer,
@@ -9,7 +11,7 @@ import {
   DropdownListItem,
 } from './Styles';
 import { planeacionState } from '@modules/evaluaciondocente/recoil/planeacionState';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
 const opcionesEvaluacion = [
   { key: 0, text: '' },
@@ -21,32 +23,41 @@ const opcionesEvaluacion = [
 ];
 
 const PlanValoration = ({ id, text, required, error }) => {
-  const [localError, setLocalError] = useState(error);
   const [selectedOption, setSelectedOption] = useRecoilState(planeacionState);
-
+  const [valido, setValido] = useState(true);
+ 
   const handleChange = (e, child) => {
     setSelectedOption({...selectedOption,[child.props.parent]: e.target.value});
+    console.log(child.props.parent);
+    console.log(e.target.value);
+   
+    setValido(e.target.value !== 0);
+    console.log(valido);
   }
 
   return (
-    <div>
+    <div key={id}>
+      <FormControl 
+      fullWidth>
       <TextContainer> {text} </TextContainer>
       <Select
         id= {id}
-        value={''}
+        value={selectedOption.text}
         onChange={handleChange}
+        required={required}
         displayEmpty
         inputProps={{ 'aria-label': 'Without label' }}
       >
         {opcionesEvaluacion.map(oeval => <MenuItem parent={id} value={oeval.key}>{oeval.text}</MenuItem>)}
       </Select>
-      {(localError || error) && (
-        <Alert variant="filled" severity="error">
-          {localError}&nbsp;
-          {error ? error : ''}
+      </FormControl>
+      {!valido && (
+        <Alert variant="filled" severity="warning">
+          La pregunta no puede quedar vacia.
         </Alert>
       )}
     </div>
+    
   );
 };
 

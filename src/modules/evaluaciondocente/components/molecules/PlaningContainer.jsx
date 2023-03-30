@@ -7,22 +7,14 @@ const PlaningContainer = ({error}) => {
     <>
       <TextBlue>Planeación o planificación</TextBlue>
       <TextContainer> {Text_Planing} </TextContainer>
-      {PlaneacionQuestions.map(plan => {
-        const inputErrorMesssage = '';
-        // if (error.length > 0) {
-        //   const inputError = error.find(
-        //     x =>
-        //       x.error.toLowerCase().includes(plan.id.toLocaleLowerCase()) ===
-        //       true
-        //   );
-        //   inputErrorMesssage = inputError ? inputError.message : null;
-        // }
+      {PlaneacionQuestions.map(val => {
         return(
          <PlanValoration
-         id={plan.id}
-         text={plan.text}
-         required={plan.required}
-         error={inputErrorMesssage ? inputErrorMesssage : null}/>
+         key={val.id}
+         id={val.id}
+         text={val.text}
+         required={val.required}
+         />
         );
       })}
     </>
