@@ -5,10 +5,11 @@ import { useRecoilState } from 'recoil';
 import { profesoresState } from '@modules/evaluaciondocente/recoil/profesoresState';
 
 const Pregunta = ({ pregunta, respuestaValue, profesor }) => {
-  const [profesores, setProfesores] = useRecoilState(profesoresState);
+  const [_, setProfesores] = useRecoilState(profesoresState);
   const [valido, setValido] = useState(true);
 
   const handleSelectChange = event => {
+    console.log(event.target);
     setProfesores(prevProfesores =>
       prevProfesores.map(prof => {
         if (prof.idProfesores === profesor.idProfesores) {
@@ -58,16 +59,16 @@ const Pregunta = ({ pregunta, respuestaValue, profesor }) => {
           <textarea
             className="form-control"
             rows="5"
-            name={pregunta.key}
+            name={pregunta.id}
             value={!respuestaValue ? '' : respuestaValue}
             onChange={handleTextAreaChange}
-            key={pregunta.key}
+            key={pregunta.id}
             style={{ minWidth: '70%' }}
           ></textarea>
         ) : (
           <FormControl sx={{ m: 1, minWidth: 300 }}>
             <Select
-              name={pregunta.key}
+              name={pregunta.id}
               value={!respuestaValue ? 0 : respuestaValue}
               onChange={handleSelectChange}
             >
