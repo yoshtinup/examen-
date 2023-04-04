@@ -152,9 +152,9 @@ export interface Actividades {
   tienePublicaciones: boolean,
   congresosEliminados: number[],
   estanciasEliminadas: number[],
-  cusrosExternosEliminados: [],
+  cursosExternosEliminados: number[],
   publicacionesEliminadas: number[],
-  actividadesEliminadas: [],
+  actividadesEliminadas: number[],
   idAlumnoMaterias: number
 
 }

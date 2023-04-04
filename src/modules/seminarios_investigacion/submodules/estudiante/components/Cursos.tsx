@@ -96,6 +96,8 @@ export default props => {
   };
 
   const handleFechaInicio = fecha => {
+    console.log("changef1", moment(fecha).format('yyyy-MM-DD'))
+
     setCurso({
       ...curso,
       fechaInicio: fecha,
@@ -108,6 +110,7 @@ export default props => {
   };
 
   const handleFechaConclusion = fecha => {
+    console.log("changef2", moment(fecha).format('yyyy-MM-DD'))
     setCurso({
       ...curso,
       fechaConclusion: fecha,
@@ -135,8 +138,8 @@ export default props => {
     const updatedCurso = Object.assign({}, curso, {
       ...curso,
       // fechaInicio: moment(curso.fechaInicio).format('DD-MM-yyyy'),
-      fechaInicio: moment(curso.fechaInicio).format('yyyy'),
-      fechaConclusion: moment(curso.fechaConclusion).format('yyyy'),
+      fechaInicio: moment(curso.fechaInicio).format('yyyy-MM-DD'),
+      fechaConclusion: moment(curso.fechaConclusion).format('yyyy-MM-DD'),
       id: 0,
       key: idRandom,
     });
@@ -208,9 +211,10 @@ export default props => {
                           value={curso.fechaInicio}
                           label={texto.tabs.tabCursos.form.fechaInicio.label}
                           onChange={fecha => handleFechaInicio(fecha)}
+                          // onChange={fecha => console.log(moment(fecha).format('yyyy-MM-DD'))}
                           renderInput={params => <TextField {...params} />}
-                          // inputFormat="YYYY-MM-DD"
-                          // views={["year", "month", "day"]}
+                          inputFormat="YYYY-MM-DD"
+                          views={["year", "month", "day"]}
                         />
                       </LocalizationProvider>
                     </FormControl>
@@ -224,9 +228,10 @@ export default props => {
                             texto.tabs.tabCursos.form.fechaConclusion.label
                           }
                           onChange={fecha => handleFechaConclusion(fecha)}
+                          // onChange={fecha => console.log(fecha)}
                           renderInput={params => <TextField {...params} />}
-                          // inputFormat="YYYY-MM-DD"
-                          // views={["year", "month", "day"]}
+                          inputFormat="YYYY-MM-DD"
+                          views={["year", "month", "day"]}
                         />
                       </LocalizationProvider>
                     </FormControl>

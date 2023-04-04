@@ -12,12 +12,15 @@ import {
   Select,
   Button,
 } from '@mui/material';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import NoDataOnTable from './NoDataOnTable';
 import { texto } from './TextoInterfaces';
-
-import { useSetRecoilState } from 'recoil';
+import DoneIcon from '@mui/icons-material/Done';
+import { useSetRecoilState, useRecoilState } from 'recoil';
 import { actividadesState } from 'pages/seminarios_investigacion/store/actividadesState';
 import { DatosActividad } from '../types';
+import Swal from 'sweetalert2';
+
 import axios from 'axios'
 /* import { agregarActividad } from 'actions/seminario-investigacion' */
 /* import { cronogramaBase64 } from './cronograma' */
@@ -34,7 +37,9 @@ const MenuProps = {
 };
 
 export default props => {
+  const [actividadesList, setActividadesList] = useRecoilState(actividadesState)
   const setActividadState = useSetRecoilState(actividadesState)
+  // const setActividadState = useSetRecoilState(actState);
   
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -106,6 +111,44 @@ export default props => {
 
   const showModal = () => setModalVisible(true);
   const handleCancel = () => setModalVisible(false);
+  const handleClickRow = (id: number, key: number) => {
+    console.log("actividadid", id)
+    /* router.push(`/consejo_tutelar/${matricula}`); */
+    
+    Swal.fire({
+      title: '¿Deseas eliminar esta actividad?',
+      // text: "Confirmalo!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Eliminar'
+    }).then((result) => {
+      if(id!== 0){
+        setActividadState( actividadState => ({
+          ...actividadState,
+          actividadesEliminadas: [
+            ...actividadState.actividadesEliminadas, id
+          ]
+        }))
+      }
+      if (result.isConfirmed) {
+        setActividadesList((prev) => ({
+          ...prev,
+          datosActividades: prev.datosActividades.filter(dato => dato.key !== key),
+        }))
+        Swal.fire(
+          'Eliminado!',
+          'Congreso Eliminado Localmente.',
+          'success'
+        )
+      }
+    })
+    // console.log("estadoTabla", actividadesList.datosCongreso)
+    // let datosCongresoN = actividadesList.datosCongreso.filter(num => num.key !== matricula);
+    // console.log(datosCongresoN); 
+    
+  };
 
   useEffect(() => {
     formValid(actividad, mes);
@@ -224,24 +267,24 @@ export default props => {
                     <tr key={index * 0.2}>
                       <td>{actividad.actividad}</td>
                       <td className="actividades">
-                        {actividad.meses.includes('1') && <div />}
+                        {actividad.meses.includes('1') ? <DoneIcon/> : "" }
                       </td>
                       <td className="actividades">
-                        {actividad.meses.includes('2') && <div />}
+                        {actividad.meses.includes('2') ? <DoneIcon/> : ""}
                       </td>
                       <td className="actividades">
-                        {actividad.meses.includes('3') && <div />}
+                        {actividad.meses.includes('3') ? <DoneIcon/> : ""}
                       </td>
                       <td className="actividades">
-                        {actividad.meses.includes('4') && <div />}
+                        {actividad.meses.includes('4') ? <DoneIcon/> : ""}
                       </td>
                       <td className="actividades">
-                        {actividad.meses.includes('5') && <div />}
+                        {actividad.meses.includes('5') ? <DoneIcon/> : ""}
                       </td>
                       <td className="actividades">
-                        {actividad.meses.includes('6') && <div />}
+                        {actividad.meses.includes('6') ? <DoneIcon/> : ""}
                       </td>
-                      {props.estatus.id === 1 && (
+                      {props.estatus === 1 && (
                         <td>
                           {/*   <Popconfirm
                             title={`¿Eliminar actividad?`}
@@ -257,6 +300,15 @@ export default props => {
                               }
                             </button>
                           </Popconfirm> */}
+                          <Button
+                            variant="contained"
+                            color="success"
+                            size="small"
+                            startIcon={<AccountBoxIcon />}
+                            onClick={()=> {handleClickRow(actividad.id, actividad.key)}}
+                          >
+                            Eliminar
+                          </Button>
                         </td>
                       )}
                     </tr>

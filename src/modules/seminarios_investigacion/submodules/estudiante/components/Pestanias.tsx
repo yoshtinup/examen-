@@ -7,15 +7,19 @@ import Publicaciones from './Publicaciones';
 import { useRecoilValue } from 'recoil';
 import { userStateAtom } from '@modules/auth/recoil';
 import { EcosurAuth } from '@modules/auth/definitions';
-
+import Cookies from 'js-cookie';
+import { jwtVerify } from 'jose';
 import Congresos from './Congresos';
 import Estancias from './Estancias';
 import Cursos from './Cursos';
+import { getIdClavePrograma } from './funcionesGeneral';
+
 
 import Actividades from './Actividades';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
+
   
   return (
     <div
@@ -48,14 +52,24 @@ function a11yProps(index) {
   };
 }
 
+
 export default props => {
   /*const user: EcosurAuth = useRecoilValue(userStateAtom);
   const idPrograma = user.estudiante?.clavePrograma;
   */
 
+  const [idClavePrograma, setIdClavePorgrama] = useState(0);
+
   console.log("Mis props en pestanias")
   console.log(props)
+  getIdClavePrograma().then((r)=>{
+    console.log("respuesta",r)
+    setIdClavePorgrama(r)
+  })
+
+  
   const idPrograma = 1;
+  
   const [tab, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -90,12 +104,12 @@ export default props => {
                 label={texto.tabs.tabPublicaciones.titulo}
                 {...a11yProps(3)}
               />
-              {/* {idPrograma === 2 && ( */}
+              {idClavePrograma === 1 && (
                 <Tab
                   label={texto.tabs.tabActividades.titulo}
                   {...a11yProps(4)}
                 />
-             {/*  )} */}
+              )}
             </Tabs>
           </AppBar>
           {
@@ -142,15 +156,15 @@ export default props => {
             />
           </TabPanel>
 
-          {/* {idPrograma === 2 && ( */}
-          <TabPanel value={tab} index={4}>
-            <Actividades
-              datosActividades={props.datosActividades}
-              removerActividad={props.removerActividad}
-              estatus={props.estatus}
-            />
-          </TabPanel>
-          {/*  )} */}
+          { idClavePrograma === 1 && (
+            <TabPanel value={tab} index={4}>
+              <Actividades
+                datosActividades={props.datosActividades}
+                removerActividad={props.removerActividad}
+                estatus={props.estatus}
+              />
+            </TabPanel>
+          )}
         </Grid>
       </Grid>
     </div>
