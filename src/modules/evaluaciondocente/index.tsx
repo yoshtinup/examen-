@@ -24,7 +24,7 @@ import { useRouter } from 'next/router';
 
 const EvaluacionDocente = () => {
   const router = useRouter();
-  console.log(router.query.idMateriasOfertaAnual);
+  //console.log(router.query.idMateriasOfertaAnual);
   const materia = useRecoilValue(materiaState);
   const planeacionDelCurso = useRecoilValue(planeacionState);
   const valoracionDelCurso = useRecoilValue(valoracionState);
