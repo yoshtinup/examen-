@@ -20,8 +20,11 @@ import { useState } from 'react';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import { Box } from '@mui/material';
+import { useRouter } from 'next/router';
 
 const EvaluacionDocente = () => {
+  const router = useRouter();
+  console.log(router.query.idMateriasOfertaAnual);
   const materia = useRecoilValue(materiaState);
   const planeacionDelCurso = useRecoilValue(planeacionState);
   const valoracionDelCurso = useRecoilValue(valoracionState);
@@ -29,14 +32,18 @@ const EvaluacionDocente = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState([]);
 
+  const idMateria = router.query.idMateriasOfertaAnual;
+
   const handleSend = async () => {
     setIsLoading(true);
     const data: Actividades = {
-      idMateriasOfertaAnual: materia.idMateriasOfertaAnual,
+      idMateriasOfertaAnual: parseInt(idMateria.toString()),
       planeacionDelCurso,
       valoracionDelCurso,
       profesores,
     };
+    console.log(data);
+    console.log(materia);
 
     const resultado = await EvaluacionDocenteQuerys.sendEvaluacion(data);
     if (resultado.status == 400) {

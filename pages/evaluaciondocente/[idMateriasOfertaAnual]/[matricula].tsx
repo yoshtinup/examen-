@@ -14,7 +14,7 @@ import { profesoresState } from '@modules/evaluaciondocente/recoil/profesoresSta
 
 const PageData = () => {
   const router = useRouter();
-  console.log(router.query.idMateriasOfertaAnual);
+  //console.log(router.query.idMateriasOfertaAnual);
   const [profesores, setProfesores] = useRecoilState(profesoresState);
   const [materia, setMateria] = useState<DatosMateria>({
     idMateriasOfertaAnual: 0,
@@ -24,7 +24,7 @@ const PageData = () => {
   const idMateria = router.query.idMateriasOfertaAnual;
 
   const obtenerDatos = async idMateriasOfertaAnual => {
-    console.log('router.query.idMateriasOfertaAnual', idMateriasOfertaAnual);
+    //console.log('router.query.idMateriasOfertaAnual', idMateriasOfertaAnual);
     const resultado = await EvaluacionDocenteQuerys.getObtenerDatos(
       idMateriasOfertaAnual
     );
@@ -40,6 +40,10 @@ const PageData = () => {
       obtenerDatos(idMateria);
     }
   }, [idMateria]);
+
+  useEffect(()=>{
+    console.log(materia);
+  },[materia]);
 
   return (
     <Container maxWidth="xl" style={{ paddingTop: '30px' }}>

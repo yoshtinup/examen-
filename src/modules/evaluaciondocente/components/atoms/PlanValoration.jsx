@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Alert from '@mui/material/Alert';
+import { MenuItem, Select, FormControl, Alert } from '@mui/material';
 import {
   DropdownButton,
   DropdownContainer,
@@ -24,15 +21,18 @@ const opcionesEvaluacion = [
 
 const PlanValoration = ({ id, text, required, error }) => {
   const [selectedOption, setSelectedOption] = useRecoilState(planeacionState);
-  const [valido, setValido] = useState(true);
+  const [localError, setLocalError] = useState(true);
  
   const handleChange = (e, child) => {
+    // if (e.target.value === 0) {
+    //   setLocalError('Respuesta requerida');
+    // }
     setSelectedOption({...selectedOption,[child.props.parent]: e.target.value});
-    console.log(child.props.parent);
-    console.log(e.target.value);
+    //console.log(child.props.parent);
+    //console.log(e.target.value);
    
-    setValido(e.target.value !== 0);
-    console.log(valido);
+    setLocalError(e.target.value !== 0);
+    //console.log(localError);
   }
 
   return (
@@ -51,8 +51,9 @@ const PlanValoration = ({ id, text, required, error }) => {
         {opcionesEvaluacion.map(oeval => <MenuItem parent={id} value={oeval.key}>{oeval.text}</MenuItem>)}
       </Select>
       </FormControl>
-      {!valido && (
+      {!localError && (
         <Alert variant="filled" severity="warning">
+          {' '}
           La pregunta no puede quedar vacia.
         </Alert>
       )}
