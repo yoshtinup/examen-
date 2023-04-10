@@ -5,7 +5,6 @@ import { useRecoilValue } from 'recoil';
 import { Grid } from '@mui/material';
 const ProfesoresContainer = () => {
   const profesores = useRecoilValue(profesoresState);
-  console.log(profesores);
   return (
     <Grid container spacing={2}>
       {profesores.map(profesor => (

@@ -9,9 +9,9 @@ const SeccionEvaluacionProfesor = ({ seccion, profesor }) => {
       {seccion.preguntas &&
         seccion.preguntas.map(pregunta => (
           <Pregunta
-            key={pregunta.key}
+            key={pregunta.id}
             pregunta={pregunta}
-            respuestaValue={profesor.respuestas.selects[pregunta.key]}
+            respuestaValue={profesor.respuestas.selects[pregunta.id]}
             profesor={profesor}
           />
         ))}
@@ -25,12 +25,12 @@ const SeccionEvaluacionProfesor = ({ seccion, profesor }) => {
               <div>
                 {subseccion.preguntas.map(pregunta => (
                   <Pregunta
-                    key={pregunta.key}
+                    key={pregunta.id}
                     pregunta={pregunta}
                     respuestaValue={
                       pregunta.type === 'textArea'
-                        ? profesor.respuestas?.textAreas?.[pregunta.key]
-                        : profesor.respuestas?.selects?.[pregunta.key]
+                        ? profesor.respuestas?.textAreas?.[pregunta.id]
+                        : profesor.respuestas?.selects?.[pregunta.id]
                     }
                     profesor={profesor}
                   />

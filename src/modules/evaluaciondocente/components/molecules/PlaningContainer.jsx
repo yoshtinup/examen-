@@ -1,6 +1,6 @@
-import React from "react";
-import { TextBlue, TextContainer } from "../atoms/Styles";
-import { PlaneacionQuestions, Text_Planing } from "../atoms/Text";
+import React from 'react';
+import { TextBlue, TextContainer } from '../atoms/Styles';
+import { PlaneacionQuestions, Text_Planing } from '../atoms/Text';
 import PlanValoration from '../atoms/PlanValoration';
 const PlaningContainer = ({error}) => {
   //console.log(error);

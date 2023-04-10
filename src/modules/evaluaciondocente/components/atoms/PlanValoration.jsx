@@ -8,7 +8,7 @@ import {
   DropdownListItem,
 } from './Styles';
 import { planeacionState } from '@modules/evaluaciondocente/recoil/planeacionState';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 const opcionesEvaluacion = [
   { key: 0, text: '' },
@@ -19,7 +19,7 @@ const opcionesEvaluacion = [
   { key: 1, text: 'Muy mal, Muy insatisfecho/a' },
 ];
 
-const PlanValoration = ({ id, text, required, error }) => {
+const PlanValoration = ({ pregunta, respuestaValue }) => {
   const [selectedOption, setSelectedOption] = useRecoilState(planeacionState);
   const [localError, setLocalError] = useState(true);
  
@@ -36,20 +36,21 @@ const PlanValoration = ({ id, text, required, error }) => {
   }
 
   return (
-    <div key={id}>
-      <FormControl 
-      fullWidth>
-      <TextContainer> {text} </TextContainer>
-      <Select
-        id= {id}
-        value={selectedOption.text}
-        onChange={handleChange}
-        required={required}
-        displayEmpty
-        inputProps={{ 'aria-label': 'Without label' }}
-      >
-        {opcionesEvaluacion.map(oeval => <MenuItem parent={id} value={oeval.key}>{oeval.text}</MenuItem>)}
-      </Select>
+    <div key={pregunta.id}>
+      <FormControl fullWidth>
+        <TextContainer> {pregunta.text} </TextContainer>
+        <Select
+          name={pregunta.id}
+          value={!respuestaValue ? 0 : respuestaValue}
+          onChange={handleChange}
+          required={pregunta.required}
+        >
+          {opcionesEvaluacion.map(opcion => (
+            <MenuItem key={opcion.key} value={opcion.key}>
+              {opcion.text}
+            </MenuItem>
+          ))}
+        </Select>
       </FormControl>
       {!localError && (
         <Alert variant="filled" severity="warning">
@@ -58,7 +59,6 @@ const PlanValoration = ({ id, text, required, error }) => {
         </Alert>
       )}
     </div>
-    
   );
 };
 
