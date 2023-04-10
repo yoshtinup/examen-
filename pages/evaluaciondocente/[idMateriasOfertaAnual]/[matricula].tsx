@@ -24,7 +24,6 @@ const PageData = () => {
   const idMateria = router.query.idMateriasOfertaAnual;
 
   const obtenerDatos = async idMateriasOfertaAnual => {
-    console.log('router.query.idMateriasOfertaAnual', idMateriasOfertaAnual);
     const resultado = await EvaluacionDocenteQuerys.getObtenerDatos(
       idMateriasOfertaAnual
     );
