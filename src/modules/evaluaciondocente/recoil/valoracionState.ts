@@ -3,5 +3,8 @@ import { ValoracionDelCurso } from '@modules/evaluaciondocente/types/evaluacionS
 
 export const valoracionState = atom({
   key: 'valoracionState',
-  default: {} as ValoracionDelCurso,
+  default: {
+    valoracion_P_1: '',
+    valoracion_P_2: '',
+  } as ValoracionDelCurso,
 });
