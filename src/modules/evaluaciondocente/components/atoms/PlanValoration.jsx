@@ -8,15 +8,7 @@ import {
 } from '@mui/material';
 import { planeacionState } from '@modules/evaluaciondocente/recoil/planeacionState';
 import { useRecoilState } from 'recoil';
-
-const opcionesEvaluacion = [
-  { key: 0, text: '' },
-  { key: 5, text: 'Bastante bien, Muy satisfecho/a' },
-  { key: 4, text: 'Bien, Bastante satisfecho/a' },
-  { key: 3, text: 'Regular, Satisfecho/a' },
-  { key: 2, text: 'Mal, Poco satisfecho/a' },
-  { key: 1, text: 'Muy mal, Muy insatisfecho/a' },
-];
+import { opcionesEvaluacion } from './Text';
 
 const PlanValoration = ({ id, text, required }) => {
   const [selectedOption, setSelectedOption] = useRecoilState(planeacionState);
