@@ -1,9 +1,6 @@
 import { Home } from './components';
 import { WithRol } from '@shared/hooks';
 import Roles from '@definitions/Roles';
-import Introduction from './components/atoms/Introduction';
-import SubjectInf from './components/atoms/SubjectInf';
-import Title from './components/atoms/Title';
 import ProfesoresContainer from './components/molecules/ProfesoresContainer';
 import PlaningContainer from './components/molecules/PlaningContainer';
 import ValdocContainer from './components/molecules/ValdocContainer';
@@ -31,7 +28,6 @@ import { preguntasEvaluacionADocentes } from './components/atoms/Text';
 
 const EvaluacionDocente = () => {
   const router = useRouter();
-  //console.log(router.query.idMateriasOfertaAnual);
   const materia = useRecoilValue(materiaState);
   const planeacionDelCurso = useRecoilValue(planeacionState);
   const valoracionDelCurso = useRecoilValue(valoracionState);
@@ -139,10 +135,6 @@ const EvaluacionDocente = () => {
   return (
     <>
       <HomePage />
-      <Title />
-      <br />
-      <SubjectInf />
-      <Introduction />
       <PlaningContainer />
       <ValorationContainer error={error} />
       <ValdocContainer />

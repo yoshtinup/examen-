@@ -56,7 +56,6 @@ const Pregunta = ({ pregunta, respuestaValue, profesor }) => {
     setValido(event.target.value.trim() !== '');
   };
 
-  console.log('respuestaValue', respuestaValue);
   return (
     <>
       <Typography>

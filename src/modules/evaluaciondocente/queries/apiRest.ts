@@ -6,7 +6,6 @@ class EvaluacionDocenteQuerys extends ApiQuerys {
     const datosMateria = await this.api<{ data: DatosMateria }>(
       `obtenerDatos?idMateriasOfertaAnual=${idMateriasOfertaAnual}`
     );
-    console.log('Materia:', datosMateria);
     return datosMateria;
   }
 

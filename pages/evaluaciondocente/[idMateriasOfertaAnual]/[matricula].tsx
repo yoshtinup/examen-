@@ -3,13 +3,10 @@ import { HeaderSection } from '@shared/components';
 import { Layout } from '@shared/components/layouts';
 import EvaluacionDocente from '@modules/evaluaciondocente';
 import { useEffect, useState, ReactElement } from 'react';
-import {
-  DatosMateria,
-  Profesor,
-} from '@modules/evaluaciondocente/types/evaluacionState';
+import { DatosMateria } from '@modules/evaluaciondocente/types/evaluacionState';
 import { useRouter } from 'next/router';
 import EvaluacionDocenteQuerys from '@modules/evaluaciondocente/queries/apiRest';
-import { useRecoilState, useSetRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { profesoresState } from '@modules/evaluaciondocente/recoil/profesoresState';
 
 const PageData = () => {
@@ -43,12 +40,7 @@ const PageData = () => {
   return (
     <Container maxWidth="xl" style={{ paddingTop: '30px' }}>
       <HeaderSection label="EVALUACIÓN DOCENTE" />
-      <Box
-        display="column"
-        alignItems="center"
-        justifyContent="center"
-        style={{ padding: '30px !important', backgroundColor: '#fff' }}
-      >
+      <Box display="column" sx={{ p: 2 }} style={{ backgroundColor: '#fff' }}>
         {materia && (
           <div>
             <h3>Asignatura: {materia.nombre}</h3>
