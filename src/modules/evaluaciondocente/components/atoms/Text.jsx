@@ -16,20 +16,20 @@
 // a la Ley General de Proteccion de Datos en posesion de Sujetos Obligados vigente. Si esta de acuerdo
 // inicia el formulario  `;
 
-export const Text_Instruction = `1. Lee atentamente los enunciados y selecciona la opcion de  
-evaluacion que consideres correspondiente a la asignatura y al desempeño del personal docente `;
+// export const Text_Instruction = `1. Lee atentamente los enunciados y selecciona la opcion de  
+// evaluacion que consideres correspondiente a la asignatura y al desempeño del personal docente `;
 
-export const Text_Instruction2 = `2. Haga clic en el boton "Enviar evaluacion". Una vez
-enviada no podra modificarla. Todos los campos deben ser contestados para enviar su evaluacion`;
+// export const Text_Instruction2 = `2. Haga clic en el boton "Enviar evaluacion". Una vez
+// enviada no podra modificarla. Todos los campos deben ser contestados para enviar su evaluacion`;
 
 export const Text_Planing = `Habilidad para preparar y ejecutar la asignatura. Con base
-en los contenidos, participacion del personal docente, y características del grupo de 
+en los contenidos, participación del personal docente, y características del grupo de 
 estudiantes.`;
 
 export const PlaneacionQuestions = [
   {
     id: 'p_I_1',
-    text: 'El programa de la asignatura (objetivos, contenidos, organizacion, actividadesde aprendizaje, criterios de evaluacion del aprendizaje, fuentes de informacion) se presenta, acuerda y entrega, en la primera sesion',
+    text: 'El programa de la asignatura (objetivos, contenidos, organización, actividades de aprendizaje, criterios de evaluación del aprendizaje, fuentes de información) se presenta, acuerda y entrega, en la primera sesión',
     required: true,
   },
   {
@@ -52,17 +52,17 @@ export const PlaneacionQuestions = [
 export const ValoracionQuestions = [
   {
     id: 'valoracion_P_1',
-    text: 'Emite una opinion general sobre la asignatura y da una recomendacion para su mejora',
+    text: 'Emite una opinión general sobre la asignatura y da una recomendación para su mejora',
     required: true,
   },
   {
     id: 'valoracion_P_2',
-    text: '¿Qué fue lo que mas te gusto de la asignatura?',
+    text: '¿Qué fue lo que más te gustó de la asignatura?',
     required: true,
   },
   {
     id: 'valoracion_P_3',
-    text: '¿Qué aspecto de la asignatura cambiarias?',
+    text: '¿Qué aspecto de la asignatura cambiarías?',
     required: false,
   },
 ];
@@ -242,7 +242,7 @@ export const preguntasEvaluacionADocentes = [
     ],
   },
 ];
-//ss
+
 export const opcionesEvaluacion = [
   { key: 0, text: '' },
   { key: 5, text: 'Bastante bien, Muy satisfecho/a' },

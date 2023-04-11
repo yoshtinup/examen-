@@ -8,7 +8,6 @@ import ProfesoresContainer from './components/molecules/ProfesoresContainer';
 import PlaningContainer from './components/molecules/PlaningContainer';
 import ValdocContainer from './components/molecules/ValdocContainer';
 import ValorationContainer from './components/molecules/ValorationContainer';
-const HomePage = WithRol(Roles.Estudiante)(Home);
 import EvaluacionDocenteQuerys from './queries/apiRest';
 import { Actividades } from './types/evaluacionState';
 import { useRecoilValue } from 'recoil';
@@ -21,6 +20,8 @@ import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import { Box } from '@mui/material';
 import { useRouter } from 'next/router';
+
+const HomePage = WithRol(Roles.Estudiante)(Home);
 
 const EvaluacionDocente = () => {
   const router = useRouter();
@@ -43,7 +44,7 @@ const EvaluacionDocente = () => {
       profesores,
     };
     console.log(data);
-    console.log(materia);
+    //console.log(materia);
 
     const resultado = await EvaluacionDocenteQuerys.sendEvaluacion(data);
     if (resultado.status == 400) {
