@@ -18,7 +18,7 @@ const SeccionEvaluacionProfesor = ({ seccion, profesor }) => {
       {seccion.subsection &&
         seccion.subsection.map(subseccion => {
           return (
-            <>
+            <div key={subseccion.key}>
               <p>
                 <b>{subseccion.descripcion}</b>
               </p>
@@ -36,7 +36,7 @@ const SeccionEvaluacionProfesor = ({ seccion, profesor }) => {
                   />
                 ))}
               </div>
-            </>
+            </div>
           );
         })}
     </div>
