@@ -43,7 +43,11 @@ const EvaluacionProfesor = ({ profesor }) => {
     Object.keys(profesor.respuestas.selects).length ==
       totalPreguntasEvaluacionDocente.totalSelect &&
     Object.keys(profesor.respuestas.textAreas).length ==
-      totalPreguntasEvaluacionDocente.totalTextArea
+      totalPreguntasEvaluacionDocente.totalTextArea &&
+    Object.values(profesor.respuestas.selects).filter(val => val !== 0)
+      .length == totalPreguntasEvaluacionDocente.totalSelect &&
+    Object.values(profesor.respuestas.textAreas).filter(val => val !== '')
+      .length == totalPreguntasEvaluacionDocente.totalTextArea
       ? true
       : false;
 
