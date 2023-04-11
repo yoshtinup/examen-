@@ -244,7 +244,7 @@ export const preguntasEvaluacionADocentes = [
 ];
 //ss
 export const opcionesEvaluacion = [
-  { key: 0, text: '' },
+  { key: 0, text: 'Seleccionar una opción' },
   { key: 5, text: 'Bastante bien, Muy satisfecho/a' },
   { key: 4, text: 'Bien, Bastante satisfecho/a' },
   { key: 3, text: 'Regular, Satisfecho/a' },
