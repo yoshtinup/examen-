@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { MenuItem, Select, FormControl, Alert } from '@mui/material';
+import {
+  MenuItem,
+  Select,
+  FormControl,
+  Alert,
+  Typography,
+} from '@mui/material';
 import { opcionesEvaluacion } from '../atoms/Text';
 import { useRecoilState } from 'recoil';
 import { profesoresState } from '@modules/evaluaciondocente/recoil/profesoresState';
@@ -50,9 +56,13 @@ const Pregunta = ({ pregunta, respuestaValue, profesor }) => {
     setValido(event.target.value.trim() !== '');
   };
 
+  console.log('respuestaValue', respuestaValue);
   return (
-    <div>
-      <label>{pregunta.text}</label>
+    <>
+      <Typography>
+        {pregunta.required ? <b style={{ color: 'red' }}>* </b> : ''}
+        {pregunta.text}
+      </Typography>
       <div>
         {pregunta.type === 'textArea' ? (
           <textarea
@@ -66,7 +76,7 @@ const Pregunta = ({ pregunta, respuestaValue, profesor }) => {
             required={pregunta.required}
           ></textarea>
         ) : (
-          <FormControl sx={{ m: 1, minWidth: 300 }}>
+          <FormControl key={pregunta.id} sx={{ m: 1, minWidth: 300 }}>
             <Select
               name={pregunta.id}
               value={!respuestaValue ? 0 : respuestaValue}
@@ -87,7 +97,7 @@ const Pregunta = ({ pregunta, respuestaValue, profesor }) => {
           La pregunta no puede quedar vacia.
         </Alert>
       )}
-    </div>
+    </>
   );
 };
 
