@@ -77,9 +77,3 @@ export interface ProfesorEvaluado {
   idProfesores: number;
   isEvaluado: boolean;
 }
-
-export interface ErroresEvaluacion
-  extends PlaneacionDelCurso,
-    ValoracionDelCurso {
-  profesoresValidos: [ProfesorEvaluado];
-}

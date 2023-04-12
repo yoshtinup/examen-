@@ -14,6 +14,9 @@ import {
   preguntasEvaluacionADocentes,
   totalPreguntasEvaluacionDocente,
 } from '../atoms/Text';
+import { useRecoilState } from 'recoil';
+import { profesoresState } from '@modules/evaluaciondocente/recoil/profesoresState';
+import Swal from 'sweetalert2';
 
 const style = {
   position: 'absolute',
@@ -31,10 +34,43 @@ const style = {
 
 const EvaluacionProfesor = ({ profesor }) => {
   const [mostrarModal, setMostrarModal] = useState(false);
+  const [profesores, setProfesores] = useRecoilState(profesoresState);
 
   const handleEvaluarClick = () => {
     setMostrarModal(true);
   };
+  const handleEliminarEvaluacion = () =>{
+    Swal.fire({
+      title: '¿Quiere eliminar la Evaluación?',
+      text: "No podrá recuperar la Evaluación",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Sí, quiero eliminarlo'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        console.log(profesor.idProfesores);
+        const profesoresFilter = profesores.map(profe=>{
+          if(profe.idProfesores == profesor.idProfesores){
+            const { respuestas, ...newProfesor } = profesor;
+            return newProfesor;
+          }
+          return profe;
+        })
+        setProfesores(profesoresFilter);
+        console.log(profesoresFilter);
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'La Evaluación fue eliminada',
+          showConfirmButton: true,
+        })
+      }
+    })
+  };
+
   const handleClose = () => setMostrarModal(false);
 
   const profesorEvaluado =
@@ -43,7 +79,11 @@ const EvaluacionProfesor = ({ profesor }) => {
     Object.keys(profesor.respuestas.selects).length ==
       totalPreguntasEvaluacionDocente.totalSelect &&
     Object.keys(profesor.respuestas.textAreas).length ==
-      totalPreguntasEvaluacionDocente.totalTextArea
+      totalPreguntasEvaluacionDocente.totalTextArea &&
+    Object.values(profesor.respuestas.selects).filter(val => val !== 0)
+      .length == totalPreguntasEvaluacionDocente.totalSelect &&
+    Object.values(profesor.respuestas.textAreas).filter(val => val !== '')
+      .length == totalPreguntasEvaluacionDocente.totalTextArea
       ? true
       : false;
 
@@ -67,6 +107,13 @@ const EvaluacionProfesor = ({ profesor }) => {
               color="info"
             >
               Evaluar
+            </Button>
+            <Button
+              onClick={handleEliminarEvaluacion}
+              variant="outlined"
+              color="info"
+            >
+              Eliminar
             </Button>
           </Box>
           {!profesorEvaluado && (

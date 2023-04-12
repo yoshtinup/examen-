@@ -1,23 +1,5 @@
-//export const Evaluation = "EVALUACION DOCENTE";
-
-// export const ThemeEvaluation = "Evolución y biosfera";
-
-// export const DOCENTES_TEXT =
-//   "Eduardo Suares Morales, Manuel Elias Gutierrez, Martha Elena Valdez Moreno";
-
-// export const Text_Introduction = `El cuestionario esta configurado por seis dimeciones
-// cuantitativas, que se realacionan con competencias docentes y al final una dimencion
-// cualitativa adicional para verter comentarios que completan la evaluacion. Las respuestas
-// son confidenciales y los resultados seran utilizados para fines de evaluacion por parte del
-// Comite de Evaluacion Docente. por lo tanto, el profesor o profesora evaluada no recivira los
-// resultados direactamente. solo el resultado por dimensiones, las respuestas a las valoraciones
-// y las recomendaciones que realice el comite. Toda la informacion y datos de aqui se presentan son
-// confidenciales y no podran ser difundidos en ningun medio ya sea impreso o digital de conformidad
-// a la Ley General de Proteccion de Datos en posesion de Sujetos Obligados vigente. Si esta de acuerdo
-// inicia el formulario  `;
-
-// export const Text_Instruction = `1. Lee atentamente los enunciados y selecciona la opcion de  
-// evaluacion que consideres correspondiente a la asignatura y al desempeño del personal docente `;
+export const Text_Instruction = `1. Lee atentamente los enunciados y selecciona la opcion de  
+evaluacion que consideres correspondiente a la asignatura y al desempeño del personal docente `;
 
 // export const Text_Instruction2 = `2. Haga clic en el boton "Enviar evaluacion". Una vez
 // enviada no podra modificarla. Todos los campos deben ser contestados para enviar su evaluacion`;
@@ -244,7 +226,7 @@ export const preguntasEvaluacionADocentes = [
 ];
 
 export const opcionesEvaluacion = [
-  { key: 0, text: '' },
+  { key: 0, text: 'Seleccionar una opción' },
   { key: 5, text: 'Bastante bien, Muy satisfecho/a' },
   { key: 4, text: 'Bien, Bastante satisfecho/a' },
   { key: 3, text: 'Regular, Satisfecho/a' },

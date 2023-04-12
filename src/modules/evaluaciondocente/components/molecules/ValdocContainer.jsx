@@ -6,7 +6,7 @@ const ValdocContainer = () => {
     <>
       <TextBlue>Evaluación de profesores</TextBlue>
       <TextContainer>
-        <b>Seleccione el profesor a evaluar:</b>
+        <b>Seleccione el/la docente a evaluar:</b>
       </TextContainer>
     </>
   );

@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { valoracionState } from '@modules/evaluaciondocente/recoil/valoracionState';
-import { Alert, TextField } from '@mui/material';
+import { Alert, TextField, Typography } from '@mui/material';
 import { useRecoilState } from 'recoil';
-import { TextContainer } from '../atoms/Styles';
 
 const TextValoration = ({ id, text, required, error }) => {
   const [valoracion, setValoracion] = useRecoilState(valoracionState);
@@ -16,7 +15,10 @@ const TextValoration = ({ id, text, required, error }) => {
 
   return (
     <div key={id}>
-      <TextContainer> {text} </TextContainer>
+      <Typography>
+        {required ? <b style={{ color: 'red' }}>* </b> : ''}
+        {text}
+      </Typography>
       <TextField
         id={id}
         multiline
