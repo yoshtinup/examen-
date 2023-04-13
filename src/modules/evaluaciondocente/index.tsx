@@ -20,7 +20,7 @@ import { profesoresState } from './recoil/profesoresState';
 import { useState } from 'react';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
-import { Box } from '@mui/material';
+import { Alert, Box } from '@mui/material';
 import { useRouter } from 'next/router';
 import Swal from 'sweetalert2';
 import { preguntasEvaluacionADocentes } from './components/atoms/Text';
@@ -29,12 +29,12 @@ const HomePage = WithRol(Roles.Estudiante)(Home);
 
 const EvaluacionDocente = () => {
   const router = useRouter();
-  const materia = useRecoilValue(materiaState);
   const planeacionDelCurso = useRecoilValue(planeacionState);
   const valoracionDelCurso = useRecoilValue(valoracionState);
   const profesores = useRecoilValue(profesoresState);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState([]);
+  const [successSending, setSuccessSending] = useState(false);
 
   const idMateria = router.query.idMateriasOfertaAnual;
 
@@ -66,8 +66,13 @@ const EvaluacionDocente = () => {
       });
       setError(mapError);
     }
-    Swal.fire(resultado.message);
-    setIsLoading(false);
+    resultado.message
+      ? Swal.fire(resultado.message)
+      : Swal.fire(resultado.errors[0]);
+
+    resultado.message ? setIsLoading(true) : setIsLoading(false);
+
+    resultado.message ? setSuccessSending(true) : setSuccessSending(false);
   };
 
   const checkIfPlenacionHasEmptyValues = (
@@ -158,6 +163,11 @@ const EvaluacionDocente = () => {
           >
             <span>Enviar evaluación</span>
           </Button>
+        )}
+        {successSending && (
+          <Alert variant="filled" severity="warning">
+            Su evaluación ha sido enviada
+          </Alert>
         )}
       </Box>
     </>

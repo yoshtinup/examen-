@@ -39,26 +39,26 @@ const EvaluacionProfesor = ({ profesor }) => {
   const handleEvaluarClick = () => {
     setMostrarModal(true);
   };
-  const handleEliminarEvaluacion = () =>{
+  const handleEliminarEvaluacion = () => {
     Swal.fire({
       title: '¿Quiere eliminar la Evaluación?',
-      text: "No podrá recuperar la Evaluación",
+      text: 'No podrá recuperar la Evaluación',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       cancelButtonText: 'Cancelar',
-      confirmButtonText: 'Sí, quiero eliminarlo'
-    }).then(async (result) => {
+      confirmButtonText: 'Sí, quiero eliminarlo',
+    }).then(async result => {
       if (result.isConfirmed) {
         console.log(profesor.idProfesores);
-        const profesoresFilter = profesores.map(profe=>{
-          if(profe.idProfesores == profesor.idProfesores){
+        const profesoresFilter = profesores.map(profe => {
+          if (profe.idProfesores == profesor.idProfesores) {
             const { respuestas, ...newProfesor } = profesor;
             return newProfesor;
           }
           return profe;
-        })
+        });
         setProfesores(profesoresFilter);
         console.log(profesoresFilter);
         Swal.fire({
@@ -66,9 +66,9 @@ const EvaluacionProfesor = ({ profesor }) => {
           icon: 'success',
           title: 'La Evaluación fue eliminada',
           showConfirmButton: true,
-        })
+        });
       }
-    })
+    });
   };
 
   const handleClose = () => setMostrarModal(false);
@@ -88,36 +88,24 @@ const EvaluacionProfesor = ({ profesor }) => {
       : false;
 
   return (
-    <Grid item xs={4}>
+    <Grid item xs={6}>
       <Card>
         <CardContent>
           <p>{profesor.name}</p>
         </CardContent>
         <CardActions>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'flex-end',
-            }}
+          <Button onClick={handleEvaluarClick} variant="contained" color="info">
+            Evaluar
+          </Button>
+          <Button
+            onClick={handleEliminarEvaluacion}
+            variant="outlined"
+            color="error"
           >
-            <Button
-              onClick={handleEvaluarClick}
-              variant="outlined"
-              color="info"
-            >
-              Evaluar
-            </Button>
-            <Button
-              onClick={handleEliminarEvaluacion}
-              variant="outlined"
-              color="info"
-            >
-              Eliminar
-            </Button>
-          </Box>
+            Eliminar evaluación
+          </Button>
           {!profesorEvaluado && (
-            <Alert variant="filled" severity="warning">
+            <Alert sx={{ m: 2 }} variant="filled" severity="warning">
               {' '}
               Es necesario evaluar por completo al profesor
             </Alert>

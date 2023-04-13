@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { valoracionState } from '@modules/evaluaciondocente/recoil/valoracionState';
-import { Alert, TextField, Typography } from '@mui/material';
+import { Alert, TextField, Typography, FormControl } from '@mui/material';
 import { useRecoilState } from 'recoil';
 
 const TextValoration = ({ id, text, required, error }) => {
@@ -14,7 +14,7 @@ const TextValoration = ({ id, text, required, error }) => {
   };
 
   return (
-    <div key={id}>
+    <FormControl key={id} fullWidth sx={{ m: 1 }}>
       <Typography>
         {required ? <b style={{ color: 'red' }}>* </b> : ''}
         {text}
@@ -33,7 +33,7 @@ const TextValoration = ({ id, text, required, error }) => {
           {error ? error : ''}
         </Alert>
       )}
-    </div>
+    </FormControl>
   );
 };
 

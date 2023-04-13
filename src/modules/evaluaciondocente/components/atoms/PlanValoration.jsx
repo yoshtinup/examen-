@@ -24,21 +24,21 @@ const PlanValoration = ({ id, text, required }) => {
 
   return (
     <div key={id}>
-      <FormControl fullWidth>
+      <FormControl fullWidth sx={{ m: 1 }}>
         <Typography>
           {required ? <b style={{ color: 'red' }}>* </b> : ''}
           {text}
         </Typography>
         <Select
           id={id}
-          value={selectedOption.text}
+          value={selectedOption[id]}
           onChange={handleChange}
           required={required}
           displayEmpty
           inputProps={{ 'aria-label': 'Without label' }}
         >
           {opcionesEvaluacion.map(oeval => (
-            <MenuItem parent={id} value={oeval.key}>
+            <MenuItem key={oeval.key} parent={id} value={oeval.key}>
               {oeval.text}
             </MenuItem>
           ))}
