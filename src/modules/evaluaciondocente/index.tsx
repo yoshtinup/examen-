@@ -13,7 +13,6 @@ import {
   ValoracionDelCurso,
 } from './types/evaluacionState';
 import { useRecoilValue } from 'recoil';
-import { materiaState } from './recoil/materiaState';
 import { planeacionState } from './recoil/planeacionState';
 import { valoracionState } from './recoil/valoracionState';
 import { profesoresState } from './recoil/profesoresState';

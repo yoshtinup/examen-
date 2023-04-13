@@ -1,4 +1,4 @@
-import styled from '@emotion/styled'
+import styled from '@emotion/styled';
 
 export const HeaderContainer = styled.div`
   display: flex;
@@ -10,7 +10,7 @@ export const HeaderContainer = styled.div`
   box-shadow: 0px 4px 6px rgba(160, 160, 160, 0.25);
   transition: height 0.3s;
   padding-top: 20px;
-  font-family:  Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   color: #000000;
   font-size: 16px;
   padding-bottom: 15px;
@@ -29,7 +29,7 @@ export const DocInformation = styled.div`
   height: auto;
   background: #ffffff;
   padding-top: 20px;
-  font-family:  Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   color: #000000;
   font-size: 16px;
   float: right;
@@ -43,7 +43,7 @@ export const SubjectContainer = styled.div`
   height: auto;
   background: #ffffff;
   padding-top: 2px;
-  font-family:  Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   color: #000000;
   font-size: 16px;
 `;
@@ -56,7 +56,7 @@ export const Intro = styled.div`
   height: auto;
   background: #ffffff;
   padding-top: 20px;
-  font-family:  Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   color: #000000;
   font-size: 15px;
 `;
@@ -69,7 +69,7 @@ export const InstructionContainer = styled.div`
   height: auto;
   background: #ffffff;
   padding-top: 20px;
-  font-family:  Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   color: #000000;
   font-size: 14px;
   box-shadow: 0px 4px 6px rgba(160, 160, 160, 0.25);
@@ -80,7 +80,7 @@ export const TextBlue = styled.text`
   font-size: 29px;
   height: auto;
   color: #71b0eb;
-  font-family:  Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
 `;
 
 export const TextStrongBlue = styled.div`
@@ -103,7 +103,7 @@ export const TextDocContainer = styled.div`
   height: auto;
   background: #ffffff;
   padding-top: 20px;
-  font-family:  Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   color: #000000;
   font-size: 16px;
   justify-content: flex-start;
@@ -117,7 +117,7 @@ export const TextContainer = styled.text`
   height: auto;
   background: #ffffff;
   padding-top: 20px;
-  font-family:  Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   color: #000000;
   font-size: 16px;
 `;
@@ -129,7 +129,7 @@ export const DropdownContainer = styled.div`
 
 export const DropdownButton = styled.button`
   width: 350px;
-  font-family:  Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   font-size: 16px;
   height: 45px;
   left: 25px;
@@ -152,7 +152,7 @@ export const DropdownList = styled.ul`
   background-color: #fff;
   color: #666666;
   font-size: 16px;
-  font-family:  Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   border: 1px solid #ddd;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -176,7 +176,7 @@ export const DropdownListItem = styled.li`
 export const ValInput = styled.input`
   width: 396px;
   height: 47px;
-  font-family:  Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   background: #f1f1f1;
   border-color: #f1f1f1;
   width: 100%;
@@ -194,5 +194,5 @@ export const SubmitButton = styled.button`
   transition: width 2s, height 2s, transform 2s;
   margin-right: auto;
   align-items: center;
-  font-family:  Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
 `;
