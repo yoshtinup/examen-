@@ -57,7 +57,7 @@ const Pregunta = ({ pregunta, respuestaValue, profesor }) => {
   };
 
   return (
-    <>
+    <FormControl fullWidth sx={{ m: 1 }}>
       <Typography>
         {pregunta.required ? <b style={{ color: 'red' }}>* </b> : ''}
         {pregunta.text}
@@ -96,7 +96,7 @@ const Pregunta = ({ pregunta, respuestaValue, profesor }) => {
           La pregunta no puede quedar vacia.
         </Alert>
       )}
-    </>
+    </FormControl>
   );
 };
 
