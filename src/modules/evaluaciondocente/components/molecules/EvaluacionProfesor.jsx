@@ -9,6 +9,7 @@ import {
   Modal,
   Alert,
   Grid,
+  Backdrop,
 } from '@mui/material';
 import {
   preguntasEvaluacionADocentes,
@@ -35,10 +36,13 @@ const style = {
 const EvaluacionProfesor = ({ profesor }) => {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [profesores, setProfesores] = useRecoilState(profesoresState);
+  const [buttonName, setButtonName] = useState(false);
+  const [buttonEliminar, setButtonEliminar] = useState(false);
 
   const handleEvaluarClick = () => {
     setMostrarModal(true);
   };
+
   const handleEliminarEvaluacion = () => {
     Swal.fire({
       title: '¿Quiere eliminar la Evaluación?',
@@ -60,6 +64,8 @@ const EvaluacionProfesor = ({ profesor }) => {
           return profe;
         });
         setProfesores(profesoresFilter);
+        setButtonEliminar(false);
+        setButtonName(false);
         console.log(profesoresFilter);
         Swal.fire({
           position: 'center',
@@ -71,7 +77,11 @@ const EvaluacionProfesor = ({ profesor }) => {
     });
   };
 
-  const handleClose = () => setMostrarModal(false);
+  const handleClose = () => {
+    setMostrarModal(false);
+    setButtonEliminar(true);
+    setButtonName(true);
+  }
 
   const profesorEvaluado =
     profesor.respuestas.selects &&
@@ -94,16 +104,17 @@ const EvaluacionProfesor = ({ profesor }) => {
           <p>{profesor.name}</p>
         </CardContent>
         <CardActions>
-          <Button onClick={handleEvaluarClick} variant="contained" color="info">
-            Evaluar
+          <Button onClick={handleEvaluarClick} variant="contained" color="info">{buttonName ? 'Evaluado' : 'Evaluar'}
           </Button>
-          <Button
-            onClick={handleEliminarEvaluacion}
-            variant="outlined"
-            color="error"
-          >
-            Eliminar evaluación
-          </Button>
+          { buttonEliminar &&
+            <Button
+              onClick={handleEliminarEvaluacion}
+              variant="outlined"
+              color="error"
+            >
+              Eliminar evaluación
+            </Button>
+          }
           {!profesorEvaluado && (
             <Alert sx={{ m: 2 }} variant="filled" severity="warning">
               {' '}
@@ -115,6 +126,9 @@ const EvaluacionProfesor = ({ profesor }) => {
       <Modal
         open={mostrarModal}
         onClose={handleClose}
+        BackdropProps={{
+          onClick: () => {},
+        }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
