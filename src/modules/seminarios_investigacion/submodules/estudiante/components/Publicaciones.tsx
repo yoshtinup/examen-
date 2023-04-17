@@ -1,36 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Grid,
-  Box,
-  FormControl,
-  Button,
-  InputLabel,
-  Input,
-  Select,
-  FormControlLabel,
-  Typography,
-  TextField,
-} from '@mui/material/';
+import { Grid, Box, FormControl, Button, InputLabel, Input, Select, TextField } from '@mui/material/';
 import { Add } from '@mui/icons-material';
-import Switch from './Switch';
 import { texto } from './TextoInterfaces';
 import { formCompleto } from './funcionesGeneral';
 import Table from './TablePublicaciones';
-
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { actividadesState } from 'pages/seminarios_investigacion/store/actividadesState';
 import { DatosPublicacione } from '../types';
-import axios from 'axios'
-
-/*import {
-  agregarPublicacion,
-  handleSinPublicaciones,
-} from 'actions/seminario-investigacion';*/
 
 export default props => {
-  const setPublicacionState = useSetRecoilState(actividadesState)
-
- 
+  const setPublicacionState = useSetRecoilState(actividadesState) 
   const [validForm, setValidForm] = useState(false);
   const [publicacion, setPublicacion] = useState({
     id: 0,
@@ -53,18 +32,6 @@ export default props => {
     tipoPublicacion: '',
     tipoArbitrado: '',
   };
-
-  const TextPopover = () => (
-    <>
-      <Typography variant="inherit" className="text-navy">
-        <b>¿Esta seguro/a de que no registrará publicaciones?</b>
-      </Typography>
-      <br />
-      <Typography variant="inherit">
-        ¡Se eliminarán las publicaciones previamente registradas!
-      </Typography>
-    </>
-  );
 
   const handleChange = evt => {
     const { target } = evt;
@@ -92,8 +59,9 @@ export default props => {
         ...actividadesState.datosPublicaciones, publicacionDado
       ]
     }))
-    
+    setPublicacion(resetPublicacion)
   }
+
   const addPublicacion = () => {
     const idRandom = Math.random()*100;
     const updatedPublicacion = Object.assign({}, publicacion, {
@@ -104,10 +72,7 @@ export default props => {
       
     });
     addPublicacionesState(updatedPublicacion)
-    //dispatch(agregarPublicacion(updatedPublicacion));
   };
-
-  const Indicator = () => <p />;
 
   useEffect(() => {
     setValidForm(formCompleto(publicacion));

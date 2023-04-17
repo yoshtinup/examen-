@@ -1,17 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  makeStyles,
-  Grid,
-  Box,
-  FormControl,
-  MenuItem,
-  ListItemText,
-  Checkbox,
-  InputLabel,
-  Input,
-  Select,
-  Button,
-} from '@mui/material';
+import { Grid, Box, FormControl, MenuItem, ListItemText, Checkbox, InputLabel, Input, Select, Button } from '@mui/material';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import NoDataOnTable from './NoDataOnTable';
 import { texto } from './TextoInterfaces';
@@ -20,10 +8,6 @@ import { useSetRecoilState, useRecoilState } from 'recoil';
 import { actividadesState } from 'pages/seminarios_investigacion/store/actividadesState';
 import { DatosActividad } from '../types';
 import Swal from 'sweetalert2';
-
-import axios from 'axios'
-/* import { agregarActividad } from 'actions/seminario-investigacion' */
-/* import { cronogramaBase64 } from './cronograma' */
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -39,9 +23,6 @@ const MenuProps = {
 export default props => {
   const [actividadesList, setActividadesList] = useRecoilState(actividadesState)
   const setActividadState = useSetRecoilState(actividadesState)
-  // const setActividadState = useSetRecoilState(actState);
-  
-
   const [modalVisible, setModalVisible] = useState(false);
   const [validForm, setValidForm] = useState(false);
   const [mes, setMes] = useState([]);
@@ -99,7 +80,6 @@ export default props => {
     });
 
     addActividadState(updatedActividad)
-    //dispatch(agregarActividad(updatedActividad));
     setActividad(resetActividad);
     setMes([]);
   };
@@ -109,15 +89,13 @@ export default props => {
     setValidForm(datoActividad && mes.length > 0);
   };
 
-  const showModal = () => setModalVisible(true);
-  const handleCancel = () => setModalVisible(false);
+  const verCronograma = () => {
+    window.open('https://serviciosposgrado.ecosur.mx/Profesores/Content/img/CronogramaDeActividades.png', '_blank');
+  };
+  
   const handleClickRow = (id: number, key: number) => {
-    console.log("actividadid", id)
-    /* router.push(`/consejo_tutelar/${matricula}`); */
-    
     Swal.fire({
       title: '¿Deseas eliminar esta actividad?',
-      // text: "Confirmalo!",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -138,15 +116,12 @@ export default props => {
           datosActividades: prev.datosActividades.filter(dato => dato.key !== key),
         }))
         Swal.fire(
-          'Eliminado!',
-          'Congreso Eliminado Localmente.',
+          '¡Eliminado!',
+          '',
           'success'
         )
       }
     })
-    // console.log("estadoTabla", actividadesList.datosCongreso)
-    // let datosCongresoN = actividadesList.datosCongreso.filter(num => num.key !== matricula);
-    // console.log(datosCongresoN); 
     
   };
 
@@ -164,26 +139,11 @@ export default props => {
                 variant="outlined"
                 color="primary"
                 size="small"
-                onClick={() => showModal()}
+                onClick={() => verCronograma()}
               >
                 Ver cronograma de actividades propuesto
               </Button>
-              {/* <Modal
-                visible={modalVisible}
-                onCancel={() => handleCancel()}
-                footer={null}
-                className="custom-modal-v1"
-                centered
-              >
-                <img
-                  src={cronogramaBase64}
-                  alt="Cronograma de actividades"
-                  style={{
-                    width: '100%',
-                    height: 'auto',
-                  }}
-                />
-              </Modal> */}
+             
             </Grid>
             <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
               <FormControl fullWidth variant="outlined">
@@ -240,9 +200,9 @@ export default props => {
             </Grid>
           </>
         )}
-        <Grid item xs={12}>
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={12} spacing={3}>
           <div className="table-responsive">
-            <table className="table table-bordered table-hover table-actividades">
+            <table className="table table-bordered table-hover table-actividades" style={{ width: '100%' }}>
               <thead className="ant-table-thead">
                 <tr>
                   {texto.tabs.tabActividades.tabla
@@ -256,6 +216,7 @@ export default props => {
                             </span>
                           </div>
                         </span>
+
                       </th>
                     ))}
                 </tr>
@@ -266,40 +227,27 @@ export default props => {
                   props.datosActividades.map((actividad, index) => (
                     <tr key={index * 0.2}>
                       <td>{actividad.actividad}</td>
-                      <td className="actividades">
+                      <td style={{ textAlign: 'center' }} className="actividades">
                         {actividad.meses.includes('1') ? <DoneIcon/> : "" }
                       </td>
-                      <td className="actividades">
+                      <td style={{ textAlign: 'center' }} className="actividades">
                         {actividad.meses.includes('2') ? <DoneIcon/> : ""}
                       </td>
-                      <td className="actividades">
+                      <td style={{ textAlign: 'center' }} className="actividades">
                         {actividad.meses.includes('3') ? <DoneIcon/> : ""}
                       </td>
-                      <td className="actividades">
+                      <td style={{ textAlign: 'center' }} className="actividades">
                         {actividad.meses.includes('4') ? <DoneIcon/> : ""}
                       </td>
-                      <td className="actividades">
+                      <td style={{ textAlign: 'center' }} className="actividades">
                         {actividad.meses.includes('5') ? <DoneIcon/> : ""}
                       </td>
-                      <td className="actividades">
+                      <td style={{ textAlign: 'center' }} className="actividades">
                         {actividad.meses.includes('6') ? <DoneIcon/> : ""}
                       </td>
                       {props.estatus === 1 && (
                         <td>
-                          {/*   <Popconfirm
-                            title={`¿Eliminar actividad?`}
-                            cancelText="Cancelar"
-                            okText="Aceptar"
-                            onConfirm={() => props.removerActividad(actividad)}
-                          >
-                            <button className="link-button">
-                              <Icon type="delete" style={{ color: 'red' }} />
-                              {
-                                texto.tabs.tabActividades.tabla.botonEliminar
-                                  .text
-                              }
-                            </button>
-                          </Popconfirm> */}
+                          
                           <Button
                             variant="contained"
                             color="success"

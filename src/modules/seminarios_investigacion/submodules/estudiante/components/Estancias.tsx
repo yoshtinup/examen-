@@ -1,42 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Grid,
-  Box,
-  FormControl,
-  Button,
-  InputLabel,
-  Input,
-  TextField,
-  Select,
-  FormControlLabel,
-  Typography,
-} from '@mui/material';
+import { Grid, Box, FormControl, Button, InputLabel, Input, TextField, Select, Typography } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import moment from 'moment';
-import MomentUtils from '@date-io/moment';
-import Switch from './Switch';
 import { texto, notificaciones } from './TextoInterfaces';
-import { formCompleto, rangoFechasValido } from './funcionesGeneral';
+import { formCompleto, rangoFechasValido, DateFormat } from './funcionesGeneral';
 import Table from './TableEstancias';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { actividadesState } from 'pages/seminarios_investigacion/store/actividadesState';
 import { DatosEstancia } from '../types';
-import axios from 'axios'
-/*import {
-  agregarEstancia,
-  handleSinEstancia,
-} from 'actions/seminario-investigacion';
-*/
 
 export default props => {
   const setEstanciaState = useSetRecoilState(actividadesState)
-
-
   const [validForm, setValidForm] = useState(false);
-  const [fechaFinCorrecta, setFechaFinCorrecta] = useState(false);
+  const [fechaFinCorrecta, setFechaFinCorrecta] = useState(true);
   const [estancia, setEstancia] = useState({
     id: 0,
     key: 0,
@@ -52,44 +30,10 @@ export default props => {
     key: 0,
     universidadCentro: '',
     areaDeAdscripcion: '',
-    fechaInicio: new Date().toString(),
-    fechaConclusion: new Date().toString(),
+    fechaInicio: new Date(),
+    fechaConclusion: new Date(),
     ambito: '',
   };
-
-  const TextPopover = () => (
-    <>
-      <Typography variant="inherit" className="text-navy">
-        <b>¿Esta seguro/a de que no registrará estancias?</b>
-      </Typography>
-      <br />
-      <Typography variant="inherit">
-        ¡Se eliminarán las estancias previamente registradas!
-      </Typography>
-    </>
-  );
-  /*
-  const CustomSwith = () => {
-    if (props.datosEstancias && props.datosEstancias.length > 0) {
-      return (
-        <Popconfirm
-          title={<TextPopover />}
-          cancelText="Cancelar"
-          okText="Aceptar"
-          icon={<QuestionCircleOutlined twoToneColor="#B00000" />}
-          onConfirm={() => dispatch(handleSinEstancia())}
-        >
-          <Switch checked={!props.tieneEstancias} />
-        </Popconfirm>
-      );
-    }
-    return (
-      <Switch
-        checked={!props.tieneEstancias}
-        onChange={() => dispatch(handleSinEstancia())}
-      />
-    );
-  };*/
 
   const handleChange = evt => {
     const { target } = evt;
@@ -119,11 +63,11 @@ export default props => {
       ...estancia,
       fechaConclusion: fecha,
     });
-    const rangoFechasValidas = rangoFechasValido(estancia.fechaInicio, fecha);
-    if (!rangoFechasValidas) {
-      notificaciones.fechaConclusionIncorrecta();
-    }
-    setFechaFinCorrecta(rangoFechasValidas);
+    // const rangoFechasValidas = rangoFechasValido(estancia.fechaInicio, fecha);
+    // if (!rangoFechasValidas) {
+    //   notificaciones.fechaConclusionIncorrecta();
+    // }
+    // setFechaFinCorrecta(rangoFechasValidas);
   };
   const addEstanciaState = (estanciaDado: DatosEstancia) =>{
     setEstanciaState( actividadesState => ({
@@ -132,19 +76,19 @@ export default props => {
         ...actividadesState.datosEstancias, estanciaDado
       ]
     }))
+    setEstancia(resetEstancia)
   }
 
   const addEstancia = () => {
     const idRandom = Math.random()*100;
     const updatedEstancia = Object.assign({}, estancia, {
       ...estancia,
-      fechaInicio: moment(estancia.fechaInicio).format('yyyy-MM-DD'),
-      fechaConclusion: moment(estancia.fechaConclusion).format('yyyy-MM-DD'),
+      fechaConclusion: DateFormat(estancia.fechaConclusion.toString()),
+      fechaInicio: DateFormat(estancia.fechaInicio.toString()),
       id: 0,
       key: idRandom,
     });
     addEstanciaState(updatedEstancia)
-    //dispatch(agregarEstancia(updatedEstancia));
   };
 
   const formValid = estancia => {
@@ -156,8 +100,6 @@ export default props => {
     setValidForm(datosLlenos && rangoFechasValidas);
   };
 
-  const Indicator = () => <p />;
-
   useEffect(() => {
     formValid(estancia);
   }, [estancia]);
@@ -167,14 +109,6 @@ export default props => {
       <Grid container spacing={3}>
         {props.estatus === 1 && (
           <>
-            <Grid item xs={12}>
-              {/* <FormControlLabel
-                control={<CustomSwith />}
-                label="No realicé estancias"
-                style={{ color: '#000', fontWeight: 'bolder' }}
-              /> */}
-            </Grid>
-
             <Grid container spacing={3} className="mr-3">
               <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                 <FormControl fullWidth variant="outlined">
@@ -216,7 +150,7 @@ export default props => {
                     <DatePicker
                       value={estancia.fechaInicio}
                       label={texto.tabs.tabEstancias.form.fechaInicio.label}
-                      onChange={fecha => handleFechaInicio(fecha)}
+                      onChange={fechaI => handleFechaInicio(fechaI)}
                       renderInput={params => <TextField {...params} />}
                       inputFormat="YYYY-MM-DD"
                       views={["year", "month", "day"]}
@@ -230,7 +164,7 @@ export default props => {
                     <DatePicker
                       value={estancia.fechaConclusion}
                       label={texto.tabs.tabEstancias.form.fechaConclusion.label}
-                      onChange={fecha => handleFechaConclusion(fecha)}
+                      onChange={fechaF => handleFechaConclusion(fechaF)}
                       renderInput={params => <TextField {...params} />}
                       inputFormat="YYYY-MM-DD"
                       views={["year", "month", "day"]}

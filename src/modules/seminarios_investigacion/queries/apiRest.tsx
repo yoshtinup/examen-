@@ -42,7 +42,7 @@ class SeminarioInvestigacion extends ApiQuerys {
 
     async guardarActividadesPosgrado(actividades: Actividades): Promise<any> {
       const msg = await this.api<Actividades>(
-        `guardar/`,
+        `guardar`,
         this.getJsonRequest(actividades, 'POST')
       );
       return msg;

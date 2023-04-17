@@ -1,40 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Grid,
-  Box,
-  FormControl,
-  Button,
-  InputLabel,
-  Input,
-  Select,
-  FormControlLabel,
-  TextField,
-  Typography,
-} from '@mui/material/';
+import { Grid, Box, FormControl, Button, InputLabel, Input, Select, TextField, Typography } from '@mui/material/';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import moment from 'moment';
-import MomentUtils from '@date-io/moment';
 import { Add } from '@mui/icons-material';
-import Switch from './Switch';
 import { texto } from './TextoInterfaces';
-import { formCompleto } from './funcionesGeneral';
+import { formCompleto, DateFormat } from './funcionesGeneral';
 import Table from './TableCongresos';
-
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { actividadesState } from 'pages/seminarios_investigacion/store/actividadesState';
-import { Actividades, DatosActividad, DatosCongreso } from '../types'; 
-
-/*import {
-  agregarCongreso,
-  handleSinCongreso,
-} from 'actions/seminario-investigacion/index';
-*/
+import { DatosCongreso } from '../types'; 
 
 export default props => {
   const setActividadState = useSetRecoilState(actividadesState);
-  
   const [validForm, setValidForm] = useState(false);
   const [congreso, setCongreso] = useState({
     id: 0,
@@ -53,40 +31,6 @@ export default props => {
     tipoParticipacion: '',
   };
 
-  const TextPopover = () => (
-    <>
-      <Typography variant="inherit" className="text-navy">
-        <b>¿Esta seguro/a de que no registrará congresos?</b>
-      </Typography>
-      <br />
-      <Typography variant="inherit">
-        ¡Se eliminarán los congresos previamente registrados!
-      </Typography>
-    </>
-  );
-  /*
-  const CustomSwith = () => {
-    if (props.datosCongreso && props.datosCongreso.length > 0) {
-      return (
-        <Popconfirm
-          title={<TextPopover />}
-          cancelText="Cancelar"
-          okText="Aceptar"
-          icon={<QuestionCircleOutlined twoToneColor="#B00000" />}
-          onConfirm={() => dispatch(handleSinCongreso())}
-        >
-          <Switch checked={!props.tieneCongresos} />
-        </Popconfirm>
-      );
-    }
-    return (
-      <Switch
-        checked={!props.tieneCongresos}
-        onChange={() => dispatch(handleSinCongreso())}
-      />
-    );
-  };*/
-
   const handleChange = evt => {
     const { target } = evt;
     setCongreso({
@@ -96,39 +40,21 @@ export default props => {
   };
 
   const handleDateChange = fecha => {
-  
-    const fechaConvertir = new Date(fecha)
-    // const fechaAdd = fechaConvertir.getFullYear().toString() + "-"+fechaConvertir.getMonth().toString() + "-" + fechaConvertir.getDay().toString()
-    // console.log("fecha", fechaAdd)
     setCongreso({
       ...congreso,
       fecha,
     });
+    console.log("objCOngreso", congreso)
   };
-
-  const congresoAd: DatosCongreso = {
-    
-    id: 0,
-    key: 0,
-    fecha: new Date().toString(),
-    lugar: congreso.lugar,
-    tipoParticipacion: congreso.tipoParticipacion,
-    titulo: congreso.titulo
-  };
-
-
 
   const addCogresoState = (congresoDado: DatosCongreso) => {
-    
     setActividadState( actividadState => ({
       ...actividadState,
       datosCongreso: [
         ...actividadState.datosCongreso, congresoDado
       ]
     }))
-    
-  
-    
+    setCongreso(resetCongreso)    
   }
 
   const addCongreso = () => {
@@ -137,40 +63,21 @@ export default props => {
       ...congreso,
       id: 0,
       key: idRandom,
-      fecha: moment(congreso.fecha).format('yyyy-MM-DD'),
+      fecha: DateFormat(congreso.fecha)
     });
-    console.log("updatedCongreso");
-    console.log(updatedCongreso);
-    console.log(congreso.fecha)
-    console.log(congreso.titulo)
-    console.log(congreso.tipoParticipacion)
     addCogresoState(updatedCongreso)
-    
-
   };
 
-  const Indicator = () => <p />;
 
   useEffect(() => {
     setValidForm(formCompleto(congreso));
   }, [congreso]);
 
-  // console.log("props.estatus.id: "+props.estatus.id)
   return (
     <Box>
       <Grid container spacing={3}>
         {props.estatus === 1 && (
-          
           <>
-            {/* <Grid item xs={12}>
-              <FormControlLabel
-                control={<CustomSwith />}
-                label="No participé en congresos"
-                style={{ color: '#000', fontWeight: 'bolder' }}
-                
-              />
-            </Grid> */}
-
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
                 <FormControl fullWidth variant="outlined">
@@ -266,14 +173,11 @@ export default props => {
         )}
         <Grid item xs={12}>
           <div className="table-responsive">
-            
               <Table
                 key="ct-table-list-1"
                 rows={props.datosCongreso}
                 actionColumn={true}
               />
-
-            
           </div>
         </Grid>
       </Grid>

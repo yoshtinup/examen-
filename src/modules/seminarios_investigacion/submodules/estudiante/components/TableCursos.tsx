@@ -1,28 +1,18 @@
-import { useRouter } from 'next/router';
 import { Button } from '@mui/material';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import {
-  DataGrid,
-  GridColDef,
-  GridCellParams,
-  GridToolbar,
-} from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridCellParams, GridToolbar } from '@mui/x-data-grid';
 import { DatosCursosExterno } from '@modules/seminarios_investigacion/submodules/estudiante/types';
 import { actividadesState as actState } from 'pages/seminarios_investigacion/store/actividadesState';
 import Swal from 'sweetalert2';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
-
 const ButtonRedirect: React.FC<{ matricula: number, id: number }> = ({ matricula, id }) => {
-  const router = useRouter();
   const [actividadesList, setActividadesList] = useRecoilState(actState)
   const setActividadState = useSetRecoilState(actState);
 
   const handleClickRow = () => {
-    /* router.push(`/consejo_tutelar/${matricula}`); */
     Swal.fire({
       title: '¿Deseas eliminar este curso?',
-      // text: "Confirmalo!",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -43,8 +33,8 @@ const ButtonRedirect: React.FC<{ matricula: number, id: number }> = ({ matricula
           datosCursosExternos: prev.datosCursosExternos.filter(dato => dato.key !== matricula),
         }))
         Swal.fire(
-          'Eliminado!',
-          'Congreso Eliminado Localmente.',
+          '¡Eliminado!',
+          '',
           'success'
         )
       }
@@ -64,10 +54,10 @@ const ButtonRedirect: React.FC<{ matricula: number, id: number }> = ({ matricula
 };
 
 const columnsDefault: GridColDef[] = [
-  { field: 'nombreCurso', headerName: 'Curso', width: 300 },
-  { field: 'otraInstitucion', headerName: 'Institución', width: 250 },
-  { field: 'fechaInicio', headerName: 'Fecha inicio', width: 200 },
-  { field: 'fechaConclusion', headerName: 'Fecha fin', width: 100 },
+  { field: 'nombreCurso', headerName: 'Curso', width: 400 },
+  { field: 'otraInstitucion', headerName: 'Institución', width: 400 },
+  { field: 'fechaInicio', headerName: 'Fecha inicio', width: 150 },
+  { field: 'fechaConclusion', headerName: 'Fecha fin', width: 150 },
 ];
 
 const Table: React.FC<{
@@ -97,7 +87,6 @@ const Table: React.FC<{
           Toolbar: GridToolbar,
         }}
         autoHeight={true}
-        /* hideFooter={true} */
         pageSize={30}
       />
     </div>

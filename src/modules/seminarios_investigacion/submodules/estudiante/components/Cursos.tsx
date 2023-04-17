@@ -1,37 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
-import {
-  Grid,
-  Box,
-  FormControl,
-  Button,
-  InputLabel,
-  Input,
-  FormControlLabel,
-  Typography,
-} from '@mui/material';
+import { Grid, Box, FormControl, Button, InputLabel, Input, Typography } from '@mui/material';
 import { Add } from '@mui/icons-material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import moment from 'moment';
-import MomentUtils from '@date-io/moment';
-import Switch from './Switch';
 import { texto, notificaciones } from './TextoInterfaces';
-import { formCompleto, rangoFechasValido } from './funcionesGeneral';
-
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { formCompleto, rangoFechasValido, DateFormat } from './funcionesGeneral';
+import { useSetRecoilState } from 'recoil';
 import { actividadesState } from 'pages/seminarios_investigacion/store/actividadesState';
 import { DatosCursoExterno } from '../types';
-
-//import { agregarCurso, handleSinCursos } from 'actions/seminario-investigacion';
 import Table from './TableCursos';
-
-import axios from 'axios'
 
 export default props => {
   const setCursoState = useSetRecoilState(actividadesState)
-
   const [validForm, setValidForm] = useState(false);
   const [fechaFinCorrecta, setFechaFinCorrecta] = useState(false);
   const [curso, setCurso] = useState({
@@ -52,41 +35,6 @@ export default props => {
     fechaConclusion: new Date(),
   };
 
-  const TextPopover = () => (
-    <>
-      <Typography variant="inherit" className="text-navy">
-        <b>¿Esta seguro/a de que no registrará cursos externos?</b>
-      </Typography>
-      <br />
-      <Typography variant="inherit">
-        ¡Se eliminarán los cursos externos previamente registrados!
-      </Typography>
-    </>
-  );
-
-  /*
-  const CustomSwith = () => {
-    if (props.datosCursosExternos && props.datosCursosExternos.length > 0) {
-      return (
-        <Popconfirm
-          title={<TextPopover />}
-          cancelText="Cancelar"
-          okText="Aceptar"
-          icon={<QuestionCircleOutlined twoToneColor="#B00000" />}
-          onConfirm={() => dispatch(handleSinCursos())}
-        >
-          <Switch checked={!props.tieneCursos} />
-        </Popconfirm>
-      );
-    }
-    return (
-      <Switch
-        checked={!props.tieneCursos}
-        onChange={() => dispatch(handleSinCursos())}
-      />
-    );
-  };*/
-
   const handleChange = evt => {
     const { target } = evt;
     setCurso({
@@ -96,8 +44,6 @@ export default props => {
   };
 
   const handleFechaInicio = fecha => {
-    console.log("changef1", moment(fecha).format('yyyy-MM-DD'))
-
     setCurso({
       ...curso,
       fechaInicio: fecha,
@@ -110,7 +56,6 @@ export default props => {
   };
 
   const handleFechaConclusion = fecha => {
-    console.log("changef2", moment(fecha).format('yyyy-MM-DD'))
     setCurso({
       ...curso,
       fechaConclusion: fecha,
@@ -123,28 +68,25 @@ export default props => {
   };
 
   const addCursoExternoState = (cursoExternoDado: DatosCursoExterno) =>{
-    
     setCursoState(actividadesState => ({
       ...actividadesState,
       datosCursosExternos: [
         ...actividadesState.datosCursosExternos, cursoExternoDado
       ]
     }))
-    
+    setCurso(resetCurso)
   }
 
   const addCurso = () => {
     const idRandom = Math.random()*100;
     const updatedCurso = Object.assign({}, curso, {
       ...curso,
-      // fechaInicio: moment(curso.fechaInicio).format('DD-MM-yyyy'),
-      fechaInicio: moment(curso.fechaInicio).format('yyyy-MM-DD'),
-      fechaConclusion: moment(curso.fechaConclusion).format('yyyy-MM-DD'),
+      fechaInicio: DateFormat(curso.fechaInicio.toString()),
+      fechaConclusion: DateFormat(curso.fechaConclusion.toString()),
       id: 0,
       key: idRandom,
     });
     addCursoExternoState(updatedCurso)
-    //dispatch(agregarCurso(updatedCurso));
   };
 
   const formValid = curso => {
@@ -155,8 +97,6 @@ export default props => {
     );
     setValidForm(datosLlenos && rangoFechasValidas);
   };
-
-  // const Indicator = () => <p />;
 
   useEffect(() => {
     formValid(curso);
@@ -211,7 +151,6 @@ export default props => {
                           value={curso.fechaInicio}
                           label={texto.tabs.tabCursos.form.fechaInicio.label}
                           onChange={fecha => handleFechaInicio(fecha)}
-                          // onChange={fecha => console.log(moment(fecha).format('yyyy-MM-DD'))}
                           renderInput={params => <TextField {...params} />}
                           inputFormat="YYYY-MM-DD"
                           views={["year", "month", "day"]}
@@ -228,7 +167,6 @@ export default props => {
                             texto.tabs.tabCursos.form.fechaConclusion.label
                           }
                           onChange={fecha => handleFechaConclusion(fecha)}
-                          // onChange={fecha => console.log(fecha)}
                           renderInput={params => <TextField {...params} />}
                           inputFormat="YYYY-MM-DD"
                           views={["year", "month", "day"]}

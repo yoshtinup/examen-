@@ -1,18 +1,20 @@
+import { useRouter } from 'next/router';
 import { Button } from '@mui/material';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { DataGrid, GridColDef, GridCellParams, GridToolbar } from '@mui/x-data-grid';
-import { DatosEstancia } from '@modules/seminarios_investigacion/submodules/estudiante/types';
+import { DatosActividad, DatosCongreso } from '@modules/seminarios_investigacion/submodules/estudiante/types';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { actividadesState as actState } from 'pages/seminarios_investigacion/store/actividadesState';
 import Swal from 'sweetalert2';
-import { useRecoilState, useSetRecoilState } from 'recoil';
 
 const ButtonRedirect: React.FC<{ matricula: number, id: number }> = ({ matricula, id }) => {
+  const router = useRouter();
   const [actividadesList, setActividadesList] = useRecoilState(actState)
   const setActividadState = useSetRecoilState(actState);
-
   const handleClickRow = () => {
+    
     Swal.fire({
-      title: '¿Deseas eliminar esta publicación?',
+      title: '¿Deseas eliminar este congreso?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -22,15 +24,15 @@ const ButtonRedirect: React.FC<{ matricula: number, id: number }> = ({ matricula
       if(id!== 0){
         setActividadState( actividadState => ({
           ...actividadState,
-          publicacionesEliminadas: [
-            ...actividadState.publicacionesEliminadas, id
+          congresosEliminados: [
+            ...actividadState.congresosEliminados, id
           ]
         }))
       }
       if (result.isConfirmed) {
         setActividadesList((prev) => ({
           ...prev,
-          datosPublicaciones: prev.datosPublicaciones.filter(dato => dato.key !== matricula),
+          datosCongreso: prev.datosCongreso.filter(dato => dato.key !== matricula),
         }))
         Swal.fire(
           '¡Eliminado!',
@@ -39,6 +41,7 @@ const ButtonRedirect: React.FC<{ matricula: number, id: number }> = ({ matricula
         )
       }
     })
+    
   };
   return (
     <Button
@@ -54,14 +57,16 @@ const ButtonRedirect: React.FC<{ matricula: number, id: number }> = ({ matricula
 };
 
 const columnsDefault: GridColDef[] = [
-  { field: 'titulo', headerName: 'Título', width: 350 },
-  { field: 'tipoParticipacion', headerName: 'Tipo de participación', width: 250 },
-  { field: 'publicacionEn', headerName: 'Publicado en', width: 200 },
-  { field: 'tipoPublicacion', headerName: 'Tipo de publicación', width: 200 },
-  { field: 'tipoArbitrado', headerName: 'Arbitrado', width: 100 },
+  { field: 'actividad', headerName: 'Actividad', width: 250 },
+  { field: 'meses[0]', headerName: 'Mes 1', width: 250 },
+  { field: 'meses[1]', headerName: 'Mes 2', width: 92 },
+  { field: 'meses[2]', headerName: 'Mes 3', width: 250 },
+  { field: 'meses[3]', headerName: 'Mes 4', width: 250 },
+  { field: 'meses[4]', headerName: 'Mes 5', width: 250 },
+  { field: 'meses[5]', headerName: 'Mes 6', width: 250 },
 ];
 
-const Table: React.FC<{ rows: DatosEstancia[]; actionColumn?: boolean }> = ({
+const Table: React.FC<{ rows: DatosActividad[]; actionColumn?: boolean }> = ({
   rows,
   actionColumn = false,
 }) => {
@@ -72,7 +77,7 @@ const Table: React.FC<{ rows: DatosEstancia[]; actionColumn?: boolean }> = ({
       headerName: '',
       sortable: false,
       renderCell: (params: GridCellParams) => (
-        <ButtonRedirect matricula={params.row.key} id={params.row.id}/>
+        <ButtonRedirect matricula={params.row.key} id={params.row.id} />
       ),
       width: 150,
     });

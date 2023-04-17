@@ -1,12 +1,7 @@
 import { useRouter } from 'next/router';
 import { Button } from '@mui/material';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import {
-  DataGrid,
-  GridColDef,
-  GridCellParams,
-  GridToolbar,
-} from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridCellParams, GridToolbar } from '@mui/x-data-grid';
 import { DatosEstancia } from '@modules/seminarios_investigacion/submodules/estudiante/types';
 import { actividadesState as actState } from 'pages/seminarios_investigacion/store/actividadesState';
 import Swal from 'sweetalert2';
@@ -18,10 +13,8 @@ const ButtonRedirect: React.FC<{ matricula: number, id: number }> = ({ matricula
   const setActividadState = useSetRecoilState(actState);
 
   const handleClickRow = () => {
-    /* router.push(`/consejo_tutelar/${matricula}`); */
     Swal.fire({
       title: '¿Deseas eliminar esta estancia?',
-      // text: "Confirmalo!",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -42,8 +35,8 @@ const ButtonRedirect: React.FC<{ matricula: number, id: number }> = ({ matricula
           datosEstancias: prev.datosEstancias.filter(dato => dato.key !== matricula),
         }))
         Swal.fire(
-          'Eliminado!',
-          'Congreso Eliminado Localmente.',
+          '¡Eliminado!',
+          '',
           'success'
         )
       }
@@ -63,10 +56,10 @@ const ButtonRedirect: React.FC<{ matricula: number, id: number }> = ({ matricula
 };
 
 const columnsDefault: GridColDef[] = [
-  { field: 'universidadCentro', headerName: 'Institución', width: 250 },
-  { field: 'areaDeAdscripcion', headerName: 'Área', width: 92 },
-  { field: 'fechaInicio', headerName: 'Fecha inicio', width: 250 },
-  { field: 'fechaConclusion', headerName: 'Fecha fin', width: 250 },
+  { field: 'universidadCentro', headerName: 'Institución', width: 350 },
+  { field: 'areaDeAdscripcion', headerName: 'Área', width: 350 },
+  { field: 'fechaInicio', headerName: 'Fecha inicio', width: 200 },
+  { field: 'fechaConclusion', headerName: 'Fecha fin', width: 200 },
 ];
 
 const Table: React.FC<{ rows: DatosEstancia[]; actionColumn?: boolean }> = ({
@@ -96,7 +89,6 @@ const Table: React.FC<{ rows: DatosEstancia[]; actionColumn?: boolean }> = ({
           Toolbar: GridToolbar,
         }}
         autoHeight={true}
-        /* hideFooter={true} */
         pageSize={30}
       />
     </div>

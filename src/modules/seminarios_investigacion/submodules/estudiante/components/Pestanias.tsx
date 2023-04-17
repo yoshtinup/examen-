@@ -1,26 +1,16 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@mui/material/styles';
 import { Box, Grid, AppBar, Tabs, Tab, Typography } from '@mui/material';
 import { texto } from '../components/TextoInterfaces';
 import Publicaciones from './Publicaciones';
-import { useRecoilValue } from 'recoil';
-import { userStateAtom } from '@modules/auth/recoil';
-import { EcosurAuth } from '@modules/auth/definitions';
-import Cookies from 'js-cookie';
-import { jwtVerify } from 'jose';
 import Congresos from './Congresos';
 import Estancias from './Estancias';
 import Cursos from './Cursos';
 import { getIdClavePrograma } from './funcionesGeneral';
-
-
 import Actividades from './Actividades';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
-  
   return (
     <div
       className="tabpanel"
@@ -54,23 +44,13 @@ function a11yProps(index) {
 
 
 export default props => {
-  /*const user: EcosurAuth = useRecoilValue(userStateAtom);
-  const idPrograma = user.estudiante?.clavePrograma;
-  */
-
+  const [tab, setValue] = useState(0);
   const [idClavePrograma, setIdClavePorgrama] = useState(0);
+  const idPrograma = 1; 
 
-  console.log("Mis props en pestanias")
-  console.log(props)
   getIdClavePrograma().then((r)=>{
-    console.log("respuesta",r)
     setIdClavePorgrama(r)
   })
-
-  
-  const idPrograma = 1;
-  
-  const [tab, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -104,7 +84,7 @@ export default props => {
                 label={texto.tabs.tabPublicaciones.titulo}
                 {...a11yProps(3)}
               />
-              {idClavePrograma === 1 && (
+              {idClavePrograma === 2 && (
                 <Tab
                   label={texto.tabs.tabActividades.titulo}
                   {...a11yProps(4)}
@@ -114,18 +94,12 @@ export default props => {
           </AppBar>
           {
             <TabPanel value={tab} index={0}>
-              {/* { props.datoscongreso.lenght && <Component> </Component>} */}
-              {/* {props.datosCongreso.length > 0 && */}
                 <Congresos
                   datosCongreso={props.datosCongreso}
                   removerCongreso={props.removerCongreso}
                   estatus={props.estatus}
                   tieneCongresos={props.tieneCongresos}
                 />
-              
-              {/* } */}
-              
-              
             </TabPanel>
           }
           <TabPanel value={tab} index={1}>
@@ -156,7 +130,7 @@ export default props => {
             />
           </TabPanel>
 
-          { idClavePrograma === 1 && (
+          { idClavePrograma === 2 && (
             <TabPanel value={tab} index={4}>
               <Actividades
                 datosActividades={props.datosActividades}
