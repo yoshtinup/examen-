@@ -41,9 +41,9 @@ export function CardList(props:any) {
             },
           },
           palette: {
-            mode: 'dark',
-            primary: { main: '#3B8370' },/*'rgb(102, 157, 246)' },*/
-            background: { paper: '#3B8370' },/*'rgb(5, 30, 52)' },*/
+            mode: 'light',
+            primary: { main: '#fff' },/*'rgb(102, 157, 246)' },#3B8370*/
+            background: { paper: '#fff' },/*'rgb(5, 30, 52)' },#3B8370*/
           },
         })}
       >
@@ -74,7 +74,7 @@ export function CardList(props:any) {
               if(item.Childrens && item.Childrens.length > 0){
                 return <ItemWithChild key={i} item={item} />;
               }else{
-                return <ItemWithoutChild key={i} item={item} />;
+                return <ItemWithoutChild key={i} item={item} lastItem={i==data.Items.length-1} />;
               }
             })}
           </FireNav>
@@ -94,8 +94,8 @@ function ItemWithChild(props:any){
     <>
       <Box
         sx={{
-          bgcolor: open ? 'rgba(71, 98, 130, 0.2)' : null,
-          pb: open ? 2 : 0,
+          bgcolor: open ? 'rgba(255, 255, 255, 0.2)'/*'rgba(71, 98, 130, 0.2)'*/ : null,
+          pb: open ? 1 : 0,
         }}
       >
         <ListItemButton
@@ -112,6 +112,7 @@ function ItemWithChild(props:any){
             primary={item.Titulo}
             primaryTypographyProps={{
               fontSize: item.FontSize ? item.FontSize : FontSize.middle,
+              color: item.Important ? '#c56b16' : 'initial',
               fontWeight: 'bold',
               lineHeight: '20px',
               mb: '2px',
@@ -121,7 +122,7 @@ function ItemWithChild(props:any){
               noWrap: true,
               fontSize: item.FontSize ? (item.FontSize - 3) : (FontSize.middle - 3),
               lineHeight: '16px',
-              color: open ? 'rgba(0,0,0,0)' : 'rgba(255,255,255,0.5)',
+              color: open ? 'rgba(0,0,0,0)' : 'rgba(0,0,0,0.7)',
             }}
             sx={{ my: 0 }}
           />
@@ -135,8 +136,8 @@ function ItemWithChild(props:any){
           />
         </ListItemButton>
         {open && item.Childrens && item.Childrens.length > 0 &&
-          item.Childrens.map((item:CardListItemSimple, i) => (
-            <ItemWithoutChild key={i} item={item} />
+          item.Childrens.map((element:CardListItemSimple, i) => (
+            <ItemWithoutChild key={i} item={element} lastItem={i==item.Childrens.length-1} />
           ))}
       </Box>
       <Divider />
@@ -146,6 +147,7 @@ function ItemWithChild(props:any){
 
 function ItemWithoutChild(props:any){
   const item:CardListItemSimple = props.item;
+  const lastItem:boolean = props.lastItem;
   if(!item){
     return <></>;
   }
@@ -155,7 +157,11 @@ function ItemWithoutChild(props:any){
     </ListItemIcon>;
   const ItemText =
     <ListItemText
-      sx={{ my: 0 }}
+      sx={{
+        my: 0,
+        color: (item.Onclick && item.Onclick != null) ? '#1ab394' : (item.Important ? '#c56b16' : 'initial'),
+        textDecoration: (item.Onclick && item.Onclick != null) ? 'underline' : 'none'
+      }}
       primary={item.Titulo}
       primaryTypographyProps={{
         fontSize: item.FontSize ? item.FontSize : FontSize.middle,
@@ -181,7 +187,9 @@ function ItemWithoutChild(props:any){
           {ItemIcon}{ItemText}
         </ListItem>
       }
-      <Divider />
+      {!lastItem &&
+        <Divider />
+      }
     </>
   );
 }
