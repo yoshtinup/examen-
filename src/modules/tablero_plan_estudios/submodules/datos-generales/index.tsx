@@ -1,6 +1,6 @@
 import { EcosurAuth } from "@modules/auth/definitions";
 import { userStateAtom } from "@modules/auth/recoil";
-import { Avatar, Grid, Paper } from "@mui/material";
+import { Avatar, Grid, List, ListItem, ListItemAvatar, ListItemText, Paper } from "@mui/material";
 import { useGetEstudianteInfo } from "@shared/queries";
 import { EstudianteGql } from "@shared/types";
 import { useRecoilValue } from "recoil";
@@ -9,6 +9,8 @@ const DatosGenerales = (props:any) => {
   const user: EcosurAuth = useRecoilValue(userStateAtom);
   const { data, isError, isLoading } = useGetEstudianteInfo(user.estudiante.matricula);
   let userInfo:EstudianteGql = {} as EstudianteGql;
+  const currentDate = Date.now();
+  const fecha = new Date(currentDate);
   if(isLoading){
     return <>Cargando</>
   }
@@ -17,26 +19,37 @@ const DatosGenerales = (props:any) => {
   }
   userInfo = data[0];
   return (
-    <Paper style={{padding:"20px"}}>
-      <Grid container spacing={2}>
-        <Grid item xs={2}>
-          <Avatar
-            alt={
-              userInfo.Datos.Nombre + " " +
-              userInfo.Datos.ApellidoPaterno + " " + 
-              userInfo.Datos.ApellidoMaterno
-            }
-            src="https://"
-            sx={{ width: 70, height: 70 }}
-          />
-        </Grid>
-        <Grid item xs={10}>
-          <>Bienvenido, {userInfo.Datos.Nombre + " " + userInfo.Datos.ApellidoPaterno + " " +  userInfo.Datos.ApellidoMaterno}</>
-          <br />
-          <>Example data</>
-        </Grid>
-      </Grid>
-    </Paper>
+    <Grid container spacing={2}>
+      <Paper elevation={0} style={{padding:"20px"}}>
+        <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+          <ListItem>
+            <ListItemAvatar>
+              <Avatar
+                alt={
+                  userInfo.Datos.Nombre + " " +
+                  userInfo.Datos.ApellidoPaterno + " " + 
+                  userInfo.Datos.ApellidoMaterno
+                }
+                src="https://"
+                sx={{ width: 70, height: 70, margin:"auto" }}
+              />
+            </ListItemAvatar>
+            <ListItemText
+              style={{marginLeft: "20px"}}
+              primary={
+                "Bienvenido, " +
+                userInfo.Datos.Nombre + " " +
+                userInfo.Datos.ApellidoPaterno + " " + 
+                userInfo.Datos.ApellidoMaterno
+              }
+              secondary={"Datos actualizados, " + fecha.toDateString()}
+            />
+          </ListItem>
+        </List>
+      </Paper>
+      <Grid item xs={6}></Grid>
+      <Grid item xs={6}></Grid>
+    </Grid>
   );
 };
 export default DatosGenerales;
