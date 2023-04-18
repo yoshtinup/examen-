@@ -16,14 +16,13 @@ import { useRecoilValue } from 'recoil';
 import { planeacionState } from './recoil/planeacionState';
 import { valoracionState } from './recoil/valoracionState';
 import { profesoresState } from './recoil/profesoresState';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import { Alert, Box } from '@mui/material';
 import { useRouter } from 'next/router';
 import Swal from 'sweetalert2';
 import { preguntasEvaluacionADocentes } from './components/atoms/Text';
-
 const HomePage = WithRol(Roles.Estudiante)(Home);
 
 const EvaluacionDocente = () => {
@@ -36,6 +35,25 @@ const EvaluacionDocente = () => {
   const [successSending, setSuccessSending] = useState(false);
 
   const idMateria = router.query.idMateriasOfertaAnual;
+
+  useEffect(()=>{
+    let isEvaluation = localStorage.getItem('isEvaluation');
+    if(isEvaluation === 'true') {
+      Swal.fire({
+        icon: 'success',
+        title: 'Ya ha evaluado este curso',
+        confirmButtonColor: '#3085d6',
+        showConfirmButton: true,
+        confirmButtonText: 'Continuar',
+        allowOutsideClick: false,
+        allowEscapeKey: false
+      }).then((result) => {
+        if (result.isConfirmed) {
+          router.push('/home');
+        }
+      });
+    }
+  });
 
   const handleSend = async () => {
     setIsLoading(true);
@@ -51,6 +69,7 @@ const EvaluacionDocente = () => {
       setIsLoading(false);
       return;
     }
+
     const data: Actividades = {
       idMateriasOfertaAnual: parseInt(idMateria.toString()),
       planeacionDelCurso,
@@ -72,6 +91,8 @@ const EvaluacionDocente = () => {
     resultado.message ? setIsLoading(true) : setIsLoading(false);
 
     resultado.message ? setSuccessSending(true) : setSuccessSending(false);
+    localStorage.setItem('isEvaluation', 'true');
+    window.location.href = '/home'
   };
 
   const checkIfPlenacionHasEmptyValues = (
@@ -164,7 +185,7 @@ const EvaluacionDocente = () => {
           </Button>
         )}
         {successSending && (
-          <Alert variant="filled" severity="warning">
+          <Alert variant="filled" severity="info">
             Su evaluación ha sido enviada
           </Alert>
         )}

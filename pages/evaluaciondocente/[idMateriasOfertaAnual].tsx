@@ -43,17 +43,8 @@ const PageData = () => {
         {materia && (
           <div>
             <h3>Asignatura: {materia.nombre}</h3>
-            <h3></h3>
-            <div>
-              {profesores.map(i => (
-                <div key={i.idProfesores}>
-                  <h3>Docente: {i.name}</h3>
-                </div>
-              ))}
-            </div>
           </div>
         )}
-
         <EvaluacionDocente />
       </Box>
     </Container>

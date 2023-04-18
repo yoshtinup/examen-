@@ -77,18 +77,20 @@ export const InstructionContainer = styled.div`
 `;
 
 export const TextBlue = styled.text`
-  font-size: 29px;
+  font-weight: 600;
+  font-size: 28px;
   height: auto;
-  color: #71b0eb;
-  font-family: Helvetica, Arial, sans-serif;
+  color: #000000;
+  font-family: Arial;
 `;
 
 export const TextStrongBlue = styled.div`
   font-size: 14px;
   height: auto;
-  color: #3c3cea;
+  margin: 20px 0px;
+  color: #000000;
   flex-direction: row;
-  font-family:  Helvetica, Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   justify-content: center;
   cursor: pointer,
   letter-spacing: 10px;
@@ -196,3 +198,30 @@ export const SubmitButton = styled.button`
   align-items: center;
   font-family: Helvetica, Arial, sans-serif;
 `;
+export const BootstrapButton = styled.button`
+  boxShadow: 'none',
+  textTransform: 'none',
+  fontSize: 16,
+  padding: '6px 12px',
+  border: '1px solid',
+  lineHeight: 1.5,
+  backgroundColor: '#0063cc',
+  borderColor: '#0063cc',
+  fontFamily:
+    '-apple-system',
+    'BlinkMacSystemFont',
+    '"Segoe UI"',
+    'Roboto',
+    '"Helvetica Neue"',
+    'Arial',
+    'sans-serif',
+    '"Apple Color Emoji"',
+    '"Segoe UI Emoji"',
+    '"Segoe UI Symbol"',
+    backgroundColor: '#0069d9',
+    borderColor: '#0062cc',
+    boxShadow: 'none'
+    boxShadow: 'none',
+    backgroundColor: '#0062cc',
+    borderColor: '#005cbf',
+    boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)'`

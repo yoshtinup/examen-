@@ -6,7 +6,7 @@ import PlanValoration from '../atoms/PlanValoration';
 const PlaningContainer = () => {
   return (
     <>
-      <TextBlue>Planeación o planificación</TextBlue>
+      <h3>Planeación o planificación</h3>
       <TextContainer> {Text_Planing} </TextContainer>
       {PlaneacionQuestions.map(val => {
         const inputErrorMesssage = '';

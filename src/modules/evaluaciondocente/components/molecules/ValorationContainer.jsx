@@ -5,7 +5,7 @@ import TextValoration from '../atoms/TextValoration';
 const ValorationContainer = ({ error }) => {
   return (
     <>
-      <TextBlue>Valoración</TextBlue>
+      <h3>Valoración</h3>
       {ValoracionQuestions.map(val => {
         const inputErrorMesssage = '';
         if (error.length > 0) {

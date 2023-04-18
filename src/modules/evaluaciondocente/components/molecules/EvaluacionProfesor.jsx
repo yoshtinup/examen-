@@ -9,7 +9,7 @@ import {
   Modal,
   Alert,
   Grid,
-  Backdrop,
+  styled,
 } from '@mui/material';
 import {
   preguntasEvaluacionADocentes,
@@ -31,6 +31,42 @@ const style = {
   height: 600,
   overflow: 'scroll',
   display: 'block',
+};
+
+const ButtonEvaluar = styled(Button)({
+  boxShadow: 'none',
+  textTransform: 'none',
+  fontSize: 16,
+  padding: '6px 20px',
+  border: '1px solid',
+  lineHeight: 1.5,
+  backgroundColor: '#2277BD',
+  borderColor: '#2277BD',
+  fontFamily: [
+    'Arial',
+    'sans-serif',
+  ]
+});
+
+const ButtonDelete = styled(Button)({
+  boxShadow: 'none',
+  textTransform: 'none',
+  color: '#FF1915',
+  fontSize: 16,
+  padding: '6px 20px',
+  border: '1px solid',
+  lineHeight: 1.5,
+  backgroundColor: '#FFFFFF',
+  borderColor: '#FF1915',
+  fontFamily: [
+    '"Helvetica Neue"',
+    'Arial',
+    'sans-serif',
+  ]
+});
+
+const textStyle = {
+  color: '#FF2626'
 };
 
 const EvaluacionProfesor = ({ profesor }) => {
@@ -104,21 +140,21 @@ const EvaluacionProfesor = ({ profesor }) => {
           <p>{profesor.name}</p>
         </CardContent>
         <CardActions>
-          <Button onClick={handleEvaluarClick} variant="contained" color="info">{buttonName ? 'Evaluado' : 'Evaluar'}
-          </Button>
+          <ButtonEvaluar onClick={handleEvaluarClick} variant="contained" color="info">{buttonName ? 'Evaluado' : 'Evaluar'}
+          </ButtonEvaluar>
           { buttonEliminar &&
-            <Button
+            <ButtonDelete
               onClick={handleEliminarEvaluacion}
               variant="outlined"
               color="error"
             >
               Eliminar evaluación
-            </Button>
+            </ButtonDelete>
           }
           {!profesorEvaluado && (
-            <Alert sx={{ m: 2 }} variant="filled" severity="warning">
+            <Alert sx={{ m: 2 }} style={textStyle} variant="text" severity="warning"> 
               {' '}
-              Es necesario evaluar por completo al profesor
+              <strong>Pendiente de concluir evaluación</strong>
             </Alert>
           )}
         </CardActions>
@@ -126,8 +162,8 @@ const EvaluacionProfesor = ({ profesor }) => {
       <Modal
         open={mostrarModal}
         onClose={handleClose}
-        BackdropProps={{
-          onClick: () => {},
+        BackdropProps = {{
+          onClick: null,
         }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -136,8 +172,10 @@ const EvaluacionProfesor = ({ profesor }) => {
           <Card sx={{ minWidth: 275 }}>
             <CardContent>
               <h3>
-                <b>Evaluación a:</b> {profesor.name}
+                <b>Evaluación a:</b>
               </h3>
+              <p>{profesor.name}</p>
+              <h4>
               {preguntasEvaluacionADocentes.map(seccion => (
                 <SeccionEvaluacionProfesor
                   key={seccion.key}
@@ -145,6 +183,7 @@ const EvaluacionProfesor = ({ profesor }) => {
                   profesor={profesor}
                 />
               ))}
+              </h4>
             </CardContent>
             <CardActions>
               <Box
@@ -155,7 +194,7 @@ const EvaluacionProfesor = ({ profesor }) => {
                 }}
               >
                 <Button variant="contained" onClick={handleClose}>
-                  Terminar evaluación
+                  Guardar
                 </Button>
               </Box>
             </CardActions>

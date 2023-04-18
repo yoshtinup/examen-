@@ -29,7 +29,7 @@ const Home = () => {
         2. Haga clic en el botón <b>"Enviar evaluación".</b> Una vez enviada no
         podrá modificarla. Todos los campos deben ser contestados para enviar su
         evaluación.
-      </p>
+      </p> <br/>
     </Grid>
   );
 };
