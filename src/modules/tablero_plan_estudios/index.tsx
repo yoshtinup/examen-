@@ -55,7 +55,7 @@ const TableroPlanEstudios = () => {
         activeTextColor="black"
         key="ecosur-tabs-cursos"
       />
-      <ProductosActividadesRealizadas />
+      <ProductosActividadesRealizadas matricula={user.estudiante.matricula} />
     </>
   );
 };
