@@ -11,7 +11,6 @@ const Page = () => {
         display="column"
         alignItems="center"
         justifyContent="center"
-        style={{ padding: '30px !important', backgroundColor: '#fff' }}
       >
         <Home />
       </Box>

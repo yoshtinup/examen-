@@ -1,6 +1,6 @@
 import { Grid, Typography } from "@mui/material";
 import { GraficaBarras } from "@shared/components/graficas";
-import { getDataGraficaCurso } from "@shared/components/graficas/createDataGraficaCurso";
+import { NumeraliaGraficaCurso, getDataGraficaCurso } from "@shared/components/graficas/createDataGraficaCurso";
 import { GraficaPastel } from "@shared/components/graficas/graficaPastel";
 import { Alineacion, GraficaColor, CursosAlumnoGql, GraficaBarrasType, GraficaPastelType } from "@shared/types";
 
@@ -25,12 +25,12 @@ const GraficaCursos = (props:any) => {
       },
       {
         Titulo:"Bloque turquesa",
-        Valor: 95,
+        Valor: 85,
         Color: GraficaColor.turquesa
       },
       {
         Titulo:"Bloque rojo",
-        Valor: 2500,
+        Valor: 25,
         Color: GraficaColor.rojo
       },
       {
@@ -40,18 +40,23 @@ const GraficaCursos = (props:any) => {
       }
     ]
   }
+  /*
+    <Grid item xs={12}>
+      <Typography variant="body1" gutterBottom>
+        <b>Grafica</b>
+      </Typography>
+    </Grid>
+    <Grid item xs={6}>
+      <GraficaPastel data={dataExample} />
+    </Grid>
+  */
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Typography variant="body1" gutterBottom>
-          <b>Grafica</b>
-        </Typography>
-      </Grid>
-      <Grid item xs={6}>
-        <GraficaPastel data={dataExample} />
-      </Grid>
-      <Grid item xs={6}>
+    <Grid container spacing={5} style={{marginBottom:"70px"}} alignItems="center">
+      <Grid item xs={5}>
         <GraficaBarras data={dataCursos} />
+      </Grid>
+      <Grid item xs={5}>
+        <NumeraliaGraficaCurso data={arrayCursos} />
       </Grid>
     </Grid>
   );

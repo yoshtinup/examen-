@@ -12,6 +12,7 @@ export interface CardListItemSimple{
   Icono?: React.ReactNode;
   Onclick?: OnClickFunction;
   FontSize?: FontSize;
+  Important?: boolean;
 }
 
 export interface CardListItemChildrens extends CardListItemSimple{

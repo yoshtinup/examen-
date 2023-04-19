@@ -13,13 +13,39 @@ export function useGetCursosAlumno(matricula: number) {
             Creditos
             FechaIni
             FechaFin
+            IdPeriodo
             PeriodoNombre
+    				FechaInicioPeriodo
+    				FechaFinPeriodo
             ObligatoriaOptativa
             IdMateriasOfertaAnual
             IdMateriasOfertaClave
             CalificacionNumerico
+            IdBoletasIncripciones
+    				BoletaInscripcion:db_boletaInscripcion{
+              Estatus:db12_CatalogoEstatusInscripcione{
+                Descripcion
+              }
+              IdBoletasIncripciones
+              IdCatalogoEstatusInscripciones
+              url:NombreArchivo
+            }
             BoletaCalificacion:db_alumnos_Materias{
               url:NombreArchivoBoletaMateria
+            }
+            EvaluacionSeminario:db12_Seminarios_Evaluaciones{
+              SeminariosCatalogoEstatus:db12_Seminarios_CatalogoEstatus{
+                Descripcion
+                IdSeminarios_CatalogoEstatus
+              }
+              IdAlumnosMaterias
+              IdSeminarios_Evaluaciones
+              url_one_drive
+            }
+    				EvaluacionDocentePendiente:db_EvaluacionDocenteMateria(where:{EstatusEvaluacion:{_eq:3}}){
+              MateriasSinEvaluar:db_MateriasSinEvaluar{
+                IdMateriasOfertaAnual
+              }
             }
           }
         }

@@ -1,18 +1,34 @@
 import TableroPlanEstudios from "@modules/tablero_plan_estudios";
-import { Grid, Typography } from "@mui/material";
+import DatosGenerales from "@modules/tablero_plan_estudios/submodules/datos-generales";
+import { Container, Grid } from "@mui/material";
+import { HeaderSection } from "@shared/components";
+
+const style = {
+  padding: '30px',
+  backgroundColor:"#fff"
+}
 
 const Estudiante = () => {
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Typography variant="body1" gutterBottom>
-          <b>HOME ESTUDIANTE.</b>
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        <TableroPlanEstudios />
-      </Grid>
-    </Grid>
+    <>
+      <Container maxWidth={false} style={{...style}}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <DatosGenerales />
+          </Grid>
+        </Grid>
+      </Container>
+      <Container maxWidth={false} style={{...style, marginTop:"30px" }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <HeaderSection label="PLAN DE ESTUDIOS" />
+          </Grid>
+          <Grid item xs={12}>
+            <TableroPlanEstudios />
+          </Grid>
+        </Grid>
+      </Container>
+    </>
   );
 };
 export default Estudiante;
