@@ -1,17 +1,17 @@
-export enum GraficaColor{
-  blanco = "#fff",
-  amarillo = "#ff0",
-  violeta = "#f0f",
-  turquesa = "#0ff",
-  rojo = "#f00",
-  verde = "#0f0",
-  azul = "#00f",
-  negro = "#000"
+export enum GraficaColor {
+  blanco = '#fff',
+  amarillo = '#ffee65',
+  violeta = '#bd7ebe',
+  turquesa = '#fdcce5',
+  rojo = '#fd7f6f',
+  verde = '#b2e061',
+  azul = '#7eb0d5',
+  negro = '#000',
 }
 
-export enum Alineacion{
+export enum Alineacion {
   Izquierda,
-  Derecha
+  Derecha,
 }
 
 export interface GraficaSimple {
@@ -31,7 +31,7 @@ export interface GraficaBarrasType extends GraficaSimple {
   Items: GraficaBarrasItemChildrens[];
 }
 
-export interface GraficaPastelType extends GraficaSimple{
+export interface GraficaPastelType extends GraficaSimple {
   Alineacion: Alineacion;
 }
 
