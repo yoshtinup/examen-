@@ -132,7 +132,7 @@ const Evaluacion = props => {
     const actividadesSeminario = await SeminarioInvestigacion.getDatosEvaluacionSeminario(idSeminario)
     setActividadesList2(actividadesSeminario)
     let idEvaSeminarioInv = actividadesSeminario.datosSeminario.idSeminario;
-    if(actividadesSeminario.estatus.id == 1){
+    if(actividadesSeminario.estatus.id == 2){
       router.push("/seminarios_investigacion/"+idSeminario)
     }else{
       setActividadesList2((prev) => ({
