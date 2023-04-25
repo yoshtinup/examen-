@@ -15,6 +15,16 @@ import { userStateAtom } from '@modules/auth/recoil';
 import { CursoPorIniciarGql } from '@shared/types/cursosPorIniciarGql';
 import { useGetCursosAIniciar } from '@shared/queries/cursosPorIniciarGql';
 import ProductosActividadesRealizadas from './submodules/productos_actividades_realizadas';
+import { Container } from '@mui/system';
+import { Grid } from '@mui/material';
+import { HeaderSection } from '@shared/components';
+import EvaluacionBecario from './submodules/evaluacion-becario';
+
+const style = {
+  padding: '30px',
+  backgroundColor:"#fff",
+  marginTop:"30px"
+}
 
 const TableroPlanEstudios = () => {
   const user: EcosurAuth = useRecoilValue(userStateAtom);
@@ -47,15 +57,27 @@ const TableroPlanEstudios = () => {
   ];
   return (
     <>
-      <GraficaCursos data={arrayCursos} />
-      <EcosurTabs
-        data={tabCursos}
-        align="left"
-        activeColor="#ecf0f5"
-        activeTextColor="black"
-        key="ecosur-tabs-cursos"
-      />
-      <ProductosActividadesRealizadas matricula={user.estudiante.matricula} />
+      <Container maxWidth={false} style={{...style }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <HeaderSection label="PLAN DE ESTUDIOS" shadow={false} />
+          </Grid>
+          <Grid item xs={12}>
+            <GraficaCursos data={arrayCursos} />
+            <EcosurTabs
+              data={tabCursos}
+              align="left"
+              activeColor="#ecf0f5"
+              activeTextColor="black"
+              key="ecosur-tabs-cursos"
+            />
+          </Grid>
+        </Grid>
+      </Container>
+      <EvaluacionBecario />
+      <Container maxWidth={false} style={{...style }}>
+        <ProductosActividadesRealizadas matricula={user.estudiante.matricula} />
+      </Container>
     </>
   );
 };

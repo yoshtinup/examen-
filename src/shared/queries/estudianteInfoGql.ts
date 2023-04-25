@@ -9,6 +9,7 @@ export function useGetEstudianteInfo(matricula: number) {
         query EstudianteInfo($matricula: Int!) {
           Alumno: AlumnoPrograma(where: { Matricula: { _eq: $matricula } }) {
             Matricula: Matricula
+            FechaDeIngresoAlPosgrado
             Estatus: Estatus
             Tesis: Tesis
             Orientacion: OrientacionPrograma {
@@ -49,6 +50,9 @@ export function useGetEstudianteInfo(matricula: number) {
                 ApellidoPaterno
               }
             }
+            Beca{
+              IdTipoDeBeca
+            }          
           }
         }
       `,

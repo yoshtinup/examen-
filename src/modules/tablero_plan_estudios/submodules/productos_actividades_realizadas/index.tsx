@@ -1,4 +1,3 @@
-import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import GraficaProductosActividadesRealizadas from './grafica-productos-actividades-realizadas';
 import TabsProductosActividadesRealizadas from './tabs-productos-actividades-realizadas';
@@ -8,6 +7,7 @@ import {
   IListProductosActividadesRealizadas,
   IProductoActividadRealizada,
 } from './IProductosActividadRealizada';
+import { HeaderSection } from '@shared/components';
 
 const ProductosActividadesRealizadas = ({
   matricula,
@@ -53,19 +53,17 @@ const ProductosActividadesRealizadas = ({
     congresos,
   };
   return (
-    <>
-      <Typography variant="h6" color="initial">
-        PRODUCTOS Y ACTIVIDADES REALIZADAS
-      </Typography>
-      <Grid container spacing={0}>
-        <Grid item xs={4}>
-          <GraficaProductosActividadesRealizadas data={listData} />
-        </Grid>
-        <Grid item xs={8}>
-          <TabsProductosActividadesRealizadas data={listData} />
-        </Grid>
+    <Grid container spacing={0}>
+      <Grid item xs={12}>
+        <HeaderSection label="PRODUCTOS Y ACTIVIDADES REALIZADAS" shadow={false} />
       </Grid>
-    </>
+      <Grid item xs={5}>
+        <GraficaProductosActividadesRealizadas data={listData} />
+      </Grid>
+      <Grid item xs={7}>
+        <TabsProductosActividadesRealizadas data={listData} />
+      </Grid>
+    </Grid>
   );
 };
 

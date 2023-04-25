@@ -13,6 +13,7 @@ const GraficaProductosActividadesRealizadas = ({
 }) => {
   const dataExample: GraficaPastelType = {
     Alineacion: Alineacion.Derecha,
+    Porcentajes: true,
     Items: [
       {
         Titulo: 'Publicaciones',

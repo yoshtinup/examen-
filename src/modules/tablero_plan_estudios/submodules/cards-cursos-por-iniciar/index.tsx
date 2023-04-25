@@ -5,6 +5,7 @@ import { rolStateAtom } from "@modules/auth/recoil";
 import Roles from "@definitions/Roles";
 import { CursoPorIniciarGql } from "@shared/types/cursosPorIniciarGql";
 import { getDataCardCursoAIniciar } from "@shared/components/cards/createDataCardCursoPorIniciar";
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 
 const CardsCursosAIniciar = (props:any) => {
   const currentRol: Roles = useRecoilValue(rolStateAtom);
@@ -28,9 +29,10 @@ const CardsCursosAIniciar = (props:any) => {
             sunt in culpa qui officia deserunt mollit anim id est laborum.
           </p>
         </Grid>
-        <Grid item xs={8}>
-          <Link href="https://">
-            <h3>Oferta de cursos del año vigente</h3>
+        <Grid item xs={4} style={{textAlign:"center", margin:"auto"}}>
+          <Link href="https://www.ecosur.mx/ecoconsulta/cursosposgrado">
+            <LibraryBooksIcon style={{fontSize:"70px"}} />
+            <h3>OFERTA DE CURSOS DEL AÑO VIGENTE</h3>
           </Link>
         </Grid>
       </Grid>

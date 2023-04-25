@@ -65,3 +65,8 @@ body {
 .grafica-barras-item-barra:hover{
   opacity: 0.9;
 }
+
+#progress-circle-becario > div > span{
+  width: 180px !important;
+  height: 180px !important;
+}

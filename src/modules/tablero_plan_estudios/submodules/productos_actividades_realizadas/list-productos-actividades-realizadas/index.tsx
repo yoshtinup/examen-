@@ -6,14 +6,16 @@ import { Alert } from '@mui/material';
 const ListProductosActividadesRealizadas = ({
   productos,
   columns,
+  alert
 }: {
   productos: IProductoActividadRealizada[];
   columns: GridColDef[];
+  alert: string;
 }) => {
   const component =
     productos.length == 0 ? (
       <Alert variant="outlined" severity="error">
-        Usted no cuenta con elementos disponibles para este apartado
+        Usted no cuenta con {alert}
       </Alert>
     ) : (
       <DataGrid

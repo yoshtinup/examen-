@@ -21,7 +21,7 @@ const CardsCursos = (props:any) => {
   return (
     <>
       <Grid container spacing={2} style={{padding:"10px 50px 0"}}>
-        <Grid item xs={8}>
+        <Grid item xs={12}>
           <h3>Instrucciones</h3>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit,sed do eiusmod
@@ -40,7 +40,7 @@ const CardsCursos = (props:any) => {
           <>
             <Grid item xs={12}>
               <Typography variant="body1" gutterBottom>
-                <b>En proceso y por iniciar</b>
+                <b>EN PROCESO Y POR INICIAR</b>
               </Typography>
             </Grid>
             {arrayCursos?.EnProceso?.map((curso:CursoGql, i) =>
@@ -59,7 +59,7 @@ const CardsCursos = (props:any) => {
           <>
             <Grid item xs={12} style={(arrayCursos?.EnProceso?.length > 0 || arrayCursos?.Pendientes?.length > 0) ? {marginTop:"50px"} : {}}>
               <Typography variant="body1" gutterBottom>
-                <b>Finalizados</b>
+                <b>FINALIZADOS</b>
               </Typography>
             </Grid>
             {arrayCursos?.Finalizados?.map((curso:CursoGql, i) =>

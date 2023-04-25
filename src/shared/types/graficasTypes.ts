@@ -33,6 +33,7 @@ export interface GraficaBarrasType extends GraficaSimple {
 
 export interface GraficaPastelType extends GraficaSimple {
   Alineacion: Alineacion;
+  Porcentajes?: boolean;
 }
 
 export interface GraficaBarrasGraduacion {

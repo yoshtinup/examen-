@@ -7,7 +7,7 @@ export async function getEvaluaciones(matricula: number = 202221005) {
     gql`
       query Evaluciones($matricula: Int!) {
         db12_EvaluacionBecario(
-          where: { Matricula: { _eq: $matricula } }
+          where: { Matricula: { _eq: $matricula }, IdEvaluacionBecario_CatalogoEstatus: { _eq: 4} }
           order_by: { FechaEvaluacionBecario: desc }
         ) {
           Estatus: db12_EvaluacionBecario_CatalogoEstatus {

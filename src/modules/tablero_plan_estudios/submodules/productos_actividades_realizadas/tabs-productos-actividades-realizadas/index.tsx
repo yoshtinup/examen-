@@ -44,6 +44,7 @@ const TabsProductosActividadesRealizadas = ({
         <ListProductosActividadesRealizadas
           productos={publicaciones}
           columns={columnsPublicaciones}
+          alert='Publicaciones registradas'
         />
       ),
     },
@@ -53,6 +54,7 @@ const TabsProductosActividadesRealizadas = ({
         <ListProductosActividadesRealizadas
           productos={cursos}
           columns={columnCursos}
+          alert='Cursos registrados'
         />
       ),
     },
@@ -62,6 +64,7 @@ const TabsProductosActividadesRealizadas = ({
         <ListProductosActividadesRealizadas
           productos={estancias}
           columns={columnEstancias}
+          alert='Estancias registradas'
         />
       ),
     },
@@ -71,6 +74,7 @@ const TabsProductosActividadesRealizadas = ({
         <ListProductosActividadesRealizadas
           productos={congresos}
           columns={columnCongresos}
+          alert='Congresos registrados'
         />
       ),
     },

@@ -13,15 +13,15 @@ export function getDataCardCSFinalizado(CS:CSGql, currentRol:Roles, Inscribirse:
   let Inscrito:Boolean = false;
   let x:number;
 
-  let Calificacion:CardListItemChildrens = ItemWithChildrens("Calificación", false);
+  let Calificacion:CardListItemChildrens = ItemWithChildrens("Calificación", true);
   if(CS.Calificacion){
     let nota = CS.CalificacionPendiente ? " - ¡¡¡ calificaciones pendientes !!!" : "";
-    Calificacion.Childrens.push(ItemSimple("Curso: " + CS.Calificacion + nota, <People />));
+    Calificacion.Childrens.push(ItemSimple("Curso: " + CS.Calificacion.toFixed(2) + nota, <People />));
     ItemCreateSubtitle(Calificacion);
     data.Items.push(Calificacion);
   }
 
-  let Archivos:CardListItemChildrens = ItemWithChildrens("Archivos", false);
+  let Archivos:CardListItemChildrens = ItemWithChildrens("Enlaces", true);
   for(x=0; x<CS.Cursos.length; x+=1){
     if(CS.Cursos[x].BoletaInscripcion && CS.Cursos[x].BoletaInscripcion.url){
       Archivos.Childrens.push(ItemSimple("Boleta de inscripción", <People />, ItemFileFunction(CS.Cursos[x].BoletaInscripcion.url)));
@@ -41,9 +41,9 @@ export function getDataCardCSFinalizado(CS:CSGql, currentRol:Roles, Inscribirse:
   ItemCreateSubtitle(Archivos);
   data.Items.push(Archivos);
 
-  let Cursos:CardListItemChildrens = ItemWithChildrens("Cursos", false);
+  let Cursos:CardListItemChildrens = ItemWithChildrens("Cursos", true);
   for(x=0; x<CS.Cursos.length; x+=1){
-    Cursos.Childrens.push(ItemSimple(CS.Cursos[x].NombreMateria + " (Del " + CS.Cursos[x].FechaIni + " al " + CS.Cursos[x].FechaFin + ")", <Dns />));
+    Cursos.Childrens.push(ItemSimple(CS.Cursos[x].NombreMateria + " (Del " + DateFormat(CS.Cursos[x].FechaIni) + " al " + DateFormat(CS.Cursos[x].FechaFin) + ")", <Dns />));
   }
   ItemCreateSubtitle(Cursos);
   data.Items.push(Cursos);

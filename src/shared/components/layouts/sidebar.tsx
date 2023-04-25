@@ -9,7 +9,7 @@ import {
   useMediaQuery,
   Theme,
 } from '@mui/material';
-import Icon from '@mui/icons-material/AirlineSeatFlat';
+import Icon from '@mui/icons-material/Window';
 import { NavItem } from './nav-item';
 
 type ItemsNav = {

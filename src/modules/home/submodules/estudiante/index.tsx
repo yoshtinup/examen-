@@ -1,7 +1,6 @@
 import TableroPlanEstudios from "@modules/tablero_plan_estudios";
 import DatosGenerales from "@modules/tablero_plan_estudios/submodules/datos-generales";
 import { Container, Grid } from "@mui/material";
-import { HeaderSection } from "@shared/components";
 
 const style = {
   padding: '30px',
@@ -18,16 +17,7 @@ const Estudiante = () => {
           </Grid>
         </Grid>
       </Container>
-      <Container maxWidth={false} style={{...style, marginTop:"30px" }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <HeaderSection label="PLAN DE ESTUDIOS" />
-          </Grid>
-          <Grid item xs={12}>
-            <TableroPlanEstudios />
-          </Grid>
-        </Grid>
-      </Container>
+      <TableroPlanEstudios />
     </>
   );
 };

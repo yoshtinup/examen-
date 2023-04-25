@@ -1,5 +1,6 @@
 export interface EstudianteGql {
   Matricula: number;
+  FechaDeIngresoAlPosgrado:string;
   Estatus: string;
   Tesis: string;
   Orientacion: OrientacionGql;
@@ -9,6 +10,7 @@ export interface EstudianteGql {
   AnioDeEstudiosActual: ValueGql;
   UnidadAdscripcion: ValueGql;
   DirectorTesis: DirectorTesisGql[];
+  Beca: BecaGql;
 }
 
 export interface ValueGql {
@@ -50,4 +52,8 @@ export interface ProgramaGql {
   NombreLargo: string;
   NombreCorto: string;
   NumeroDeCreditos: number;
+}
+
+export interface BecaGql {
+  IdTipoDeBeca: number;
 }

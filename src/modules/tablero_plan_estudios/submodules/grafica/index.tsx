@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@mui/material";
+import { Grid } from "@mui/material";
 import { GraficaBarras } from "@shared/components/graficas";
 import { NumeraliaGraficaCurso, getDataGraficaCurso } from "@shared/components/graficas/createDataGraficaCurso";
 import { GraficaPastel } from "@shared/components/graficas/graficaPastel";
@@ -12,41 +12,37 @@ const GraficaCursos = (props:any) => {
   const dataCursos:GraficaBarrasType = getDataGraficaCurso(arrayCursos);
   const dataExample:GraficaPastelType = {
     Alineacion: Alineacion.Derecha,
+    Porcentajes: true,
     Items:[
       {
-        Titulo:"Bloque amarillo",
-        Valor: 65,
-        Color: GraficaColor.amarillo
+        Titulo:"Bloque azul",
+        Valor: 5,
+        Color: GraficaColor.azul
       },
       {
         Titulo:"Bloque violeta",
-        Valor: 50,
+        Valor: 10,
         Color: GraficaColor.violeta
       },
       {
         Titulo:"Bloque turquesa",
-        Valor: 85,
+        Valor: 15,
         Color: GraficaColor.turquesa
       },
       {
         Titulo:"Bloque rojo",
-        Valor: 25,
+        Valor: 20,
         Color: GraficaColor.rojo
       },
       {
         Titulo:"Bloque verde",
-        Valor: 35,
+        Valor: 25,
         Color: GraficaColor.verde
       }
     ]
   }
   /*
     <Grid item xs={12}>
-      <Typography variant="body1" gutterBottom>
-        <b>Grafica</b>
-      </Typography>
-    </Grid>
-    <Grid item xs={6}>
       <GraficaPastel data={dataExample} />
     </Grid>
   */

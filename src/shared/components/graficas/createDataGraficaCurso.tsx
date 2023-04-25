@@ -94,7 +94,7 @@ export function NumeraliaGraficaCurso(props:any){
         <Paper elevation={5} style={{borderBottom:"solid 3px #1ab394", padding:"10px 0 0"}}>
           <Grid container spacing={2} alignItems="center">
             <Grid item xs={6}>
-              <TextLine variant="h5" text={<b>Creditos cubiertos</b>}/>
+              <TextLine variant="h5" text={<b>Créditos cubiertos</b>}/>
               <TextLine variant="h4" text={creditosCub}/>
             </Grid>
             <Grid item xs={6}>
@@ -107,7 +107,7 @@ export function NumeraliaGraficaCurso(props:any){
         <Paper elevation={5} style={{borderBottom:"solid 3px #c56b16", padding:"10px 0 0"}}>
           <Grid container spacing={2} alignItems="center">
             <Grid item xs={6}>
-              <TextLine variant="h5" text={<b>Creditos pendientes</b>}/>
+              <TextLine variant="h5" text={<b>Créditos pendientes</b>}/>
               <TextLine variant="h4" text={creditosPen}/>
             </Grid>
             <Grid item xs={6}>

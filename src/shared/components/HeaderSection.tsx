@@ -5,16 +5,18 @@ import Typography from '@mui/material/Typography';
 import AppsIcon from '@mui/icons-material/Apps';
 import IconButton from '@mui/material/IconButton';
 
-export default function HeaderSection({ label }) {
+export default function HeaderSection({ label, shadow = true }) {
+  const shadowStyle = shadow ? {} : {boxShadow:"none"};
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
         position="static"
         style={{
-          padding: '20px',
+          padding: shadow ? "20px" : '10px',
           backgroundColor: '#fff',
           color: 'rgb(197, 107, 22) !important',
           marginBottom: '23px',
+          ...shadowStyle,
         }}
       >
         <Toolbar>
