@@ -1,4 +1,4 @@
-import { Alert, CircularProgress, Grid, Typography } from "@mui/material";
+import { Alert, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Typography } from "@mui/material";
 import {
   CardList,
   getDataCardCSFinalizado,
@@ -9,16 +9,26 @@ import { useRecoilValue } from "recoil";
 import { rolStateAtom } from "@modules/auth/recoil";
 import Roles from "@definitions/Roles";
 import { CSGql, SemestresCuatrimestresGql } from "@shared/types/cuatrimestresSemestresGql";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useQuery } from "react-query";
 import apiInscripciones from "@shared/components/cards/apiInscripciones";
+import Modal from "./modal-inscripcion-cuatri";
 
 const CardsCS = (props:any) => {
   const [inscripcion, setInscripcion] = useState(false);
-  const clickInscripcion = (txt:string) => {
-    window.alert("texto: " + txt);
-    setInscripcion(true);
+  const [isOpen, setIsOpen] = useState(false);
+  const handleOpenModal = () => setIsOpen(true);
+  const handleCloseModal = () => setIsOpen(false);
+  
+  const handleDataFromChild = (data) => {
+    setInscripcion(data);
   };
+ // console.log(inscripcion);
+  // const clickInscripcion = () => {
+  //    window.alert("texto: es igual a  ");
+     
+  //   setInscripcion(true);
+  // };
   const currentRol: Roles = useRecoilValue(rolStateAtom);
   const arrayCS:SemestresCuatrimestresGql = props.data;
   if(!arrayCS){
@@ -70,63 +80,40 @@ const CardsCS = (props:any) => {
             </Grid>
             {arrayCS?.Finalizados?.map((CS:CSGql, i) =>
               <Grid key={i} item xs={12} sm={6} md={4} lg={3} >
-                <CardList data={getDataCardCSFinalizado(CS, currentRol, clickInscripcion)} />
+                <CardList data={getDataCardCSFinalizado(CS, currentRol,handleOpenModal)} />
               </Grid>
             )}
           </>
         }
+        <Modal isOpen={isOpen} onClose={handleCloseModal} onData={handleDataFromChild} mensaje='¿Esta seguro/a de inscribirse al cuatrimestre/Semestre?'/>
+        {/* {inscripcion && <p>Data from child: {inscripcion}</p>} */}
         {inscripcion &&
-          <Inscribirse />
-        }
+          <Inscribirse arrayInscription={arrayCS}/>
+        } 
       </Grid>
     </>
   );
 };
 
-/*const AlertDialog = () => {
-  const [open, setOpen] = useState(true);
-  const handleClose = () => {
-    setOpen(false);
-  };
-  return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-    >
-      <DialogTitle id="alert-dialog-title">
-        {"Use Google's location service?"}
-      </DialogTitle>
-      <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          Let Google help apps determine location. This means sending anonymous
-          location data to Google, even when no apps are running.
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Disagree</Button>
-        <Button onClick={handleClose} autoFocus>
-          Agree
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
-}*/
 
-const Inscribirse = () => {
+const Inscribirse = (arrayInscription) => {
+  
+console.log(arrayInscription?.Finalizados?.IdBoletasIncripciones);
+const idBoletasIncripciones=arrayInscription?.pendientes?.IdBoletasIncripciones;
+
   const {
     data,
     error,
     isLoading,
   } = useQuery(
     'inscribirse-cuatrimestre-semestre',
-    async () => await apiInscripciones.getPrueba(),
+    async () => await apiInscripciones.getInscripcionEstudiante(idBoletasIncripciones),
     {
       staleTime: Infinity,
     }
   );
   if (isLoading) return <CircularProgress />;
+  
   if (error)
     return (
       <Alert severity="error">
@@ -135,9 +122,10 @@ const Inscribirse = () => {
     );
   return (
     <Alert severity="success">
-      true
+      true 
     </Alert>
   );
+  
 };
 
 export default CardsCS;

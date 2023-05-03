@@ -30,7 +30,7 @@ export function getDataCardCSFinalizado(CS:CSGql, currentRol:Roles, Inscribirse:
     }
   }
   if(!Inscrito){
-    Archivos.Childrens.push(ItemSimple("Inscribirse", <People />, () => Inscribirse("example")));
+    Archivos.Childrens.push(ItemSimple("Inscribirse", <People />, () => Inscribirse()));
   }
   for(x=0; x<CS.Cursos.length; x+=1){
     if(CS.Cursos[x].BoletaCalificacion && CS.Cursos[x].BoletaCalificacion.url){

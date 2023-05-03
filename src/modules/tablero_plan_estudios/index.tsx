@@ -28,9 +28,9 @@ const style = {
 
 const TableroPlanEstudios = () => {
   const user: EcosurAuth = useRecoilValue(userStateAtom);
-  const listaCursos = useGetCursosAlumno(
-    user.estudiante.matricula
-  ); /*202211001*/
+  const listaCursos =useGetCursosAlumno(user.estudiante.matricula);
+  // crearJSON();
+   /*202211001*/
   const arrayCursos: CursosAlumnoGql = getCursosEstudiante(listaCursos);
   const arrayCS: SemestresCuatrimestresGql =
     getCuatrimestresSemestres(listaCursos);
@@ -174,51 +174,7 @@ Tiene calificacion ???
 function crearJSON() {
   return {
     data: [
-      /*{
-        NombreMateria: "Finalizado completo",
-        Clave: "ABC123",
-        Creditos: 13,
-        FechaIni: "2022-09-15T00:00:00",
-        FechaFin: "2023-03-15T00:00:00",
-        IdPeriodo: 1,
-        PeriodoNombre: "Primer semestre",
-        FechaInicioPeriodo: "2022-09-15T00:00:00",
-        FechaFinPeriodo: "2023-03-15T00:00:00",
-        ObligatoriaOptativa: "Obligatoria",
-        IdMateriasOfertaAnual: 123,
-        IdMateriasOfertaClave: 123,
-        CalificacionNumerico: 7,
-        IdBoletasIncripciones: 123,
-        BoletaInscripcion: {
-          url: "001.pdf"
-        },
-        BoletaCalificacion: {
-          url: "001.pdf"
-        }
-      },*/
-      /*{
-        NombreMateria: "Finalizado sin calificacion",
-        Clave: "ABC123",
-        Creditos: 13,
-        FechaIni: "2022-09-15T00:00:00",
-        FechaFin: "2023-03-15T00:00:00",
-        IdPeriodo: 1,
-        PeriodoNombre: "Primer semestre",
-        FechaInicioPeriodo: "2022-09-15T00:00:00",
-        FechaFinPeriodo: "2023-03-15T00:00:00",
-        ObligatoriaOptativa: "Obligatoria",
-        IdMateriasOfertaAnual: 123,
-        IdMateriasOfertaClave: 123,
-        CalificacionNumerico: null,
-        IdBoletasIncripciones: 123,
-        BoletaInscripcion: {
-          url: "001.pdf"
-        },
-        BoletaCalificacion: {
-          url: null
-        }
-      },*/
-      {
+        {
         NombreMateria: 'Finalizado sin inscripcion',
         Clave: 'ABC123',
         Creditos: 13,
@@ -239,6 +195,11 @@ function crearJSON() {
         BoletaCalificacion: {
           url: '001.pdf',
         },
+        EvaluacionDocentePendiente: [
+            {
+               MateriasSinEvaluar: null
+             }
+           ]
       },
       /*{
         NombreMateria: "Finalizado sin calificacion e inscripcion",
@@ -262,28 +223,7 @@ function crearJSON() {
           url: null
         }
       },*/
-      {
-        NombreMateria: 'En curso completo',
-        Clave: 'ABC123',
-        Creditos: 13,
-        FechaIni: '2023-03-15T00:00:00',
-        FechaFin: '2023-09-15T00:00:00',
-        IdPeriodo: 2,
-        PeriodoNombre: 'Segundo semestre',
-        FechaInicioPeriodo: '2023-03-15T00:00:00',
-        FechaFinPeriodo: '2023-09-15T00:00:00',
-        ObligatoriaOptativa: 'Obligatoria',
-        IdMateriasOfertaAnual: 123,
-        IdMateriasOfertaClave: 123,
-        CalificacionNumerico: 7,
-        IdBoletasIncripciones: 123,
-        BoletaInscripcion: {
-          url: '001.pdf',
-        },
-        BoletaCalificacion: {
-          url: '001.pdf',
-        },
-      },
+      
       /*{
         NombreMateria: "En curso sin calificacion",
         Clave: "ABC123",
@@ -350,28 +290,7 @@ function crearJSON() {
           url: null
         }
       },*/
-      {
-        NombreMateria: 'Por iniciar completo',
-        Clave: 'ABC123',
-        Creditos: 13,
-        FechaIni: '2023-09-15T00:00:00',
-        FechaFin: '2024-03-15T00:00:00',
-        IdPeriodo: 3,
-        PeriodoNombre: 'Tercer semestre',
-        FechaInicioPeriodo: '2023-09-15T00:00:00',
-        FechaFinPeriodo: '2024-03-15T00:00:00',
-        ObligatoriaOptativa: 'Obligatoria',
-        IdMateriasOfertaAnual: 123,
-        IdMateriasOfertaClave: 123,
-        CalificacionNumerico: 7,
-        IdBoletasIncripciones: 123,
-        BoletaInscripcion: {
-          url: '001.pdf',
-        },
-        BoletaCalificacion: {
-          url: '001.pdf',
-        },
-      },
+      
       /*{
         NombreMateria: "Por iniciar sin calificacion",
         Clave: "ABC123",
