@@ -64,7 +64,7 @@ const CardsCursos = (props:any) => {
             </Grid>
             {arrayCursos?.Finalizados?.map((curso:CursoGql, i) =>
               <Grid key={i} item xs={12} sm={6} md={4} lg={3} >
-                <CardList data={getDataCardCursoFinalizado(curso, currentRol, user.estudiante.matricula)} />
+                <CardList data={getDataCardCursoFinalizado(curso, currentRol)} />
               </Grid>
             )}
           </>

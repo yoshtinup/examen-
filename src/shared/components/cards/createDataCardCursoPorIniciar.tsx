@@ -25,17 +25,17 @@ export function getDataCardCursoAIniciar(curso:CursoPorIniciarGql, currentRol:Ro
         Icono: <ScheduleIcon style={{color: "#c56b16", fontSize: '25px'}} />
       },
       {
-        Titulo: "Profesor: " + curso.Profesor_responsable,
+        Titulo: "Docente: " + curso.Profesor_responsable,
         FontSize: FontSize.small,
         Icono: <PersonIcon />
       },
       {
-        Titulo: "Grado: " + curso.GradoDeCurso,
+        Titulo: "Grado del programa: " + curso.GradoDeCurso,
         FontSize: FontSize.small,
         Icono: <SchoolIcon />
       },
       {
-        Titulo: "Sede: " + curso.SedeDeCurso,
+        Titulo: "Unidad: " + curso.SedeDeCurso,
         FontSize: FontSize.small,
         Icono: <Home />
       },

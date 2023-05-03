@@ -25,6 +25,8 @@ export interface DatosGql {
   CorreoElectronicoEcosur: string;
   CVU: number;
   IdAlumno: number;
+  CURP: string;
+  IdGenero: number;
 }
 
 export interface DirectorTesisGql {

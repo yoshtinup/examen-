@@ -43,8 +43,14 @@ export function NumeraliaGraficaCurso(props:any){
   let creditosPen = 0;
   let creditosTot = 0;
   cursos.Finalizados.forEach(element => {
-    sumatoria += element.CalificacionNumerico;
-    elementos += 1;
+    if(element.BoletaCalificaciones && element.BoletaCalificaciones[0] &&
+      element.BoletaCalificaciones[0].IDMOC == element.IdMateriasOfertaClave &&
+      element.BoletaCalificaciones[0].NombreArchivoBoletaMateria &&
+      element.BoletaCalificaciones[0].NombreArchivoBoletaMateria != ""
+    ){
+      sumatoria += element.CalificacionNumerico;
+      elementos += 1;
+    }
     creditosCub += element.Creditos;
     creditosTot += element.Creditos;
   });
@@ -57,25 +63,7 @@ export function NumeraliaGraficaCurso(props:any){
     creditosTot += element.Creditos;
   });
   const promedio = sumatoria/elementos;
-  /*
-      <Grid item xs={5}>
-        <TextLine variant="h5" text={<b>Promedio global</b>}/>
-        <TextLine variant="h4" text={promedio.toFixed(2)}/>
-      </Grid>
-      <Grid item xs={7}>
-        <TextLine variant="h5" text={<b>Créditos</b>}/>
-        <Grid container spacing={2} style={{textAlign:"center"}}>
-          <Grid item xs={6}>
-            <TextLine variant="h5" text="Cubiertos"/>
-            <TextLine variant="h4" text={creditosCub}/>
-          </Grid>
-          <Grid item xs={6}>
-            <TextLine variant="h5" text="Pendientes"/>
-            <TextLine variant="h4" text={creditosPen}/>
-          </Grid>
-        </Grid>
-      </Grid>
-  */
+
   return (
     <Grid container spacing={7} style={{textAlign:"center"}}>
       <Grid item xs={12}>
@@ -103,19 +91,21 @@ export function NumeraliaGraficaCurso(props:any){
           </Grid>
         </Paper>
       </Grid>
-      <Grid item xs={12}>
-        <Paper elevation={5} style={{borderBottom:"solid 3px #c56b16", padding:"10px 0 0"}}>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item xs={6}>
-              <TextLine variant="h5" text={<b>Créditos pendientes</b>}/>
-              <TextLine variant="h4" text={creditosPen}/>
+      {creditosPen > 0 &&
+        <Grid item xs={12}>
+          <Paper elevation={5} style={{borderBottom:"solid 3px #c56b16", padding:"10px 0 0"}}>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item xs={6}>
+                <TextLine variant="h5" text={<b>Créditos pendientes</b>}/>
+                <TextLine variant="h4" text={creditosPen}/>
+              </Grid>
+              <Grid item xs={6}>
+                <TextLine variant="h4" text={(creditosPen*100/creditosTot).toFixed(2) + "%"}/>
+              </Grid>
             </Grid>
-            <Grid item xs={6}>
-              <TextLine variant="h4" text={(creditosPen*100/creditosTot).toFixed(2) + "%"}/>
-            </Grid>
-          </Grid>
-        </Paper>
-      </Grid>
+          </Paper>
+        </Grid>
+      }
     </Grid>
   );
 }

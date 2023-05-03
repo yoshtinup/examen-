@@ -34,8 +34,7 @@ import Swal from "sweetalert2";
 const DatosGenerales = (props:any) => {
   const user: EcosurAuth = useRecoilValue(userStateAtom);
   const { data, isError, isLoading } = useGetEstudianteInfo(user.estudiante.matricula);
-  const dataTS = useGetTutoresSinodales(199411001);
-  //const dataTS = useGetTutoresSinodales(user.estudiante.matricula);
+  const dataTS = useGetTutoresSinodales(user.estudiante.matricula /*199411001*/);
   let userInfo:EstudianteGql = {} as EstudianteGql;
   if(isLoading){
     return <>Cargando</>
@@ -44,8 +43,14 @@ const DatosGenerales = (props:any) => {
     return <>Error</>
   }
   userInfo = data[0];
+  const generos = [
+    {key:"Genero", value:"mensaje de bienvenida"},
+    {key:"Masculino", value:"Bienvenido, "},
+    {key:"Femenino", value:"Bienvenida, "}
+  ]
   const datosGenerales = [
     {key:"Matricula", value:userInfo.Matricula},
+    {key:"CURP", value:userInfo.Datos.CURP},
     {key:"Programa", value:userInfo.Programa.NombreLargo},
     {key:"Orientación", value:userInfo.Orientacion.Nombre},
     {key:"Generación", value:userInfo.Generacion.Value},
@@ -76,9 +81,9 @@ const DatosGenerales = (props:any) => {
               primary={
                 <Typography variant="h4" gutterBottom>
                   {
-                    "Bienvenido, " +
+                    generos[userInfo.Datos.IdGenero].value +
                     userInfo.Datos.Nombre + " " +
-                    userInfo.Datos.ApellidoPaterno + " " + 
+                    userInfo.Datos.ApellidoPaterno + " " +
                     userInfo.Datos.ApellidoMaterno
                   }
                 </Typography>
@@ -96,7 +101,13 @@ const DatosGenerales = (props:any) => {
             </ListItem>
             {datosGenerales.map((item, i) =>
               <ListItem key={i} secondaryAction={renderSwitch(item.key, userInfo)}>
-                <ListItemText primary={<><b>{item.key}: </b>{item.value}</>}/>
+                <ListItemText
+                  primary={
+                    <span style={{width:"80%", display:"block"}}>
+                      <b>{item.key}: </b>{item.value}
+                    </span>
+                  }
+                />
               </ListItem>
             )}
           </List>

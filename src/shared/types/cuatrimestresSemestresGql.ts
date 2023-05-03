@@ -1,4 +1,4 @@
-import { Estatus, CursoGql, BoletaCalificacionGql, BoletaInscripcionGql } from "./cursosAlumnoGql";
+import { Estatus, CursoGql, BoletaCalificacionesGql, BoletaInscripcionGql } from "./cursosAlumnoGql";
 
 export interface SemestresCuatrimestresGql {
   Finalizados: CSGql[],
@@ -15,7 +15,7 @@ export interface CSGql {
   Calificacion: number;
   CalificacionPendiente: boolean;
   BoletaInscripcion:BoletaInscripcionGql;
-  BoletaCalificacion:BoletaCalificacionGql;
+  BoletaCalificaciones:BoletaCalificacionesGql[];
   Cursos: CursoGql[];
   Estatus: Estatus;
 }
