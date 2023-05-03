@@ -30,8 +30,9 @@ export function useGetCursosAlumno(matricula: number) {
               IdCatalogoEstatusInscripciones
               url:NombreArchivo
             }
-            BoletaCalificacion:db_alumnos_Materias{
-              url:NombreArchivoBoletaMateria
+            BoletaCalificaciones{
+              IDMOC
+              NombreArchivoBoletaMateria
             }
             EvaluacionSeminario:db12_Seminarios_Evaluaciones{
               SeminariosCatalogoEstatus:db12_Seminarios_CatalogoEstatus{
@@ -45,6 +46,11 @@ export function useGetCursosAlumno(matricula: number) {
     				EvaluacionDocentePendiente:db_EvaluacionDocenteMateria(where:{EstatusEvaluacion:{_eq:3}}){
               MateriasSinEvaluar:db_MateriasSinEvaluar{
                 IdMateriasOfertaAnual
+              }
+            }
+            Unidad:db12_MateriasOferataAnual{
+              Detalles:db15_Unidad{
+                UnidadAdscripcion
               }
             }
           }

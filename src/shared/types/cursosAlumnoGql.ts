@@ -26,14 +26,16 @@ export interface CursoGql {
   CalificacionNumerico: number;
   IdBoletasIncripciones: number;
   BoletaInscripcion:BoletaInscripcionGql;
-  BoletaCalificacion:BoletaCalificacionGql;
+  BoletaCalificaciones:BoletaCalificacionesGql[];
   EvaluacionSeminario:EvaluacionSeminarioGql;
   EvaluacionDocentePendiente:EvaluacionDocentePendienteGql[];
+  Unidad:UnidadCursoGql;
   Estatus: Estatus;
 }
 
-export interface BoletaCalificacionGql {
-  url: string;
+export interface BoletaCalificacionesGql{
+  IDMOC: number;
+  NombreArchivoBoletaMateria: string;
 }
 
 export interface BoletaInscripcionGql {
@@ -65,4 +67,12 @@ export interface EvaluacionDocentePendienteGql{
 
 export interface MateriasSinEvaluarGql{
   IdMateriasOfertaAnual:number;
+}
+
+export interface UnidadCursoGql{
+  Detalles: DetallesUnidadGql;
+}
+
+export interface DetallesUnidadGql{
+  UnidadAdscripcion: string;
 }

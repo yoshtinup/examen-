@@ -19,6 +19,7 @@ import { Container } from '@mui/system';
 import { Grid } from '@mui/material';
 import { HeaderSection } from '@shared/components';
 import EvaluacionBecario from './submodules/evaluacion-becario';
+import EvaluacionEtica from './submodules/evaluacion-etica';
 
 const style = {
   padding: '30px',
@@ -34,7 +35,7 @@ const TableroPlanEstudios = () => {
   const arrayCursos: CursosAlumnoGql = getCursosEstudiante(listaCursos);
   const arrayCS: SemestresCuatrimestresGql =
     getCuatrimestresSemestres(listaCursos);
-  const arrayCursosAIniciar: CursoPorIniciarGql[] = crearJSON2().data.sort(
+  const arrayCursosAIniciar: CursoPorIniciarGql[] = crearJSON().data.sort(
     (a, b) => {
       if (a.FechaInicioCurso > b.FechaInicioCurso) return 1;
       if (a.FechaInicioCurso < b.FechaInicioCurso) return -1;
@@ -43,15 +44,15 @@ const TableroPlanEstudios = () => {
   ); //useGetCursosAIniciar(false).data;
   const tabCursos = [
     {
-      titulo: 'Cursos',
+      titulo: 'Asignaturas',
       componente: <CardsCursos data={arrayCursos} />,
     },
     {
-      titulo: 'Cuatrimestres/Semestres',
+      titulo: 'Periodos lectivos',
       componente: <CardsCuaSem data={arrayCS} />,
     },
     {
-      titulo: 'Alta de materia',
+      titulo: 'Alta de asignaturas',
       componente: <CardsCursosAIniciar data={arrayCursosAIniciar} />,
     },
   ];
@@ -75,6 +76,7 @@ const TableroPlanEstudios = () => {
         </Grid>
       </Container>
       <EvaluacionBecario />
+      <EvaluacionEtica />
       <Container maxWidth={false} style={{...style }}>
         <ProductosActividadesRealizadas matricula={user.estudiante.matricula} />
       </Container>
@@ -118,22 +120,26 @@ function getCuatrimestresSemestres(listaCursos: any) {
     if (!ids.includes(curso.IdPeriodo)) {
       CuaSem[curso.IdPeriodo] = {
         ...curso,
+        CalificacionPendiente: CalificacionPendiente(curso),
         Calificacion: curso.CalificacionNumerico,
-        CalificacionPendiente: curso.CalificacionNumerico ? false : true,
         Cursos: [curso],
         Estatus: getEstatus(curso.FechaInicioPeriodo, curso.FechaFinPeriodo),
       };
       ids.push(curso.IdPeriodo);
     } else {
       let currentCS = CuaSem[curso.IdPeriodo];
-      let Promedio = 0;
+      let Numerador = 0;
+      let Denominador = 0;
       currentCS.Creditos += curso.Creditos;
       currentCS.Cursos.push(curso);
       currentCS.Cursos.forEach(curso => {
-        Promedio += curso.CalificacionNumerico;
+        if(!CalificacionPendiente(curso)){
+          Numerador += curso.CalificacionNumerico;
+          Denominador += 1;
+        }
       });
-      currentCS.Calificacion = Promedio / currentCS.Cursos.length;
-      currentCS.CalificacionPendiente = curso.CalificacionNumerico
+      currentCS.Calificacion = Numerador/Denominador;
+      currentCS.CalificacionPendiente = !CalificacionPendiente(curso)
         ? currentCS.CalificacionPendiente
         : true;
     }
@@ -162,287 +168,24 @@ function getEstatus(FechaIni: string, FechaFin: string) {
   return estatus;
 }
 
+function CalificacionPendiente(curso: CursoGql){
+  if(curso.BoletaCalificaciones && curso.BoletaCalificaciones[0] &&
+    curso.BoletaCalificaciones[0].IDMOC == curso.IdMateriasOfertaClave &&
+    curso.BoletaCalificaciones[0].NombreArchivoBoletaMateria &&
+    curso.BoletaCalificaciones[0].NombreArchivoBoletaMateria != ""
+  ){
+    return false;
+  }else{
+    return true;
+  }
+}
+
 export default TableroPlanEstudios;
+
 
 /* TEMPORAL */
 
-/*
-Esta inscrito ???
-Tiene calificacion ???
-*/
-
 function crearJSON() {
-  return {
-    data: [
-      /*{
-        NombreMateria: "Finalizado completo",
-        Clave: "ABC123",
-        Creditos: 13,
-        FechaIni: "2022-09-15T00:00:00",
-        FechaFin: "2023-03-15T00:00:00",
-        IdPeriodo: 1,
-        PeriodoNombre: "Primer semestre",
-        FechaInicioPeriodo: "2022-09-15T00:00:00",
-        FechaFinPeriodo: "2023-03-15T00:00:00",
-        ObligatoriaOptativa: "Obligatoria",
-        IdMateriasOfertaAnual: 123,
-        IdMateriasOfertaClave: 123,
-        CalificacionNumerico: 7,
-        IdBoletasIncripciones: 123,
-        BoletaInscripcion: {
-          url: "001.pdf"
-        },
-        BoletaCalificacion: {
-          url: "001.pdf"
-        }
-      },*/
-      /*{
-        NombreMateria: "Finalizado sin calificacion",
-        Clave: "ABC123",
-        Creditos: 13,
-        FechaIni: "2022-09-15T00:00:00",
-        FechaFin: "2023-03-15T00:00:00",
-        IdPeriodo: 1,
-        PeriodoNombre: "Primer semestre",
-        FechaInicioPeriodo: "2022-09-15T00:00:00",
-        FechaFinPeriodo: "2023-03-15T00:00:00",
-        ObligatoriaOptativa: "Obligatoria",
-        IdMateriasOfertaAnual: 123,
-        IdMateriasOfertaClave: 123,
-        CalificacionNumerico: null,
-        IdBoletasIncripciones: 123,
-        BoletaInscripcion: {
-          url: "001.pdf"
-        },
-        BoletaCalificacion: {
-          url: null
-        }
-      },*/
-      {
-        NombreMateria: 'Finalizado sin inscripcion',
-        Clave: 'ABC123',
-        Creditos: 13,
-        FechaIni: '2022-09-15T00:00:00',
-        FechaFin: '2023-03-15T00:00:00',
-        IdPeriodo: 1,
-        PeriodoNombre: 'Primer semestre',
-        FechaInicioPeriodo: '2022-09-15T00:00:00',
-        FechaFinPeriodo: '2023-03-15T00:00:00',
-        ObligatoriaOptativa: 'Obligatoria',
-        IdMateriasOfertaAnual: 123,
-        IdMateriasOfertaClave: 123,
-        CalificacionNumerico: 7,
-        IdBoletasIncripciones: null,
-        BoletaInscripcion: {
-          url: null,
-        },
-        BoletaCalificacion: {
-          url: '001.pdf',
-        },
-      },
-      /*{
-        NombreMateria: "Finalizado sin calificacion e inscripcion",
-        Clave: "ABC123",
-        Creditos: 13,
-        FechaIni: "2022-09-15T00:00:00",
-        FechaFin: "2023-03-15T00:00:00",
-        IdPeriodo: 1,
-        PeriodoNombre: "Primer semestre",
-        FechaInicioPeriodo: "2022-09-15T00:00:00",
-        FechaFinPeriodo: "2023-03-15T00:00:00",
-        ObligatoriaOptativa: "Obligatoria",
-        IdMateriasOfertaAnual: 123,
-        IdMateriasOfertaClave: 123,
-        CalificacionNumerico: null,
-        IdBoletasIncripciones: null,
-        BoletaInscripcion: {
-          url: null
-        },
-        BoletaCalificacion: {
-          url: null
-        }
-      },*/
-      {
-        NombreMateria: 'En curso completo',
-        Clave: 'ABC123',
-        Creditos: 13,
-        FechaIni: '2023-03-15T00:00:00',
-        FechaFin: '2023-09-15T00:00:00',
-        IdPeriodo: 2,
-        PeriodoNombre: 'Segundo semestre',
-        FechaInicioPeriodo: '2023-03-15T00:00:00',
-        FechaFinPeriodo: '2023-09-15T00:00:00',
-        ObligatoriaOptativa: 'Obligatoria',
-        IdMateriasOfertaAnual: 123,
-        IdMateriasOfertaClave: 123,
-        CalificacionNumerico: 7,
-        IdBoletasIncripciones: 123,
-        BoletaInscripcion: {
-          url: '001.pdf',
-        },
-        BoletaCalificacion: {
-          url: '001.pdf',
-        },
-      },
-      /*{
-        NombreMateria: "En curso sin calificacion",
-        Clave: "ABC123",
-        Creditos: 13,
-        FechaIni: "2023-03-15T00:00:00",
-        FechaFin: "2023-09-15T00:00:00",
-        IdPeriodo: 2,
-        PeriodoNombre: "Segundo semestre",
-        FechaInicioPeriodo: "2023-03-15T00:00:00",
-        FechaFinPeriodo: "2023-09-15T00:00:00",
-        ObligatoriaOptativa: "Obligatoria",
-        IdMateriasOfertaAnual: 123,
-        IdMateriasOfertaClave: 123,
-        CalificacionNumerico: null,
-        IdBoletasIncripciones: 123,
-        BoletaInscripcion: {
-          url: "001.pdf"
-        },
-        BoletaCalificacion: {
-          url: null
-        }
-      },*/
-      /*{
-        NombreMateria: "En curso sin inscripcion",
-        Clave: "ABC123",
-        Creditos: 13,
-        FechaIni: "2023-03-15T00:00:00",
-        FechaFin: "2023-09-15T00:00:00",
-        IdPeriodo: 2,
-        PeriodoNombre: "Segundo semestre",
-        FechaInicioPeriodo: "2023-03-15T00:00:00",
-        FechaFinPeriodo: "2023-09-15T00:00:00",
-        ObligatoriaOptativa: "Obligatoria",
-        IdMateriasOfertaAnual: 123,
-        IdMateriasOfertaClave: 123,
-        CalificacionNumerico: 7,
-        IdBoletasIncripciones: null,
-        BoletaInscripcion: {
-          url: null
-        },
-        BoletaCalificacion: {
-          url: "001.pdf"
-        }
-      },*/
-      /*{
-        NombreMateria: "En curso sin calificacion e inscripcion",
-        Clave: "ABC123",
-        Creditos: 13,
-        FechaIni: "2023-03-15T00:00:00",
-        FechaFin: "2023-09-15T00:00:00",
-        IdPeriodo: 2,
-        PeriodoNombre: "Segundo semestre",
-        FechaInicioPeriodo: "2023-03-15T00:00:00",
-        FechaFinPeriodo: "2023-09-15T00:00:00",
-        ObligatoriaOptativa: "Obligatoria",
-        IdMateriasOfertaAnual: 123,
-        IdMateriasOfertaClave: 123,
-        CalificacionNumerico: null,
-        IdBoletasIncripciones: null,
-        BoletaInscripcion: {
-          url: null
-        },
-        BoletaCalificacion: {
-          url: null
-        }
-      },*/
-      {
-        NombreMateria: 'Por iniciar completo',
-        Clave: 'ABC123',
-        Creditos: 13,
-        FechaIni: '2023-09-15T00:00:00',
-        FechaFin: '2024-03-15T00:00:00',
-        IdPeriodo: 3,
-        PeriodoNombre: 'Tercer semestre',
-        FechaInicioPeriodo: '2023-09-15T00:00:00',
-        FechaFinPeriodo: '2024-03-15T00:00:00',
-        ObligatoriaOptativa: 'Obligatoria',
-        IdMateriasOfertaAnual: 123,
-        IdMateriasOfertaClave: 123,
-        CalificacionNumerico: 7,
-        IdBoletasIncripciones: 123,
-        BoletaInscripcion: {
-          url: '001.pdf',
-        },
-        BoletaCalificacion: {
-          url: '001.pdf',
-        },
-      },
-      /*{
-        NombreMateria: "Por iniciar sin calificacion",
-        Clave: "ABC123",
-        Creditos: 13,
-        FechaIni: "2023-09-15T00:00:00",
-        FechaFin: "2024-03-15T00:00:00",
-        IdPeriodo: 3,
-        PeriodoNombre: "Tercer semestre",
-        FechaInicioPeriodo: "2023-09-15T00:00:00",
-        FechaFinPeriodo: "2024-03-15T00:00:00",
-        ObligatoriaOptativa: "Obligatoria",
-        IdMateriasOfertaAnual: 123,
-        IdMateriasOfertaClave: 123,
-        CalificacionNumerico: null,
-        IdBoletasIncripciones: 123,
-        BoletaInscripcion: {
-          url: "001.pdf"
-        },
-        BoletaCalificacion: {
-          url: null
-        }
-      },*/
-      /*{
-        NombreMateria: "Por iniciar sin inscripcion",
-        Clave: "ABC123",
-        Creditos: 13,
-        FechaIni: "2023-09-15T00:00:00",
-        FechaFin: "2024-03-15T00:00:00",
-        IdPeriodo: 3,
-        PeriodoNombre: "Tercer semestre",
-        FechaInicioPeriodo: "2023-09-15T00:00:00",
-        FechaFinPeriodo: "2024-03-15T00:00:00",
-        ObligatoriaOptativa: "Obligatoria",
-        IdMateriasOfertaAnual: 123,
-        IdMateriasOfertaClave: 123,
-        CalificacionNumerico: 7,
-        IdBoletasIncripciones: null,
-        BoletaInscripcion: {
-          url: null
-        },
-        BoletaCalificacion: {
-          url: "001.pdf"
-        }
-      },*/
-      /*{
-        NombreMateria: "Por iniciar sin calificacion e inscripcion",
-        Clave: "ABC123",
-        Creditos: 13,
-        FechaIni: "2023-09-15T00:00:00",
-        FechaFin: "2024-03-15T00:00:00",
-        IdPeriodo: 3,
-        PeriodoNombre: "Tercer semestre",
-        FechaInicioPeriodo: "2023-09-15T00:00:00",
-        FechaFinPeriodo: "2024-03-15T00:00:00",
-        ObligatoriaOptativa: "Obligatoria",
-        IdMateriasOfertaAnual: 123,
-        IdMateriasOfertaClave: 123,
-        CalificacionNumerico: null,
-        IdBoletasIncripciones: null,
-        BoletaInscripcion: {
-          url: null
-        },
-        BoletaCalificacion: {
-          url: null
-        }
-      }*/
-    ],
-  };
-}
-
-function crearJSON2() {
   return {
     data: [
       {

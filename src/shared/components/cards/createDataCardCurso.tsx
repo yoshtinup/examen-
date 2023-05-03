@@ -3,9 +3,11 @@ import { Home, PermMedia, People, Dns } from "@mui/icons-material";
 import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import { CursoGql } from "@shared/types";
 import { CardListItemChildrens, CardListType, FontSize } from "@shared/types/cardsTypes";
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 function ItemFileFunction(url:string){
-  const Url = process.env.URL_BOLETAS_ESTUDIANTES_MATERIAS + url;
+  const base = "https://serviciosposgrado.ecosur.mx/profesores/Content/Cursos/Calificaciones/BoletasEstudiantesMaterias/";
+  const Url = (process.env.URL_BOLETAS_ESTUDIANTES_MATERIAS || base) + url;
   return () => {window.open(Url)};
 }
 
@@ -13,14 +15,24 @@ function RedirectFunction(url:string){
   return () => {window.location.href = url};
 }
 
-export function getDataCardCursoFinalizado(curso:CursoGql, currentRol:Roles, matricula:number){
+export function getDataCardCursoFinalizado(curso:CursoGql, currentRol:Roles){
   let data:CardListType = ItemsComunes(curso);
   let Calificacion:CardListItemChildrens = ItemWithChildrens("Calificación", true);
   let Enlaces:CardListItemChildrens = ItemWithChildrens("Enlaces", true);
   if(currentRol === Roles.Estudiante){
     /*QUEDA PENDIENTE LA VALIDACION DE LAS CALIFICACIONES CON EL ACTA DE EVALUACION*/
-    const CalificacionCurso = "Curso: " + curso.CalificacionNumerico.toFixed(1);
-    const CalificacionSeminario = "Seminario: " + curso.CalificacionNumerico.toFixed(1);
+    let CalificacionCurso, CalificacionSeminario;
+      if(curso.BoletaCalificaciones && curso.BoletaCalificaciones[0] &&
+        curso.BoletaCalificaciones[0].IDMOC == curso.IdMateriasOfertaClave &&
+        curso.BoletaCalificaciones[0].NombreArchivoBoletaMateria &&
+        curso.BoletaCalificaciones[0].NombreArchivoBoletaMateria != ""
+      ){
+        CalificacionCurso = "Asignatura: " + curso.CalificacionNumerico.toFixed(1);
+        CalificacionSeminario = "Seminario: " + curso.CalificacionNumerico.toFixed(1);
+      }else{
+        CalificacionCurso = "Asignatura: Pendiente de calificación";
+        CalificacionSeminario = "Seminario: Pendiente de calificación";
+      }
     Calificacion.Childrens.push(ItemSimple(CalificacionCurso, <People />));
     if(curso.EvaluacionSeminario && curso.EvaluacionSeminario.SeminariosCatalogoEstatus.IdSeminarios_CatalogoEstatus == 4){
       Calificacion.Childrens.push(ItemSimple(CalificacionSeminario, <Dns />));
@@ -28,8 +40,10 @@ export function getDataCardCursoFinalizado(curso:CursoGql, currentRol:Roles, mat
     ItemCreateSubtitle(Calificacion);
     data.Items.push(Calificacion);
 
-    ItemsEnlaces(curso, Enlaces, matricula);
-    data.Items.push(Enlaces);
+    ItemsEnlaces(curso, Enlaces);
+    if(Enlaces.Childrens.length){
+      data.Items.push(Enlaces);
+    }
   }
   return data;
 }
@@ -37,24 +51,28 @@ export function getDataCardCursoFinalizado(curso:CursoGql, currentRol:Roles, mat
 export function getDataCardCursoPendiente(curso:CursoGql, currentRol:Roles){
   let data:CardListType = ItemsComunes(curso);
   let Opciones:CardListItemChildrens = ItemWithChildrens("Opciones", true);
+  let Enlaces:CardListItemChildrens = ItemWithChildrens("Enlaces", true);
   if(currentRol === Roles.Estudiante){
-    Opciones.Childrens.push(ItemSimple("Dar de baja materia", <PermMedia />));
+    Opciones.Childrens.push(ItemSimple("Dar de baja materia", <PermMedia />, () => {alert("Dar de baja a la materia")}));
     ItemCreateSubtitle(Opciones);
     data.Items.push(Opciones);
+
+    ItemsEnlaces(curso, Enlaces);
+    if(Enlaces.Childrens.length){
+      data.Items.push(Enlaces);
+    }
   }
   return data;
 }
 
 export function getDataCardCursoEnProceso(curso:CursoGql, currentRol:Roles){
   let data:CardListType = ItemsComunes(curso);
-  let Opciones:CardListItemChildrens = ItemWithChildrens("Opciones", true);
+  let Enlaces:CardListItemChildrens = ItemWithChildrens("Enlaces", true);
   if(currentRol === Roles.Estudiante){
-
-    Opciones.Childrens.push(ItemSimple("Evaluación seminario", <People />, RedirectFunction("example/id")));
-
-    Opciones.Childrens.push(ItemSimple("Evaluación docente", <Dns />));
-    ItemCreateSubtitle(Opciones);
-    data.Items.push(Opciones);
+    ItemsEnlaces(curso, Enlaces);
+    if(Enlaces.Childrens.length){
+      data.Items.push(Enlaces);
+    }
   }
   return data;
 }
@@ -71,19 +89,28 @@ function ItemsComunes(curso:CursoGql){
       {
         Titulo: "Del " + DateFormat(curso.FechaIni) + " al " + DateFormat(curso.FechaFin),
         FontSize: FontSize.small,
+        Icono: <CalendarMonthIcon />
+      },
+      {
+        Titulo: "Unidad de impartición: " + curso.Unidad.Detalles.UnidadAdscripcion,
+        FontSize: FontSize.small,
         Icono: <Home />
       }
     ]
   } as CardListType;
 }
 
-function ItemsEnlaces(curso:CursoGql, Enlaces:CardListItemChildrens, matricula:number){
-  if(curso.BoletaCalificacion && curso.BoletaCalificacion.url){
+function ItemsEnlaces(curso:CursoGql, Enlaces:CardListItemChildrens){
+  if(curso.BoletaCalificaciones && curso.BoletaCalificaciones[0] &&
+    curso.BoletaCalificaciones[0].IDMOC == curso.IdMateriasOfertaClave &&
+    curso.BoletaCalificaciones[0].NombreArchivoBoletaMateria &&
+    curso.BoletaCalificaciones[0].NombreArchivoBoletaMateria != ""
+  ){
     Enlaces.Childrens.push(
       ItemSimple(
         "Boleta de calificaciones",
         <InsertLinkIcon style={{color: '#1ab394'}} />,
-        ItemFileFunction(curso.BoletaCalificacion.url)
+        ItemFileFunction(curso.BoletaCalificaciones[0].NombreArchivoBoletaMateria)
       )
     );
   }
@@ -100,11 +127,22 @@ function ItemsEnlaces(curso:CursoGql, Enlaces:CardListItemChildrens, matricula:n
         RedirectFunction(redireccionamiento)
       )
     );
+    if(curso.EvaluacionSeminario.SeminariosCatalogoEstatus.IdSeminarios_CatalogoEstatus == 4 &&
+      curso.EvaluacionSeminario.url_one_drive && curso.EvaluacionSeminario.url_one_drive != "")
+    {
+      Enlaces.Childrens.push(
+        ItemSimple(
+          "Acta de seminario",
+          <InsertLinkIcon style={{color: '#1ab394'}} />,
+          RedirectFunction(curso.EvaluacionSeminario.url_one_drive)
+        )
+      );
+    }
   }
   if(curso.EvaluacionDocentePendiente.length > 0
       && curso.EvaluacionDocentePendiente[0].MateriasSinEvaluar
       && curso.EvaluacionDocentePendiente[0].MateriasSinEvaluar.IdMateriasOfertaAnual == curso.IdMateriasOfertaAnual){
-    let redireccionamiento = "evaluaciondocente/curso/" + curso.IdMateriasOfertaAnual + "/" + matricula;
+    let redireccionamiento = "evaluaciondocente/" + curso.IdMateriasOfertaAnual;
     Enlaces.Childrens.push(
       ItemSimple(
         "Evaluación docente (pendiente)",

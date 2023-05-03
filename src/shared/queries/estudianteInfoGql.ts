@@ -27,6 +27,8 @@ export function useGetEstudianteInfo(matricula: number) {
               CorreoElectronicoEcosur
               CVU
               IdAlumno
+              CURP
+              IdGenero
             }
             Programa {
               Id: IdPrograma

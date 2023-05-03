@@ -1,63 +1,71 @@
 import Roles from "@definitions/Roles";
 import { Home, PermMedia, People, Dns } from "@mui/icons-material";
+import { Estatus } from "@shared/types";
 import { CardListItemChildrens, CardListType, FontSize } from "@shared/types/cardsTypes";
 import { CSGql } from "@shared/types/cuatrimestresSemestresGql";
 
 function ItemFileFunction(url:string){
-  const Url = process.env.URL_BOLETAS_INSCRIPCIONES + url;
+  const base = "https://serviciosposgrado.ecosur.mx/alumnos/Content/Cursos/BoletasInscripciones/";
+  const Url = (process.env.URL_BOLETAS_INSCRIPCIONES || base) + url;
   return () => {window.open(Url)};
 }
 
-export function getDataCardCSFinalizado(CS:CSGql, currentRol:Roles, Inscribirse:any){
+export function getDataCardCSFinalizado(CS:CSGql, currentRol:Roles){
   let data:CardListType = ItemsComunes(CS);
-  let Inscrito:Boolean = false;
-  let x:number;
-
-  let Calificacion:CardListItemChildrens = ItemWithChildrens("Calificación", true);
-  if(CS.Calificacion){
-    let nota = CS.CalificacionPendiente ? " - ¡¡¡ calificaciones pendientes !!!" : "";
-    Calificacion.Childrens.push(ItemSimple("Curso: " + CS.Calificacion.toFixed(2) + nota, <People />));
+  let Enlaces:CardListItemChildrens = ItemWithChildrens("Enlaces", true);
+  let Cursos:CardListItemChildrens = ItemWithChildrens("Cursos", true);
+  if(currentRol === Roles.Estudiante){
+    let Calificacion:CardListItemChildrens = ItemWithChildrens("Calificación", true);
+    if(CS.Calificacion){
+      let nota = CS.CalificacionPendiente ? " - ¡¡¡ calificaciones pendientes !!!" : "";
+      Calificacion.Childrens.push(ItemSimple("Global: " + CS.Calificacion.toFixed(2) + nota, <People />));
+    }else{
+      Calificacion.Childrens.push(ItemSimple("Pendiente de calificación", <People />));
+    }
     ItemCreateSubtitle(Calificacion);
     data.Items.push(Calificacion);
-  }
 
-  let Archivos:CardListItemChildrens = ItemWithChildrens("Enlaces", true);
-  for(x=0; x<CS.Cursos.length; x+=1){
-    if(CS.Cursos[x].BoletaInscripcion && CS.Cursos[x].BoletaInscripcion.url){
-      Archivos.Childrens.push(ItemSimple("Boleta de inscripción", <People />, ItemFileFunction(CS.Cursos[x].BoletaInscripcion.url)));
-      Inscrito = true;
-      break;
+    ItemsEnlacesCursos(CS, Enlaces, Cursos, null);
+    if(Enlaces.Childrens.length){
+      data.Items.push(Enlaces);
+    }
+    if(Cursos.Childrens.length){
+      data.Items.push(Cursos);
     }
   }
-  if(!Inscrito){
-    Archivos.Childrens.push(ItemSimple("Inscribirse", <People />, () => Inscribirse("example")));
-  }
-  for(x=0; x<CS.Cursos.length; x+=1){
-    if(CS.Cursos[x].BoletaCalificacion && CS.Cursos[x].BoletaCalificacion.url){
-      Archivos.Childrens.push(ItemSimple("Concentrado de calificaciones", <Dns />, ItemFileFunction(CS.Cursos[x].BoletaCalificacion.url)));
-      break;
-    }
-  }
-  ItemCreateSubtitle(Archivos);
-  data.Items.push(Archivos);
 
+  return data;
+}
+
+export function getDataCardCSPendiente(CS:CSGql, currentRol:Roles, Inscribirse:any){
+  let data:CardListType = ItemsComunes(CS);
+  let Enlaces:CardListItemChildrens = ItemWithChildrens("Enlaces", true);
   let Cursos:CardListItemChildrens = ItemWithChildrens("Cursos", true);
-  for(x=0; x<CS.Cursos.length; x+=1){
-    Cursos.Childrens.push(ItemSimple(CS.Cursos[x].NombreMateria + " (Del " + DateFormat(CS.Cursos[x].FechaIni) + " al " + DateFormat(CS.Cursos[x].FechaFin) + ")", <Dns />));
+  if(currentRol === Roles.Estudiante){
+    ItemsEnlacesCursos(CS, Enlaces, Cursos, () => Inscribirse("example"));
+    if(Enlaces.Childrens.length){
+      data.Items.push(Enlaces);
+    }
+    if(Cursos.Childrens.length){
+      data.Items.push(Cursos);
+    }
   }
-  ItemCreateSubtitle(Cursos);
-  data.Items.push(Cursos);
-
   return data;
 }
 
-export function getDataCardCSPendiente(CS:CSGql, currentRol:Roles){
+export function getDataCardCSEnProceso(CS:CSGql, currentRol:Roles, Inscribirse:any){
   let data:CardListType = ItemsComunes(CS);
-  return data;
-}
-
-export function getDataCardCSEnProceso(CS:CSGql, currentRol:Roles){
-  let data:CardListType = ItemsComunes(CS);
+  let Enlaces:CardListItemChildrens = ItemWithChildrens("Enlaces", true);
+  let Cursos:CardListItemChildrens = ItemWithChildrens("Cursos", true);
+  if(currentRol === Roles.Estudiante){
+    ItemsEnlacesCursos(CS, Enlaces, Cursos, () => Inscribirse("example"));
+    if(Enlaces.Childrens.length){
+      data.Items.push(Enlaces);
+    }
+    if(Cursos.Childrens.length){
+      data.Items.push(Cursos);
+    }
+  }
   return data;
 }
 
@@ -77,6 +85,29 @@ function ItemsComunes(CS:CSGql){
       }
     ]
   } as CardListType;
+}
+
+function ItemsEnlacesCursos(CS:CSGql, Enlaces:CardListItemChildrens, Cursos:CardListItemChildrens, Inscribirse:any){
+  let debeInscribirse:Boolean = false;
+  let x:number;
+  for(x=0; x<CS.Cursos.length; x+=1){
+    if(CS.Cursos[x].BoletaInscripcion && CS.Cursos[x].BoletaInscripcion.IdCatalogoEstatusInscripciones==1){
+      debeInscribirse = true;
+      break;
+    }else if(CS.Cursos[x].BoletaInscripcion && CS.Cursos[x].BoletaInscripcion.url){
+      Enlaces.Childrens.push(ItemSimple("Boleta de inscripción", <People />, ItemFileFunction(CS.Cursos[x].BoletaInscripcion.url)));
+      break;
+    }
+  }
+  if(CS.Estatus!=Estatus.Finalizado && debeInscribirse){
+    Enlaces.Childrens.push(ItemSimple("Inscribirse", <People />, Inscribirse));
+  }
+  ItemCreateSubtitle(Enlaces);
+  
+  for(x=0; x<CS.Cursos.length; x+=1){
+    Cursos.Childrens.push(ItemSimple(CS.Cursos[x].NombreMateria + " (Del " + DateFormat(CS.Cursos[x].FechaIni) + " al " + DateFormat(CS.Cursos[x].FechaFin) + ")", <Dns />));
+  }
+  ItemCreateSubtitle(Cursos);
 }
 
 function DateFormat(fecha:string){

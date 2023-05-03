@@ -83,8 +83,8 @@ const ListaEvaluaciones = (props:any) => {
     <Paper>
       <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
         {evaluaciones.db12_EvaluacionBecario.map((evaluacion, i) =>
-          <>
-            <ListItem key={i}
+          <div key={i} >
+            <ListItem
               secondaryAction={
                 <Link href={"https://serviciosposgrado.ecosur.mx/profesores/Content/EvaluacionBecarios/" + evaluacion.Acta}>Formato de evaluación</Link>
               }
@@ -111,7 +111,7 @@ const ListaEvaluaciones = (props:any) => {
               </Grid>
             </ListItem>
             {(i<evaluaciones.db12_EvaluacionBecario.length-1) && <Divider />}
-          </>
+          </div>
         )}
       </List>
     </Paper>

@@ -51,12 +51,12 @@ const CardsCS = (props:any) => {
               </Grid>
               {arrayCS?.EnProceso?.map((CS:CSGql, i) =>
                 <Grid key={i} item xs={12} sm={6} md={4} lg={3} >
-                  <CardList data={getDataCardCSEnProceso(CS, currentRol)} />
+                  <CardList data={getDataCardCSEnProceso(CS, currentRol, clickInscripcion)} />
                 </Grid>
               )}
               {arrayCS?.Pendientes?.map((CS:CSGql, i) =>
                 <Grid key={i} item xs={12} sm={6} md={4} lg={3} >
-                  <CardList data={getDataCardCSPendiente(CS, currentRol)} />
+                  <CardList data={getDataCardCSPendiente(CS, currentRol, clickInscripcion)} />
                 </Grid>
               )}
           </>
@@ -70,7 +70,7 @@ const CardsCS = (props:any) => {
             </Grid>
             {arrayCS?.Finalizados?.map((CS:CSGql, i) =>
               <Grid key={i} item xs={12} sm={6} md={4} lg={3} >
-                <CardList data={getDataCardCSFinalizado(CS, currentRol, clickInscripcion)} />
+                <CardList data={getDataCardCSFinalizado(CS, currentRol)} />
               </Grid>
             )}
           </>
