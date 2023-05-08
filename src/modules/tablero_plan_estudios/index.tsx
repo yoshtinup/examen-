@@ -130,6 +130,9 @@ function getCuatrimestresSemestres(listaCursos: any) {
       let currentCS = CuaSem[curso.IdPeriodo];
       let Numerador = 0;
       let Denominador = 0;
+      if(!currentCS.BoletaInscripcion && curso.BoletaInscripcion){
+          currentCS.BoletaInscripcion = curso.BoletaInscripcion
+       }
       currentCS.Creditos += curso.Creditos;
       currentCS.Cursos.push(curso);
       currentCS.Cursos.forEach(curso => {

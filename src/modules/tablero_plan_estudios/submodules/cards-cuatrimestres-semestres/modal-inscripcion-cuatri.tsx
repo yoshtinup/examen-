@@ -1,6 +1,13 @@
-import { Button, Dialog,CircularProgress, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import {
+  Button,
+  Dialog,
+  CircularProgress,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from '@mui/material';
 import { useState } from 'react';
-
 
 const Modal = ({ isOpen, onClose, onData, mensaje }) => {
   const [data, setData] = useState(null);
@@ -21,11 +28,24 @@ const Modal = ({ isOpen, onClose, onData, mensaje }) => {
           <DialogContentText>{mensaje}</DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={()=>{onClose(); handleClickFalse();}} color="primary">
-            Cancelar
+          <Button
+            onClick={() => {
+              onClose();
+              handleClickFalse();
+            }}
+            color="primary"
+          >
+            No
           </Button>
-          <Button onClick={()=>{onClose(); handleClickTrue()}} color="primary" autoFocus>
-            Confirmar
+          <Button
+            onClick={() => {
+              onClose();
+              handleClickTrue();
+            }}
+            color="primary"
+            autoFocus
+          >
+            Sí
           </Button>
         </DialogActions>
       </Dialog>

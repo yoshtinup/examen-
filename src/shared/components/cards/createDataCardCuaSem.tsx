@@ -41,7 +41,7 @@ export function getDataCardCSPendiente(CS:CSGql, currentRol:Roles, Inscribirse:a
   let Enlaces:CardListItemChildrens = ItemWithChildrens("Enlaces", true);
   let Cursos:CardListItemChildrens = ItemWithChildrens("Cursos", true);
   if(currentRol === Roles.Estudiante){
-    ItemsEnlacesCursos(CS, Enlaces, Cursos, () => Inscribirse());
+    ItemsEnlacesCursos(CS, Enlaces, Cursos, () => Inscribirse(data));
     if(Enlaces.Childrens.length){
       data.Items.push(Enlaces);
     }
@@ -53,11 +53,12 @@ export function getDataCardCSPendiente(CS:CSGql, currentRol:Roles, Inscribirse:a
 }
 
 export function getDataCardCSEnProceso(CS:CSGql, currentRol:Roles, Inscribirse:any){
+  const idBoletasIncripciones = CS.BoletaInscripcion.IdBoletasIncripciones;
   let data:CardListType = ItemsComunes(CS);
   let Enlaces:CardListItemChildrens = ItemWithChildrens("Enlaces", true);
   let Cursos:CardListItemChildrens = ItemWithChildrens("Cursos", true);
   if(currentRol === Roles.Estudiante){
-    ItemsEnlacesCursos(CS, Enlaces, Cursos, () => Inscribirse());
+    ItemsEnlacesCursos(CS, Enlaces, Cursos, () => Inscribirse(idBoletasIncripciones));
     if(Enlaces.Childrens.length){
       data.Items.push(Enlaces);
     }
