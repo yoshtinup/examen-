@@ -70,3 +70,13 @@ body {
   width: 180px !important;
   height: 180px !important;
 }
+
+#grafica-pastel-leyendas,
+#grafica-pastel-leyendas-col2{
+  list-style:none;
+}
+#grafica-pastel-leyendas-col2{
+  columns: 2;
+  -webkit-columns: 2;
+  -moz-columns: 2;
+}

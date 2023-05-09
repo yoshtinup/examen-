@@ -13,9 +13,11 @@ export function useGetTutoresSinodales(matricula: number) {
               ApellidoPaterno
               ApellidoMaterno
               Email
+              IdGenero
             }
             Nivel:db17_Participacion{
               Participacion
+              IdParticipacion
             }    
           }
           ConformacionCT:db18_CT_Conformacion(where:{Matricula:{_eq:$matricula}}){

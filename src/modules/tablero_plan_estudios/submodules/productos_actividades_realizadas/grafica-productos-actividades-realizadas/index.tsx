@@ -12,27 +12,28 @@ const GraficaProductosActividadesRealizadas = ({
   data: IListProductosActividadesRealizadas;
 }) => {
   const dataExample: GraficaPastelType = {
-    Alineacion: Alineacion.Derecha,
+    NoData: "No se han registrado productos y actividades",
+    Alineacion: Alineacion.Arriba,
     Porcentajes: true,
     Items: [
       {
         Titulo: 'Publicaciones',
-        Valor: data.publicaciones.length,
+        Valor: data.publicaciones.length || 0,
         Color: GraficaColor.amarillo,
       },
       {
         Titulo: 'Cursos',
-        Valor: data.cursos.length,
+        Valor: data.cursos.length || 0,
         Color: GraficaColor.violeta,
       },
       {
         Titulo: 'Estancias',
-        Valor: data.estancias.length,
+        Valor: data.estancias.length || 0,
         Color: GraficaColor.turquesa,
       },
       {
         Titulo: 'Congresos',
-        Valor: data.congresos.length,
+        Valor: data.congresos.length || 0,
         Color: GraficaColor.rojo,
       },
     ],
