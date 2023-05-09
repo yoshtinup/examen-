@@ -29,6 +29,13 @@ export function useGetEstudianteInfo(matricula: number) {
               IdAlumno
               CURP
               IdGenero
+              InmediatoAnterior:db12_FormacionAcademica{
+                CarreraOPrograma
+                Nivel
+                Institucion
+                FechaExamenProfesional
+                PromedioWeb
+              }
             }
             Programa {
               Id: IdPrograma

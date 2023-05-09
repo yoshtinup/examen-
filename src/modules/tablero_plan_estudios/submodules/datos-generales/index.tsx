@@ -16,6 +16,7 @@ import {
   ListItemIcon,
   ListItemText,
   Paper,
+  Stack,
   TextField,
   Typography
 } from "@mui/material";
@@ -29,6 +30,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { TutoresSinodalesGql } from "@shared/types/tutoresSinodales";
 import { useEffect, useState } from "react";
 import { useUpdateEmail } from "@modules/home/submodules/estudiante/queries/intex";
+import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import Swal from "sweetalert2";
 
 const DatosGenerales = (props:any) => {
@@ -43,11 +45,9 @@ const DatosGenerales = (props:any) => {
     return <>Error</>
   }
   userInfo = data[0];
-  const generos = [
-    {key:"Genero", value:"mensaje de bienvenida"},
-    {key:"Masculino", value:"Bienvenido, "},
-    {key:"Femenino", value:"Bienvenida, "}
-  ]
+  const generoBienv = new Array();
+  generoBienv[1] = "Bienvenido, ";
+  generoBienv[2] = "Bienvenida, ";
   const datosGenerales = [
     {key:"Matricula", value:userInfo.Matricula},
     {key:"CURP", value:userInfo.Datos.CURP},
@@ -56,7 +56,15 @@ const DatosGenerales = (props:any) => {
     {key:"Generación", value:userInfo.Generacion.Value},
     {key:"Unidad", value:userInfo.UnidadAdscripcion.value},
     {key:"Tesis", value:userInfo.Tesis},
-    //{key:"Estatus", value:userInfo.Estatus},
+    {
+      key:"Estudio inmediato anterior",
+      value:
+        userInfo.Datos.InmediatoAnterior.CarreraOPrograma +
+        " (Nivel: " + userInfo.Datos.InmediatoAnterior.Nivel +
+        "), " + userInfo.Datos.InmediatoAnterior.Institucion +
+        ". Examen de grado el " + formatoFecha(userInfo.Datos.InmediatoAnterior.FechaExamenProfesional) +
+        ". Promedio: " +userInfo.Datos.InmediatoAnterior.PromedioWeb
+    },
     {key:"Correo institucional", value:userInfo.Datos.CorreoElectronicoEcosur},
     {key:"Correo personal", value:userInfo.Datos.Email}
   ];
@@ -64,7 +72,28 @@ const DatosGenerales = (props:any) => {
     <Grid container spacing={2}>
       <Grid item xs={12} style={{padding:"20px"}}>
         <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-          <ListItem>
+          <ListItem
+            secondaryAction={
+              <>
+                {userInfo.Estatus == "Activo" &&
+                  <Stack spacing={2} direction="row">
+                    <Button onClick={() => window.open("https://www.ecosur.mx/posgrado/posgrado/reglamentos-y-normas/")} variant="contained">Reglamento</Button>
+                    <Button onClick={() => window.open("https://www.ecosur.mx/posgrado/posgrado/convocatorias/")} variant="contained">Convocatorias</Button>
+                  </Stack>
+                }
+                {userInfo.Estatus == "Egresado" &&
+                  <>
+                  <Link href="https://forms.office.com/Pages/ResponsePage.aspx?id=ueQ7jWW-mEWHw68xN_k1NX_jq7a_lFNEqZUSVzf_V9FUOUlFV1kzQ0pVMUdNU05VRjBRUzVVNjlPMC4u">
+                    <InsertLinkIcon /> Solicitar fecha de examen de grado
+                  </Link><br />
+                  <Link href="https://forms.office.com/Pages/ResponsePage.aspx?id=ueQ7jWW-mEWHw68xN_k1NX_jq7a_lFNEqZUSVzf_V9FUNkw1U0IzN04zTE9ISkg2SUNHNTk2UzVNUS4u">
+                    <InsertLinkIcon /> Registrar revisores de examen de grado
+                  </Link>
+                  </>
+                }
+              </>
+            }
+          >
             <ListItemAvatar>
               <Avatar
                 alt={
@@ -81,7 +110,7 @@ const DatosGenerales = (props:any) => {
               primary={
                 <Typography variant="h4" gutterBottom>
                   {
-                    generos[userInfo.Datos.IdGenero].value +
+                    generoBienv[userInfo.Datos.IdGenero] +
                     userInfo.Datos.Nombre + " " +
                     userInfo.Datos.ApellidoPaterno + " " +
                     userInfo.Datos.ApellidoMaterno
@@ -103,7 +132,7 @@ const DatosGenerales = (props:any) => {
               <ListItem key={i} secondaryAction={renderSwitch(item.key, userInfo)}>
                 <ListItemText
                   primary={
-                    <span style={{width:"80%", display:"block"}}>
+                    <span style={{width:"75%", display:"block"}}>
                       <b>{item.key}: </b>{item.value}
                     </span>
                   }
@@ -122,6 +151,10 @@ const DatosGenerales = (props:any) => {
 
 const TutoresSinodales = (props:any) => {
   const TS:TutoresSinodalesGql = props.dataTS.data;
+  const generoNivelPart = new Array();
+  generoNivelPart[1] = ["Director de tesis", "Directora de tesis"];
+  generoNivelPart[2] = ["Asesor", "Asesora"];
+  generoNivelPart[33] = ["Coodirector", "Coodirectora"];
   return (
     <Paper>
       <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
@@ -138,7 +171,7 @@ const TutoresSinodales = (props:any) => {
                   item.Persona.ApellidoPaterno + " " +
                   item.Persona.ApellidoMaterno +
                   (item.Persona.Email && " (" +item.Persona.Email + ")") + " - " +
-                  item.Nivel.Participacion
+                  generoNivelPart[item.Nivel.IdParticipacion][item.Persona.IdGenero-1]
                 }
               />
             )}

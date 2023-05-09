@@ -20,6 +20,8 @@ import { Grid } from '@mui/material';
 import { HeaderSection } from '@shared/components';
 import EvaluacionBecario from './submodules/evaluacion-becario';
 import EvaluacionEtica from './submodules/evaluacion-etica';
+import { useEffect, useState } from 'react';
+import { listaCursosState } from './recoil';
 
 const style = {
   padding: '30px',
@@ -29,12 +31,18 @@ const style = {
 
 const TableroPlanEstudios = () => {
   const user: EcosurAuth = useRecoilValue(userStateAtom);
-  const listaCursos =useGetCursosAlumno(user.estudiante.matricula);
-  // crearJSON();
-   /*202211001*/
-  const arrayCursos: CursosAlumnoGql = getCursosEstudiante(listaCursos);
-  const arrayCS: SemestresCuatrimestresGql =
-    getCuatrimestresSemestres(listaCursos);
+  const listaCursos = useGetCursosAlumno(user.estudiante.matricula);
+  //const [listaCursos, setListaCursos] = useRecoilValue(listaCursosState);
+  const [arrayCursos, setArrayCursos] = useState<CursosAlumnoGql>();
+  const [arrayCS, setArrayCS] = useState<SemestresCuatrimestresGql>();
+
+  /***/
+  useEffect(() => {
+    setArrayCursos(getCursosEstudiante(listaCursos));
+    setArrayCS(getCuatrimestresSemestres(listaCursos));
+  });
+  /***/
+
   const arrayCursosAIniciar: CursoPorIniciarGql[] = crearJSON().data.sort(
     (a, b) => {
       if (a.FechaInicioCurso > b.FechaInicioCurso) return 1;
@@ -45,7 +53,7 @@ const TableroPlanEstudios = () => {
   const tabCursos = [
     {
       titulo: 'Asignaturas',
-      componente: <CardsCursos data={arrayCursos} />,
+      componente: <CardsCursos data={arrayCursos} aIniciar={arrayCursosAIniciar} />,
     },
     {
       titulo: 'Periodos lectivos',
@@ -130,6 +138,9 @@ function getCuatrimestresSemestres(listaCursos: any) {
       let currentCS = CuaSem[curso.IdPeriodo];
       let Numerador = 0;
       let Denominador = 0;
+      if(!currentCS.BoletaInscripcion && curso.BoletaInscripcion){
+        currentCS.BoletaInscripcion = curso.BoletaInscripcion;
+      }
       currentCS.Creditos += curso.Creditos;
       currentCS.Cursos.push(curso);
       currentCS.Cursos.forEach(curso => {

@@ -27,6 +27,7 @@ export interface DatosGql {
   IdAlumno: number;
   CURP: string;
   IdGenero: number;
+  InmediatoAnterior:InmediatoAnteriorGql;
 }
 
 export interface DirectorTesisGql {
@@ -58,4 +59,12 @@ export interface ProgramaGql {
 
 export interface BecaGql {
   IdTipoDeBeca: number;
+}
+
+export interface InmediatoAnteriorGql{
+  CarreraOPrograma: string;
+  Nivel: string;
+  Institucion: string;
+  FechaExamenProfesional: string;
+  PromedioWeb: string;
 }

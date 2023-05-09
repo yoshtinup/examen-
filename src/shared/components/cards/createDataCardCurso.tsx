@@ -15,10 +15,11 @@ function RedirectFunction(url:string){
   return () => {window.location.href = url};
 }
 
-export function getDataCardCursoFinalizado(curso:CursoGql, currentRol:Roles){
+export function getDataCardCursoFinalizado(curso:CursoGql, currentRol:Roles, bajaMateria:any, cambioMateria:any){
   let data:CardListType = ItemsComunes(curso);
   let Calificacion:CardListItemChildrens = ItemWithChildrens("Calificación", true);
   let Enlaces:CardListItemChildrens = ItemWithChildrens("Enlaces", true);
+  let Opciones:CardListItemChildrens = ItemWithChildrens("Opciones", true);/*********************/
   if(currentRol === Roles.Estudiante){
     /*QUEDA PENDIENTE LA VALIDACION DE LAS CALIFICACIONES CON EL ACTA DE EVALUACION*/
     let CalificacionCurso, CalificacionSeminario;
@@ -39,6 +40,11 @@ export function getDataCardCursoFinalizado(curso:CursoGql, currentRol:Roles){
     }
     ItemCreateSubtitle(Calificacion);
     data.Items.push(Calificacion);
+
+    Opciones.Childrens.push(ItemSimple("Dar de baja materia", <PermMedia />, () => bajaMateria(true)));
+    Opciones.Childrens.push(ItemSimple("Sustituir materia", <PermMedia />, () => cambioMateria(true)));
+    ItemCreateSubtitle(Opciones);
+    data.Items.push(Opciones);/****************************/
 
     ItemsEnlaces(curso, Enlaces);
     if(Enlaces.Childrens.length){

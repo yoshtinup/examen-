@@ -8,6 +8,7 @@ export function getDataGraficaCurso(cursos:CursosAlumnoGql){
     cursos.EnProceso.length
   );
   const data:GraficaBarrasType = {
+    NoData: "No se ha registrado un plan de estudios",
     Footer: <FooterGraficaCurso />,
     Graduacion:{
       Min: 0,
@@ -66,31 +67,35 @@ export function NumeraliaGraficaCurso(props:any){
 
   return (
     <Grid container spacing={7} style={{textAlign:"center"}}>
-      <Grid item xs={12}>
-        <Paper elevation={5} style={{borderBottom:"solid 3px #1ab394", padding:"15px 0 5px"}}>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item xs={6}>
-              <TextLine variant="h4" text={<b>Promedio global</b>}/>
+      {promedio > 0 &&
+        <Grid item xs={12}>
+          <Paper elevation={5} style={{borderBottom:"solid 3px #1ab394", padding:"15px 0 5px"}}>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item xs={6}>
+                <TextLine variant="h4" text={<b>Promedio global</b>}/>
+              </Grid>
+              <Grid item xs={6}>
+                <TextLine variant="h3" text={promedio.toFixed(2)}/>
+              </Grid>
             </Grid>
-            <Grid item xs={6}>
-              <TextLine variant="h3" text={promedio.toFixed(2)}/>
+          </Paper>
+        </Grid>
+      }
+      {creditosCub > 0 &&
+        <Grid item xs={12}>
+          <Paper elevation={5} style={{borderBottom:"solid 3px #1ab394", padding:"10px 0 0"}}>
+            <Grid container spacing={2} alignItems="center">
+              <Grid item xs={6}>
+                <TextLine variant="h5" text={<b>Créditos cubiertos</b>}/>
+                <TextLine variant="h4" text={creditosCub}/>
+              </Grid>
+              <Grid item xs={6}>
+                <TextLine variant="h4" text={(creditosCub*100/creditosTot).toFixed(2) + "%"}/>
+              </Grid>
             </Grid>
-          </Grid>
-        </Paper>
-      </Grid>
-      <Grid item xs={12}>
-        <Paper elevation={5} style={{borderBottom:"solid 3px #1ab394", padding:"10px 0 0"}}>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item xs={6}>
-              <TextLine variant="h5" text={<b>Créditos cubiertos</b>}/>
-              <TextLine variant="h4" text={creditosCub}/>
-            </Grid>
-            <Grid item xs={6}>
-              <TextLine variant="h4" text={(creditosCub*100/creditosTot).toFixed(2) + "%"}/>
-            </Grid>
-          </Grid>
-        </Paper>
-      </Grid>
+          </Paper>
+        </Grid>
+      }
       {creditosPen > 0 &&
         <Grid item xs={12}>
           <Paper elevation={5} style={{borderBottom:"solid 3px #c56b16", padding:"10px 0 0"}}>
