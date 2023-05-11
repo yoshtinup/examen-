@@ -1,13 +1,23 @@
+import { EcosurAuth } from "@modules/auth/definitions";
+import { userStateAtom } from "@modules/auth/recoil";
+import { getCursosEstudiante } from "@modules/tablero_plan_estudios/hooks";
 import { Grid } from "@mui/material";
 import { GraficaBarras } from "@shared/components/graficas";
 import { NumeraliaGraficaCurso, getDataGraficaCurso } from "@shared/components/graficas/createDataGraficaCurso";
 import { GraficaPastel } from "@shared/components/graficas/graficaPastel";
+import { useGetCursosAlumno } from "@shared/queries";
 import { Alineacion, GraficaColor, CursosAlumnoGql, GraficaBarrasType, GraficaPastelType } from "@shared/types";
+import { useRecoilValue } from "recoil";
 
-const GraficaCursos = (props:any) => {
-  const arrayCursos:CursosAlumnoGql = props.data;
-  if(!arrayCursos){
-    return <></>;
+const GraficaCursos = () => {
+  const user: EcosurAuth = useRecoilValue(userStateAtom);
+  const {data, error, isLoading}= useGetCursosAlumno(user.estudiante.matricula);
+  const arrayCursos: CursosAlumnoGql = getCursosEstudiante(data);
+  if(isLoading){
+    return <>Cargando</>;
+  }
+  if(error){
+    return <>Error</>;
   }
   const dataCursos:GraficaBarrasType = getDataGraficaCurso(arrayCursos);
   const dataExample:GraficaPastelType = {
