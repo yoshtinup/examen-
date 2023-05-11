@@ -6,15 +6,19 @@ import {
   getDataCardCSEnProceso
 } from "@shared/components/cards";
 import { useRecoilValue } from "recoil";
-import { rolStateAtom } from "@modules/auth/recoil";
+import { rolStateAtom, userStateAtom } from "@modules/auth/recoil";
 import Roles from "@definitions/Roles";
 import { CSGql, SemestresCuatrimestresGql } from "@shared/types/cuatrimestresSemestresGql";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 import apiInscripciones from "@shared/components/cards/apiInscripciones";
 import Modal from "./modal-inscripcion-cuatri";
+import { EcosurAuth } from "@modules/auth/definitions";
+import { useGetCursosAlumno } from "@shared/queries";
+import { getCuatrimestresSemestres } from "@modules/tablero_plan_estudios/hooks";
 
 const CardsCS = (props:any) => {
+  const data = props.data;
   const [inscripcion, setInscripcion] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const handleOpenModal = () => setIsOpen(true);
@@ -23,17 +27,11 @@ const CardsCS = (props:any) => {
   const handleDataFromChild = (data) => {
     setInscripcion(data);
   };
- // console.log(inscripcion);
-  // const clickInscripcion = () => {
-  //    window.alert("texto: es igual a  ");
-     
-  //   setInscripcion(true);
-  // };
+  
+  const user: EcosurAuth = useRecoilValue(userStateAtom);
   const currentRol: Roles = useRecoilValue(rolStateAtom);
-  const arrayCS:SemestresCuatrimestresGql = props.data;
-  if(!arrayCS){
-    return <></>;
-  }
+  const [listaCursos, setListaCursos] = useState(data);
+  const arrayCS:SemestresCuatrimestresGql = getCuatrimestresSemestres(listaCursos);
   return (
     <>
       <Grid container spacing={2} style={{padding:"10px 50px 0"}}>

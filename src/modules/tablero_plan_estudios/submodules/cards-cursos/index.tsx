@@ -12,6 +12,8 @@ import Roles from "@definitions/Roles";
 import { EcosurAuth } from "@modules/auth/definitions";
 import { useState } from "react";
 import { CursoPorIniciarGql } from "@shared/types/cursosPorIniciarGql";
+import { useGetCursosAlumno } from "@shared/queries";
+import { crearJSON, getCursosEstudiante } from "@modules/tablero_plan_estudios/hooks";
 
 const MenuProps = {
   PaperProps: {
@@ -23,10 +25,18 @@ const MenuProps = {
 };
 
 const CardsCursos = (props:any) => {
+  const data = props.data;
   const user: EcosurAuth = useRecoilValue(userStateAtom);
   const currentRol: Roles = useRecoilValue(rolStateAtom);
-  const arrayCursos:CursosAlumnoGql = props.data;
-  const arrayCursosAIniciar:CursoPorIniciarGql[] = props.aIniciar;
+  const [listaCursos, setListaCursos] = useState(data);
+  const arrayCursos: CursosAlumnoGql = getCursosEstudiante(listaCursos);
+  const arrayCursosAIniciar: CursoPorIniciarGql[] = crearJSON().data.sort(
+    (a, b) => {
+      if (a.FechaInicioCurso > b.FechaInicioCurso) return 1;
+      if (a.FechaInicioCurso < b.FechaInicioCurso) return -1;
+      return 0;
+    }
+  ); //useGetCursosAIniciar(false).data;
   const [openBM, setOpenBM] = useState(false);
   const [openCM, setOpenCM] = useState(false);
   
@@ -34,10 +44,6 @@ const CardsCursos = (props:any) => {
   const handleChange = (event: SelectChangeEvent) => {
     setAsignatura(event.target.value as string);
   };
-  
-  if(!arrayCursos){
-    return <></>;
-  }
   return (
     <>
       <Grid container spacing={2} style={{padding:"10px 50px 0"}}>

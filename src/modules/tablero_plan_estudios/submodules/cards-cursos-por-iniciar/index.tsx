@@ -6,10 +6,17 @@ import Roles from "@definitions/Roles";
 import { CursoPorIniciarGql } from "@shared/types/cursosPorIniciarGql";
 import { getDataCardCursoAIniciar } from "@shared/components/cards/createDataCardCursoPorIniciar";
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import { crearJSON } from "@modules/tablero_plan_estudios/hooks";
 
-const CardsCursosAIniciar = (props:any) => {
+const CardsCursosAIniciar = () => {
   const currentRol: Roles = useRecoilValue(rolStateAtom);
-  const arrayCursos:CursoPorIniciarGql[] = props.data;
+  const arrayCursos: CursoPorIniciarGql[] = crearJSON().data.sort(
+    (a, b) => {
+      if (a.FechaInicioCurso > b.FechaInicioCurso) return 1;
+      if (a.FechaInicioCurso < b.FechaInicioCurso) return -1;
+      return 0;
+    }
+  ); //useGetCursosAIniciar(false).data;
   if(!arrayCursos){
     return <></>;
   }
