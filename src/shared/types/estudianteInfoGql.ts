@@ -12,6 +12,13 @@ export interface EstudianteGql {
   DirectorTesis: DirectorTesisGql[];
   Beca: BecaGql;
 }
+export interface EvaluacionEticaGql {
+  Descripcion: string;
+  PuedeRegistrarProtocolo_CEI: boolean;
+  haveestatus: number;
+  idFormulariosRespuestas: number;
+  message: string;
+}
 
 export interface ValueGql {
   value: string;

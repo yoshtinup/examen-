@@ -41,8 +41,8 @@ export function getDataCardCursoFinalizado(curso:CursoGql, currentRol:Roles, baj
     ItemCreateSubtitle(Calificacion);
     data.Items.push(Calificacion);
 
-    Opciones.Childrens.push(ItemSimple("Dar de baja materia", <PermMedia />, () => bajaMateria(true)));
-    Opciones.Childrens.push(ItemSimple("Sustituir materia", <PermMedia />, () => cambioMateria(true)));
+    Opciones.Childrens.push(ItemSimple("Dar de baja asignatura", <PermMedia />, () => bajaMateria(true)));
+    Opciones.Childrens.push(ItemSimple("Sustituir asignatura", <PermMedia />, () => cambioMateria(true)));
     ItemCreateSubtitle(Opciones);
     data.Items.push(Opciones);/****************************/
 
@@ -59,7 +59,7 @@ export function getDataCardCursoPendiente(curso:CursoGql, currentRol:Roles){
   let Opciones:CardListItemChildrens = ItemWithChildrens("Opciones", true);
   let Enlaces:CardListItemChildrens = ItemWithChildrens("Enlaces", true);
   if(currentRol === Roles.Estudiante){
-    Opciones.Childrens.push(ItemSimple("Dar de baja materia", <PermMedia />, () => {alert("Dar de baja a la materia")}));
+    Opciones.Childrens.push(ItemSimple("Dar de baja asignatura", <PermMedia />, () => {alert("Dar de baja a la asignatura")}));
     ItemCreateSubtitle(Opciones);
     data.Items.push(Opciones);
 

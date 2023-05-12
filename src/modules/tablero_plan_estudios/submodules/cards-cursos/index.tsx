@@ -77,10 +77,10 @@ const CardsCursos = (props:any) => {
     setAsignatura(event.target.value as string);
     setErrorSelect(false);
   };
-  const handleSubmit = event => {
+  const handleSubmit = (event, type) => {
     console.log('submit');
     event.preventDefault();
-    if (asignatura === '') {
+    if (type && asignatura === '') {
       setErrorSelect(true);
       return;
     }
@@ -200,7 +200,7 @@ const CardsCursos = (props:any) => {
           setError(false);
           setRazonBajaAsignatura('');
         }}
-        clickFunction={handleSubmit} //;
+        clickFunction={()=>handleSubmit(event, false)} //;
         btnTextCancel="Salir"
         btnTextAcept="Dar de baja"
       />
@@ -229,7 +229,7 @@ const CardsCursos = (props:any) => {
               >
                 {arrayCursosAIniciar.map((curso, i) => (
                   <MenuItem key={i} value={curso.IdMateriasOfertaAnual} >
-                     <ListItemText primary={curso.NombreMateria} secondary={'Credito: ' + curso.Creditos + ', Fecha de Inicio: ' + format(new Date(curso.FechaInicioCurso), 'dd/MM/yyyy')+ ', Sede:' + curso.SedeDeCurso} />
+                     <ListItemText primary={curso.NombreMateria} secondary={'Créditos: ' + curso.Creditos + ', Fecha de Inicio: ' + format(new Date(curso.FechaInicioCurso), 'dd/MM/yyyy')+ ', Sede:' + curso.SedeDeCurso} />
                     
                   </MenuItem>
                 ))}
@@ -259,7 +259,7 @@ const CardsCursos = (props:any) => {
           setRazonCambioAsignatura('');
           setAsignatura('');
         }}
-        clickFunction={handleSubmit}
+        clickFunction={()=>handleSubmit(event, true)}
         btnTextCancel="Cerrar"
         btnTextAcept="Cambiar"
       />

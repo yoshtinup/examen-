@@ -20,7 +20,7 @@ import {
   TextField,
   Typography
 } from "@mui/material";
-import { useGetEstudianteInfo } from "@shared/queries";
+import { useGetEstudianteInfo, useGetEvaluacionEtica } from "@shared/queries";
 import { useGetTutoresSinodales } from "@shared/queries/tutoresSinodales";
 import { EstudianteGql } from "@shared/types";
 import { useRecoilValue } from "recoil";
@@ -36,6 +36,8 @@ import Swal from "sweetalert2";
 const DatosGenerales = (props:any) => {
   const user: EcosurAuth = useRecoilValue(userStateAtom);
   const { data, isError, isLoading } = useGetEstudianteInfo(user.estudiante.matricula);
+  //const { data, isError, isLoading } = ;
+  
   const dataTS = useGetTutoresSinodales(user.estudiante.matricula /*199411001*/);
   let userInfo:EstudianteGql = {} as EstudianteGql;
   if(isLoading){
