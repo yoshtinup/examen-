@@ -28,7 +28,7 @@ const EvaluacionEtica = (props: any) => {
     user.estudiante.matricula
   );
   const evaluacionEtica = useGetEvaluacionEtica(user.estudiante.matricula);
-  console.log(evaluacionEtica);
+  
   if (isLoading || evaluacionEtica.isLoading) {
     return <>Cargando</>;
   }
@@ -77,7 +77,7 @@ const EvaluacionEtica = (props: any) => {
             justifyContent: "space-between", 
             width: "100%",}}
             >
-              {evaluacionInfo.haveestatus == 1 && 
+              {evaluacionInfo.haveestatus == 0 && 
               <Paper
                 elevation={2}
                 style={{
@@ -96,7 +96,7 @@ const EvaluacionEtica = (props: any) => {
                   </>
                
               </Paper>}
-              {evaluacionInfo.PuedeRegistrarProtocolo_CEI===true && evaluacionInfo.idFormulariosRespuestas===null &&
+              {evaluacionInfo.PuedeRegistrarProtocolo_CEI===false && evaluacionInfo.idFormulariosRespuestas===null &&
               <ListItemText
                 style={{ textAlign:'center',  }}
                 primary="Realizar registro de propuesta"

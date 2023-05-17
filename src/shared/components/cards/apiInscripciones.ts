@@ -8,7 +8,6 @@ class InscripcionesQuerys extends ApiQuerys {
     const status = await this.api<{ data: DatosMessage }>(
       `inscribir_estudiante?IdBoletaInscripcion=${idBoletaInscripcion}`
     );
-    console.log(status);
     return status;
   }
 }

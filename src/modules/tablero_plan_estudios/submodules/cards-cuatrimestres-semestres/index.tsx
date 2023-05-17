@@ -31,10 +31,6 @@ const CardsCS = (props:any) => {
   const [idBoleta, setIdBoleta] = useState();
 
   const router = useRouter();
-  // useEffect(() => {
-  //   // Lógica para recargar la sección aquí
-  //   router.reload();
-  // }, [Registration]);
 
   const handleOpenModal = idBoletasIncripciones => {
     setIdBoleta(idBoletasIncripciones);
@@ -134,7 +130,6 @@ const CardsCS = (props:any) => {
 const Registration = idBoletasIncripciones => {
   const router = useRouter();
   const idBoletas = idBoletasIncripciones.idBoletasIncripciones;
-  console.log(idBoletas);
   //return <CircularProgress />;
   const { data, error, isLoading } = useQuery(
     'inscribirse-cuatrimestre-semestre',

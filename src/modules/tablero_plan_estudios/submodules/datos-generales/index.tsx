@@ -1,11 +1,14 @@
 import { EcosurAuth } from "@modules/auth/definitions";
 import { userStateAtom } from "@modules/auth/recoil";
 import {
+  Alert,
   Avatar,
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
+  DialogContentText,
   DialogTitle,
   Divider,
   Grid,
@@ -16,6 +19,7 @@ import {
   ListItemIcon,
   ListItemText,
   Paper,
+  Snackbar,
   Stack,
   TextField,
   Typography
@@ -28,10 +32,16 @@ import { People } from "@mui/icons-material";
 import ErrorIcon from '@mui/icons-material/Error';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { TutoresSinodalesGql } from "@shared/types/tutoresSinodales";
-import { useEffect, useState } from "react";
+import { Component, useEffect, useState } from "react";
 import { useUpdateEmail } from "@modules/home/submodules/estudiante/queries/intex";
 import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import Swal from "sweetalert2";
+import { useRouter } from "next/router";
+import { useQuery } from "react-query";
+import apiRevisionCurp from "@shared/components/cards/apiRevisionCurp";
+import message from "@modules/consejo_tutelar/submodules/evaluacion/pages/message";
+
+
 
 const DatosGenerales = (props:any) => {
   const user: EcosurAuth = useRecoilValue(userStateAtom);
@@ -309,6 +319,141 @@ function formatoFecha(date:string){
   const fecha = new Date(Date.parse(date));
   return fecha.getDate() + " de " + meses[fecha.getMonth()] + " del " + fecha.getFullYear();
 }
+//modal pasa solicitar correccion
+
+
+const Modal = props => {
+
+  const [open, setOpen] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
+  const [review, setReview] = useState(false);
+  const handleSubmit = (event) => {
+    console.log(open)
+    event.preventDefault();
+    setOpenModal(true);
+    setOpen(true);
+    }
+    const ClickClose =(event)=>{
+      event.preventDefault();
+      setOpen(false);
+      setReview(false);
+    }
+    const ClickReview =(event)=>{
+      event.preventDefault();
+      setReview(true);
+      
+    }
+    const handleDataFromChild = data => {
+      setOpen(data);
+      setReview(data);
+    };
+  const btnAcept = props.btnTextAcept;
+  const btnCancel = props.btnTextCancel;
+  return (<>
+    <Link aria-disabled={true}><a style={{cursor:"pointer"}} onClick={handleSubmit}> Solicitar Corrección</a>
+    {openModal && <Dialog
+      open={open}
+      fullWidth={false}
+      maxWidth="md"
+      onClose={ClickClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >{review && <ReviewCURP onData={handleDataFromChild}/>}
+      <DialogTitle id="alert-dialog-title">¿Solicitar Corrección?</DialogTitle>
+      
+      <DialogActions>
+        <Button onClick={ClickClose}>{btnCancel}</Button>
+        <Button onClick={ClickReview} autoFocus>
+          {btnAcept}
+        </Button>
+        
+        
+      </DialogActions>
+      
+    </Dialog>}
+    
+    </Link>
+    
+    </>
+  );
+};
+//incripción al estudiante al curso
+const ReviewCURP = ({onData}) => {
+  const [open, setOpen] = useState(true);
+  const handleOpen = () => {
+    //retorno de valor False al padre
+    setOpen(true);
+
+  };
+  const handleClickFalse = () => {
+    //retorno de valor True al padre
+    onData(false);
+  };
+  const { data, error, isLoading,isSuccess} = useQuery(
+    'solicitar-revision-curp_222222',
+    async () => await apiRevisionCurp.getSolicitarRevisionCURP(),
+    {
+      staleTime: 10000,
+    }
+  );
+  interface DatosMessage {
+    message?: string;
+  }
+  let setMessage = data?.message;
+  console.log(isSuccess);
+
+  if (isLoading){
+    return (
+      <Snackbar
+        open={open}
+        autoHideDuration={1000}
+        // onClose={handleClickTrue}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      >
+        <CircularProgress />
+      </Snackbar>
+    );
+
+  }
+  if (error){
+    return (
+      <Snackbar
+        open={open}
+        autoHideDuration={2000}
+        onClose={()=>setOpen(false)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      >
+        <Alert severity="error">No se pudo generar la solicitud</Alert>
+      </Snackbar>
+    );}
+  if (setMessage.includes('Se envió')) {
+    return (
+      <Snackbar
+        open={open}
+        autoHideDuration={1500}
+        onClose={handleClickFalse}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        
+      >
+        <Alert severity="success">{setMessage}</Alert>
+        
+      </Snackbar>
+    );
+    
+  } else {
+    return (
+      <Snackbar
+        open={open}
+        autoHideDuration={2000}
+        onClose={()=>setOpen(false)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      >
+        <Alert severity="warning">{setMessage}</Alert>
+      </Snackbar>
+    );
+    
+  }
+};
 
 function renderSwitch(op:string, userInfo:EstudianteGql){
   let component = null;
@@ -318,6 +463,12 @@ function renderSwitch(op:string, userInfo:EstudianteGql){
       break;
     case "Tesis":
       component = <Link href="https://forms.office.com/Pages/ResponsePage.aspx?id=ueQ7jWW-mEWHw68xN_k1NX_jq7a_lFNEqZUSVzf_V9FUQ0FNME83SEFNMVpBUTVPRUZXSzEwMlIzVi4u">Solicitar cambio de título</Link>;
+      break;
+    case "CURP":
+      component = <Modal
+      btnTextCancel="No"
+      btnTextAcept="Sí, Solicitar"
+    />
       break;
   }
   return component;
