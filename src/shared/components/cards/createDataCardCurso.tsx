@@ -15,7 +15,7 @@ function RedirectFunction(url:string){
   return () => {window.location.href = url};
 }
 
-export function getDataCardCursoFinalizado(curso:CursoGql, currentRol:Roles, bajaMateria:any, cambioMateria:any){
+export function getDataCardCursoFinalizado(curso:CursoGql, currentRol:Roles, bajaMateria:any, cambioMateria:any, idMateria:any){
   let data:CardListType = ItemsComunes(curso);
   let Calificacion:CardListItemChildrens = ItemWithChildrens("Calificación", true);
   let Enlaces:CardListItemChildrens = ItemWithChildrens("Enlaces", true);
@@ -41,8 +41,8 @@ export function getDataCardCursoFinalizado(curso:CursoGql, currentRol:Roles, baj
     ItemCreateSubtitle(Calificacion);
     data.Items.push(Calificacion);
 
-    Opciones.Childrens.push(ItemSimple("Dar de baja asignatura", <PermMedia />, () => bajaMateria(true)));
-    Opciones.Childrens.push(ItemSimple("Sustituir asignatura", <PermMedia />, () => cambioMateria(true)));
+    Opciones.Childrens.push(ItemSimple("Dar de baja asignatura", <PermMedia />, () =>{ bajaMateria(true); idMateria(curso.IdMateriasOfertaAnual)}));
+    Opciones.Childrens.push(ItemSimple("Sustituir asignatura", <PermMedia />, () => {cambioMateria(true); idMateria(curso.IdMateriasOfertaAnual)}));
     ItemCreateSubtitle(Opciones);
     data.Items.push(Opciones);/****************************/
 

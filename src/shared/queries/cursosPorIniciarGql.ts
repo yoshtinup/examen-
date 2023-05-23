@@ -8,12 +8,13 @@ export function useGetCursosAIniciar(doctorado:boolean) {
     month: '2-digit',
     day: '2-digit'
   });
+  //Cursos:CnsI_ayb_02_MateriasDisponibles(where:{FechaLimiteAltaYBaja:{_gte:$date}` + queryPlus + `}){
   const queryPlus = doctorado ? ', GradoGeneral:{_eq:"Doctorado"}' : '';
   return useQuery(['cursos-a-iniciar', date], async () => {
     const { Cursos } = await hasuraClient.request(
       gql`
         query CursosAIniciar($date:datetime!) {
-          Cursos:CnsI_ayb_02_MateriasDisponibles(where:{FechaLimiteAltaYBaja:{_gte:$date}` + queryPlus + `}){
+          Cursos:CnsI_ayb_02_MateriasDisponibles(where:{FechaLimiteAltaYBaja:{_lte: "'$'{new Date().toISOString()}"} ` + queryPlus + `){
             Creditos
             FechaFinCurso:FechaIni
             FechaInicioCurso:FechaFin

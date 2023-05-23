@@ -23,6 +23,7 @@ import { EcosurAuth } from "@modules/auth/definitions";
 import { useGetCursosAlumno } from "@shared/queries";
 import { getCuatrimestresSemestres } from "@modules/tablero_plan_estudios/hooks";
 import { useRouter } from 'next/router';
+import apiBajaAsignatura from '@shared/components/cards/apiBajaAsignatura';
 
 const CardsCS = (props:any) => {
   const data = props.data;
@@ -146,7 +147,6 @@ const Registration = idBoletasIncripciones => {
       <Snackbar
         open={true}
         autoHideDuration={1000}
-        // onClose={handleClose}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
         <CircularProgress />
@@ -155,38 +155,30 @@ const Registration = idBoletasIncripciones => {
 
   if (error)
     return (
-      <Snackbar
-        open={true}
-        autoHideDuration={1000}
-        // onClose={handleClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      >
-        <Alert severity="error">false</Alert>
-      </Snackbar>
+      < MessageAlert messageTxt={"Error"} severity={"error"}/>
     );
   if (menssage.includes('Error')) {
     return (
-      <Snackbar
-        open={true}
-        autoHideDuration={1000}
-        // onClose={handleClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      >
-        <Alert severity="warning">{data?.message}</Alert>
-      </Snackbar>
+      < MessageAlert messageTxt={data?.message} severity={"warning"}/>
     );
   } else {
     return (
-      <Snackbar
-        open={true}
-        autoHideDuration={1000}
-        // onClose={handleClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      >
-        <Alert severity="success">{data?.message}</Alert>
-      </Snackbar>
+      < MessageAlert messageTxt={data?.message} severity={"success"}/>
+      
     );
   }
 };
+const MessageAlert=props=>{
+  const message = props.messageTxt;
+  const txtSeverity = props.severity;
+  return (<Snackbar
+    open={true}
+    autoHideDuration={1000}
+    // onClose={handleClose}
+    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+  >
+    <Alert severity={txtSeverity}>{message}</Alert>
+  </Snackbar>)
+}
 
 export default CardsCS;

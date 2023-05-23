@@ -4,7 +4,7 @@ import { hasuraClient } from './graphQlClient';
 
 export function useGetCursosAlumno(matricula: number) {
   return useQuery(['cursos-alumno', matricula], async () => {
-    const { Cursos } = await hasuraClient.request(
+    const data = await hasuraClient.request(
       gql`
         query CursosAlumno($matricula:Int!) {
           Cursos:db12_view_BoletaInscripcion_Matricula_Periodo(where:{Matricula:{_eq:$matricula}} order_by:{FechaIni:asc}){
@@ -53,11 +53,20 @@ export function useGetCursosAlumno(matricula: number) {
                 UnidadAdscripcion
               }
             }
+            
           }
+          CreditosAsignatura: CnsEstudiante_CreditosAsignaturas_Cursadas(where:{Matricula:{_eq:$matricula}}){
+            AsingaturasCursadas,
+            TotalDeCreditos,
+            TotalDeCreditosCubiertos,
+            TotalMaterias
+          }
+          
         }
       `,
       { matricula }
     );
-    return Cursos;
+    console.log(data)
+    return data;
   });
 }

@@ -12,7 +12,8 @@ import { useRecoilValue } from "recoil";
 const GraficaCursos = () => {
   const user: EcosurAuth = useRecoilValue(userStateAtom);
   const {data, error, isLoading}= useGetCursosAlumno(user.estudiante.matricula);
-  const arrayCursos: CursosAlumnoGql = getCursosEstudiante(data);
+  console.log(data);
+  const arrayCursos: CursosAlumnoGql = getCursosEstudiante(data?.Cursos);
   if(isLoading){
     return <>Cargando</>;
   }
@@ -62,7 +63,7 @@ const GraficaCursos = () => {
         <GraficaBarras data={dataCursos} />
       </Grid>
       <Grid item xs={5}>
-        <NumeraliaGraficaCurso data={arrayCursos} />
+        <NumeraliaGraficaCurso data={arrayCursos} dataCredit={data?.CreditosAsignatura}/>
       </Grid>
     </Grid>
   );

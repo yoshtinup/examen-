@@ -15,6 +15,9 @@ import {
   SelectChangeEvent,
   TextField,
   Typography,
+  Alert,
+  Snackbar,
+  CircularProgress
 } from '@mui/material';
 import { CursoGql, CursosAlumnoGql } from '@shared/types';
 import {
@@ -32,6 +35,9 @@ import { CursoPorIniciarGql } from '@shared/types/cursosPorIniciarGql';
 import { useGetCursosAlumno } from "@shared/queries";
 import { crearJSON, getCursosEstudiante } from "@modules/tablero_plan_estudios/hooks";
 import { format } from 'date-fns';
+import apiBajaAsignatura from '@shared/components/cards/apiBajaAsignatura';
+import { useQuery } from 'react-query';
+import apiCambioAsignatura from '@shared/components/cards/apiCambioAsignatura';
 
 const MenuProps = {
   PaperProps: {
@@ -57,13 +63,15 @@ const CardsCursos = (props:any) => {
   ); //useGetCursosAIniciar(false).data;
   const [openBM, setOpenBM] = useState(false);
   const [openCM, setOpenCM] = useState(false);
-
+  const [sendAsignatura, setSendAsignatura] = useState(false);
+  const [idMateria, setIdMateria] = useState('')
   const [asignatura, setAsignatura] = useState('');
   const [razonBajaAsignatura, setRazonBajaAsignatura] = useState('');
   const [razonCambioAsignatura, setRazonCambioAsignatura] = useState('');
   const [error, setError] = useState(false);
   const [errorSelect, setErrorSelect] = useState(false);
-
+  console.log(idMateria);
+//cualquier cambio dentro del textfield
   const handleChangeTextField = (event, numModal) => {
     if (numModal === 1) {
       setRazonBajaAsignatura(event.target.value);
@@ -73,12 +81,13 @@ const CardsCursos = (props:any) => {
       setError(false);
     }
   };
+  //cualquier cambio dentro de los areas del modal
   const handleChange = (event: SelectChangeEvent) => {
     setAsignatura(event.target.value as string);
     setErrorSelect(false);
   };
+  ///dar click en el boton true
   const handleSubmit = (event, type) => {
-    console.log('submit');
     event.preventDefault();
     if (type && asignatura === '') {
       setErrorSelect(true);
@@ -87,22 +96,27 @@ const CardsCursos = (props:any) => {
     if (
       razonBajaAsignatura.trim() === '' &&
       razonCambioAsignatura.trim() === ''
-    ) {
+    ) 
+    {
       setError(true);
       return;
     }
-
-   
-    setOpenBM(false);
-    setOpenCM(false);
+    setSendAsignatura(true);
+    // Validar los campos del formulario aquí
+  };
+  const handletSucces=(data)=>{
+    setOpenBM(data);
+    setOpenCM(data);
     setRazonBajaAsignatura('');
     setRazonCambioAsignatura('');
     setAsignatura('');
+    setSendAsignatura(false);
+  }
 
-    // Validar los campos del formulario aquí
-  };
   return (
     <>
+    {sendAsignatura && <SendBajaAsignatura onData={handletSucces} idMateriasOfertaAnual={idMateria} justificacion={razonBajaAsignatura} idMateriasOfertaAnualAlta={asignatura}/>}
+    
       <Grid container spacing={2} style={{ padding: '10px 50px 0' }}>
         <Grid item xs={12}>
           <h3>Instrucciones</h3>
@@ -141,6 +155,7 @@ const CardsCursos = (props:any) => {
             ))}
           </>
         )}
+        
         {arrayCursos?.Finalizados?.length > 0 && (
           <>
             <Grid
@@ -164,13 +179,15 @@ const CardsCursos = (props:any) => {
                     curso,
                     currentRol,
                     setOpenBM,
-                    setOpenCM
+                    setOpenCM,
+                    setIdMateria
                   )}
                 />
               </Grid>
             ))}
           </>
         )}
+        
       </Grid>
       <Modal
         open={openBM}
@@ -193,6 +210,7 @@ const CardsCursos = (props:any) => {
               error={error}
               helperText={error ? 'Este campo es requerido' : ''}
             />
+            
           </DialogContentText>
         }
         clickClose={() => {
@@ -204,6 +222,7 @@ const CardsCursos = (props:any) => {
         btnTextCancel="Salir"
         btnTextAcept="Dar de baja"
       />
+      
       <Modal
         open={openCM}
         titulo="Cambiar asignatura"
@@ -266,7 +285,76 @@ const CardsCursos = (props:any) => {
     </>
   );
 };
+const SendBajaAsignatura=({onData, idMateriasOfertaAnual, justificacion,idMateriasOfertaAnualAlta})=>{
+  const [open, setOpen] = useState(true);
+  const handleClickFalse = () => {
+    // //retorno de valor True al padre
+    onData(false);
+    setOpen(false);
+  };
+  let query;
+  if(idMateriasOfertaAnualAlta!=''){
+    query=useQuery(
+      'cambiar-asignatura',
+      async () => await apiCambioAsignatura.getCambioAsignatura(idMateriasOfertaAnual,idMateriasOfertaAnualAlta,justificacion),
+      {
+        staleTime: Infinity,
+      }
+    );
+  }else{
+    query = useQuery(
+      'dar-baja-asignatura',
+      async () => await apiBajaAsignatura.getBajaAsignatura(idMateriasOfertaAnual,justificacion),
+      {
+        staleTime: Infinity,
+      }
+    );
+  }
+  const {data, error, isLoading, isSuccess} = query;
+  let setMessage = data?.message;
 
+  if (isLoading)
+    return (
+      <Snackbar
+        open={open}
+        autoHideDuration={1000}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      >
+        <CircularProgress />
+      </Snackbar>
+    );
+  if (error)
+    return (
+      <MessageSnackbar onOpen={open} autoDuration={2000} close={()=>setOpen(false)} message={"No se pudo generar la solicitud"} txtSeverity={"error"}/>
+    );
+  if (isSuccess) {
+    return (
+      <MessageSnackbar onOpen={open} autoDuration={2000} close={handleClickFalse} message={setMessage} txtSeverity={"success"}/>
+    );
+    
+  } else {
+    return (
+      <MessageSnackbar onOpen={open} autoDuration={2000} close={()=>setOpen(false)} message={setMessage} txtSeverity={"warning"}/>
+    );
+    
+  }
+}
+const MessageSnackbar=props=>{
+  const open = props.onOpen;
+  const duration = props.autoDuration;
+  const closeSnack = props.close;
+  const message = props.message;
+  const severityTxt = props.txtSeverity;
+
+  return (<Snackbar
+    open={open}
+    autoHideDuration={duration}
+    onClose={closeSnack}
+    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+  >
+    <Alert severity={severityTxt}>{message}</Alert>
+  </Snackbar>)
+}
 const Modal = props => {
   const open = props.open;
   const titulo = props.titulo;
@@ -275,7 +363,7 @@ const Modal = props => {
   const clickFunction = props.clickFunction;
   const btnAcept = props.btnTextAcept;
   const btnCancel = props.btnTextCancel;
-  return (
+  return (<>
     <Dialog
       open={open}
       fullWidth={true}
@@ -293,7 +381,11 @@ const Modal = props => {
         </Button>
       </DialogActions>
     </Dialog>
+    
+    </>
   );
+
+  
 };
 
 export default CardsCursos;

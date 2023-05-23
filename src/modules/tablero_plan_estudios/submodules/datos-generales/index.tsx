@@ -380,11 +380,6 @@ const Modal = props => {
 //incripción al estudiante al curso
 const ReviewCURP = ({onData}) => {
   const [open, setOpen] = useState(true);
-  const handleOpen = () => {
-    //retorno de valor False al padre
-    setOpen(true);
-
-  };
   const handleClickFalse = () => {
     //retorno de valor True al padre
     onData(false);
@@ -400,60 +395,49 @@ const ReviewCURP = ({onData}) => {
     message?: string;
   }
   let setMessage = data?.message;
-  console.log(isSuccess);
 
-  if (isLoading){
+  if (isLoading)
     return (
       <Snackbar
         open={open}
         autoHideDuration={1000}
-        // onClose={handleClickTrue}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
         <CircularProgress />
       </Snackbar>
     );
-
-  }
-  if (error){
+  if (error)
     return (
-      <Snackbar
-        open={open}
-        autoHideDuration={2000}
-        onClose={()=>setOpen(false)}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      >
-        <Alert severity="error">No se pudo generar la solicitud</Alert>
-      </Snackbar>
-    );}
-  if (setMessage.includes('Se envió')) {
+      <MessageSnackbar onOpen={open} autoDuration={2000} close={()=>setOpen(false)} message={"No se pudo generar la solicitud"} txtSeverity={"error"}/>
+    );
+  if (isSuccess) {
     return (
-      <Snackbar
-        open={open}
-        autoHideDuration={1500}
-        onClose={handleClickFalse}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        
-      >
-        <Alert severity="success">{setMessage}</Alert>
-        
-      </Snackbar>
+      <MessageSnackbar onOpen={open} autoDuration={2000} close={handleClickFalse} message={setMessage} txtSeverity={"success"}/>
     );
     
   } else {
     return (
-      <Snackbar
-        open={open}
-        autoHideDuration={2000}
-        onClose={()=>setOpen(false)}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      >
-        <Alert severity="warning">{setMessage}</Alert>
-      </Snackbar>
+      <MessageSnackbar onOpen={open} autoDuration={2000} close={()=>setOpen(false)} message={setMessage} txtSeverity={"warning"}/>
     );
     
   }
 };
+const MessageSnackbar=props=>{
+  const open = props.onOpen;
+  const duration = props.autoDuration;
+  const closeSnack = props.close;
+  const message = props.message;
+  const severityTxt = props.txtSeverity;
+
+  return (<Snackbar
+    open={open}
+    autoHideDuration={duration}
+    onClose={closeSnack}
+    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+  >
+    <Alert severity={severityTxt}>{message}</Alert>
+  </Snackbar>)
+}
 
 function renderSwitch(op:string, userInfo:EstudianteGql){
   let component = null;

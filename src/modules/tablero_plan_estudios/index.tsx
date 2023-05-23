@@ -23,6 +23,8 @@ const style = {
 const TableroPlanEstudios = () => {
   const user: EcosurAuth = useRecoilValue(userStateAtom);
   const {data, error, isLoading}= useGetCursosAlumno(user.estudiante.matricula);
+  const cursos = data?.Cursos;
+  
   const dataResponse = useGetCursosAlumno(user.estudiante.matricula);
   if(isLoading){
     return <>Cargando</>;
@@ -33,11 +35,11 @@ const TableroPlanEstudios = () => {
   const tabCursos = [
     {
       titulo: 'Asignaturas',
-      componente: <CardsCursos data={data} />,
+      componente: <CardsCursos data={cursos} />,
     },
     {
       titulo: 'Periodos lectivos',
-      componente: <CardsCuaSem data={data} />,
+      componente: <CardsCuaSem data={cursos} />,
     },
     {
       titulo: 'Alta de asignaturas',

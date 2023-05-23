@@ -38,6 +38,9 @@ export function getDataGraficaCurso(cursos:CursosAlumnoGql){
 
 export function NumeraliaGraficaCurso(props:any){
   const cursos:CursosAlumnoGql = props.data;
+  const {TotalDeCreditosCubiertos, TotalDeCreditos} = props.dataCredit[0];
+  const creditosPendientes = TotalDeCreditos-TotalDeCreditosCubiertos;
+  console.log(props.data2)
   let sumatoria = 0;
   let elementos = 0;
   let creditosCub = 0;
@@ -87,10 +90,10 @@ export function NumeraliaGraficaCurso(props:any){
             <Grid container spacing={2} alignItems="center">
               <Grid item xs={6}>
                 <TextLine variant="h5" text={<b>Créditos cubiertos</b>}/>
-                <TextLine variant="h4" text={creditosCub}/>
+                <TextLine variant="h4" text={TotalDeCreditosCubiertos!=null && TotalDeCreditosCubiertos}/>
               </Grid>
               <Grid item xs={6}>
-                <TextLine variant="h4" text={(creditosCub*100/creditosTot).toFixed(2) + "%"}/>
+                <TextLine variant="h4" text={TotalDeCreditos!=null && TotalDeCreditos!=0 ?(TotalDeCreditosCubiertos*100/TotalDeCreditos).toFixed(2) + "%": ""}/>
               </Grid>
             </Grid>
           </Paper>
@@ -102,10 +105,10 @@ export function NumeraliaGraficaCurso(props:any){
             <Grid container spacing={2} alignItems="center">
               <Grid item xs={6}>
                 <TextLine variant="h5" text={<b>Créditos pendientes</b>}/>
-                <TextLine variant="h4" text={creditosPen}/>
+                <TextLine variant="h4" text={TotalDeCreditos!=null && TotalDeCreditos!=0 ?(creditosPendientes).toFixed(2): ''}/>
               </Grid>
               <Grid item xs={6}>
-                <TextLine variant="h4" text={(creditosPen*100/creditosTot).toFixed(2) + "%"}/>
+                <TextLine variant="h4" text={TotalDeCreditos!=null && TotalDeCreditos!=0 ?(creditosPendientes*100/TotalDeCreditos).toFixed(2) + "%": ""}/>
               </Grid>
             </Grid>
           </Paper>
