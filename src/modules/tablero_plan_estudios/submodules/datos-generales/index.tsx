@@ -40,6 +40,7 @@ import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import apiRevisionCurp from "@shared/components/cards/apiRevisionCurp";
 import message from "@modules/consejo_tutelar/submodules/evaluacion/pages/message";
+import { MessageSnackbar } from "@shared/components/layouts/messaAlert";
 
 
 
@@ -345,7 +346,7 @@ const Modal = props => {
     }
     const handleDataFromChild = data => {
       setOpen(data);
-      setReview(data);
+      setReview(data);   
     };
   const btnAcept = props.btnTextAcept;
   const btnCancel = props.btnTextCancel;
@@ -422,22 +423,7 @@ const ReviewCURP = ({onData}) => {
     
   }
 };
-const MessageSnackbar=props=>{
-  const open = props.onOpen;
-  const duration = props.autoDuration;
-  const closeSnack = props.close;
-  const message = props.message;
-  const severityTxt = props.txtSeverity;
 
-  return (<Snackbar
-    open={open}
-    autoHideDuration={duration}
-    onClose={closeSnack}
-    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-  >
-    <Alert severity={severityTxt}>{message}</Alert>
-  </Snackbar>)
-}
 
 function renderSwitch(op:string, userInfo:EstudianteGql){
   let component = null;

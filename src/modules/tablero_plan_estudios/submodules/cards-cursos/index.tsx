@@ -35,9 +35,10 @@ import { CursoPorIniciarGql } from '@shared/types/cursosPorIniciarGql';
 import { useGetCursosAlumno } from "@shared/queries";
 import { crearJSON, getCursosEstudiante } from "@modules/tablero_plan_estudios/hooks";
 import { format } from 'date-fns';
-import apiBajaAsignatura from '@shared/components/cards/apiBajaAsignatura';
 import { useQuery } from 'react-query';
-import apiCambioAsignatura from '@shared/components/cards/apiCambioAsignatura';
+import apiAsignatura from '@shared/components/cards/apiAsignatura';
+import Modal from '@shared/components/layouts/modal';
+import { MessageSnackbar } from '@shared/components/layouts/messaAlert';
 
 const MenuProps = {
   PaperProps: {
@@ -50,9 +51,11 @@ const MenuProps = {
 
 const CardsCursos = (props:any) => {
   const data = props.data;
+  const proceso = props.proceso;
   const user: EcosurAuth = useRecoilValue(userStateAtom);
   const currentRol: Roles = useRecoilValue(rolStateAtom);
   const [listaCursos, setListaCursos] = useState(data);
+  const [procesoCambio, setPorcesoCambio]= useState(proceso);
   const arrayCursos: CursosAlumnoGql = getCursosEstudiante(listaCursos);
   const arrayCursosAIniciar: CursoPorIniciarGql[] = crearJSON().data.sort(
     (a, b) => {
@@ -64,7 +67,7 @@ const CardsCursos = (props:any) => {
   const [openBM, setOpenBM] = useState(false);
   const [openCM, setOpenCM] = useState(false);
   const [sendAsignatura, setSendAsignatura] = useState(false);
-  const [idMateria, setIdMateria] = useState('')
+  const [idMateria, setIdMateria] = useState('');
   const [asignatura, setAsignatura] = useState('');
   const [razonBajaAsignatura, setRazonBajaAsignatura] = useState('');
   const [razonCambioAsignatura, setRazonCambioAsignatura] = useState('');
@@ -180,7 +183,8 @@ const CardsCursos = (props:any) => {
                     currentRol,
                     setOpenBM,
                     setOpenCM,
-                    setIdMateria
+                    setIdMateria,
+                    procesoCambio
                   )}
                 />
               </Grid>
@@ -296,7 +300,7 @@ const SendBajaAsignatura=({onData, idMateriasOfertaAnual, justificacion,idMateri
   if(idMateriasOfertaAnualAlta!=''){
     query=useQuery(
       'cambiar-asignatura',
-      async () => await apiCambioAsignatura.getCambioAsignatura(idMateriasOfertaAnual,idMateriasOfertaAnualAlta,justificacion),
+      async () => await apiAsignatura.getCambioAsignatura(idMateriasOfertaAnual,idMateriasOfertaAnualAlta,justificacion),
       {
         staleTime: Infinity,
       }
@@ -304,7 +308,7 @@ const SendBajaAsignatura=({onData, idMateriasOfertaAnual, justificacion,idMateri
   }else{
     query = useQuery(
       'dar-baja-asignatura',
-      async () => await apiBajaAsignatura.getBajaAsignatura(idMateriasOfertaAnual,justificacion),
+      async () => await apiAsignatura.getBajaAsignatura(idMateriasOfertaAnual,justificacion),
       {
         staleTime: Infinity,
       }
@@ -339,53 +343,6 @@ const SendBajaAsignatura=({onData, idMateriasOfertaAnual, justificacion,idMateri
     
   }
 }
-const MessageSnackbar=props=>{
-  const open = props.onOpen;
-  const duration = props.autoDuration;
-  const closeSnack = props.close;
-  const message = props.message;
-  const severityTxt = props.txtSeverity;
 
-  return (<Snackbar
-    open={open}
-    autoHideDuration={duration}
-    onClose={closeSnack}
-    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-  >
-    <Alert severity={severityTxt}>{message}</Alert>
-  </Snackbar>)
-}
-const Modal = props => {
-  const open = props.open;
-  const titulo = props.titulo;
-  const elemento = props.elemento;
-  const clickClose = props.clickClose;
-  const clickFunction = props.clickFunction;
-  const btnAcept = props.btnTextAcept;
-  const btnCancel = props.btnTextCancel;
-  return (<>
-    <Dialog
-      open={open}
-      fullWidth={true}
-      maxWidth="md"
-      onClose={clickClose}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-    >
-      <DialogTitle id="alert-dialog-title">{titulo}</DialogTitle>
-      <DialogContent>{elemento}</DialogContent>
-      <DialogActions>
-        <Button onClick={clickClose}>{btnCancel}</Button>
-        <Button onClick={clickFunction} autoFocus>
-          {btnAcept}
-        </Button>
-      </DialogActions>
-    </Dialog>
-    
-    </>
-  );
-
-  
-};
 
 export default CardsCursos;

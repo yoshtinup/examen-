@@ -80,3 +80,11 @@ body {
   -webkit-columns: 2;
   -moz-columns: 2;
 }
+.css-1ured68-MuiCardContent-root:last-child {
+  padding-bottom: 0px!important;
+}
+@media (max-width: 1000px) {
+  #mycard{
+    margin-top: -7vh !important;
+  }
+}

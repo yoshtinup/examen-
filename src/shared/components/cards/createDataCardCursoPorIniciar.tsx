@@ -7,9 +7,11 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import SchoolIcon from '@mui/icons-material/School';
 import PersonIcon from '@mui/icons-material/Person';
+import { User } from "@public/icons/user";
 
-export function getDataCardCursoAIniciar(curso:CursoPorIniciarGql, currentRol:Roles){
+export function getDataCardCursoAIniciar(curso:CursoPorIniciarGql, currentRol:Roles, agregarPlan, idMateria){
   return {
+   
     Titulo: curso.NombreMateria,
     Subtitulo: "Clave: " + curso.Clave + ', Creditos: ' + curso.Creditos,
     Items: [
@@ -43,7 +45,7 @@ export function getDataCardCursoAIniciar(curso:CursoPorIniciarGql, currentRol:Ro
         Titulo: "Agregar a plan de estudios",
         FontSize: FontSize.small,
         Icono: <InsertLinkIcon style={{color: '#1ab394'}} />,
-        Onclick: () => {window.alert("Materia agregada")}
+        Onclick: () => {agregarPlan(true); idMateria(curso.IdMateriasOfertaAnual)}
       },
     ]
   } as CardListType;
