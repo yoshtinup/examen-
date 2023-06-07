@@ -49,6 +49,7 @@ const Routes: RoutesProps[] = [
     all_math: true,
     roles: [
       Roles.Estudiante,
+      
     ],
   },
   {
@@ -60,11 +61,19 @@ const Routes: RoutesProps[] = [
   },
   {
     path: '/inscripciones',
-    all_math: false,
+    all_math: true,
     roles: [
       Roles.Servicios_Escolares,
     ],
-  }  
+  },  
+  {
+    path: '/servicios_escolares',
+    all_math: true,
+    roles: [
+      Roles.Estudiante,
+      Roles.Servicios_Escolares,
+    ],
+  } 
 ];
 
 export default Routes;

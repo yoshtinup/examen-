@@ -66,7 +66,7 @@ export function useGetCursosAlumno(matricula: number) {
       `,
       { matricula }
     );
-    console.log(data)
+
     return data;
   });
 }

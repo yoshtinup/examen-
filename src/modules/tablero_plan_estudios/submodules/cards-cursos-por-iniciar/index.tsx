@@ -13,7 +13,8 @@ import { MessageSnackbar } from "@shared/components/layouts/messaAlert";
 import apiAsignatura from "@shared/components/cards/apiAsignatura";
 import { useQuery } from "react-query";
 
-const CardsCursosAIniciar = () => {
+const CardsCursosAIniciar = (props) => {
+  const show = props.show;
   const [open, setOpen] = useState(false);
   const [razonAgregarAsignatura, setRazonAgregarAsignatura] = useState('');
   const [error, setError] = useState(false);
@@ -56,7 +57,7 @@ const CardsCursosAIniciar = () => {
   }
   return (
     <>
-    {sendAsignatura && <SendBajaAsignatura onData={handletSucces} idMateriasOfertaAnual={idMateria} justificacion={razonAgregarAsignatura} />}
+    {sendAsignatura && <SendBajaAsignatura onData={handletSucces} idMateriasOfertaClave={idMateria} justificacion={razonAgregarAsignatura} />}
       <Grid container spacing={2} style={{padding:"10px 50px 0"}}>
         <Grid item xs={8}>
           <h3>Instrucciones</h3>
@@ -81,7 +82,7 @@ const CardsCursosAIniciar = () => {
       <Grid container spacing={2} style={{padding:"50px"}}>
         {arrayCursos?.map((curso:CursoPorIniciarGql, i) =>
           <Grid key={i} item xs={12} sm={6} md={4} lg={3} >
-            <CardList data={getDataCardCursoAIniciar(curso, currentRol, setOpen,setIdMateria)} />
+            <CardList data={getDataCardCursoAIniciar(curso, currentRol, setOpen,setIdMateria, show)} />
           </Grid>
         )}
       </Grid>
@@ -122,7 +123,7 @@ const CardsCursosAIniciar = () => {
   );
 };
 
-const SendBajaAsignatura=({onData, idMateriasOfertaAnual, justificacion})=>{
+const SendBajaAsignatura=({onData, idMateriasOfertaClave, justificacion})=>{
   const [open, setOpen] = useState(true);
   const handleClickFalse = () => {
     // //retorno de valor True al padre
@@ -132,7 +133,7 @@ const SendBajaAsignatura=({onData, idMateriasOfertaAnual, justificacion})=>{
   
   const {data, error, isLoading, isSuccess} = useQuery(
     'dar-baja-asignatura',
-    async () => await apiAsignatura.getBajaAsignatura(idMateriasOfertaAnual,justificacion),
+    async () => await apiAsignatura.getBajaAsignatura(idMateriasOfertaClave,justificacion),
     {
       staleTime: Infinity,
     }

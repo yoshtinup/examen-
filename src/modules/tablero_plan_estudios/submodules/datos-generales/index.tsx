@@ -41,15 +41,28 @@ import { useQuery } from "react-query";
 import apiRevisionCurp from "@shared/components/cards/apiRevisionCurp";
 import message from "@modules/consejo_tutelar/submodules/evaluacion/pages/message";
 import { MessageSnackbar } from "@shared/components/layouts/messaAlert";
-
+import { number } from "yup";
+import { WithRolCheck} from '@shared/hooks';
+import Roles from '@definitions/Roles';
 
 
 const DatosGenerales = (props:any) => {
+  const matricula = props.matricula;
   const user: EcosurAuth = useRecoilValue(userStateAtom);
-  const { data, isError, isLoading } = useGetEstudianteInfo(user.estudiante.matricula);
-  //const { data, isError, isLoading } = ;
+  let registrationUser;
+  if(matricula!=undefined){
+    registrationUser= Number(matricula);
+  }else{
+    registrationUser=user.estudiante.matricula;
+   
+  }
+  //checar si el rol es el adecuado
+  const rol = WithRolCheck(Roles.Estudiante);
+  const show = rol(null);
+
+  const { data, isError, isLoading } = useGetEstudianteInfo(registrationUser);
   
-  const dataTS = useGetTutoresSinodales(user.estudiante.matricula /*199411001*/);
+  const dataTS = useGetTutoresSinodales(registrationUser);
   let userInfo:EstudianteGql = {} as EstudianteGql;
   if(isLoading){
     return <>Cargando</>
@@ -142,7 +155,7 @@ const DatosGenerales = (props:any) => {
               <ListItemText primary={<b style={{fontSize:"23px"}}>DATOS GENERALES</b>}/>
             </ListItem>
             {datosGenerales.map((item, i) =>
-              <ListItem key={i} secondaryAction={renderSwitch(item.key, userInfo)}>
+              <ListItem key={i} secondaryAction={show && renderSwitch(item.key, userInfo)}>
                 <ListItemText
                   primary={
                     <span style={{width:"75%", display:"block"}}>
@@ -156,13 +169,15 @@ const DatosGenerales = (props:any) => {
         </Paper>
       </Grid>
       <Grid item xs={6}>
-        <TutoresSinodales dataTS={dataTS} />
+        <TutoresSinodales dataTS={dataTS} show={show} matricula={matricula}/>
       </Grid>
     </Grid>
   );
 };
 
 const TutoresSinodales = (props:any) => {
+  const show=props.show;
+  const matricula=props.matricula;
   const TS:TutoresSinodalesGql = props.dataTS.data;
   const generoNivelPart = new Array();
   generoNivelPart[1] = ["Director de tesis", "Directora de tesis"];
@@ -198,7 +213,7 @@ const TutoresSinodales = (props:any) => {
             icono={<ErrorIcon style={{color:"red"}}/>}
             elemento={TS.ConformacionCT[0].Catalogo.Estatus}
             secondaryAction={
-              <Button onClick={() => {window.location.href = "/consejo_tutelar"}} variant="contained">Ver</Button>
+              <Button onClick={() => {window.location.href = `/consejo_tutelar/${matricula}`}} variant="contained">Ver</Button>
             }
           />
           :
@@ -270,9 +285,11 @@ const ActualizarCorreo = (props:any) => {
   }, [isSuccess, isError])
   return (
     <div>
-      <Button variant="contained" onClick={handleClickOpen}>
-        Actualizar correo personal
+      <Link>
+      <Button onClick={handleClickOpen}>
+        Actualizar
       </Button>
+      </Link>
       <Dialog
         open={open}
         fullWidth={true}
@@ -329,7 +346,7 @@ const Modal = props => {
   const [openModal, setOpenModal] = useState(false);
   const [review, setReview] = useState(false);
   const handleSubmit = (event) => {
-    console.log(open)
+    
     event.preventDefault();
     setOpenModal(true);
     setOpen(true);
@@ -426,6 +443,7 @@ const ReviewCURP = ({onData}) => {
 
 
 function renderSwitch(op:string, userInfo:EstudianteGql){
+  
   let component = null;
   switch(op){
     case "Correo personal":
@@ -441,7 +459,8 @@ function renderSwitch(op:string, userInfo:EstudianteGql){
     />
       break;
   }
-  return component;
+  
+   return component;
 }
 
 export default DatosGenerales;

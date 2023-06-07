@@ -14,20 +14,31 @@ import EvaluacionBecario from './submodules/evaluacion-becario';
 import EvaluacionEtica from './submodules/evaluacion-etica';
 import { useGetCursosAlumno } from '@shared/queries';
 import { useGetProcesoCambioPlanEstudios } from '@shared/queries/procesoCambioPlan';
-import { useState } from 'react';
-import Head from 'next/head';
+import { WithRolCheck} from '@shared/hooks';
+import Roles from '@definitions/Roles';
 const style = {
   padding: '30px',
   backgroundColor: '#fff',
   marginTop: '30px',
 };
 
-const TableroPlanEstudios = () => {
+const TableroPlanEstudios = (props) => {
+  const matricula = props.matricula;
   const user: EcosurAuth = useRecoilValue(userStateAtom);
+  let registrationUser;
+  //checar si el rol es el adecuado
+  const rol = WithRolCheck(Roles.Estudiante);
+  const show = rol(null);
+
+  if(matricula!=undefined){
+    registrationUser=Number(matricula);
+  }else{
+    registrationUser=user.estudiante.matricula;
+  }
   const { data, error, isLoading } = useGetCursosAlumno(
-    user.estudiante.matricula
+    registrationUser
   );
-  const procesoCambio = useGetProcesoCambioPlanEstudios(202221003);
+  const procesoCambio = useGetProcesoCambioPlanEstudios(registrationUser);
   const cursos = data?.Cursos;
   const dataResponse = useGetCursosAlumno(202221003);
   let proceso = true;
@@ -39,25 +50,24 @@ const TableroPlanEstudios = () => {
     return <>Error</>;
   }
   if (procesoCambio.data?.length > 0) {
-    console.log('hola');
     proceso = false;
-    console.log(proceso);
+   
   }
 
-  console.log(proceso);
+  
 
   const tabCursos = [
     {
       titulo: 'Asignaturas',
-      componente: <CardsCursos data={cursos} proceso={proceso} />,
+      componente: <CardsCursos data={cursos} proceso={proceso} show={show}/>,
     },
     {
       titulo: 'Periodos lectivos',
-      componente: <CardsCuaSem data={cursos} />,
+      componente: <CardsCuaSem data={cursos} show={show}/>,
     },
     {
       titulo: 'Alta de asignaturas',
-      componente: <CardsCursosAIniciar />,
+      componente: <CardsCursosAIniciar show={show}/>,
     },
   ];
   return (
@@ -68,7 +78,7 @@ const TableroPlanEstudios = () => {
             <HeaderSection label="PLAN DE ESTUDIOS" shadow={false} />
           </Grid>
           <Grid item xs={12}>
-            <GraficaCursos />
+            <GraficaCursos matricula={registrationUser}/>
             {!proceso && <MyCard data={procesoCambio.data} />}
 
             {/* <a className="tab">Pendiente de que su director/a de tesis revise los siguientes cambios en su plan de estudios: <br/>
@@ -83,10 +93,10 @@ const TableroPlanEstudios = () => {
           </Grid>
         </Grid>
       </Container>
-      <EvaluacionBecario />
-      <EvaluacionEtica />
+      <EvaluacionBecario matricula={registrationUser} />
+      <EvaluacionEtica matricula={registrationUser} />
       <Container maxWidth={false} style={{ ...style }}>
-        <ProductosActividadesRealizadas matricula={user.estudiante.matricula} />
+        <ProductosActividadesRealizadas matricula={registrationUser} />
       </Container>
     </>
   );

@@ -8,8 +8,13 @@ import ScheduleIcon from '@mui/icons-material/Schedule';
 import SchoolIcon from '@mui/icons-material/School';
 import PersonIcon from '@mui/icons-material/Person';
 import { User } from "@public/icons/user";
+import { date, number } from "yup";
+import { format } from 'date-fns';
 
-export function getDataCardCursoAIniciar(curso:CursoPorIniciarGql, currentRol:Roles, agregarPlan, idMateria){
+export function getDataCardCursoAIniciar(curso:CursoPorIniciarGql, currentRol:Roles, agregarPlan, idMateria, show:boolean){
+
+  const fecha = new Date(curso.fechaLimiteAltaACurso)
+  
   return {
    
     Titulo: curso.NombreMateria,
@@ -21,7 +26,7 @@ export function getDataCardCursoAIniciar(curso:CursoPorIniciarGql, currentRol:Ro
         Icono: <CalendarMonthIcon />
       },
       {
-        Titulo: 'Fecha limite para darse alta ' + curso.fechaLimiteAltaACurso,
+        Titulo: 'Fecha límite para darse alta ' + format(fecha, 'dd/MM/yyyy'),
         FontSize: FontSize.small,
         Important: true,
         Icono: <ScheduleIcon style={{color: "#c56b16", fontSize: '25px'}} />
@@ -42,10 +47,11 @@ export function getDataCardCursoAIniciar(curso:CursoPorIniciarGql, currentRol:Ro
         Icono: <Home />
       },
       {
-        Titulo: "Agregar a plan de estudios",
+        Titulo: show ? "Agregar a plan de estudios":'',
         FontSize: FontSize.small,
-        Icono: <InsertLinkIcon style={{color: '#1ab394'}} />,
-        Onclick: () => {agregarPlan(true); idMateria(curso.IdMateriasOfertaAnual)}
+        Warning:true,
+        Icono: show ? <InsertLinkIcon style={{color: '#1ab394'}}/>: '',
+        
       },
     ]
   } as CardListType;

@@ -15,6 +15,8 @@ import { useGetEstudianteInfo, useGetEvaluacionEtica } from '@shared/queries';
 import { userStateAtom } from '@modules/auth/recoil';
 import { useRecoilValue } from 'recoil';
 import { EstudianteGql, EvaluacionEticaGql } from '@shared/types';
+import { WithRolCheck } from '@shared/hooks';
+import Roles from '@definitions/Roles';
 
 const style = {
   padding: '30px',
@@ -23,11 +25,14 @@ const style = {
 };
 
 const EvaluacionEtica = (props: any) => {
+  const matriculaEstudiante=props.matricula;
+  const rol = WithRolCheck(Roles.Estudiante);
+  const show = rol(null);
   const user: EcosurAuth = useRecoilValue(userStateAtom);
   const { data, isError, isLoading } = useGetEstudianteInfo(
-    user.estudiante.matricula
+    matriculaEstudiante
   );
-  const evaluacionEtica = useGetEvaluacionEtica(user.estudiante.matricula);
+  const evaluacionEtica = useGetEvaluacionEtica(matriculaEstudiante);
   
   if (isLoading || evaluacionEtica.isLoading) {
     return <>Cargando</>;
@@ -96,7 +101,7 @@ const EvaluacionEtica = (props: any) => {
                   </>
                
               </Paper>}
-              {evaluacionInfo.PuedeRegistrarProtocolo_CEI===false && evaluacionInfo.idFormulariosRespuestas===null &&
+              {show && evaluacionInfo.PuedeRegistrarProtocolo_CEI===false && evaluacionInfo.idFormulariosRespuestas===null &&
               <ListItemText
                 style={{ textAlign:'center',  }}
                 primary="Realizar registro de propuesta"

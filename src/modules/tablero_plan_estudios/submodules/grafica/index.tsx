@@ -9,9 +9,10 @@ import { useGetCursosAlumno } from "@shared/queries";
 import { Alineacion, GraficaColor, CursosAlumnoGql, GraficaBarrasType, GraficaPastelType } from "@shared/types";
 import { useRecoilValue } from "recoil";
 
-const GraficaCursos = () => {
+const GraficaCursos = (props) => {
+  const matriculaEstudiante=props.matricula;
   const user: EcosurAuth = useRecoilValue(userStateAtom);
-  const {data, error, isLoading}= useGetCursosAlumno(user.estudiante.matricula);
+  const {data, error, isLoading}= useGetCursosAlumno(matriculaEstudiante);
   console.log(data);
   const arrayCursos: CursosAlumnoGql = getCursosEstudiante(data?.Cursos);
   if(isLoading){

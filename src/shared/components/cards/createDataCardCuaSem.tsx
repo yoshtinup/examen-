@@ -25,7 +25,7 @@ export function getDataCardCSFinalizado(CS:CSGql, currentRol:Roles){
     ItemCreateSubtitle(Calificacion);
     data.Items.push(Calificacion);
 
-    ItemsEnlacesCursos(CS, Enlaces, Cursos, null);
+    ItemsEnlacesCursos(CS, Enlaces, Cursos, null,currentRol);
     if(Enlaces.Childrens.length){
       data.Items.push(Enlaces);
     }
@@ -33,6 +33,7 @@ export function getDataCardCSFinalizado(CS:CSGql, currentRol:Roles){
       data.Items.push(Cursos);
     }
   }
+  
   return data;
 }
 
@@ -41,12 +42,18 @@ export function getDataCardCSPendiente(CS:CSGql, currentRol:Roles, Inscribirse:a
   let Enlaces:CardListItemChildrens = ItemWithChildrens("Enlaces", true);
   let Cursos:CardListItemChildrens = ItemWithChildrens("Cursos", true);
   if(currentRol === Roles.Estudiante){
-    ItemsEnlacesCursos(CS, Enlaces, Cursos, () => Inscribirse(data));
+    ItemsEnlacesCursos(CS, Enlaces, Cursos, () => Inscribirse(data), currentRol);
     if(Enlaces.Childrens.length){
       data.Items.push(Enlaces);
     }
     if(Cursos.Childrens.length){
       data.Items.push(Cursos);
+    }
+  }else{
+    ItemsInscripcionService(CS, Enlaces, Cursos, null, currentRol);
+    
+    if(Enlaces.Childrens.length){
+      data.Items.push(Enlaces);
     }
   }
   return data;
@@ -58,12 +65,18 @@ export function getDataCardCSEnProceso(CS:CSGql, currentRol:Roles, Inscribirse:a
   let Enlaces:CardListItemChildrens = ItemWithChildrens("Enlaces", true);
   let Cursos:CardListItemChildrens = ItemWithChildrens("Cursos", true);
   if(currentRol === Roles.Estudiante){
-    ItemsEnlacesCursos(CS, Enlaces, Cursos, () => Inscribirse(idBoletasIncripciones));
+    ItemsEnlacesCursos(CS, Enlaces, Cursos, () => Inscribirse(idBoletasIncripciones), currentRol);
     if(Enlaces.Childrens.length){
       data.Items.push(Enlaces);
     }
     if(Cursos.Childrens.length){
       data.Items.push(Cursos);
+    }
+  }else{
+    
+    ItemsInscripcionService(CS, Enlaces, Cursos, null, currentRol);
+    if(Enlaces.Childrens.length){
+      data.Items.push(Enlaces);
     }
   }
   return data;
@@ -86,8 +99,25 @@ function ItemsComunes(CS:CSGql){
     ]
   } as CardListType;
 }
+function ItemsInscripcionService(CS:CSGql, Enlaces:CardListItemChildrens, Cursos:CardListItemChildrens, Inscribirse:any, currentRol:Roles){
+  let debeInscribirse:Boolean = false;
+  let x:number;
+  for(x=0; x<CS.Cursos.length; x+=1){
+    if(CS.Cursos[x].BoletaInscripcion && CS.Cursos[x].BoletaInscripcion.IdCatalogoEstatusInscripciones==1){
+      debeInscribirse = true;
+      break;
+    }else if(CS.Cursos[x].BoletaInscripcion && CS.Cursos[x].BoletaInscripcion.url){
+      // Enlaces.Childrens.push(ItemSimple("Boleta de inscripción", <People />, ItemFileFunction(CS.Cursos[x].BoletaInscripcion.url)));
+      break;
+    }
+  }
+  if(CS.Estatus!=Estatus.Finalizado && debeInscribirse){ 
+    Enlaces.Childrens.push(ItemSimple("Pendiente de inscribirse", <People style={{color:'orange'}} />,null, true));
+  }
 
-function ItemsEnlacesCursos(CS:CSGql, Enlaces:CardListItemChildrens, Cursos:CardListItemChildrens, Inscribirse:any){
+}
+
+function ItemsEnlacesCursos(CS:CSGql, Enlaces:CardListItemChildrens, Cursos:CardListItemChildrens, Inscribirse:any, currentRol:Roles){
   let debeInscribirse:Boolean = false;
   let x:number;
   for(x=0; x<CS.Cursos.length; x+=1){
@@ -99,7 +129,7 @@ function ItemsEnlacesCursos(CS:CSGql, Enlaces:CardListItemChildrens, Cursos:Card
       break;
     }
   }
-  if(CS.Estatus!=Estatus.Finalizado && debeInscribirse){
+  if(CS.Estatus!=Estatus.Finalizado && debeInscribirse){ 
     Enlaces.Childrens.push(ItemSimple("Inscribirse", <People />, Inscribirse));
   }
   ItemCreateSubtitle(Enlaces);
@@ -129,12 +159,13 @@ const ItemWithChildrens = (nombre:string, open:boolean) => {
   } as CardListItemChildrens;
 };
 
-const ItemSimple = (titulo:string, icono:React.ReactNode, Onclick?:any) => {
+const ItemSimple = (titulo:string, icono:React.ReactNode, Onclick?:any, warning?:boolean) => {
   return {
     Titulo: titulo,
     FontSize: FontSize.small,
     Icono: icono,
-    Onclick: Onclick
+    Onclick: Onclick,
+    Warning: warning ,
   } as CardListItemChildrens;
 };
 

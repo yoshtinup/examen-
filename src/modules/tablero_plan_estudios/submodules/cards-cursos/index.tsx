@@ -50,6 +50,7 @@ const MenuProps = {
 };
 
 const CardsCursos = (props:any) => {
+  const show = props.show;
   const data = props.data;
   const proceso = props.proceso;
   const user: EcosurAuth = useRecoilValue(userStateAtom);

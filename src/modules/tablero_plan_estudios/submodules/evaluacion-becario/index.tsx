@@ -30,9 +30,10 @@ const style = {
   marginTop:"30px"
 }
 
-const EvaluacionBecario = (props:any) => {
+const EvaluacionBecario = (props) => {
+  const matriculaEstudiante=props.matricula;
   const user: EcosurAuth = useRecoilValue(userStateAtom);
-  const { data, isError, isLoading } = useGetEstudianteInfo(user.estudiante.matricula);
+  const { data, isError, isLoading } = useGetEstudianteInfo(matriculaEstudiante);
   const { data:dataCT, error, isLoading:loading } = useQuery('se-conformacion-ct', async () =>
     getEvaluaciones(/* user.matricula */ 202011026)
   );

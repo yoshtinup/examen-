@@ -23,7 +23,7 @@ import { EcosurAuth } from "@modules/auth/definitions";
 import { useGetCursosAlumno } from "@shared/queries";
 import { getCuatrimestresSemestres } from "@modules/tablero_plan_estudios/hooks";
 import { useRouter } from 'next/router';
-import apiBajaAsignatura from '@shared/components/cards/apiBajaAsignatura';
+
 
 const CardsCS = (props:any) => {
   const data = props.data;

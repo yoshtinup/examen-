@@ -4,29 +4,40 @@ import { hasuraClient } from '../../../shared/queries/graphQlClient';
 
 export function useGetEstudiantesPendientes() {
   return useQuery(['pendientes-info'], async () => {
-    const { Inscripcion } = await hasuraClient.request(
+    const {data} = await hasuraClient.request(
       gql`
-        query Pendientes {
-          Inscripcion:db12_view_BoletaInscripcion_filtro{
-            Estudiante
-            Matricula
-            emailEstudiante
-            Programa
-            UnidadAdscripcion
-            Materia
-            Curso
-            Clave
-            Creditos
-            Cuatrimestre
+      query Inscripciones {
+        data: db12_BoletasIncripciones (where:{IdCatalogoEstatusInscripciones:{_eq:1}}) {
+          Alumno: db12_AlumnoPrograma {
+            Datos:DatosAlumno {
+              Nombre_s_
+              ApellidoPaterno
+              ApellidoMaterno
+            }
+           Generacion: Generacion {
+              Value: GeneracionLargo
+            }
+            Programa: Programa {
+              NombreLargo: Programa
+            }
+            AnioDeEstudiosActual: AnioDeEstudios {
+            value:AnioActualtxt
+          }
+          UnidadAdscripcion: Unidad {
+            value:UnidadAdscripcion
+          }
+      
+          }
+          FechasCuatri: db12_FechaCuatrimestre {
             FechaInicioInscripcion
             FechaFinInscripcion
-            Iniciocurso
-            Fincurso    
+            CuatrimestreSemestre
           }
-        }                
+        }
+      }             
       `,
       { }
     );
-    return Inscripcion;
+    return data;
   });
 }

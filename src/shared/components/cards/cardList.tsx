@@ -159,7 +159,7 @@ function ItemWithoutChild(props:any){
     <ListItemText
       sx={{
         my: 0,
-        color: (item.Onclick && item.Onclick != null) ? '#1ab394' : (item.Important ? '#c56b16' : 'initial'),
+        color: (item.Onclick && item.Onclick != null) ? '#1ab394' : (item.Important)? '#c56b16' : (item.Warning ?'orange':'initial'),
         textDecoration: (item.Onclick && item.Onclick != null) ? 'underline' : 'none'
       }}
       primary={item.Titulo}
