@@ -10,16 +10,15 @@ import RunningWithErrorsIcon from '@mui/icons-material/RunningWithErrors';
  * @param {status}
  * @returns
  */
-const StatusIcon = ({status}: {status: string}) =>{
+const StatusIcon = ({ status }: { status: string }) => {
   const statuses = {
-    "Pendiente de revisión": () => (<RunningWithErrorsIcon color="disabled" />),
-    "Aprobado": () => (<CheckCircleOutlineIcon color="success" />),
-    "No aprobado": () => (<CancelOutlinedIcon color="secondary" />),
-    "Rechazado": () => (<DoNotDisturbAltOutlinedIcon color="error" />)
-  }
-  const Icons = statuses[status]
-  return (
-    <Icons />
-  )
-}
-export default StatusIcon
+    'Pendiente de revisión': () => <RunningWithErrorsIcon color="disabled" />,
+    Aprobado: () => <CheckCircleOutlineIcon color="success" />,
+    'Aprobado con sugerencia': () => <CheckCircleOutlineIcon color="success" />,
+    'No aprobado': () => <CancelOutlinedIcon color="secondary" />,
+    Rechazado: () => <DoNotDisturbAltOutlinedIcon color="error" />,
+  };
+  const Icons = statuses[status];
+  return <Icons />;
+};
+export default StatusIcon;
