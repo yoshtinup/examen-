@@ -409,9 +409,6 @@ const ReviewCURP = ({onData}) => {
       staleTime: 10000,
     }
   );
-  interface DatosMessage {
-    message?: string;
-  }
   let setMessage = data?.message;
 
   if (isLoading)

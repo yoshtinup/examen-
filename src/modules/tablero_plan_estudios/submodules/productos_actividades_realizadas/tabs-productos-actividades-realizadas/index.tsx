@@ -88,6 +88,7 @@ const TabsProductosActividadesRealizadas = ({
         activeColor="#ecf0f5"
         activeTextColor="black"
         key="ecosur-tabs-cursos"
+      
       />
     </>
   );

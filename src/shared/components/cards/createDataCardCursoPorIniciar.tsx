@@ -14,7 +14,9 @@ import { format } from 'date-fns';
 export function getDataCardCursoAIniciar(curso:CursoPorIniciarGql, currentRol:Roles, agregarPlan, idMateria, show:boolean){
 
   const fecha = new Date(curso.fechaLimiteAltaACurso)
-  
+  const handleClick=()=>{
+    window.open(`/home`, '_blank');
+  }
   return {
    
     Titulo: curso.NombreMateria,
@@ -49,8 +51,9 @@ export function getDataCardCursoAIniciar(curso:CursoPorIniciarGql, currentRol:Ro
       {
         Titulo: show ? "Agregar a plan de estudios":'',
         FontSize: FontSize.small,
-        Warning:true,
-        Icono: show ? <InsertLinkIcon style={{color: '#1ab394'}}/>: '',
+        Onclick: show?{handleClick}:null,
+        Warning:!show,
+        Icono: show ? <InsertLinkIcon style={{color: '#1ab394'}}/>: <InsertLinkIcon style={{color: '#orange'}}/>,
         
       },
     ]

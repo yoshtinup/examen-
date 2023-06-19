@@ -1,4 +1,6 @@
+import TableroServiciosEscolares from "@modules/tablero_servicios_escolares";
 import { Button, Container, Grid, Typography } from "@mui/material";
+import { HeaderSection } from "@shared/components";
 import Router from 'next/router';
 const style = {
   padding: '30px',
@@ -11,16 +13,19 @@ function handleClick() {
 const ServiciosEscolares = () => {
   return (
     <Container maxWidth={false} style={{...style}}>
+     
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant="body1" gutterBottom>
-            <b>HOME SERVICIOS ESCOLARES.</b>
+            {/* <b>HOME SERVICIOS ESCOLARES.</b> */}
           
-          <Button variant="contained" onClick={handleClick}>
+          {/* <Button variant="contained" onClick={handleClick}>
           Continuar
-          </Button>
+          </Button> */}
+          <TableroServiciosEscolares/>
           
           </Typography>
+          
         </Grid> 
       </Grid>
     </Container>

@@ -1,9 +1,11 @@
-import { Pagination, Grid, Typography, Box, styled } from '@mui/material';
+import { Pagination, Grid, Typography, Box, styled, TextField } from '@mui/material';
 import {
   GridFooterContainer,
   gridPageCountSelector,
   gridPageSelector,
   GridToolbarContainer,
+  GridToolbarDensitySelector,
+  GridToolbarExport,
   GridToolbarFilterButton,
   useGridApiContext,
   useGridSelector,
@@ -12,16 +14,15 @@ import {
 export function CustomToolbar() {
   const color = 'info';
   return (
-    <GridToolbarContainer>
-      {/* <GridToolbarColumnsButton /> */}
-      {/* <GridToolbarDensitySelector color={color}  /> */}
-      {/* <GridToolbarExport color={color} /> */}
+    <GridToolbarContainer style={{display:'flex', justifyContent:'space-between'}}>
+      
       <GridToolbarFilterButton
         color={color}
         nonce={undefined}
         onResize={undefined}
         onResizeCapture={undefined}
       />
+      {/* <GridToolbarExport /> */}
     </GridToolbarContainer>
   );
 }
@@ -52,7 +53,7 @@ export function CustomFooter(props: { counter: number; label: string }) {
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'center',
-          pl: 2
+          pl: 2,
         }}
       >
         <Grid item sx={{ pr: 1 }}>

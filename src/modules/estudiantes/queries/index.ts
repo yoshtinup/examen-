@@ -4,44 +4,43 @@ import { hasuraClient } from '../../../shared/queries/graphQlClient';
 import { time } from 'console';
 import { DateTimePicker } from '@mui/x-date-pickers';
 
-export function useGetEstudiantesPendientes() {
-  return useQuery(['pendientes-info'], async () => {
+export function useGetEstudiantes(idEstatus:number) {
+  return useQuery(['obtener-alumnos-info'], async () => {
     const {data} = await hasuraClient.request(
       gql`
-      query Inscripciones {
-        data: db12_BoletasIncripciones (where:{IdCatalogoEstatusInscripciones:{_eq:1}}) {
-          BoletaInscripcion: NombreArchivo
-          IdBoletasIncripciones
-          Alumno: db12_AlumnoPrograma {
-            IdPrograma
+      query ObtenerAlumnos{
+        data:Alumnos(where: {db12_AlumnoPrograma:{db12_Estatus:{IdEstatus:{_eq:${idEstatus}}} }}){
+          Nombre_s_
+          ApellidoPaterno
+          ApellidoMaterno
+          AlumnoPrograma: db12_AlumnoPrograma{
+            Estatus: db12_Estatus{
+              IdEstatus
+              Estatus
+            }
             Matricula
-            
-            Datos:DatosAlumno {
-              Nombre_s_
-              ApellidoPaterno
-              ApellidoMaterno
+            Programa{
+              IdPrograma
+              Programa
             }
-           Generacion: Generacion {
-              Value: GeneracionLargo
+            Orientacion
+            Unidad{
+              IdUnidad
+              Unidad
             }
-            Programa: Programa {
-              NombreLargo: Programa
+            AnioDeEstudios{
+              IdAnioActual
+              AnioActualtxt
             }
-            AnioDeEstudiosActual: AnioDeEstudios {
-            value:AnioActualtxt
-          }
-          UnidadAdscripcion: Unidad {
-            value:UnidadAdscripcion
-          }
-      
-          }
-          FechasCuatri: db12_FechaCuatrimestre {
-            FechaInicioInscripcion
-            FechaFinInscripcion
-            CuatrimestreSemestre
+            Generacion{
+              IdGeneracion
+              GeneracionCorto
+              GeneracionLargo
+            }
           }
         }
-      }             
+      }
+                  
       `,
       { }
     );
@@ -74,16 +73,35 @@ export function useGetOpciones() {
     return data;
   });
 }
-export function useGetEstudiantesInscritosCancelados(idCatalogoEstatusInscripciones: number, idPrograma?: number, idUnidad?:number) {
+export function useGetEstudiantesInscritosCancelados(idCatalogoEstatusInscripciones: number, idPrograma?: number, idUnidad?:number, idFechaCuatrimestre?:number, random?:string) {
  let query="";
- if(idPrograma || idUnidad ){
-   if(idPrograma && idUnidad){
+ if(idPrograma || idUnidad || idFechaCuatrimestre){
+  if(idPrograma && idUnidad && idFechaCuatrimestre){
+    query=`where: {IdCatalogoEstatusInscripciones: {_eq: ${idCatalogoEstatusInscripciones}}, 
+    db12_AlumnoPrograma: {_and: [{_or: [{IdPrograma: {_eq: ${idPrograma}}}, 
+    {IdPrograma: {_is_null: true}}]}, {_or: [{Unidad: {IdUnidad: {_eq: ${idUnidad}}}},
+    {Unidad: {IdUnidad: {_is_null: true}}}]}]}, db12_FechaCuatrimestre:{_and: [{_or:[{IdFechaCuatrimestre: {_eq: ${idFechaCuatrimestre}} },
+    {IdFechaCuatrimestre: {_is_null: true}}] }]}}`;
+  }
+  else if(idPrograma && idUnidad){
     query=`where: {IdCatalogoEstatusInscripciones: {_eq: ${idCatalogoEstatusInscripciones}}, 
     db12_AlumnoPrograma: {_and: [{_or: [{IdPrograma: {_eq: ${idPrograma}}}, 
     {IdPrograma: {_is_null: true}}]}, {_or: [{Unidad: {IdUnidad: {_eq: ${idUnidad}}}},
     {Unidad: {IdUnidad: {_is_null: true}}}]}]}}`
   }
-  
+  else if(idPrograma && idFechaCuatrimestre){
+    query=`where: {IdCatalogoEstatusInscripciones: {_eq: ${idCatalogoEstatusInscripciones}}, 
+    db12_AlumnoPrograma: {_and: [{_or: [{IdPrograma: {_eq: ${idPrograma}}}, 
+    {IdPrograma: {_is_null: true}}]}]}, 
+    db12_FechaCuatrimestre:{_and: [{_or:[{IdFechaCuatrimestre: {_eq: ${idFechaCuatrimestre}} },
+    {IdFechaCuatrimestre: {_is_null: true}}] }] }}`;
+
+  }else if(idFechaCuatrimestre && idUnidad){
+    query=`where: {IdCatalogoEstatusInscripciones: {_eq: ${idCatalogoEstatusInscripciones}}, 
+    db12_AlumnoPrograma: {_and: [{_or: [{Unidad: {IdUnidad: {_eq: ${idUnidad}}}},
+    {Unidad: {IdUnidad: {_is_null: true}}}]}]}, db12_FechaCuatrimestre:{_and: [{_or:[{IdFechaCuatrimestre: {_eq: ${idFechaCuatrimestre}} },
+    {IdFechaCuatrimestre: {_is_null: true}}] }]}}`;
+  }
   else if(idPrograma){
     query=`where: {IdCatalogoEstatusInscripciones: {_eq: ${idCatalogoEstatusInscripciones}}, 
     db12_AlumnoPrograma: {_and: [{_or: [{IdPrograma: {_eq: ${idPrograma}}}, 
@@ -94,13 +112,16 @@ export function useGetEstudiantesInscritosCancelados(idCatalogoEstatusInscripcio
     db12_AlumnoPrograma: {_and: [{_or: [{Unidad: {IdUnidad: {_eq: ${idUnidad}}}},
     {Unidad: {IdUnidad: {_is_null: true}}}]}]} }`;
 
+  }else if(idFechaCuatrimestre){
+    query=`where: {IdCatalogoEstatusInscripciones: {_eq: ${idCatalogoEstatusInscripciones}},  
+    db12_FechaCuatrimestre:{_and: [{_or:[{IdFechaCuatrimestre: {_eq: ${idFechaCuatrimestre}} },
+    {IdFechaCuatrimestre: {_is_null: true}}] }]}}`;
   }
 
  }else {
   query= `where: {IdCatalogoEstatusInscripciones: {_eq: ${idCatalogoEstatusInscripciones}}}, order_by:{IdBoletasIncripciones: desc}, limit:500`;
  }
   
-  console.log(query);
   return useQuery([`inscritoscancelados-info`], async () => {
     const {data, refetch} = await hasuraClient.request(
       gql`

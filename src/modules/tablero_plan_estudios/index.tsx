@@ -10,7 +10,6 @@ import ProductosActividadesRealizadas from './submodules/productos_actividades_r
 import { Container, padding } from '@mui/system';
 import { Card, CardContent, Grid, Typography } from '@mui/material';
 import { HeaderSection } from '@shared/components';
-import EvaluacionBecario from './submodules/evaluacion-becario';
 import EvaluacionEtica from './submodules/evaluacion-etica';
 import { useGetCursosAlumno } from '@shared/queries';
 import { useGetProcesoCambioPlanEstudios } from '@shared/queries/procesoCambioPlan';
@@ -29,6 +28,7 @@ const TableroPlanEstudios = (props) => {
   //checar si el rol es el adecuado
   const rol = WithRolCheck(Roles.Estudiante);
   const show = rol(null);
+  console.log(show)
 
   if(matricula!=undefined){
     registrationUser=Number(matricula);
@@ -93,7 +93,7 @@ const TableroPlanEstudios = (props) => {
           </Grid>
         </Grid>
       </Container>
-      <EvaluacionBecario matricula={registrationUser} />
+      
       <EvaluacionEtica matricula={registrationUser} />
       <Container maxWidth={false} style={{ ...style }}>
         <ProductosActividadesRealizadas matricula={registrationUser} />

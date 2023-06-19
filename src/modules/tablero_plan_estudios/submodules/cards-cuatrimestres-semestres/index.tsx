@@ -18,7 +18,7 @@ import { CSGql, SemestresCuatrimestresGql } from "@shared/types/cuatrimestresSem
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 import apiInscripciones from "@shared/components/cards/apiInscripciones";
-import Modal from "./modal-inscripcion-cuatri";
+import Modal from "../../../../shared/components/layouts/modal-inscripcion";
 import { EcosurAuth } from "@modules/auth/definitions";
 import { useGetCursosAlumno } from "@shared/queries";
 import { getCuatrimestresSemestres } from "@modules/tablero_plan_estudios/hooks";
@@ -129,6 +129,7 @@ const CardsCS = (props:any) => {
 
 //incripción al estudiante al curso
 const Registration = idBoletasIncripciones => {
+  
   const router = useRouter();
   const idBoletas = idBoletasIncripciones.idBoletasIncripciones;
   //return <CircularProgress />;
@@ -141,7 +142,6 @@ const Registration = idBoletasIncripciones => {
   );
 
   const menssage = data?.message;
-  console.log(isLoading);
   if (isLoading)
     return (
       <Snackbar
