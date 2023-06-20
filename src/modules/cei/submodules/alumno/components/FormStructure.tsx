@@ -240,7 +240,16 @@ const FormStructure: FC<PropuestaFormProps> = ({
         Formulario de Propuesta
       </Typography>
 
-      {showInterfece.showRealStatus ? (
+      {!showInterfece.showAppeal &&
+      !showInterfece.showButtons &&
+      !showInterfece.showRealStatus &&
+      !showInterfece.showSuggestions ? (
+        <Alert variant="outlined" severity={infoEstatus}>
+          <Typography component="div" variant="h6">
+            No se puede mostrar estatus en este momento
+          </Typography>
+        </Alert>
+      ) : showInterfece.showRealStatus ? (
         <Alert variant="outlined" severity={infoEstatus}>
           <Typography component="div" variant="h6">
             Estatus de su propuesta: {status}{' '}
@@ -250,10 +259,6 @@ const FormStructure: FC<PropuestaFormProps> = ({
         <Alert variant="outlined" severity="warning">
           <Typography component="div" variant="h6">
             Estatus de su propuesta: En periodo de Evaluación por CEI{' '}
-          </Typography>
-          <Typography component="div" variant="subtitle2">
-            Nota: Las sugerencias y evaluaciones estarán disponibles a partir
-            del 19 de marzo.
           </Typography>
         </Alert>
       )}

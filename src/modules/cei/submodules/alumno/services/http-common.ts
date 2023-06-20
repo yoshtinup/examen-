@@ -23,7 +23,7 @@ const HttpClient = () => {
   });
 
   instance.interceptors.request.use(request => {
-    if (request.baseURL.includes('api-cei')) return updateHeader(request);
+    if (request.baseURL.includes('5001')) return updateHeader(request);
     return request;
   });
 
