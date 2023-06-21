@@ -3,6 +3,7 @@ import { TableEstudiantesActivos } from "./components/tableSeminarios/estudiante
 import { Box, Card, Grid, SelectChangeEvent, Typography } from "@mui/material";
 import { EcosurTabs } from "ecosur-ui";
 import React from "react";
+import { TableEstudiantes } from "./components/tableSeminarios/estudiantes";
 
 export const ListaEstudiantes = ({  }) => {
     const currentYear = new Date().getFullYear();
@@ -21,23 +22,23 @@ export const ListaEstudiantes = ({  }) => {
       {
         titulo: 'Egresado',
         description: '',
-        componente: <TableEstudiantesActivos />,
+        componente: <TableEstudiantes estatus={2} bajas={false} />,
       
       },
       {
         titulo: 'Graduados',
         description: 'Lista de estudiantes que tienen periodos de inscripción cancelados',
-        componente: <TableEstudiantesActivos />,
+        componente: <TableEstudiantes estatus={3} bajas={false} />,
       },
       {
         titulo: 'Bajas',
         description: 'Lista de estudiantes que tienen periodos de inscripción cancelados',
-        componente: <TableEstudiantesActivos />,
+        componente: <TableEstudiantes estatus={null} bajas={true} />,
       },
       {
         titulo: 'Prorrogas',
         description: 'Lista de estudiantes que tienen periodos de inscripción cancelados',
-        componente: <TableEstudiantesActivos />,
+        componente: <TableEstudiantes estatus={8} bajas={false} />,
       }
     ]
   

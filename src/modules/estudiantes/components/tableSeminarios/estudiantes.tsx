@@ -131,7 +131,7 @@ const SelectFecha = (props: any) => {
   );
 };
 
-export const TableEstudiantesActivosWithoutFetch: React.FC<{
+export const TableEstudiantesWithoutFetch: React.FC<{
   estudiantes: Estudiante[];
   programas: FiltroEstudiante[];
   unidades: FiltroEstudiante[];
@@ -186,7 +186,7 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
     { field: 'programa', headerName: 'Programa', width: 420 },
     { field: 'orientacion', headerName: 'Orientación', width: 260 },
     { field: 'unidad', headerName: 'Unidad', width: 260 },
-    { field: 'anio', headerName: 'Año', width: 260 },
+    { field: 'generacion', headerName: 'Generación', width: 260 },
     { field: 'matricula', headerName: 'Matricula', width: 260 },
     {
       field: 'opcion',
@@ -244,25 +244,26 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
         ? estudiante.Unidad?.Unidad != unidad
         : estudiante.Unidad?.Unidad == unidad) &&
       (periodo == 'Todos'
-        ? estudiante.AnioDeEstudios?.AnioActualtxt != periodo
-        : estudiante.AnioDeEstudios.AnioActualtxt == periodo)
+        ? estudiante.Generacion?.GeneracionLargo != periodo
+        : estudiante.Generacion?.GeneracionLargo == periodo)
   );
   estudiantesList.map((estudiante, index) =>
     rows.push({
       id: index,
       estudiante:
-        estudiante.DatosAlumno?.Nombre_s_ +
+        estudiante?.DatosAlumno?.Nombre_s_ +
         ' ' +
         estudiante.DatosAlumno?.ApellidoPaterno+
         ' ' +
         estudiante.DatosAlumno?.ApellidoMaterno,
-      programa: estudiante?.Programa.Programa,
-      orientacion: estudiante?.Orientacion,
-      unidad: estudiante.Unidad?.Unidad,
-      anio:estudiante.AnioDeEstudios?.AnioActualtxt,
-      matricula:estudiante?.Matricula,
-      // idAlumno: estudiante?.DatosAlumno.IdAlumno,
-      estatus:estudiante.EstatusAlumno?.IdEstatus
+      programa: estudiante.Programa?.Programa,
+      orientacion: estudiante.Orientacion,
+      unidad: estudiante.Unidad.Unidad,
+      anio:estudiante.AnioDeEstudios.AnioActualtxt,
+      matricula:estudiante.Matricula,
+      // idAlumno: estudiante?.IdAlumno,
+      estatus:estudiante.EstatusAlumno.IdEstatus,
+      generacion: estudiante.Generacion.GeneracionLargo
      
     })
   );
@@ -328,7 +329,7 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
           />
         </Grid>
         <Grid item sx={{  mr: 2, ml: 2 }}>
-          <b>Año:</b>
+          <b>Generación:</b>
         </Grid>
         <Grid item>
           <SelectFecha estudiantes={estudiantes} setPeriodo={setPeriodo} periodo={periodo} periodos={periodos} />
@@ -424,8 +425,8 @@ function setProgramasList(estudiantes: Estudiante[]): FiltroEstudiante[] {
     if (!validar) {
       result.push(estudiante.Programa?.Programa);
       // programas.push({
-      //   label: estudiante.AlumnoPrograma?.Programa?.Programa,
-      //   value: estudiante.AlumnoPrograma?.Programa?.Programa,
+      //   label: estudiante.Programa?.Programa,
+      //   value: estudiante.Programa?.Programa,
       // });
     }
   });
@@ -447,8 +448,8 @@ function setUnidadList(estudiantes: Estudiante[]): FiltroEstudiante[] {
     if (!validar) {
       result.push(estudiante.Unidad?.Unidad);
       // unidades.push({
-      //   label: estudiante.AlumnoPrograma?.Unidad?.Unidad,
-      //   value: estudiante.AlumnoPrograma?.Unidad?.Unidad,
+      //   label: estudiante.Unidad?.Unidad,
+      //   value: estudiante.Unidad?.Unidad,
       // });
     }
   });
@@ -467,12 +468,12 @@ function setAniosList(estudiantes: Estudiante[]): FiltroEstudiante[] {
   let validar: boolean;
   estudiantes
   estudiantes.map(estudiante => {
-    validar = result.includes(estudiante.AnioDeEstudios?.AnioActualtxt);
+    validar = result.includes(estudiante.Generacion?.GeneracionLargo);
     if (!validar) {
-      result.push(estudiante.AnioDeEstudios?.AnioActualtxt);
+      result.push(estudiante.Generacion?.GeneracionLargo);
       // anios.push({
-      //   label: estudiante.AlumnoPrograma?.AnioDeEstudios?.AnioActualtxt,
-      //   value: estudiante.AlumnoPrograma?.AnioDeEstudios?.AnioActualtxt,
+      //   label: estudiante.AnioDeEstudios?.AnioActualtxt,
+      //   value: estudiante.AnioDeEstudios?.AnioActualtxt,
       // });
     }
   });
@@ -486,12 +487,14 @@ function setAniosList(estudiantes: Estudiante[]): FiltroEstudiante[] {
   return anios;
 }
 
-export const TableEstudiantesActivos: React.FC<{}> = ({}) => {
+export const TableEstudiantes: React.FC<any> = (props) => {
   let programas: FiltroEstudiante[];
   let unidad: FiltroEstudiante[];
   let periodo: FiltroEstudiante[];
 
-  const { data, isError, isLoading, isSuccess } = useGetEstudiantes(1);
+const estatus =props.estatus;
+const bajas = props.bajas;
+  const { data, isError, isLoading, isSuccess } = useGetEstudiantes(estatus, bajas);
   if (isError) {
     return (
       <Alert severity="error">
@@ -512,10 +515,10 @@ export const TableEstudiantesActivos: React.FC<{}> = ({}) => {
   return (
     <>
       <Card
-        key={`ecosur-lista-estudiantes-pendientes`}
+        key={`ecosur-lista-estudiantes`}
         sx={{ border: 'none', boxShadow: 'none' }}
       >
-        <TableEstudiantesActivosWithoutFetch
+        <TableEstudiantesWithoutFetch
           estudiantes={estudiantesPendientes}
           programas={programas}
           unidades={unidad}

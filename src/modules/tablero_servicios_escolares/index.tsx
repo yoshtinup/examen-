@@ -35,7 +35,7 @@ const TableroServiciosEscolares =()=>{
        icon={<GroupIcon style={{ fontSize: 35 }} />}
         title="Estudiantes"
         details="Seguimiento de estudiantes activos, egresados, graduados, bajas"
-        link="/ruta-del-enlace"
+        link="/estudiantes"
       />
     </div>
     <div style={{display: "flex", justifyContent:"space-around", marginBottom:40}}>
