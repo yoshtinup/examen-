@@ -17,10 +17,12 @@ export interface PersonaCT{
   ApellidoPaterno: string;
   ApellidoMaterno: string;
   Email: string;
+  IdGenero: number;
 }
 
 export interface NivelCT{
   Participacion: string;
+  IdParticipacion: number;
 }
 
 export interface CatalogoCT{

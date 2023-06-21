@@ -11,6 +11,8 @@ export async function middleware(request: NextRequest) {
   const selectedRolCookie = request.cookies.get('selectedRol');
   const ecosurTokenCookie = request.cookies.get('ecosurToken');
 
+
+ 
   const check = {
     isPermited: false,
     index: -1,
@@ -18,22 +20,24 @@ export async function middleware(request: NextRequest) {
 
   const redirect = request.nextUrl.searchParams.get('redirect');
   let selectedRol = null;
-
+  
   try {
     const decodeSelectedRoles = await jwtVerify(
       selectedRolCookie,
       new TextEncoder().encode(process.env.JWT_SECRET)
     );
     selectedRol = decodeSelectedRoles.payload.selectedRol as Roles;
+    
   } catch {
-    return;
+    return
   }
-
+  
   if (request.nextUrl.pathname.includes('/login'))
     try {
       if (!ecosurTokenCookie || !selectedRolCookie) throw 'Error en los tokens';
 
       Routes.forEach(values => {
+        
         if (values.roles.includes(selectedRol)) {
           check.index = Routes.indexOf(values);
         }
@@ -47,7 +51,7 @@ export async function middleware(request: NextRequest) {
     } catch (error) {
       return;
     }
-
+  
   if (!ecosurTokenCookie || !selectedRolCookie)
     return NextResponse.redirect(
       new URL(
@@ -59,7 +63,6 @@ export async function middleware(request: NextRequest) {
     );
 
   if (request.nextUrl.pathname.includes('/401')) return;
-
   try {
     if (!userCookie || !userRolesCookie)
       throw {
@@ -74,7 +77,7 @@ export async function middleware(request: NextRequest) {
     );
 
     const userRoles = decodeUserRoles.payload.userRoles as Array<number>;
-
+    
     Routes.forEach(route => {
       const condicion: boolean = route.all_math
         ? request.nextUrl.pathname.includes(route.path)
@@ -86,10 +89,12 @@ export async function middleware(request: NextRequest) {
           existRoleInRoute && selectedRoleExistInRoute ? true : false;
       }
     });
-
+    
+   const params=new URLSearchParams();
+   params.append('previousUrl', request.nextUrl.pathname.toString());
     // Si no existe la configuración en Routes.ts también retorna un falso
     if (check.isPermited === false)
-      return NextResponse.redirect(new URL('/401', request.url));
+      return NextResponse.redirect(new URL(`/401?${params.toString()}`, request.url));
 
     return NextResponse.next();
   } catch (error) {
@@ -111,10 +116,14 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     '/login/:path*',
+    '/home/:path*',
     '/401/:path*',
     '/consejo_tutelar/:path*',
     '/academicoexterno/:path*',
     '/estudiante/:path*',
     '/cei/:path*',
+    '/servicios_escolares/:path',
+    '/inscripciones/:path',
+    '/seminarios_investigacion/:path'
   ],
 };

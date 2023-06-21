@@ -8,6 +8,19 @@ type RoutesProps = {
 
 const Routes: RoutesProps[] = [
   {
+    path: '/home',
+    all_math: true,
+    roles: [
+      Roles.Estudiante,
+      Roles.Academico,
+      Roles.Externo,
+      Roles.Responsable_Orientacion,
+      Roles.Coordinador_Unidad,
+      Roles.Coordinacion_General_Posgrado,
+      Roles.Servicios_Escolares,
+    ],
+  },
+  {
     path: '/consejo_tutelar',
     all_math: true,
     roles: [
@@ -32,23 +45,11 @@ const Routes: RoutesProps[] = [
     ],
   },
   {
-    path: '/home',
-    all_math: true,
-    roles: [
-      Roles.Estudiante,
-      Roles.Academico,
-      Roles.Externo,
-      Roles.Responsable_Orientacion,
-      Roles.Coordinador_Unidad,
-      Roles.Coordinacion_General_Posgrado,
-      Roles.Servicios_Escolares,
-    ],
-  },
-  {
     path: '/evaluaciondocente',
     all_math: true,
     roles: [
       Roles.Estudiante,
+      
     ],
   },
   {
@@ -60,8 +61,16 @@ const Routes: RoutesProps[] = [
   },
   {
     path: '/inscripciones',
-    all_math: false,
+    all_math: true,
     roles: [
+      Roles.Servicios_Escolares,
+    ],
+  },
+  {
+    path: '/servicios_escolares',
+    all_math: true,
+    roles: [
+      Roles.Estudiante,
       Roles.Servicios_Escolares,
     ],
   },
@@ -72,6 +81,7 @@ const Routes: RoutesProps[] = [
       Roles.Servicios_Escolares,
     ]
   }
+
 ];
 
 export default Routes;

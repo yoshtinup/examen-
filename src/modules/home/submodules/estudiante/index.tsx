@@ -7,17 +7,18 @@ const style = {
   backgroundColor:"#fff"
 }
 
-const Estudiante = () => {
+const Estudiante = props => {
+  const matricula=props.matricula;
   return (
     <>
       <Container maxWidth={false} style={{...style}}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <DatosGenerales />
+            <DatosGenerales matricula={matricula}/>
           </Grid>
         </Grid>
       </Container>
-      <TableroPlanEstudios />
+      <TableroPlanEstudios matricula={matricula} />
     </>
   );
 };
