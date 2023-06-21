@@ -10,8 +10,7 @@ const style = {
 
 const AsignaturaRegistroCompleto = ({idMOA}:{idMOA:number}) => {
   const currentRol: Roles = useRecoilValue(rolStateAtom);
-  //if(currentRol != Roles.Servicios_Escolares){
-  if(currentRol != Roles.Estudiante){
+  if(currentRol != Roles.Servicios_Escolares){
     return <>Sin permisos de acceso</>
   }
   return (

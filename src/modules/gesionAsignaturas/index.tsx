@@ -3,16 +3,10 @@ import ServiciosEscolares from './submodules/servicios_escolares';
 import { WithRol, WithRoles } from '@shared/hooks';
 import Roles from '@definitions/Roles';
 
-/*const OtrosPage = WithRoles([
+const OtrosPage = WithRoles([
   Roles.Estudiante,
 ])(Otros);
 const ServiciosEscolaresPage = WithRol(Roles.Servicios_Escolares)(
-  ServiciosEscolares
-);*/
-const OtrosPage = WithRoles([
-  Roles.Servicios_Escolares,
-])(Otros);
-const ServiciosEscolaresPage = WithRol(Roles.Estudiante)(
   ServiciosEscolares
 );
 
