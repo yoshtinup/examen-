@@ -46,7 +46,13 @@ const PropuestaAlumno = () => {
     const [propuesta, exist] = await getPropuestaAlumno(
       String(user.estudiante.matricula)
     );
-    if (exist) {
+
+    const [current, history] = arrayDivisorByCondition(
+      (e: AlumnoDetallesItemProps) => e.historico == false,
+      propuesta
+    );
+
+    if (exist && current.length > 0) {
       // dividir entre actual y historico
       let tempDocuments: DocumentoItemProps[] = [];
       propuesta.forEach((item: AlumnoDetallesItemProps) => {
@@ -56,11 +62,6 @@ const PropuestaAlumno = () => {
       });
 
       setDocuments(tempDocuments);
-
-      const [current, history] = arrayDivisorByCondition(
-        (e: AlumnoDetallesItemProps) => e.historico == false,
-        propuesta
-      );
 
       const currentPropuesta = {
         matricula: current[0].matricula,
@@ -89,7 +90,7 @@ const PropuestaAlumno = () => {
       setAlumnoInformation({
         loading: false,
         current: propuesta[0],
-        history: [],
+        history: history,
       });
     }
   }

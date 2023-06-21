@@ -182,6 +182,17 @@ const ActionButtons = ({ onClick }: { onClick: any }) => {
           >
             Guardado temporal
           </Button>
+        </ButtonGroup>
+      ) : null}
+
+      {!Object.values(showInterfece).every(valor => !valor) &&
+      !aceptacionActive ? (
+        <ButtonGroup
+          disableElevation
+          size="small"
+          variant="contained"
+          aria-label="outlined primary button group"
+        >
           <Button
             variant="outlined"
             disabled={aceptacionActive}
