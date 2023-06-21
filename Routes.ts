@@ -64,7 +64,14 @@ const Routes: RoutesProps[] = [
     roles: [
       Roles.Servicios_Escolares,
     ],
-  }  
+  },
+  {
+    path: '/gestionAsignaturas',
+    all_math: true,
+    roles: [
+      Roles.Servicios_Escolares,
+    ]
+  }
 ];
 
 export default Routes;

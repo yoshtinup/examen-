@@ -70,3 +70,7 @@ body {
   width: 180px !important;
   height: 180px !important;
 }
+
+#tabla-gestion-asignaturas .MuiDataGrid-cellContent{
+  white-space: break-spaces !important;
+}
