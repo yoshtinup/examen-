@@ -28,8 +28,8 @@ export const getIdClavePrograma = async () => {
         cookieUser,
         new TextEncoder().encode(process.env.JWT_SECRET)
     );
-    const dataCookieUser = decodeUserToken.payload.user
-    const idActividadRol = dataCookieUser.estudiante.clavePrograma  
+    const dataCookieUser: any = decodeUserToken.payload.user
+    const idActividadRol = dataCookieUser.estudiante.clavePrograma
     return idActividadRol
 }
 

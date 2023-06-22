@@ -3,10 +3,18 @@ import Cookies from 'js-cookie';
 import Roles from '@definitions/Roles';
 import { jwtVerify } from 'jose';
 import { useRouter } from 'next/router';
-function Unauthorized() {
+import Link from 'next/link';
+import { Container, Box } from '@mui/system';
+import type { ReactElement } from 'react';
+import { Layout } from '@shared/components/layouts';
+import { HeaderSection } from '@shared/components';
+import { Button } from '@mui/material';
+const Unauthorized = () => {
   const router = useRouter();
+  const { previousUrl } = router.query;
   const [actualRol, setActualRol] = React.useState<string>(null);
   const [actualRoles, setActualRoles] = React.useState<string[]>(null);
+  let redirigir = '/401';
 
   React.useEffect(() => {
     checkRol();
@@ -52,24 +60,41 @@ function Unauthorized() {
       };
     } catch (error) {
       setTimeout(() => {
-        Cookies.remove('selectedRol');
-        Cookies.remove('userRoles');
-        Cookies.remove('user');
-        Cookies.remove('ecosurToken');
-        //router.push('/login');
+        // Cookies.remove('selectedRol');
+        // Cookies.remove('userRoles');
+        // Cookies.remove('user');
+        // Cookies.remove('ecosurToken');
       }, 1000);
       //console.log('REMOVED');
     }
   };
 
+  // const redirigirPage = {
+  //   Estudiante: () => (redirigir = '/home'),
+  //   ServiciosEscolares: () => (redirigir = '/servicios_escolares'),
+  //   null: () => (redirigir = '/401'),
+  // };
+  // redirigirPage[actualRol ? actualRol : null]();
+
   return (
-    <section id="unauthorized">
-      <div>NO AUTORIZADO...</div>
-      <div>
-        Rol seleccionado:
-        <span style={{ margin: '0px 0px 0px 10px' }}>{actualRol}</span>
-      </div>
-      <div>
+    <Container maxWidth="xl" style={{ paddingTop: '30px', backgroundColor:'white' }}>
+      <section
+        id="unauthorized"
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexWrap: 'nowrap',
+          flexDirection: 'column',
+          height: '100vh',
+        }}
+      >
+        <div>No tiene permisos para acceder a la URL: {previousUrl} </div>
+        <div>
+          Tu rol actual es el de:
+          <span style={{ margin: '0px 0px 0px 10px' }}>{actualRol}</span>
+        </div>
+        {/* <div>
         Tu rol:
         {actualRoles?.map((data: any, idx: number) => {
           return (
@@ -78,9 +103,19 @@ function Unauthorized() {
             </span>
           );
         })}
-      </div>
-    </section>
+      </div> */}
+        <div>
+          <Link href='/home'>
+          <Button variant="contained">
+          Continuar
+          </Button>
+          </Link>
+        </div>
+      </section>
+    </Container>
   );
-}
-
+};
+Unauthorized.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
 export default Unauthorized;

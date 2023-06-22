@@ -1,1 +1,0 @@
-export { getEvaluaciones } from './hasura';

@@ -16,6 +16,10 @@ export const actividadesState = atom({
     
 })
 
+const Page = () => {}
+
+export default Page
+
 // export const actividadesState = selector({
 //     key: 'actividadesState',
 //     get: () => {

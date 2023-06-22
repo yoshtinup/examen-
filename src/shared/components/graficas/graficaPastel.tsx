@@ -14,20 +14,31 @@ export function GraficaPastel(props:any) {
   if(!data){
     return <></>;
   }
+  const prev = data.Alineacion == Alineacion.Arriba || data.Alineacion == Alineacion.Izquierda;
+  const colBool = data.Alineacion == Alineacion.Arriba || data.Alineacion == Alineacion.Abajo;
   let Total:number = 0;
   let Rotaciones:number[] = [0];
   data.Items.forEach(element => {
     Total += element.Valor;
   });
+  if(Total <= 0){
+    return(
+      <Grid container spacing={2}>
+        <Grid item xs={12} style={{textAlign:"center"}}>
+          {data.NoData || "No hay datos suficientes para presentar el grafico" }
+        </Grid>
+      </Grid>
+    );
+  }
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
         {data.Header && data.Header}
       </Grid>
-      {data.Alineacion == Alineacion.Izquierda &&
-        <LeyendasGraficaPastel data={data} />
+      {prev &&
+        <LeyendasGraficaPastel data={data} colbool={colBool} />
       }
-      <Grid item xs={8}>
+      <Grid item xs={colBool ? 12 : 8}>
         <div style={{position:"relative", aspectRatio:"1"}}>
           {data.Items.sort((a, b) => b.Valor-a.Valor).map((item, i)=>{
             const angulo:number = (item.Valor/Total)*360;
@@ -46,7 +57,7 @@ export function GraficaPastel(props:any) {
           })}
         </div>
       </Grid>
-      {data.Alineacion == Alineacion.Derecha &&
+      {!prev &&
         <LeyendasGraficaPastel data={data} />
       }
       <Grid item xs={12}>
@@ -66,12 +77,17 @@ function ItemGraficaPastel(props:any){
   return (
     <svg viewBox='0 0 200 200'
       style={{...itemPastelStyle}}>
-        <path fill={item.Color}
-          d={
-            "M " + Coor.Xi + " " + Coor.Yi + " " + "A 100 100, 0, " +
-            Coor.arco + Coor.Xf + " " + Coor.Yf + " " + "L 100 100 Z"
-          }
-        />
+        {angulo == 360
+          ?
+          <circle cx="100" cy="100" r="100" fill={item.Color} />
+          :
+          <path fill={item.Color}
+            d={
+              "M " + Coor.Xi + " " + Coor.Yi + " " + "A 100 100, 0, " +
+              Coor.arco + Coor.Xf + " " + Coor.Yf + " " + "L 100 100 Z"
+            }
+          />
+        }
         {porcentajes &&
           <>
             <path stroke="black" style={{position:"relative"}}
@@ -109,9 +125,10 @@ function getXY(ang:number, rot:number){
 
 function LeyendasGraficaPastel(props:any){
   const data:GraficaPastelType = props.data;
+  const colBool:Boolean = props.colbool;
   return (
-    <Grid item xs={4}>
-      <ul style={{listStyle:"none"}}>
+    <Grid item xs={colBool ? 12 : 4}>
+      <ul id={"grafica-pastel-leyendas" + (colBool ? "-col2" : "")}>
         {data.Items.map((item, i) =>
           <li key={i}>
             <span style={{color:item.Color, fontSize:"35px"}}>■</span> {item.Titulo}

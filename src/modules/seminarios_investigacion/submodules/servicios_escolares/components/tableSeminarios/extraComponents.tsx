@@ -52,7 +52,7 @@ export function CustomFooter(props: { counter: number; label: string }) {
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'center',
-          pl: 2,
+          pl: 2
         }}
       >
         <Grid item sx={{ pr: 1 }}>

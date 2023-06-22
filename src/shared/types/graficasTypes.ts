@@ -12,12 +12,15 @@ export enum GraficaColor {
 export enum Alineacion {
   Izquierda,
   Derecha,
+  Arriba,
+  Abajo,
 }
 
 export interface GraficaSimple {
   Header?: React.ReactNode;
   Items: GraficaItemSimple[];
   Footer?: React.ReactNode;
+  NoData?: String;
 }
 
 export interface GraficaItemSimple {

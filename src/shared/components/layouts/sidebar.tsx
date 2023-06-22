@@ -95,13 +95,16 @@ export const Sidebar: FC<SidebarProps> = ({ open, onClose }) => {
       </div>
 
       <Box sx={{ flexGrow: 1 }}>
+        
         {items.map((item: ItemsNav) => (
+          
           <NavItem
             key={item.title}
             icon={item.icon}
             href={item.href}
             title={open ? item.title : ''}
-          />
+            
+          /> 
         ))}
       </Box>
     </Box>

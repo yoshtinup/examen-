@@ -7,6 +7,7 @@ export interface CursoPorIniciarGql {
   Profesor_responsable: string;
   NombreMateria: string;
   IdMateriasOfertaAnual: number;
+  IdMateriasOfertaClave:number;
   GradoDeCurso: string;
   SedeDeCurso: string;
 }

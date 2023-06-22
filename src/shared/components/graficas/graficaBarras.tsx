@@ -23,6 +23,19 @@ export function GraficaBarras(props:any) {
   if(!data){
     return <></>;
   }
+  let Total:number = 0;
+  data.Items.forEach(element => {
+    Total += element.Valor;
+  });
+  if(Total <= 0){
+    return(
+      <Grid container spacing={2}>
+        <Grid item xs={12} style={{textAlign:"center"}}>
+          {data.NoData || "No hay datos suficientes para presentar el grafico" }
+        </Grid>
+      </Grid>
+    );
+  }
   const LineasVerticales:GraficaBarrasLineData[] = ObtenerVerticales(data.Items);
   const LineasHorizontales:GraficaBarrasLineData[] = ObtenerHorizontales(data.Graduacion);
   return (

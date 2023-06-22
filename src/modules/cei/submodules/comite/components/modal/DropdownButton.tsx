@@ -145,6 +145,9 @@ const BodyDropdownButton: React.FC<DropDownOption> = ({
             placeholder="Agregar sugerencia"
             onChange={handleChangeSugerencia}
             value={sugerencia}
+            nonce={undefined}
+            onResize={undefined}
+            onResizeCapture={undefined}
           />
         </FormControl>
       </DialogContent>

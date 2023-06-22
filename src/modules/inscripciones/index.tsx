@@ -3,6 +3,8 @@ import { TableEstudiantesPendientes } from "./components/tableSeminarios/estudia
 import { Box, Card, Grid, SelectChangeEvent, Typography } from "@mui/material";
 import { EcosurTabs } from "ecosur-ui";
 import React from "react";
+import { TableEstudiantesInscritos } from "./components/tableSeminarios/estudiantesInscritos";
+import { TableEstudiantesCancelados } from "./components/tableSeminarios/estudiantesCancelados";
 
 export const ListaInscripciones = ({  }) => {
     const currentYear = new Date().getFullYear();
@@ -15,13 +17,19 @@ export const ListaInscripciones = ({  }) => {
     const tablasSeminarios = [
       {
         titulo: 'Pendiente de inscribirse',
-        description: 'Lista de todos los estudiantes que se estan en proeso de inscripción.',
+        description: 'Lista de todos los estudiantes que se estan en proceso de inscripción.',
         componente: <TableEstudiantesPendientes />,
       },
       {
         titulo: 'Inscritos',
-        description: 'Lista de todos los seminarios que se encuentran concluidos.',
-        componente: <p>Hola</p>,
+        description: '',
+        componente: <TableEstudiantesInscritos />,
+      
+      },
+      {
+        titulo: 'Inscripciones canceladas',
+        description: 'Lista de estudiantes que tienen periodos de inscripción cancelados',
+        componente: <TableEstudiantesCancelados />,
       }    
     ]
   
@@ -36,8 +44,8 @@ export const ListaInscripciones = ({  }) => {
               <Typography variant='body2' sx={{ pb: 3 }}>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus commodi reiciendis quae. Ab non, exercitationem officiis earum tempore placeat iure distinctio iste ipsum reprehenderit quae delectus, ea rerum nostrum atque?
               </Typography>        
-              <Box sx={{ width: 1 }}>
-                <EcosurTabs data={tablasSeminarios} align='left' key='ecosur-tabs-seminarios' />        
+              <Box sx={{ width: 1,backgroundColor: '#ECECEC' }}>
+                <EcosurTabs data={tablasSeminarios} align='left' key='ecosur-tabs-seminarios' color="white" activeColor="white" activeTextColor="black"/>        
               </Box>   
             </Grid>                             
           </Grid>

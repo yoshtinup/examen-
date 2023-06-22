@@ -12,6 +12,13 @@ export interface EstudianteGql {
   DirectorTesis: DirectorTesisGql[];
   Beca: BecaGql;
 }
+export interface EvaluacionEticaGql {
+  Descripcion: string;
+  PuedeRegistrarProtocolo_CEI: boolean;
+  haveestatus: number;
+  idFormulariosRespuestas: number;
+  message: string;
+}
 
 export interface ValueGql {
   value: string;
@@ -25,6 +32,9 @@ export interface DatosGql {
   CorreoElectronicoEcosur: string;
   CVU: number;
   IdAlumno: number;
+  CURP: string;
+  IdGenero: number;
+  InmediatoAnterior:InmediatoAnteriorGql;
 }
 
 export interface DirectorTesisGql {
@@ -56,4 +66,12 @@ export interface ProgramaGql {
 
 export interface BecaGql {
   IdTipoDeBeca: number;
+}
+
+export interface InmediatoAnteriorGql{
+  CarreraOPrograma: string;
+  Nivel: string;
+  Institucion: string;
+  FechaExamenProfesional: string;
+  PromedioWeb: string;
 }

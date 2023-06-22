@@ -22,7 +22,11 @@ const FormInputText = ({ id, name, control, label }: FormProps) => {
             minRows={3}
             onChange={onChange}
             value={value}
-            style={{ width: '100%' }}           />
+            style={{ width: '100%' }}
+            nonce={undefined}
+            onResize={undefined}
+            onResizeCapture={undefined}
+          />
         )}
       />
     </FormControl>
