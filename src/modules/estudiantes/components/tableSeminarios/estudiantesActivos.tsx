@@ -14,21 +14,22 @@ import {
   Select,
   Typography,
   Snackbar,
+  Modal,
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import {
-  useGetEstudiantes,
-} from '../../queries';
-import Modal from '../../../../shared/components/layouts/modal-inscripcion';
+import { useGetEstudiantes } from '../../queries';
+import ModalEstudiantes from '../../../../shared/components/layouts/modal-inscripcion';
 import { Estudiante, FiltroEstudiante } from '../../types';
 import moment from 'moment';
 import { set } from 'react-hook-form';
 import { useQuery } from 'react-query';
 import apiInscripciones from '@shared/components/cards/apiInscripciones';
 import { MessageSnackbar } from '@shared/components/layouts/messaAlert';
+
 // import Link from 'next/link';
 import LinkIcon from '@mui/icons-material/Link';
+
 const SelectPrograma = (props: any) => {
   let programas = [];
   const handleChangeNotificacion = (event: SelectChangeEvent) => {
@@ -143,31 +144,19 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
   const [isOpen, setIsOpen] = useState(false);
   const [idBoleta, setIdBoleta] = useState();
   const [textModal, setTextModal] = useState('');
-  const [send, setSend]=useState(false);
-  const [sendReminder, setSendReminder]=useState(false);
-  
+  const [send, setSend] = useState(false);
+  const [sendReminder, setSendReminder] = useState(false);
 
-  const handleOpenModal = (idBoletaInscripcion,text) => {
-    setIdBoleta(idBoletaInscripcion);
-    setTextModal(text);
-    setIsOpen(true);
-  };
-  const handleCloseModal = () => setIsOpen(false);
+ 
+  
   const handleDataFromChild = data => {
     console.log(data);
     setSend(data);
   };
-  const handleSendReminder =(idBoletaInscripcion)=>{
-    setIdBoleta(idBoletaInscripcion);
-    setSendReminder(true);
-  }
-  const handletSucces=(data)=>{
-    setSend(data);
-    setSendReminder(data);
-  }
-  const handleClickExpediente=(matricula)=> {
-    window.open(`/home?matricula=${matricula}`, '_blank')
-  }
+
+  const handleClickExpediente = matricula => {
+    window.open(`/home?matricula=${matricula}`, '_blank');
+  };
   const columns: GridColDef[] = [
     {
       field: 'estudiante',
@@ -197,36 +186,83 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
         const handleClick = () => {
           // FIX ME: Agregar enlace a endpoint para realizar notificaciones.
         };
-        
+        const [isModalOpen, setIsModalOpen] = useState(false);
+        const handleOpenModal = () => {
+          setIsModalOpen(true);
+        };
+
+        const handleCloseModal = () => {
+          setIsModalOpen(false);
+        };
+        const modalStyle = {
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        };
+
         return (
           <>
-          <div style={{display:'flex', flexDirection: 'column'}}>
-          <Link aria-disabled={true} >
-            <a
-              onClick={()=>handleClickExpediente(params.row.matricula)}
-              style={{
-                cursor: 'pointer',
-                textDecoration: 'none',
-                color: '#00BFA5',
-              }}
-            >
-             <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-              Ver expediente
-            </a>
-          </Link>
-          <Link href={`https://aplicaciones.ecosur.mx/app/funcionalidades-sip/archivos-ingreso-alumno-6490cd6ae8023e77eb94dee0?matricula=${params.row.matricula}`}>
-            <a
-              style={{
-                cursor: 'pointer',
-                textDecoration: 'none',
-                color: '#00BFA5',
-              }}
-            >
-            <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-             Expendiente de ingreso
-            </a>
-          </Link>
-          </div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <Link aria-disabled={true}>
+                <a
+                  onClick={() => handleClickExpediente(params.row.matricula)}
+                  style={{
+                    cursor: 'pointer',
+                    textDecoration: 'none',
+                    color: '#00BFA5',
+                  }}
+                >
+                  <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
+                  Ver expediente
+                </a>
+              </Link>
+              <Modal open={isModalOpen} onClose={handleCloseModal}>
+              <div style={modalStyle}>
+                <div
+                  style={{
+                    width: 700,
+                    height: 600,
+                    backgroundColor: '#fff',
+                    padding: 20,
+                    position: 'relative',
+                  }}
+                >
+                  <iframe
+                    src={
+                      'https://aplicaciones.ecosur.mx/app/funcionalidades-sip/archivos-ingreso-alumno-6490cd6ae8023e77eb94dee0?matricula=' +
+                      params.row.matricula
+                    }
+                    width="100%"
+                    height="100%"
+                    style={{ border: 'none' }}
+                  />
+                  <Button
+                    onClick={handleCloseModal}
+                    style={{
+                      position: 'absolute',
+                      top: 10,
+                      right: 10,
+                    }}
+                  >
+                    {' '}
+                    Cerrar
+                  </Button>
+                </div>
+                </div>
+              </Modal>
+              <Link onClick={handleOpenModal}>
+                <a
+                  style={{
+                    cursor: 'pointer',
+                    textDecoration: 'none',
+                    color: '#00BFA5',
+                  }}
+                >
+                  <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
+                  Expendiente de ingreso
+                </a>
+              </Link>
+            </div>
           </>
         );
       },
@@ -234,7 +270,7 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
   ];
   let rows = [];
   let estudiantesList: Estudiante[] = estudiantes;
-  
+
   estudiantesList = estudiantes.filter(
     estudiante =>
       (programa == 'Todos'
@@ -253,135 +289,122 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
       estudiante:
         estudiante.DatosAlumno?.Nombre_s_ +
         ' ' +
-        estudiante.DatosAlumno?.ApellidoPaterno+
+        estudiante.DatosAlumno?.ApellidoPaterno +
         ' ' +
         estudiante.DatosAlumno?.ApellidoMaterno,
       programa: estudiante?.Programa.Programa,
       orientacion: estudiante?.Orientacion,
       unidad: estudiante.Unidad?.Unidad,
-      anio:estudiante.AnioDeEstudios?.AnioActualtxt,
-      matricula:estudiante?.Matricula,
+      anio: estudiante.AnioDeEstudios?.AnioActualtxt,
+      matricula: estudiante?.Matricula,
       // idAlumno: estudiante?.DatosAlumno.IdAlumno,
-      estatus:estudiante.EstatusAlumno?.IdEstatus
-     
+      estatus: estudiante.EstatusAlumno?.IdEstatus,
     })
   );
 
-  const handleClick = (id: number, estatus: number, comentario: string) => {
-    setOpen(false);
-    console.log(id);
-    console.log(estatus);
-    console.log(comentario);
-  };
-  const [open, setOpen] = React.useState<boolean>(false);
-  const handleClose = () => {
-    setOpen(false);
-  };
+
   const [selectedRows, setSelectedRows] = React.useState([]);
 
   return (
     <>
-    {/* {send && idBoleta==null && <SendReminderAll onData={handletSucces}/>}
+      {/* {send && idBoleta==null && <SendReminderAll onData={handletSucces}/>}
         {send  && idBoleta!=null && <SendCancelInscription onData={handletSucces} IdBoletasIncripciones={idBoleta}/>}
         {sendReminder  && idBoleta!=null && <SendReminder onData={handletSucces} IdBoletasIncripciones={idBoleta}/>} */}
 
-    <div style={{ height: 1200, width: '100%' }}>
-      <Modal 
-              isOpen={isOpen}
-              onClose={handleCloseModal}
-              onData={handleDataFromChild}
-              mensaje={textModal}
+      <div style={{ height: 1200, width: '100%' }}>
+
+        <Grid
+          container
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            bgcolor: 'white',
+            pb: 2,
+            pt: 2,
+          }}
+        >
+          <Grid item sx={{ mr: 2, fontSize: 14 }}>
+            <b>Programa:</b>
+          </Grid>
+          <Grid item>
+            <SelectPrograma
+              estudiantes={estudiantes}
+              setPrograma={setPrograma}
+              programa={programa}
+              programas={programas}
             />
-       
-      <Grid
-        container
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          bgcolor: 'white',
-          pb: 2,
-          pt: 2,
-        }}
-      >
-        <Grid item sx={{ mr: 2, fontSize: 14 }}>
-          <b>Programa:</b>
+          </Grid>
+          <Grid item sx={{ mr: 2, ml: 2 }}>
+            <b>Unidad:</b>
+          </Grid>
+          <Grid item>
+            <SelectUnidad
+              estudiantes={estudiantes}
+              setUnidad={setUnidad}
+              unidad={unidad}
+              unidades={unidades}
+            />
+          </Grid>
+          <Grid item sx={{ mr: 2, ml: 2 }}>
+            <b>Año:</b>
+          </Grid>
+          <Grid item>
+            <SelectFecha
+              estudiantes={estudiantes}
+              setPeriodo={setPeriodo}
+              periodo={periodo}
+              periodos={periodos}
+            />
+          </Grid>
         </Grid>
-        <Grid item>
-          <SelectPrograma
-            estudiantes={estudiantes}
-            setPrograma={setPrograma}
-            programa={programa}
-            programas={programas}
-          />
-        </Grid>
-        <Grid item sx={{ mr: 2, ml: 2 }}>
-          <b>Unidad:</b>
-        </Grid>
-        <Grid item>
-          <SelectUnidad
-            estudiantes={estudiantes}
-            setUnidad={setUnidad}
-            unidad={unidad}
-            unidades={unidades}
-          />
-        </Grid>
-        <Grid item sx={{  mr: 2, ml: 2 }}>
-          <b>Año:</b>
-        </Grid>
-        <Grid item>
-          <SelectFecha estudiantes={estudiantes} setPeriodo={setPeriodo} periodo={periodo} periodos={periodos} />
-        </Grid> 
-      </Grid>
-      <Grid
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'right',
-          alignItems: 'center',
-          bgcolor: 'white',
-          pb: 1,
-          pt: 1,
-          pr: 5,
-        }}
-      >
-      </Grid>
-      <DataGrid
-        sx={{ pb: 19 }}
-        rows={rows}
-        columns={columns}
-        
-        components={{
-          Toolbar: CustomToolbar,
-          Footer: CustomFooter,
-          NoRowsOverlay: CustomNoRowsOverlay,
-        }}
-        componentsProps={{
-          footer: { counter: rows.length, label: 'Estudiantes:' },
-        }}
-        onSelectionModelChange={ids => {
-          const selectedIDs = new Set(ids);
-          const selectedRows = rows.filter(row => selectedIDs.has(row.id));
-          setSelectedRows(selectedRows);
-        }}
-      />
-    </div></>
+        <Grid
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'right',
+            alignItems: 'center',
+            bgcolor: 'white',
+            pb: 1,
+            pt: 1,
+            pr: 5,
+          }}
+        ></Grid>
+        <DataGrid
+          sx={{ pb: 19 }}
+          rows={rows}
+          columns={columns}
+          components={{
+            Toolbar: CustomToolbar,
+            Footer: CustomFooter,
+            NoRowsOverlay: CustomNoRowsOverlay,
+          }}
+          componentsProps={{
+            footer: { counter: rows.length, label: 'Estudiantes:' },
+          }}
+          onSelectionModelChange={ids => {
+            const selectedIDs = new Set(ids);
+            const selectedRows = rows.filter(row => selectedIDs.has(row.id));
+            setSelectedRows(selectedRows);
+          }}
+        />
+      </div>
+    </>
   );
 }; // TableEstudiantesPendientesWithoutFetch
 
-
-
-const SendCancelInscription=({onData,IdBoletasIncripciones})=>{
+const SendCancelInscription = ({ onData, IdBoletasIncripciones }) => {
   const [open, setOpen] = useState(true);
   const handleClickFalse = () => {
     onData(false);
     setOpen(false);
   };
- console.log(IdBoletasIncripciones)
-  const { data, error, isLoading,isSuccess} = useQuery(
+  console.log(IdBoletasIncripciones);
+  const { data, error, isLoading, isSuccess } = useQuery(
     'cancelar-inscripcion',
-    async () => await apiInscripciones.getCancelarInscricion(IdBoletasIncripciones),
+    async () =>
+      await apiInscripciones.getCancelarInscricion(IdBoletasIncripciones),
     {
       staleTime: 10000,
     }
@@ -400,20 +423,36 @@ const SendCancelInscription=({onData,IdBoletasIncripciones})=>{
     );
   if (error)
     return (
-      <MessageSnackbar onOpen={open} autoDuration={3000} close={handleClickFalse} message={"No se pudo generar la solicitud"} txtSeverity={"error"}/>
+      <MessageSnackbar
+        onOpen={open}
+        autoDuration={3000}
+        close={handleClickFalse}
+        message={'No se pudo generar la solicitud'}
+        txtSeverity={'error'}
+      />
     );
   if (isSuccess) {
     return (
-      <MessageSnackbar onOpen={open} autoDuration={3000} close={handleClickFalse} message={setMessage} txtSeverity={"success"}/>
+      <MessageSnackbar
+        onOpen={open}
+        autoDuration={3000}
+        close={handleClickFalse}
+        message={setMessage}
+        txtSeverity={'success'}
+      />
     );
-    
   } else {
     return (
-      <MessageSnackbar onOpen={open} autoDuration={3000} close={handleClickFalse} message={setMessage} txtSeverity={"warning"}/>
+      <MessageSnackbar
+        onOpen={open}
+        autoDuration={3000}
+        close={handleClickFalse}
+        message={setMessage}
+        txtSeverity={'warning'}
+      />
     );
-    
   }
-  }
+};
 
 function setProgramasList(estudiantes: Estudiante[]): FiltroEstudiante[] {
   let programas: FiltroEstudiante[] = [];
@@ -465,7 +504,7 @@ function setAniosList(estudiantes: Estudiante[]): FiltroEstudiante[] {
   let anios: FiltroEstudiante[] = [];
   let result: string[] = [];
   let validar: boolean;
-  estudiantes
+  estudiantes;
   estudiantes.map(estudiante => {
     validar = result.includes(estudiante.AnioDeEstudios?.AnioActualtxt);
     if (!validar) {
