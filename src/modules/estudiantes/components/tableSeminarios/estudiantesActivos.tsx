@@ -146,7 +146,7 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
   const [textModal, setTextModal] = useState('');
   const [send, setSend] = useState(false);
   const [sendReminder, setSendReminder] = useState(false);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
  
   
   const handleDataFromChild = data => {
@@ -186,7 +186,7 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
         const handleClick = () => {
           // FIX ME: Agregar enlace a endpoint para realizar notificaciones.
         };
-        const [isModalOpen, setIsModalOpen] = useState(false);
+        
         const handleOpenModal = () => {
           setIsModalOpen(true);
         };

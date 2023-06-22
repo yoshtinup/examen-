@@ -139,6 +139,7 @@ export const TableEstudiantesWithoutFetch: React.FC<{
   const [programa, setPrograma] = useState<string>('Todos');
   const [unidad, setUnidad] = useState<string>('Todos');
   const [periodo, setPeriodo] = useState<string>('Todos');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleClickExpediente = matricula => {
     window.open(`/home?matricula=${matricula}`, '_blank');
@@ -172,7 +173,7 @@ export const TableEstudiantesWithoutFetch: React.FC<{
         const handleClick = () => {
           // FIX ME: Agregar enlace a endpoint para realizar notificaciones.
         };
-        const [isModalOpen, setIsModalOpen] = useState(false);
+        
         const handleOpenModal = () => {
           setIsModalOpen(true);
         };
@@ -202,7 +203,7 @@ export const TableEstudiantesWithoutFetch: React.FC<{
                   Ver expediente
                 </a>
               </Link>
-              <Modal open={isModalOpen} onClose={handleCloseModal}>
+              {/* <Modal open={isModalOpen} onClose={handleCloseModal}>
                 <div style={modalStyle}>
                   
                   <div
@@ -248,7 +249,7 @@ export const TableEstudiantesWithoutFetch: React.FC<{
                   <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
                   Expendiente de ingreso
                 </a>
-              </Link>
+              </Link> */}
             </div>
           </>
         );
