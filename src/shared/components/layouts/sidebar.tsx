@@ -9,7 +9,7 @@ import {
   useMediaQuery,
   Theme,
 } from '@mui/material';
-import Icon from '@mui/icons-material/AirlineSeatFlat';
+import Icon from '@mui/icons-material/Window';
 import { NavItem } from './nav-item';
 
 type ItemsNav = {
@@ -24,6 +24,8 @@ const items: ItemsNav[] = [
     icon: <Icon />,
     title: 'Consejo Tutelar',
   },
+
+  /* Cambio de la rama development */
   {
     href: '/seminarios_investigacion',
     icon: <Icon />,
@@ -33,6 +35,13 @@ const items: ItemsNav[] = [
     href: '/inscripciones',
     icon: <Icon />,
     title: 'Inscripciones',
+  },
+
+  /* Cambio de la rama integrate-cei */
+  {
+    href: '/cei',
+    icon: <Icon />,
+    title: 'CEI',
   },
 ];
 
@@ -86,13 +95,16 @@ export const Sidebar: FC<SidebarProps> = ({ open, onClose }) => {
       </div>
 
       <Box sx={{ flexGrow: 1 }}>
+        
         {items.map((item: ItemsNav) => (
+          
           <NavItem
             key={item.title}
             icon={item.icon}
             href={item.href}
             title={open ? item.title : ''}
-          />
+            
+          /> 
         ))}
       </Box>
     </Box>

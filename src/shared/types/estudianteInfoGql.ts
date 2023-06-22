@@ -1,5 +1,6 @@
 export interface EstudianteGql {
   Matricula: number;
+  FechaDeIngresoAlPosgrado:string;
   Estatus: string;
   Tesis: string;
   Orientacion: OrientacionGql;
@@ -9,6 +10,14 @@ export interface EstudianteGql {
   AnioDeEstudiosActual: ValueGql;
   UnidadAdscripcion: ValueGql;
   DirectorTesis: DirectorTesisGql[];
+  Beca: BecaGql;
+}
+export interface EvaluacionEticaGql {
+  Descripcion: string;
+  PuedeRegistrarProtocolo_CEI: boolean;
+  haveestatus: number;
+  idFormulariosRespuestas: number;
+  message: string;
 }
 
 export interface ValueGql {
@@ -23,6 +32,9 @@ export interface DatosGql {
   CorreoElectronicoEcosur: string;
   CVU: number;
   IdAlumno: number;
+  CURP: string;
+  IdGenero: number;
+  InmediatoAnterior:InmediatoAnteriorGql;
 }
 
 export interface DirectorTesisGql {
@@ -50,4 +62,16 @@ export interface ProgramaGql {
   NombreLargo: string;
   NombreCorto: string;
   NumeroDeCreditos: number;
+}
+
+export interface BecaGql {
+  IdTipoDeBeca: number;
+}
+
+export interface InmediatoAnteriorGql{
+  CarreraOPrograma: string;
+  Nivel: string;
+  Institucion: string;
+  FechaExamenProfesional: string;
+  PromedioWeb: string;
 }

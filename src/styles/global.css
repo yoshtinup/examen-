@@ -4,10 +4,10 @@
   object-fit: cover;
 }
 
-.css-1hmtsgi-MuiButtonBase-root-MuiTab-root.Mui-selected {
+/*.css-1hmtsgi-MuiButtonBase-root-MuiTab-root.Mui-selected {
   color: #fff !important;
   background: #1ab394 !important;
-}
+}*/
 
 #HeaderDataPersona {
   background: #fff !important;
@@ -62,6 +62,33 @@ body {
   font-weight: bold !important;
 }
 
-.grafica-barras-item-barra:hover{
+.grafica-barras-item-barra:hover {
   opacity: 0.9;
+}
+
+#progress-circle-becario > div > span {
+  width: 180px !important;
+  height: 180px !important;
+}
+
+#tabla-gestion-asignaturas .MuiDataGrid-cellContent {
+  white-space: break-spaces !important;
+}
+#grafica-pastel-leyendas,
+#grafica-pastel-leyendas-col2 {
+  list-style: none;
+}
+#grafica-pastel-leyendas-col2 {
+  columns: 2;
+  -webkit-columns: 2;
+  -moz-columns: 2;
+}
+.css-1ured68-MuiCardContent-root:last-child {
+  padding-bottom: 0px !important;
+}
+
+@media (max-width: 1000px) {
+  #mycard {
+    margin-top: -7vh !important;
+  }
 }

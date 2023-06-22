@@ -4,11 +4,12 @@ import { hasuraClient } from './graphQlClient';
 
 export function useGetEstudianteInfo(matricula: number) {
   return useQuery(['estudiante-info', matricula], async () => {
-    const { Alumno } = await hasuraClient.request(
+    const { Alumno} = await hasuraClient.request(
       gql`
         query EstudianteInfo($matricula: Int!) {
           Alumno: AlumnoPrograma(where: { Matricula: { _eq: $matricula } }) {
             Matricula: Matricula
+            FechaDeIngresoAlPosgrado
             Estatus: Estatus
             Tesis: Tesis
             Orientacion: OrientacionPrograma {
@@ -26,6 +27,15 @@ export function useGetEstudianteInfo(matricula: number) {
               CorreoElectronicoEcosur
               CVU
               IdAlumno
+              CURP
+              IdGenero
+              InmediatoAnterior:db12_FormacionAcademica{
+                CarreraOPrograma
+                Nivel
+                Institucion
+                FechaExamenProfesional
+                PromedioWeb
+              }
             }
             Programa {
               Id: IdPrograma
@@ -49,11 +59,38 @@ export function useGetEstudianteInfo(matricula: number) {
                 ApellidoPaterno
               }
             }
+            Beca{
+              IdTipoDeBeca
+            }          
           }
+        
         }
       `,
       { matricula }
     );
     return Alumno;
+  });
+}
+export function useGetEvaluacionEtica(matricula: number) {
+
+  return useQuery(['evaluacion-etica', matricula], async () => {
+    const { EvaluacionEtica } = await hasuraClient.request(
+      gql`
+        query EstudianteInfo($matricula: Int!) {
+          EvaluacionEtica:vw_18_estatus_evaluacion_etica(where:{
+            Matricula:{_eq: $matricula}
+        }){
+            haveestatus
+            message
+            PuedeRegistrarProtocolo_CEI
+            idFormulariosRespuestas
+            Descripcion
+        }
+        
+        }
+      `,
+      { matricula }
+    );
+    return EvaluacionEtica;
   });
 }

@@ -12,6 +12,7 @@ import Roles from '@definitions/Roles';
 import { useRecoilValue } from 'recoil';
 import { rolStateAtom } from '@modules/auth/recoil';
 import { useRouter } from 'next/router';
+import { Layout } from '@shared/components/layouts';
 
 const PerfilWithStatus: React.FC<{matricula: number, status: string, seminario: number}> = ({matricula, status, seminario}) => {
   const evaluacionSeminarioComponentes = [  
@@ -95,7 +96,7 @@ export const DetallesSeminarioWithoutFetch: React.FC<{ dataID: DataID[], idEvalu
 
     return (
       <>
-        <Container maxWidth="xl" sx={{ bgcolor: 'background.default', border: 'none' }}>
+        <Container maxWidth="xl" sx={{ bgcolor: 'white', border: 'none', padding: '30px' }}>
             {currentRol !== Roles.Estudiante && (
               <PerfilWithStatus matricula={idMatricula} status={status} seminario={idEvaluacionSeminario} />
             )}
@@ -134,17 +135,19 @@ const DetallesSeminarioInvestigacion: React.FC<{
     dataID = data;
   }
   return (
-    <>
-      <Box key={`ecosur-evaluacion-seminario-investigacion`} sx={{ border: 0 }}>
-      <HeaderSection label='Seguimiento de EVALUACIÓN DE SEMINARIOS DE INVESTIGACIÓN' />
-        <Grid container sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
-          <Grid item sx={{ pr: 2, pb: 2 }}>
-            <Button variant='contained' sx={{ mr: 1 }} size='medium' onClick={handleClickRow}>Regresar</Button>
-          </Grid>  
-        </Grid>   
-        <DetallesSeminarioWithoutFetch dataID={dataID} idEvaluacionSeminario={idEvaluacionSeminario} />
-      </Box>
-    </>       
+    <Layout>
+      <Container maxWidth="xl" style={{ paddingTop: '30px' }}>
+        <Box key={`ecosur-evaluacion-seminario-investigacion`} sx={{ border: 0 }}>
+          <HeaderSection label='Seguimiento de EVALUACIÓN DE SEMINARIOS DE INVESTIGACIÓN' />
+          <Grid container sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
+            <Grid item sx={{ pr: 2, pb: 2 }}>
+              <Button variant='contained' sx={{ mr: 1 }} size='medium' onClick={handleClickRow}>Regresar</Button>
+            </Grid>  
+          </Grid>   
+          <DetallesSeminarioWithoutFetch dataID={dataID} idEvaluacionSeminario={idEvaluacionSeminario} />
+        </Box>
+      </Container>
+    </Layout>       
   );
 };
 

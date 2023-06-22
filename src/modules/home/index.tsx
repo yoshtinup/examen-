@@ -16,13 +16,15 @@ const ServiciosEscolaresPage = WithRol(Roles.Servicios_Escolares)(
   ServiciosEscolares
 );
 
-const Home = () => {
+const Home = ({matricula}) => {
+  
   return (
     <>
-      <EstudiantePage />
-      <PersonalPage />
-      <ServiciosEscolaresPage />
+      <EstudiantePage /> 
+      <PersonalPage />     
+    {matricula==undefined?<ServiciosEscolaresPage />: <Estudiante matricula={matricula} />}
     </>
   );
 };
+
 export default Home;

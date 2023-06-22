@@ -1,3 +1,6 @@
+import { red } from "@mui/material/colors";
+import { Style } from "util";
+
 type OnClickFunction = () => any;
 
 export enum FontSize{
@@ -5,13 +8,15 @@ export enum FontSize{
   middle = 18,
   small = 15
 }
-
 export interface CardListItemSimple{
   Titulo: string;
   Subtitulo?: string;
   Icono?: React.ReactNode;
   Onclick?: OnClickFunction;
   FontSize?: FontSize;
+  Important?: boolean;
+  Warning?:boolean;
+  
 }
 
 export interface CardListItemChildrens extends CardListItemSimple{
