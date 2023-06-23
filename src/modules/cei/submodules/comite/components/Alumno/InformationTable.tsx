@@ -81,9 +81,21 @@ const columns: GridColDef[] = [
   { field: 'nombre', headerName: 'Nombre', type: 'string', minWidth: 200 },
   {
     field: 'fechaEnvio',
-    headerName: 'Fecha de Envio',
+    headerName: 'Fecha de Envío',
     type: 'date',
     minWidth: 124,
+    renderCell: (params: GridCellParams) => {
+      const date = new Date(params.row.fechaEnvio);
+      return (
+        <>
+          {date.toLocaleString('es-mx', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
+          })}
+        </>
+      );
+    },
   },
   { field: 'unidad', headerName: 'Unidad', type: 'string', minWidth: 110 },
   {
@@ -161,7 +173,7 @@ const InformationTable: React.FC<Props> = ({ history }) => {
     return (
       <>
         <Alert severity="info">
-          <AlertTitle>Comite de ética</AlertTitle>
+          <AlertTitle>Comité de ética</AlertTitle>
           <h4>Usted no cuenta con propuestas en este apartado</h4>
         </Alert>
       </>

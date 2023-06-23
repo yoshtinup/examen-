@@ -25,15 +25,14 @@ const style = {
 };
 
 const EvaluacionEtica = (props: any) => {
-  const matriculaEstudiante=props.matricula;
+  const matriculaEstudiante = props.matricula;
   const rol = WithRolCheck(Roles.Estudiante);
   const show = rol(null);
   const user: EcosurAuth = useRecoilValue(userStateAtom);
-  const { data, isError, isLoading } = useGetEstudianteInfo(
-    matriculaEstudiante
-  );
+  const { data, isError, isLoading } =
+    useGetEstudianteInfo(matriculaEstudiante);
   const evaluacionEtica = useGetEvaluacionEtica(matriculaEstudiante);
-  
+
   if (isLoading || evaluacionEtica.isLoading) {
     return <>Cargando</>;
   }
@@ -54,8 +53,14 @@ const EvaluacionEtica = (props: any) => {
         </Grid>
         <Grid item xs={8}>
           <List
-            sx={{  bgcolor: '#ecf0f5', height: 'fit-content', display:'flex', flexDirection: "column",
-            justifyContent: "space-between",width: 'fit-content' }}
+            sx={{
+              bgcolor: '#ecf0f5',
+              height: 'fit-content',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              width: 'fit-content',
+            }}
           >
             <ListItem>
               <Paper
@@ -73,45 +78,54 @@ const EvaluacionEtica = (props: any) => {
                   </span>
                 }
               />
-              
             </ListItem>
             <ListItem
-            style={{position:'relative', left:'0', paddingTop:'0px',height: "fit-content",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between", 
-            width: "100%",}}
+              style={{
+                position: 'relative',
+                left: '0',
+                paddingTop: '0px',
+                height: 'fit-content',
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                width: '100%',
+              }}
             >
-              {evaluacionInfo.haveestatus == 0 && 
-              <Paper
-                elevation={2}
-                style={{
-                  width: '40%',
-                  height: '10vh',
-                  padding: '5px',
-                  textAlign: 'center',
-                }}
-              >
-                Estatus
-                <br />
-                
+              {evaluacionInfo.haveestatus == 0 && (
+                <Paper
+                  elevation={2}
+                  style={{
+                    width: '40%',
+                    height: '10vh',
+                    padding: '5px',
+                    textAlign: 'center',
+                  }}
+                >
+                  Estatus
+                  <br />
                   <>
-                    <b style={{ color: 'green' }}>⬤ </b>pendiente de
-                    evaluacion{evaluacionInfo.Descripcion}
+                    <b style={{ color: 'green' }}>⬤ </b>pendiente de evaluacion
+                    {evaluacionInfo.Descripcion}
                   </>
-               
-              </Paper>}
-              {show && evaluacionInfo.PuedeRegistrarProtocolo_CEI===false && evaluacionInfo.idFormulariosRespuestas===null &&
-              <ListItemText
-                style={{ textAlign:'center',  }}
-                primary="Realizar registro de propuesta"
-                secondary={
-                   <Button variant="contained" href='https://ecosur365p.sharepoint.com/sites/CEI' target="_blank">
-                    <InsertLinkIcon />
-                  </Button>
-                  
-                }
-              />}
+                </Paper>
+              )}
+              {show &&
+                evaluacionInfo.PuedeRegistrarProtocolo_CEI === false &&
+                evaluacionInfo.idFormulariosRespuestas === null && (
+                  <ListItemText
+                    style={{ textAlign: 'center' }}
+                    primary="Realizar registro de propuesta"
+                    secondary={
+                      <Button
+                        variant="contained"
+                        href="https://ecosur365p.sharepoint.com/sites/CEI"
+                        target="_blank"
+                      >
+                        <InsertLinkIcon />
+                      </Button>
+                    }
+                  />
+                )}
             </ListItem>
           </List>
         </Grid>
@@ -119,7 +133,6 @@ const EvaluacionEtica = (props: any) => {
           <Paper elevation={1} style={{ position: 'relative' }}>
             <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
               <ListItem
-              
                 secondaryAction={
                   <Button variant="contained">
                     <InsertLinkIcon />

@@ -7,7 +7,7 @@ import { ReactElement } from 'react';
 const PageCEI = () => {
   return (
     <Container maxWidth="xl" style={{ paddingTop: '30px' }}>
-      <HeaderSection label="COMITE DE EVALUACIÓN ÉTICA DE LA INVESTIGACIÓN (CEI)" />
+      <HeaderSection label="COMITÉ DE EVALUACIÓN ÉTICA DE LA INVESTIGACIÓN (CEI)" />
       <Box
         display="column"
         alignItems="center"
