@@ -19,7 +19,8 @@ import {
 import { useRecoilState } from 'recoil';
 import { alumnosAtom } from '../../store/slices/alumnos';
 import { useRouter } from 'next/router';
-import { Alert, AlertTitle } from '@mui/material';
+import { Alert, AlertTitle, IconButton } from '@mui/material';
+import { Cancel, CheckBoxOutlineBlankRounded, Task } from '@mui/icons-material';
 
 // function CustomToolbar() {
 //   return (
@@ -99,6 +100,28 @@ const columns: GridColDef[] = [
     sortable: false,
     renderCell: (params: GridCellParams) => {
       return <>{generateEvaluadores(params.row.evaluadores)}</>;
+    },
+  },
+  {
+    field: 'carta',
+    headerName: 'Carta aceptación',
+    width: 140,
+    sortable: true,
+    minWidth: 110,
+    align: 'center',
+    renderCell: (params: GridCellParams) => {
+      return params.row.carta ? (
+        <IconButton
+          color="success"
+          aria-label="delete"
+          href={params.row.carta}
+          target="_blank"
+        >
+          <Task />
+        </IconButton>
+      ) : (
+        <Cancel />
+      );
     },
   },
   {
