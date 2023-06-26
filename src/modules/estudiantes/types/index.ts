@@ -22,7 +22,9 @@ export interface Estudiante {
     IdPrograma: number;
     Programa: string;
   };
-  Orientacion: string;
+  Orientacion:{
+    Nombre:string;
+  };
   Unidad: {
     IdUnidad: number;
     Unidad: string;

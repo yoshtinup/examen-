@@ -124,6 +124,7 @@ export const config = {
     '/cei/:path*',
     '/servicios_escolares/:path',
     '/inscripciones/:path',
+    '/estudiantes/:path',
     '/seminarios_investigacion/:path'
   ],
 };

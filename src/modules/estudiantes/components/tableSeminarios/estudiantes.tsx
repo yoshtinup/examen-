@@ -281,11 +281,10 @@ export const TableEstudiantesWithoutFetch: React.FC<{
         ' ' +
         estudiante.DatosAlumno?.ApellidoMaterno,
       programa: estudiante.Programa?.Programa,
-      orientacion: estudiante.Orientacion,
+      orientacion: estudiante.Orientacion?.Nombre,
       unidad: estudiante.Unidad.Unidad,
       anio: estudiante.AnioDeEstudios.AnioActualtxt,
       matricula: estudiante.Matricula,
-      // idAlumno: estudiante?.IdAlumno,
       estatus: estudiante.EstatusAlumno.IdEstatus,
       generacion: estudiante.Generacion.GeneracionLargo,
     })

@@ -31,7 +31,9 @@ export function useGetEstudiantes(idEstatus:number, bajas?:boolean) {
             IdPrograma
             Programa
           }
-          Orientacion
+          Orientacion:OrientacionPrograma{
+            Nombre:Orientacion
+          } 
           Unidad {
             IdUnidad
             Unidad
