@@ -19,7 +19,8 @@ import {
 import { useRecoilState } from 'recoil';
 import { alumnosAtom } from '../../store/slices/alumnos';
 import { useRouter } from 'next/router';
-import { Alert, AlertTitle } from '@mui/material';
+import { Alert, AlertTitle, IconButton } from '@mui/material';
+import { Cancel, CheckBoxOutlineBlankRounded, Task } from '@mui/icons-material';
 
 // function CustomToolbar() {
 //   return (
@@ -80,9 +81,21 @@ const columns: GridColDef[] = [
   { field: 'nombre', headerName: 'Nombre', type: 'string', minWidth: 200 },
   {
     field: 'fechaEnvio',
-    headerName: 'Fecha de Envio',
+    headerName: 'Fecha de Envío',
     type: 'date',
     minWidth: 124,
+    renderCell: (params: GridCellParams) => {
+      const date = new Date(params.row.fechaEnvio);
+      return (
+        <>
+          {date.toLocaleString('es-mx', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
+          })}
+        </>
+      );
+    },
   },
   { field: 'unidad', headerName: 'Unidad', type: 'string', minWidth: 110 },
   {
@@ -99,6 +112,28 @@ const columns: GridColDef[] = [
     sortable: false,
     renderCell: (params: GridCellParams) => {
       return <>{generateEvaluadores(params.row.evaluadores)}</>;
+    },
+  },
+  {
+    field: 'carta',
+    headerName: 'Carta aceptación',
+    width: 140,
+    sortable: true,
+    minWidth: 110,
+    align: 'center',
+    renderCell: (params: GridCellParams) => {
+      return params.row.carta ? (
+        <IconButton
+          color="success"
+          aria-label="delete"
+          href={params.row.carta}
+          target="_blank"
+        >
+          <Task />
+        </IconButton>
+      ) : (
+        <Cancel />
+      );
     },
   },
   {
@@ -138,7 +173,7 @@ const InformationTable: React.FC<Props> = ({ history }) => {
     return (
       <>
         <Alert severity="info">
-          <AlertTitle>Comite de ética</AlertTitle>
+          <AlertTitle>Comité de ética</AlertTitle>
           <h4>Usted no cuenta con propuestas en este apartado</h4>
         </Alert>
       </>

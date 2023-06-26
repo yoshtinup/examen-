@@ -18,43 +18,47 @@ export function getDataCardCursoAIniciar(curso:CursoPorIniciarGql, currentRol:Ro
     window.open(`/home`, '_blank');
   }
   return {
-   
     Titulo: curso.NombreMateria,
     Subtitulo: "Clave: " + curso.Clave + ', Creditos: ' + curso.Creditos,
     Items: [
       {
         Titulo: "Del " + DateFormat(curso.FechaInicioCurso) + " al " + DateFormat(curso.FechaFinCurso),
+        OpenDefault: true,
         FontSize: FontSize.small,
         Icono: <CalendarMonthIcon />
       },
       {
         Titulo: 'Fecha límite para darse alta ' + format(fecha, 'dd/MM/yyyy'),
+        OpenDefault: true,
         FontSize: FontSize.small,
         Important: true,
         Icono: <ScheduleIcon style={{color: "#c56b16", fontSize: '25px'}} />
       },
       {
         Titulo: "Docente: " + curso.Profesor_responsable,
+        OpenDefault: true,
         FontSize: FontSize.small,
         Icono: <PersonIcon />
       },
       {
         Titulo: "Grado del programa: " + curso.GradoDeCurso,
+        OpenDefault: true,
         FontSize: FontSize.small,
         Icono: <SchoolIcon />
       },
       {
         Titulo: "Unidad: " + curso.SedeDeCurso,
+        OpenDefault: true,
         FontSize: FontSize.small,
         Icono: <Home />
       },
       {
         Titulo: show ? "Agregar a plan de estudios":'',
+        OpenDefault: true,
         FontSize: FontSize.small,
         Onclick: show?{handleClick}:null,
         Warning:!show,
         Icono: show ? <InsertLinkIcon style={{color: '#1ab394'}}/>: <InsertLinkIcon style={{color: '#orange'}}/>,
-        
       },
     ]
   } as CardListType;

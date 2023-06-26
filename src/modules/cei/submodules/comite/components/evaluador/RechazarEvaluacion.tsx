@@ -72,7 +72,11 @@ export default function BodyRechazarEvaluacion() {
             aria-label="agregar motivo"
             minRows={3}
             placeholder="Agregar motivo"
-            onChange={handleChangeMotivo} />
+            onChange={handleChangeMotivo}
+            nonce={undefined}
+            onResize={undefined}
+            onResizeCapture={undefined}
+          />
         </FormControl>
       </DialogContent>
       <DialogActions>

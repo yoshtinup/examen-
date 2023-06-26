@@ -53,6 +53,7 @@ interface AlumnoGenericProps {
   unidad?: string;
   estatus?: string;
   fechaEnvio?: Date;
+  carta?: string;
 }
 
 export interface EvaluadorItemProps {

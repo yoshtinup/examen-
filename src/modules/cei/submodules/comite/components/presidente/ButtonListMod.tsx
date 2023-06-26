@@ -40,7 +40,7 @@ const ButtonListMod = () => {
       <List>
         <ListItem>
           <Button color="primary" variant="contained" onClick={handleOpenMod1}>
-            Enviar notificacion
+            Enviar notificación
           </Button>
         </ListItem>
         <ListItem>
