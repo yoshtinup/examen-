@@ -19,6 +19,7 @@ export const Footer: FC<FooterProps> = ({open}) => {
         },
         width: {
           lg: open ? 'calc(100% - 280px)' : 'calc(100% - 85px)',
+          xs: '100%'
         },
       }}
     >

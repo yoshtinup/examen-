@@ -31,7 +31,14 @@ export async function middleware(request: NextRequest) {
   } catch {
     return
   }
-  
+
+  const params=new URLSearchParams();
+  params.append('previousUrl', request.nextUrl.pathname.toString());
+
+  if (request.nextUrl.pathname.toString() =='/'){
+    return NextResponse.redirect(new URL('/home', request.url))
+  }
+
   if (request.nextUrl.pathname.includes('/login'))
     try {
       if (!ecosurTokenCookie || !selectedRolCookie) throw 'Error en los tokens';
@@ -90,8 +97,7 @@ export async function middleware(request: NextRequest) {
       }
     });
     
-   const params=new URLSearchParams();
-   params.append('previousUrl', request.nextUrl.pathname.toString());
+   
     // Si no existe la configuración en Routes.ts también retorna un falso
     if (check.isPermited === false)
       return NextResponse.redirect(new URL(`/401?${params.toString()}`, request.url));
@@ -115,6 +121,7 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    '/',
     '/login/:path*',
     '/home/:path*',
     '/401/:path*',

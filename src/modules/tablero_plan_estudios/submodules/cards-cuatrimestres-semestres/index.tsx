@@ -9,23 +9,25 @@ import {
   CardList,
   getDataCardCSFinalizado,
   getDataCardCSPendiente,
-  getDataCardCSEnProceso
-} from "@shared/components/cards";
-import { useRecoilValue } from "recoil";
-import { rolStateAtom, userStateAtom } from "@modules/auth/recoil";
-import Roles from "@definitions/Roles";
-import { CSGql, SemestresCuatrimestresGql } from "@shared/types/cuatrimestresSemestresGql";
-import React, { useState } from "react";
-import { useQuery } from "react-query";
-import apiInscripciones from "@shared/components/cards/apiInscripciones";
-import Modal from "../../../../shared/components/layouts/modal-inscripcion";
-import { EcosurAuth } from "@modules/auth/definitions";
-import { useGetCursosAlumno } from "@shared/queries";
-import { getCuatrimestresSemestres } from "@modules/tablero_plan_estudios/hooks";
+  getDataCardCSEnProceso,
+} from '@shared/components/cards';
+import { useRecoilValue } from 'recoil';
+import { rolStateAtom, userStateAtom } from '@modules/auth/recoil';
+import Roles from '@definitions/Roles';
+import {
+  CSGql,
+  SemestresCuatrimestresGql,
+} from '@shared/types/cuatrimestresSemestresGql';
+import React, { useState } from 'react';
+import { useQuery } from 'react-query';
+import apiInscripciones from '@shared/components/cards/apiInscripciones';
+import Modal from '../../../../shared/components/layouts/modal-inscripcion';
+import { EcosurAuth } from '@modules/auth/definitions';
+import { useGetCursosAlumno } from '@shared/queries';
+import { getCuatrimestresSemestres } from '@modules/tablero_plan_estudios/hooks';
 import { useRouter } from 'next/router';
 
-
-const CardsCS = (props:any) => {
+const CardsCS = (props: any) => {
   const data = props.data;
   const [inscripcion, setInscripcion] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -42,27 +44,21 @@ const CardsCS = (props:any) => {
   const handleDataFromChild = data => {
     setInscripcion(data);
   };
-  
+
   const user: EcosurAuth = useRecoilValue(userStateAtom);
   const currentRol: Roles = useRecoilValue(rolStateAtom);
   const [listaCursos, setListaCursos] = useState(data);
-  const arrayCS:SemestresCuatrimestresGql = getCuatrimestresSemestres(listaCursos);
+  const arrayCS: SemestresCuatrimestresGql =
+    getCuatrimestresSemestres(listaCursos);
   return (
     <>
       <Grid container spacing={2} style={{ padding: '10px 50px 0' }}>
         <Grid item xs={12}>
           <h3>Instrucciones</h3>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit,sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
-          <p>
-            Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-            cupidatat non proident, sunt in culpa qui officia deserunt mollit
-            anim id est laborum.
+          <p style={{ textAlign: 'justify' }}>
+            En esta sección se encuentran listados los periodos que conforman su
+            plan de estudios. De acuerdo a su estatus, podrá inscribirse o
+            descargar su boleta de inscripción.
           </p>
         </Grid>
       </Grid>
@@ -129,7 +125,6 @@ const CardsCS = (props:any) => {
 
 //incripción al estudiante al curso
 const Registration = idBoletasIncripciones => {
-  
   const router = useRouter();
   const idBoletas = idBoletasIncripciones.idBoletasIncripciones;
   //return <CircularProgress />;
@@ -153,32 +148,26 @@ const Registration = idBoletasIncripciones => {
       </Snackbar>
     );
 
-  if (error)
-    return (
-      < MessageAlert messageTxt={"Error"} severity={"error"}/>
-    );
+  if (error) return <MessageAlert messageTxt={'Error'} severity={'error'} />;
   if (menssage.includes('Error')) {
-    return (
-      < MessageAlert messageTxt={data?.message} severity={"warning"}/>
-    );
+    return <MessageAlert messageTxt={data?.message} severity={'warning'} />;
   } else {
-    return (
-      < MessageAlert messageTxt={data?.message} severity={"success"}/>
-      
-    );
+    return <MessageAlert messageTxt={data?.message} severity={'success'} />;
   }
 };
-const MessageAlert=props=>{
+const MessageAlert = props => {
   const message = props.messageTxt;
   const txtSeverity = props.severity;
-  return (<Snackbar
-    open={true}
-    autoHideDuration={1000}
-    // onClose={handleClose}
-    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-  >
-    <Alert severity={txtSeverity}>{message}</Alert>
-  </Snackbar>)
-}
+  return (
+    <Snackbar
+      open={true}
+      autoHideDuration={1000}
+      // onClose={handleClose}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+    >
+      <Alert severity={txtSeverity}>{message}</Alert>
+    </Snackbar>
+  );
+};
 
 export default CardsCS;

@@ -40,7 +40,7 @@ const actividadesService = () => {
 
 
     if(isError){
-    console.log('Error: '+error)
+        console.log('Error: '+error)
     }
     if(status === 'loading'){
         console.log('cargando los datos')

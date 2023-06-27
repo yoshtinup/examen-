@@ -394,7 +394,6 @@ const SendCancelInscription = ({ onData, IdBoletasIncripciones }) => {
     onData(false);
     setOpen(false);
   };
-  console.log(IdBoletasIncripciones);
   const { data, error, isLoading, isSuccess } = useQuery(
     'cancelar-inscripcion',
     async () =>
@@ -524,7 +523,6 @@ export const TableEstudiantesActivos: React.FC<{}> = ({}) => {
   let unidad: FiltroEstudiante[];
   let periodo: FiltroEstudiante[];
   // const datos=useGetAsignaturaRegistroCompleto(8527);
-  // console.log(datos);
   const { data, isError, isLoading, isSuccess } = useGetEstudiantes(1);
   if (isError) {
     return (

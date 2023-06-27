@@ -5,12 +5,14 @@ import { Navbar } from './navbar';
 import { Sidebar } from './sidebar';
 import { Footer } from './footer';
 
+
 const LayoutRoot = styled('div')(({ theme }) => ({
   display: 'flex',
   flex: '1 1 auto',
   maxWidth: '100%',
   paddingTop: 64,
 }));
+//checar si el rol es el adecuado
 
 export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);

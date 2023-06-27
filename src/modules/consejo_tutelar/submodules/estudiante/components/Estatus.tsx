@@ -8,7 +8,6 @@ export default function Estatus({ matricula }: { matricula: number }) {
     useGetEstudianteCTEstatus(matricula);
   if (isLoading) <CircularProgress />;
   if (error) <Alert severity="error">No se pudo cargar el estatus</Alert>;
-  console.log(data);
   return (
     <>{isSuccess && <EstatusProcesoCT estatus={data[0] ? data[0].Estatus.Leyenda : ""} />}</>
   );

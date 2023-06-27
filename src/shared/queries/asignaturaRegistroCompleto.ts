@@ -84,6 +84,7 @@ export function useGetAsignaturaRegistroCompleto(IdMateriasOfertaAnual: number) 
           Asignatura: db12_MateriasOferataClave {      
             Datos: db12_ClaveMaterium {
               Clave
+              CategoriaMateria
               Nombre:db12_Materia{
                 Valor:NombreMateria
                 ObligatoriaOptativa

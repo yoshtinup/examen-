@@ -7,7 +7,6 @@ class RevisionCURPQuerys extends ApiQuerys {
   async getSolicitarRevisionCURP(): Promise<any> {
     
     const status = await this.api<{ data: DatosMessage }>(`solicitarRevisionCURP`);
-    console.log(status);
     return status;
     
   }

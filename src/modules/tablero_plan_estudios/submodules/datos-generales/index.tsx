@@ -44,7 +44,7 @@ import { MessageSnackbar } from "@shared/components/layouts/messaAlert";
 import { number } from "yup";
 import { WithRolCheck} from '@shared/hooks';
 import Roles from '@definitions/Roles';
-
+import { CheckCircle } from '@mui/icons-material';
 
 const DatosGenerales = (props:any) => {
   const matricula = props.matricula;
@@ -54,7 +54,6 @@ const DatosGenerales = (props:any) => {
     registrationUser= Number(matricula);
   }else{
     registrationUser=user.estudiante.matricula;
-   
   }
   //checar si el rol es el adecuado
   const rol = WithRolCheck(Roles.Estudiante);
@@ -143,7 +142,7 @@ const DatosGenerales = (props:any) => {
                   }
                 </Typography>
               }
-              secondary={<>Ingresó al Posgrado el {formatoFecha(userInfo.FechaDeIngresoAlPosgrado)} - <b>{userInfo.Estatus}</b></>}
+              secondary={<>Ingresó al Posgrado: {formatoFecha(userInfo.FechaDeIngresoAlPosgrado)} - <b>{userInfo.Estatus}</b></>}
             />
           </ListItem>
         </List>
@@ -194,13 +193,10 @@ const TutoresSinodales = (props:any) => {
           <>
             {TS.ConsejoTutelar.map((item, i) =>
               <ItemTS key={i}
-                elemento={
-                  item.Persona.nombre + " " +
-                  item.Persona.ApellidoPaterno + " " +
-                  item.Persona.ApellidoMaterno +
-                  (item.Persona.Email && " (" +item.Persona.Email + ")") + " - " +
-                  generoNivelPart[item.Nivel.IdParticipacion][item.Persona.IdGenero-1]
-                }
+                elemento={<>
+                  {item.Persona.nombre}{' '}{item.Persona.ApellidoPaterno}{' '}{item.Persona.ApellidoMaterno}{item.Persona.Email && `(${item.Persona.Email})`} -{' '}
+                 <span style={{color:'#666'}}> { generoNivelPart[item.Nivel.IdParticipacion][item.Persona.IdGenero-1] }</span>
+                 </>}
               />
             )}
           </>
@@ -210,10 +206,10 @@ const TutoresSinodales = (props:any) => {
         {(TS && TS.ConformacionCT && TS.ConformacionCT.length > 0)
           ?
           <ItemTS
-            icono={<ErrorIcon style={{color:"red"}}/>}
+            icono={TS.ConformacionCT[0].Catalogo.Estatus!='Aprobado'?<ErrorIcon style={{color:"red"}}/>:<CheckCircle style={{color:"green"}}/>}
             elemento={TS.ConformacionCT[0].Catalogo.Estatus}
             secondaryAction={
-              <Button onClick={() => {window.location.href = `/consejo_tutelar/${matricula}`}} variant="contained">Ver</Button>
+              <Button onClick={() => {show?window.location.href = `/consejo_tutelar`:window.location.href = `/consejo_tutelar/${matricula}`}} variant="contained">Ver</Button>
             }
           />
           :
@@ -285,10 +281,8 @@ const ActualizarCorreo = (props:any) => {
   }, [isSuccess, isError])
   return (
     <div>
-      <Link>
-      <Button onClick={handleClickOpen}>
+      <Link href="https://" onClick={handleClickOpen}>
         Actualizar
-      </Button>
       </Link>
       <Dialog
         open={open}
@@ -332,7 +326,7 @@ function formatoFecha(date:string){
     "Septiembre",
     "Octubre",
     "Noviembre",
-    "Diciaembre"
+    "Diciembre"
   ];
   const fecha = new Date(Date.parse(date));
   return fecha.getDate() + " de " + meses[fecha.getMonth()] + " del " + fecha.getFullYear();
@@ -368,7 +362,7 @@ const Modal = props => {
   const btnAcept = props.btnTextAcept;
   const btnCancel = props.btnTextCancel;
   return (<>
-    <Link aria-disabled={true}><a style={{cursor:"pointer"}} onClick={handleSubmit}> Solicitar Corrección</a>
+    <Link aria-disabled={true}><a style={{cursor:"pointer"}} onClick={handleSubmit}> Solicitar corrección</a>
     {openModal && <Dialog
       open={open}
       fullWidth={false}

@@ -8,7 +8,7 @@ const updateHeader = request => {
     Authorization: 'Bearer ' + Cookies.get('ecosurToken'),
     'Content-Type': 'application/json',
   };
-  console.log('Token',headerCEI.Authorization);
+  //console.log('Token',headerCEI.Authorization);
   request.headers = headerCEI;
   return request;
 };

@@ -22,9 +22,6 @@ export const TableSeminariosEnProcesoWithoutFetch: React.FC<{ seminarios: EnProc
   }
   const handleClick = (id: number, estatus: number, comentario: string) => {
     setOpen(false);
-    console.log(id);
-    console.log(estatus);
-    console.log(comentario);
   };
   const [open, setOpen] = React.useState<boolean>(false);
   const [estatusDescription, setEstatusDescription] = React.useState<Persona>(personaInfo);
@@ -81,7 +78,7 @@ export const TableSeminariosEnProcesoWithoutFetch: React.FC<{ seminarios: EnProc
           <Grid container sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', bgcolor: 'background.default', pb: 2, pt: 1.8 }}>                
             <Grid item>
                 {/* FIX ME: Agregar endpoint para las notificaciones específicas */}
-              <Button variant='contained' size='small' onClick={() => console.log(JSON.stringify(selectedRows))}>Enviar recordatorio a seleccionados</Button>
+              <Button variant='contained' size='small' onClick={() => {}}>Enviar recordatorio a seleccionados</Button>
             </Grid>     
           </Grid>  
         :

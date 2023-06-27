@@ -22,7 +22,11 @@ const Home = ({matricula}) => {
     <>
       <EstudiantePage /> 
       <PersonalPage />     
-    {matricula==undefined?<ServiciosEscolaresPage />: <Estudiante matricula={matricula} />}
+      {matricula==undefined ? (
+        <ServiciosEscolaresPage />
+      ) : (
+        <Estudiante matricula={matricula} />
+      )}
     </>
   );
 };

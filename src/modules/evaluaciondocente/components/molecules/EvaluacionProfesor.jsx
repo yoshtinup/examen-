@@ -91,7 +91,6 @@ const EvaluacionProfesor = ({ profesor }) => {
       confirmButtonText: 'Sí, quiero eliminarlo',
     }).then(async result => {
       if (result.isConfirmed) {
-        console.log(profesor.idProfesores);
         const profesoresFilter = profesores.map(profe => {
           if (profe.idProfesores == profesor.idProfesores) {
             const { respuestas, ...newProfesor } = profesor;
@@ -102,7 +101,6 @@ const EvaluacionProfesor = ({ profesor }) => {
         setProfesores(profesoresFilter);
         setButtonEliminar(false);
         setButtonName(false);
-        console.log(profesoresFilter);
         Swal.fire({
           position: 'center',
           icon: 'success',

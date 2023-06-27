@@ -6,7 +6,6 @@ class SeminarioInvestigacion extends ApiQuerys {
         const actividades = await this.api<{data: any}>(
             `ObtenerDatosEvaluacionSeminarios/${idAlumnoMateria.toString()}`
         )
-        console.log(actividades)
         return actividades
     }
 

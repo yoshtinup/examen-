@@ -127,10 +127,8 @@ const [estudiante, setEstudiante] = useState<Inscripcion[]>([]);
   }
   useEffect(() => {
     if (isSuccess) {
-      console.log('pasando');
       const nuevosEstudiantes = data; // Guardar los nuevos datos en una variable temporal
       setEstudiante(nuevosEstudiantes); // Actualizar el estado estudiante con los nuevos datos
-      console.log(nuevosEstudiantes);
     }
   }, [isSuccess, data]);
   
@@ -345,7 +343,7 @@ export const TableEstudiantesCancelados = props => {
     return <CircularProgress />;
   }
   if (dataEstudiantes.isSuccess) {
-    console.log('sepudo por siempre')
+    //console.log('sepudo por siempre')
   }
 
   if (isError) {

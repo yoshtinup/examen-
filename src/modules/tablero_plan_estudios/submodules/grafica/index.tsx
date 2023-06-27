@@ -13,8 +13,6 @@ const GraficaCursos = (props) => {
   const matriculaEstudiante=props.matricula;
   const user: EcosurAuth = useRecoilValue(userStateAtom);
   const {data, error, isLoading}= useGetCursosAlumno(matriculaEstudiante);
-  console.log('mis datos grafica')
-  console.log(data);
   const arrayCursos: CursosAlumnoGql = getCursosEstudiante(data?.Cursos);
   if(isLoading){
     return <>Cargando</>;

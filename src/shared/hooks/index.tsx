@@ -42,7 +42,6 @@ export function showLoading(msg: string) {
 
 export const WithRolCheck =
   (rol: Roles) =>(any)=> {
-    console.log('cheq')
     const currentRol: Roles = useRecoilValue(rolStateAtom);
     if (currentRol === rol) {
       return true;
