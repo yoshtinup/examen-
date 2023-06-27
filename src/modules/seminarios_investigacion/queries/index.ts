@@ -10,13 +10,20 @@ export function useGetDataInfo(idEvaluacion: number) {
           dataID:db12_Seminarios_Evaluaciones(where:{IdSeminarios_Evaluaciones:{_eq:$idEvaluacion}}){
           alumno:db12_AlumnosMateria{
             Matricula
+            MOC:db12_MateriasOferataClave{
+              MOA:db12_MateriasOferataAnual{
+                Materia:db12_Materia{
+                  NombreMateria
+                }
+              }
+            }
           }
           estatus:db12_Seminarios_CatalogoEstatus{
             value:Descripcion
           }        
             IdAlumnosMaterias   
           }
-        }       
+        }
       `,
       { idEvaluacion }
     );

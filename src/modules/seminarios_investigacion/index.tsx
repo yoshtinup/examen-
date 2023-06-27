@@ -118,10 +118,6 @@ export const DetallesSeminarioWithoutFetch: React.FC<{ dataID: DataID[], idEvalu
 const DetallesSeminarioInvestigacion: React.FC<{
   idEvaluacionSeminario: number;
 }> = ({ idEvaluacionSeminario: idEvaluacionSeminario }) => {
-  const router = useRouter();
-  const handleClickRow = () => {
-    router.push(`/seminarios_investigacion`);
-  };
   const { data, isError, isLoading, isSuccess } = useGetDataInfo(idEvaluacionSeminario);
   if (isError)
     return (
@@ -133,17 +129,13 @@ const DetallesSeminarioInvestigacion: React.FC<{
   let dataID: DataID[];
   if (isSuccess) {
     dataID = data;
+    console.log(data);
   }
   return (
     <Layout>
       <Container maxWidth="xl" style={{ paddingTop: '30px' }}>
         <Box key={`ecosur-evaluacion-seminario-investigacion`} sx={{ border: 0 }}>
-          <HeaderSection label='Seguimiento de EVALUACIÓN DE SEMINARIOS DE INVESTIGACIÓN' />
-          <Grid container sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
-            <Grid item sx={{ pr: 2, pb: 2 }}>
-              <Button variant='contained' sx={{ mr: 1 }} size='medium' onClick={handleClickRow}>Regresar</Button>
-            </Grid>  
-          </Grid>   
+          <HeaderSection label={'EVALUACIÓN: ' + dataID[0].alumno.MOC.MOA.Materia.NombreMateria} />
           <DetallesSeminarioWithoutFetch dataID={dataID} idEvaluacionSeminario={idEvaluacionSeminario} />
         </Box>
       </Container>

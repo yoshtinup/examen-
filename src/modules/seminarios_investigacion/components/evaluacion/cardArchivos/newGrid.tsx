@@ -32,7 +32,7 @@ export const NewGridCardArchivos = ({
                         </Button>
                         :
                         <Button target='_blank' sx={{ textTransform: 'none' }} color='info' variant="outlined" startIcon={<Link />}
-                        href={`https://serviciosposgrado.ecosur.mx/apiwebposgradoalumnos/Content/Cursos/EvaluacionSeminarios/`}>
+                        href={`https://serviciosposgrado.ecosur.mx/apiwebposgradoalumnos/Content/Cursos/EvaluacionSeminarios/${archivo.NombreArchivo_Acta}`}>
                         Acta del seminario
                         </Button>
                       :
