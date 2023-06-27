@@ -44,7 +44,7 @@ import { MessageSnackbar } from "@shared/components/layouts/messaAlert";
 import { number } from "yup";
 import { WithRolCheck} from '@shared/hooks';
 import Roles from '@definitions/Roles';
-
+import { CheckCircle } from '@mui/icons-material';
 
 const DatosGenerales = (props:any) => {
   const matricula = props.matricula;
@@ -194,13 +194,10 @@ const TutoresSinodales = (props:any) => {
           <>
             {TS.ConsejoTutelar.map((item, i) =>
               <ItemTS key={i}
-                elemento={
-                  item.Persona.nombre + " " +
-                  item.Persona.ApellidoPaterno + " " +
-                  item.Persona.ApellidoMaterno +
-                  (item.Persona.Email && " (" +item.Persona.Email + ")") + " - " +
-                  generoNivelPart[item.Nivel.IdParticipacion][item.Persona.IdGenero-1]
-                }
+                elemento={<>
+                  {item.Persona.nombre}{' '}{item.Persona.ApellidoPaterno}{' '}{item.Persona.ApellidoMaterno}{item.Persona.Email && `(${item.Persona.Email})`} -{' '}
+                 <span style={{color:'#666'}}> { generoNivelPart[item.Nivel.IdParticipacion][item.Persona.IdGenero-1] }</span>
+                 </>}
               />
             )}
           </>
@@ -210,10 +207,10 @@ const TutoresSinodales = (props:any) => {
         {(TS && TS.ConformacionCT && TS.ConformacionCT.length > 0)
           ?
           <ItemTS
-            icono={<ErrorIcon style={{color:"red"}}/>}
+            icono={TS.ConformacionCT[0].Catalogo.Estatus!='Aprobado'?<ErrorIcon style={{color:"red"}}/>:<CheckCircle style={{color:"green"}}/>}
             elemento={TS.ConformacionCT[0].Catalogo.Estatus}
             secondaryAction={
-              <Button onClick={() => {window.location.href = `/consejo_tutelar/${matricula}`}} variant="contained">Ver</Button>
+              <Button onClick={() => {show?window.location.href = `/consejo_tutelar`:window.location.href = `/consejo_tutelar/${matricula}`}} variant="contained">Ver</Button>
             }
           />
           :
