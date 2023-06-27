@@ -20,8 +20,6 @@ const router = useRouter();
     { field: 'opciones', headerName: 'Opciones', sortable: false, width: 120,
       renderCell: (params) => {
         const handleClickRow = () => {
-          console.log(params.id);
-          
           router.push(`/seminarios_investigacion/${params.id}`);
         };
               

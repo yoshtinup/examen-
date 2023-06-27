@@ -53,7 +53,7 @@ const GenericModActionButtons: React.FC<ActionButtonsProps> = ({
       }
 
       if (response.status == 204) {
-        console.log('reset');
+        //console.log('reset');
       }
     });
   };

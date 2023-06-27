@@ -56,7 +56,6 @@ export class ConformacionCT {
   integrantesEstanCompletos() {
     const numbIntegrantes =
       this._internosItems.length + this._externosItems.length;
-    console.log(numbIntegrantes == this._validador.maximoIntegrantes);
     return numbIntegrantes == this._validador.maximoIntegrantes;
   }
 

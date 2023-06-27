@@ -386,7 +386,6 @@ const SendCancelInscription = ({ onData, IdBoletasIncripciones }) => {
     onData(false);
     setOpen(false);
   };
-  console.log(IdBoletasIncripciones);
   const { data, error, isLoading, isSuccess } = useQuery(
     'cancelar-inscripcion',
     async () =>

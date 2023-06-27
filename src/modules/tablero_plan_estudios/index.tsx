@@ -28,7 +28,6 @@ const TableroPlanEstudios = (props) => {
   //checar si el rol es el adecuado
   const rol = WithRolCheck(Roles.Estudiante);
   const show = rol(null);
-  console.log(show)
 
   if(matricula!=undefined){
     registrationUser=Number(matricula);
@@ -40,7 +39,6 @@ const TableroPlanEstudios = (props) => {
   );
   const procesoCambio = useGetProcesoCambioPlanEstudios(registrationUser);
   const cursos = data?.Cursos;
-  const dataResponse = useGetCursosAlumno(202221003);
   let proceso = true;
 
   if (isLoading) {
@@ -51,11 +49,7 @@ const TableroPlanEstudios = (props) => {
   }
   if (procesoCambio.data?.length > 0) {
     proceso = false;
-   
   }
-
-  
-
   const tabCursos = [
     {
       titulo: 'Asignaturas',
@@ -131,8 +125,11 @@ const MyCard = props => {
         </Typography>
         <Typography variant="body2" sx={{ mb: 0.1, fontSize: 9, padding: 0 }}>
         {data.map(element => (
-          '*'+element.Materia.curso.CursoSeminario+' ('+element.Estatus.Descripcion+')' 
-        ))}<br/> 
+          <>
+          {'*'+element.Materia.curso.CursoSeminario+' ('+element.Estatus?.Descripcion+')'}
+          <br />
+          </>
+        ))}
         </Typography>
           
       </CardContent>

@@ -118,7 +118,6 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{
   };
   const handleCloseModal = () => setIsOpen(false);
   const handleDataFromChild = data => {
-    console.log(data);
     setSend(data);
   };
   const handleSendReminder =(idBoletaInscripcion)=>{
@@ -266,9 +265,6 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{
 
   const handleClick = (id: number, estatus: number, comentario: string) => {
     setOpen(false);
-    console.log(id);
-    console.log(estatus);
-    console.log(comentario);
   };
   const [open, setOpen] = React.useState<boolean>(false);
   const handleClose = () => {
@@ -397,7 +393,6 @@ const SendCancelInscription=({onData,IdBoletasIncripciones})=>{
     onData(false);
     setOpen(false);
   };
- console.log(IdBoletasIncripciones)
   const { data, error, isLoading,isSuccess} = useQuery(
     'cancelar-inscripcion',
     async () => await apiInscripciones.getCancelarInscricion(IdBoletasIncripciones),
@@ -457,9 +452,6 @@ const SendReminderAll=({onData})=>{
     }
   }, [isLoading]);
 
-  console.log('enviar re All')
-  console.log(data)
-  console.log(isFetched)
   let setMessage = data?.message;
 
   if (showProgress)
@@ -474,12 +466,10 @@ const SendReminderAll=({onData})=>{
     );
 
   if (error){
-    console.log('1')
     return (
       <MessageSnackbar onOpen={open} autoDuration={3000} close={handleClickFalse} message={"No se pudo generar la solicitud"} txtSeverity={"error"}/>
     );}
   if (isSuccess) {
-    console.log('2')
     return (<>
     <>Hola</>
       <MessageSnackbar onOpen={open} autoDuration={3000} close={handleClickFalse} message={setMessage} txtSeverity={"success"}/>
@@ -487,7 +477,6 @@ const SendReminderAll=({onData})=>{
     );
     
   } else {
-    console.log('3')
     return (
       <MessageSnackbar onOpen={open} autoDuration={3000} close={handleClickFalse} message={setMessage} txtSeverity={"warning"}/>
     );
@@ -495,7 +484,6 @@ const SendReminderAll=({onData})=>{
   }
 }
 const SendReminder=({onData,IdBoletasIncripciones})=>{
-  console.log(IdBoletasIncripciones)
   const [open, setOpen] = useState(true);
   const handleClickFalse = () => {
     onData(false);
@@ -509,8 +497,6 @@ const SendReminder=({onData,IdBoletasIncripciones})=>{
       staleTime: 10000,
     }
   );
-  console.log('enviar re 1')
-  console.log(data)
   let setMessage = data?.message;
 
   if (isLoading)

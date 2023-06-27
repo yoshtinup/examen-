@@ -25,10 +25,9 @@ const Page = ({matricula}) => {
     </Container>
   );
 };
-console.log(Page.getInitialProps)
 Page.getInitialProps = ({ query }) => {
   return { matricula: query.matricula };
- };
+};
 
 Page.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
