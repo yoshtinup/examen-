@@ -60,7 +60,7 @@ export function getDataCardCSPendiente(CS:CSGql, currentRol:Roles, Inscribirse:a
 }
 
 export function getDataCardCSEnProceso(CS:CSGql, currentRol:Roles, Inscribirse:any){
-  const idBoletasIncripciones = CS.BoletaInscripcion.IdBoletasIncripciones;
+  const idBoletasIncripciones = CS.BoletaInscripcion?.IdBoletasIncripciones;
   let data:CardListType = ItemsComunes(CS);
   let Enlaces:CardListItemChildrens = ItemWithChildrens("Enlaces", true);
   let Cursos:CardListItemChildrens = ItemWithChildrens("Asignaturas", true);

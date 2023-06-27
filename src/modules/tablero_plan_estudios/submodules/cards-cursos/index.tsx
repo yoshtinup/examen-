@@ -77,8 +77,7 @@ const CardsCursos = (props: any) => {
   const [razonCambioAsignatura, setRazonCambioAsignatura] = useState('');
   const [error, setError] = useState(false);
   const [errorSelect, setErrorSelect] = useState(false);
-  console.log(idMateria);
-  //cualquier cambio dentro del textfield
+
   const handleChangeTextField = (event, numModal) => {
     if (numModal === 1) {
       setRazonBajaAsignatura(event.target.value);
@@ -153,12 +152,30 @@ const CardsCursos = (props: any) => {
             </Grid>
             {arrayCursos?.EnProceso?.map((curso: CursoGql, i) => (
               <Grid key={i} item xs={12} sm={6} md={4} lg={3}>
-                <CardList data={getDataCardCursoEnProceso(curso, currentRol)} />
+                <CardList
+                  data={getDataCardCursoEnProceso(
+                    curso,
+                    currentRol,
+                    setOpenBM,
+                    setOpenCM,
+                    setIdMateria,
+                    procesoCambio
+                  )}
+                />
               </Grid>
             ))}
             {arrayCursos?.Pendientes?.map((curso: CursoGql, i) => (
               <Grid key={i} item xs={12} sm={6} md={4} lg={3}>
-                <CardList data={getDataCardCursoPendiente(curso, currentRol)} />
+                <CardList
+                  data={getDataCardCursoPendiente(
+                    curso,
+                    currentRol,
+                    setOpenBM,
+                    setOpenCM,
+                    setIdMateria,
+                    procesoCambio
+                  )}
+                />
               </Grid>
             ))}
           </>
@@ -182,16 +199,7 @@ const CardsCursos = (props: any) => {
             </Grid>
             {arrayCursos?.Finalizados?.map((curso: CursoGql, i) => (
               <Grid key={i} item xs={12} sm={6} md={4} lg={3}>
-                <CardList
-                  data={getDataCardCursoFinalizado(
-                    curso,
-                    currentRol,
-                    setOpenBM,
-                    setOpenCM,
-                    setIdMateria,
-                    procesoCambio
-                  )}
-                />
+                <CardList data={getDataCardCursoFinalizado(curso, currentRol)} />
               </Grid>
             ))}
           </>
@@ -202,7 +210,7 @@ const CardsCursos = (props: any) => {
         titulo="Baja de asignatura"
         elemento={
           <DialogContentText id="alert-dialog-description">
-            Escriba la razón de baja para la asignatura y haga clic en el botón{' '}
+            Escriba la razón de baja de la asignatura y haga clic en el botón{' '}
             <strong>Dar de baja</strong>. Se notificará a su director/a de tesis
             para que revise y autorice el cambio.
             <br />

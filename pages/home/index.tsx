@@ -10,6 +10,7 @@ import Roles from '@definitions/Roles';
 const Header = WithRol(Roles.Servicios_Escolares)(
  ()=> HeaderSection({label:"Servicios Escolares",shadow:false})
 );
+
 const Page = ({matricula}) => {
   ;
   return (
@@ -25,10 +26,10 @@ const Page = ({matricula}) => {
     </Container>
   );
 };
-console.log(Page.getInitialProps)
+
 Page.getInitialProps = ({ query }) => {
   return { matricula: query.matricula };
- };
+};
 
 Page.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;

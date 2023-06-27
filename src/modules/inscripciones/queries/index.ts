@@ -100,7 +100,6 @@ export function useGetEstudiantesInscritosCancelados(idCatalogoEstatusInscripcio
   query= `where: {IdCatalogoEstatusInscripciones: {_eq: ${idCatalogoEstatusInscripciones}}}, order_by:{IdBoletasIncripciones: desc}, limit:500`;
  }
   
-  console.log(query);
   return useQuery([`inscritoscancelados-info`], async () => {
     const {data, refetch} = await hasuraClient.request(
       gql`
@@ -144,7 +143,6 @@ export function useGetEstudiantesInscritosCancelados(idCatalogoEstatusInscripcio
       { }
     );
     // console.log('MIS DATOS DB')
-     console.log(data)
     // console.log(new Date);
    
     return data;

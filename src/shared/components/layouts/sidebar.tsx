@@ -11,6 +11,13 @@ import {
 } from '@mui/material';
 import Icon from '@mui/icons-material/Window';
 import { NavItem } from './nav-item';
+import { WithRol } from '@shared/hooks';
+import Roles from '@definitions/Roles';
+import { WithRolCheck } from '@shared/hooks';
+import { bool, boolean } from 'yup';
+const Hola=()=>{
+  return(<><h1>Hola</h1></>)
+}
 
 type ItemsNav = {
   href: string;
@@ -18,7 +25,9 @@ type ItemsNav = {
   title: string;
 };
 
+const Header = WithRol(Roles.Estudiante)(Hola);
 const items: ItemsNav[] = [
+ 
   {
     href: '/consejo_tutelar',
     icon: <Icon />,
@@ -45,6 +54,8 @@ const items: ItemsNav[] = [
   },
 ];
 
+
+
 type SidebarProps = {
   onClose: () => void;
   open: boolean;
@@ -56,7 +67,9 @@ export const Sidebar: FC<SidebarProps> = ({ open, onClose }) => {
     defaultMatches: true,
     noSsr: false,
   });
-
+  const rol = WithRolCheck(Roles.Servicios_Escolares);
+  const show= rol(null);
+  console.log(show)
   useEffect(
     () => {
       if (!router.isReady) {
@@ -93,10 +106,16 @@ export const Sidebar: FC<SidebarProps> = ({ open, onClose }) => {
           </NextLink>
         </Box>
       </div>
-
-      <Box sx={{ flexGrow: 1 }}>
-        
-        {items.map((item: ItemsNav) => (
+      
+      <Box sx={{ flexGrow: 1 }}> 
+   <NavItem
+  key={'Página principal'}
+  icon={<Icon />}
+  href={'/home'}
+  title={open ? 'Página principal' : ''}
+  
+/> 
+      {show && items.map((item: ItemsNav) => (
           
           <NavItem
             key={item.title}

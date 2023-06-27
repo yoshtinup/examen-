@@ -40,7 +40,6 @@ export function NumeraliaGraficaCurso(props:any){
   const cursos:CursosAlumnoGql = props.data;
   const {TotalDeCreditosCubiertos, TotalDeCreditos} = props.dataCredit[0]?props.dataCredit[0]:0;
   const creditosPendientes = TotalDeCreditos-TotalDeCreditosCubiertos;
-  console.log(props.data2)
   let sumatoria = 0;
   let elementos = 0;
   let creditosCub = 0;
