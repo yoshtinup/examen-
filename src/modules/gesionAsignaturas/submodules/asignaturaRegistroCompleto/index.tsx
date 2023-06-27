@@ -10,13 +10,18 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
   Typography,
 } from '@mui/material';
 import { useRecoilValue } from 'recoil';
 import { useGetInformacionCompletaAsignatura } from '../../queries/index';
+import { format } from 'date-fns';
+import TableStudents from './components/tableStuents';
+import {
+  TableEstudiantesPrograma,
+  TableEstudiantesProgramaWithoutFetch,
+} from '@modules/estudiantes/components/tableSeminarios/programa/tablaEstudiantePrograma';
 
 const style = {
   padding: '30px',
@@ -25,6 +30,7 @@ const style = {
 
 const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
   const currentRol: Roles = useRecoilValue(rolStateAtom);
+
   if (currentRol != Roles.Servicios_Escolares) {
     return <>Sin permisos de acceso</>;
   }
@@ -55,7 +61,7 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
             <Grid container spacing={4}>
               <Grid item md={8} xs={12}>
                 <h4>Datos del curso</h4>
-                <Box>
+                <Box sx={{ backgroundColor: '#f5f5f5', padding: '5px' }}>
                   <Stack
                     direction="row"
                     justifyContent="flex-start"
@@ -71,13 +77,19 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                     <div>
                       <p>
                         <strong>Fecha de inicio:</strong>{' '}
-                        {data.Datos.Fechas.FechaInicioAsignatura}
+                        {format(
+                          new Date(data.Datos.Fechas.FechaInicioAsignatura),
+                          'dd/MM/yyyy'
+                        )}
                       </p>
                     </div>
                     <div>
                       <p>
                         <strong>Fecha de finalizacion:</strong>{' '}
-                        {data.Datos.Fechas.FechaFinAsignatura}
+                        {format(
+                          new Date(data.Datos.Fechas.FechaFinAsignatura),
+                          'dd/MM/yyyy'
+                        )}
                       </p>
                     </div>
                     <div>
@@ -91,7 +103,7 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
               </Grid>
               <Grid item md={4} xs={12}>
                 <h4>Estatus de los procesos</h4>
-                <Box>
+                <Box sx={{ backgroundColor: '#f5f5f5', padding: '5px' }}>
                   <Table size="small">
                     <TableHead>
                       <TableRow>
@@ -105,11 +117,6 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                         <TableCell>
                           Districución de porcentaje de participación
                         </TableCell>
-                        <TableCell></TableCell>
-                        <TableCell></TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>Evaluación de seminario</TableCell>
                         <TableCell>
                           {data.EstatusRegistroDocentes == null
                             ? ''
@@ -122,6 +129,11 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                             ? 'Enviar recordatorio'
                             : ''}
                         </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>Evaluación de seminario</TableCell>
+                        <TableCell></TableCell>
+                        <TableCell></TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell>Evaluación docente</TableCell>
@@ -157,7 +169,7 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
               </Grid>
               <Grid item md={12}>
                 <h4>Profesores del curso</h4>
-                <Box>
+                <Box sx={{ backgroundColor: '#f5f5f5', padding: '5px' }}>
                   <Table aria-label="simple table">
                     <TableHead>
                       <TableRow>
@@ -184,27 +196,16 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
               </Grid>
               <Grid item md={12}>
                 <h4>Estudiantes del curso</h4>
-                <Box>
-                  <Table aria-label="simple table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Nombre</TableCell>
-                        <TableCell>Matricula</TableCell>
-                        <TableCell>Evaluación docente realizada</TableCell>
-                        <TableCell>Evaluación de seminario</TableCell>
-                        <TableCell>Calificación</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell></TableCell>
-                        <TableCell></TableCell>
-                        <TableCell></TableCell>
-                        <TableCell></TableCell>
-                        <TableCell></TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
+                <Box
+                  sx={{
+                    backgroundColor: '#f5f5f5',
+                    padding: '5px',
+                    height: '400px',
+                  }}
+                >
+                  <TableEstudiantesProgramaWithoutFetch
+                    estudiantes={data.Alumnos.Listado}
+                  />
                 </Box>
               </Grid>
             </Grid>

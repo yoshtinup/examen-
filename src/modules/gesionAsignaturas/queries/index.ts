@@ -22,6 +22,27 @@ export function useGetInformacionCompletaAsignatura(idMOA: number) {
                 Descripcion
                 IdcatalogoEstatusRegistroDocentesPorcentajes
               }
+
+              Docentes: db17_Profesores {
+                IdProfesores
+                PorcentajeParticipacion
+                ConstanciaDeParticipacionDocente: db12_ConstanciasDeParticipacionDocente {
+                  URL
+                }
+                TipoDeParticipacion: db17_Participacion {
+                  IdParticipacion
+                  Value: Participacion
+                }
+                Nombre: db17_PersonalAcademico {
+                  Nombre_s_
+                  ApellidoMaterno
+                  ApellidoPaterno
+                  Email
+                  Unidad: db15_Unidad {
+                    Value: Unidad
+                  }
+                }
+              }
               ConcentradoCalificacionesAlumnos: NombreArchivoConcentrado
               EstatusAsignacionCalificacion: db12_CatalogoEstatusFirmado {
                 Nombre: Descripcion
