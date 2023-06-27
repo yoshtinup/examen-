@@ -106,7 +106,7 @@ export function getDataCardCursoEnProceso(curso:CursoGql, currentRol:Roles, baja
 function ItemsComunes(curso:CursoGql){
   return {
     Titulo: curso.NombreMateria,
-    Subtitulo: "Estatus: " + curso.Estatus,
+    Subtitulo: "Estatus: " + curso.Estatus + ", IDMOA: " + curso.IdMateriasOfertaAnual,
     Items: [
       {
         Titulo: curso.ObligatoriaOptativa + " - " + curso.PeriodoNombre,
@@ -181,13 +181,6 @@ function ItemsEnlaces(curso:CursoGql, Enlaces:CardListItemChildrens){
       redireccionamiento += "evaluacion/";
     }
     redireccionamiento += curso.EvaluacionSeminario.IdSeminarios_Evaluaciones;
-    Enlaces.Childrens.push(
-      ItemSimple(
-        "Evaluación seminario (" + curso.EvaluacionSeminario.SeminariosCatalogoEstatus.Descripcion + ")",
-        <InsertLinkIcon style={{color: '#1ab394'}} />,
-        RedirectFunction(redireccionamiento)
-      )
-    );
     if(curso.EvaluacionSeminario.SeminariosCatalogoEstatus.IdSeminarios_CatalogoEstatus == 4 &&
       curso.EvaluacionSeminario.url_one_drive && curso.EvaluacionSeminario.url_one_drive != "")
     {
@@ -199,6 +192,13 @@ function ItemsEnlaces(curso:CursoGql, Enlaces:CardListItemChildrens){
         )
       );
     }
+    Enlaces.Childrens.push(
+      ItemSimple(
+        "Evaluación seminario (" + curso.EvaluacionSeminario.SeminariosCatalogoEstatus.Descripcion + ")",
+        <InsertLinkIcon style={{color: '#1ab394'}} />,
+        RedirectFunction(redireccionamiento)
+      )
+    );
   }
   if(curso.EvaluacionDocentePendiente.length > 0
       && curso.EvaluacionDocentePendiente[0].MateriasSinEvaluar

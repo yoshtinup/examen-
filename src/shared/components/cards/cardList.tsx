@@ -61,7 +61,13 @@ export function CardList(props:any) {
                   fontWeight: 'bold',
                   letterSpacing: 0,
                 }}
-                secondary={data.Subtitulo}
+                secondary={
+                  data.Subtitulo.split(", ").map((item, i) =>
+                    <p key={i} style={{margin: '0'}}>
+                      {item} <br />
+                    </p>
+                  )
+                }
                 secondaryTypographyProps={{
                   fontSize: (FontSize.middle - 3),
                   fontWeight: 'medium',
