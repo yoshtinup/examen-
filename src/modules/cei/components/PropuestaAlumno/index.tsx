@@ -129,24 +129,20 @@ const PropuestaAlumno = () => {
   }
 
   return (
-    <Container fixed>
-      <Card>
-        <Box sx={{ width: '100%' }}>
-          <Typography component="div" variant="h5">
-            Información general
-          </Typography>
-          <Information alumnoInfo={alumnoInformation.current} />
-          <FormStructure
-            respuestas={alumnoInformation.current.preguntas}
-            sugerencias={alumnoInformation.current.sugerencias}
-            apelacion={alumnoInformation.current.apelacion}
-            status={alumno.status}
-            propuestasHistoricas={alumnoInformation.history}
-            documentos={alumnoInformation.current.documentos}
-          />
-        </Box>
-      </Card>
-    </Container>
+    <Box sx={{ width: '100%' }}>
+      <Typography component="div" variant="h5">
+        Información general
+      </Typography>
+      <Information alumnoInfo={alumnoInformation.current} />
+      <FormStructure
+        respuestas={alumnoInformation.current.preguntas}
+        sugerencias={alumnoInformation.current.sugerencias}
+        apelacion={alumnoInformation.current.apelacion}
+        status={alumno.status}
+        propuestasHistoricas={alumnoInformation.history}
+        documentos={alumnoInformation.current.documentos}
+      />
+    </Box>
   );
 };
 
