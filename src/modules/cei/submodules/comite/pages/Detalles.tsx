@@ -282,55 +282,53 @@ function Detalles() {
     return <h1>Usted no esta autorizado para visualizar esta propuesta</h1>;
 
   return (
-    <Container fixed>
-      <Card>
-        <Box sx={{ width: '100%' }}>
-          <Typography component="div" variant="h5">
-            Información general
-          </Typography>
-          <Information alumnoInfo={alumnoInformation.current} />
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'right',
-            }}
-          >
-            <AbPresidente />
-            <AbEvaluador />
-          </Box>
-          <Typography component="div" variant="h5">
-            Detalles de la propuesta
-          </Typography>
-          <Typography component="div" variant="h6">
-            {alumno.alumno.estatus}
-          </Typography>
-          <TwoTabs
-            tab1={{
-              label: 'Propuesta Actual',
-              component: (
-                <Propuesta
-                  key={alumnoInformation.current.idPropuesta}
-                  idFormularioRespuesta={alumnoInformation.current.idPropuesta}
-                  preguntas={alumnoInformation.current.preguntas}
-                  sugerencias={alumnoInformation.current.sugerencias}
-                  apelacion={alumnoInformation.current.apelacion}
-                  evaluadores={alumnoInformation.current.evaluadores}
-                />
-              ),
-            }}
-            tab2={{
-              label: 'Historico de propuestas',
-              component: (
-                <HistorialAccordion
-                  history={getHistoryFormat(alumnoInformation.history)}
-                />
-              ),
-            }}
-          />
-          <TableDocuments documents={documents} />
+    <Card sx={{ padding: '25px' }}>
+      <Box sx={{ width: '100%' }}>
+        <Typography component="div" variant="h5">
+          Información general
+        </Typography>
+        <Information alumnoInfo={alumnoInformation.current} />
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'right',
+          }}
+        >
+          <AbPresidente />
+          <AbEvaluador />
         </Box>
-      </Card>
-    </Container>
+        <Typography component="div" variant="h5">
+          Detalles de la propuesta
+        </Typography>
+        <Typography component="div" variant="h6">
+          {alumno.alumno.estatus}
+        </Typography>
+        <TwoTabs
+          tab1={{
+            label: 'Propuesta Actual',
+            component: (
+              <Propuesta
+                key={alumnoInformation.current.idPropuesta}
+                idFormularioRespuesta={alumnoInformation.current.idPropuesta}
+                preguntas={alumnoInformation.current.preguntas}
+                sugerencias={alumnoInformation.current.sugerencias}
+                apelacion={alumnoInformation.current.apelacion}
+                evaluadores={alumnoInformation.current.evaluadores}
+              />
+            ),
+          }}
+          tab2={{
+            label: 'Historico de propuestas',
+            component: (
+              <HistorialAccordion
+                history={getHistoryFormat(alumnoInformation.history)}
+              />
+            ),
+          }}
+        />
+        <TableDocuments documents={documents} />
+      </Box>
+    </Card>
   );
 }
 

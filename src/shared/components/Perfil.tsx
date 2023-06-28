@@ -15,7 +15,7 @@ export const PerfilWithoutFetch: React.FC<PerfilWithoutFetchProps> = ({
   infoExtra = {},
 }) => {
   const estudianteInfo = {
-    nombre: `${estudiante.Datos.Nombre}, ${estudiante.Datos.ApellidoPaterno} ${estudiante.Datos.ApellidoMaterno} (${estudiante.Datos.Email})`,
+    nombre: `${estudiante.Datos.Nombre}, ${estudiante.Datos.ApellidoPaterno} ${estudiante.Datos.ApellidoMaterno}`,
     programa: estudiante.Programa.NombreLargo,
     orientación: estudiante.Orientacion.Nombre,
     generación: estudiante.Generacion.Value,
