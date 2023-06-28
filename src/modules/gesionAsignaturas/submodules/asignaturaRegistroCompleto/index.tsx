@@ -17,7 +17,7 @@ import {
 import { useRecoilValue } from 'recoil';
 import { useGetInformacionCompletaAsignatura } from '../../queries/index';
 import { format } from 'date-fns';
-import TableStudents from './components/tableStuents';
+// import TableStudents from './components/tableStuents';
 import {
   TableEstudiantesPrograma,
   TableEstudiantesProgramaWithoutFetch,

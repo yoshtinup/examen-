@@ -8,7 +8,7 @@ import { WithRol, WithRoles } from '@shared/hooks';
 import Roles from '@definitions/Roles';
 
 const Header = WithRol(Roles.Servicios_Escolares)(
- ()=> HeaderSection({label:"Servicios Escolares",shadow:false})
+ ()=> HeaderSection({label:"GESTIÓN POR SERVICIOS ESCOLARES"})//,shadow:false
 );
 
 const Page = ({matricula}) => {
