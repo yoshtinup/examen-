@@ -16,9 +16,7 @@ import {
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import {
-  useGetEstudiantesPendientes,
-} from '../../queries';
+import { useGetEstudiantesPendientes } from '../../queries';
 import Modal from '../../../../shared/components/layouts/modal-inscripcion';
 import { Inscripcion, ProgramaUnidad } from '../../types';
 import moment from 'moment';
@@ -95,23 +93,20 @@ const SelectUnidad = (props: any) => {
   );
 };
 
-
-
 export const TableEstudiantesPendientesWithoutFetch: React.FC<{
   estudiantes: Inscripcion[];
   programas: ProgramaUnidad[];
   unidades: ProgramaUnidad[];
-}> = ({  unidades, programas, estudiantes }) => {
+}> = ({ unidades, programas, estudiantes }) => {
   const [programa, setPrograma] = useState<string>('Todos');
   const [unidad, setUnidad] = useState<string>('Todos');
   const [isOpen, setIsOpen] = useState(false);
   const [idBoleta, setIdBoleta] = useState();
   const [textModal, setTextModal] = useState('');
-  const [send, setSend]=useState(false);
-  const [sendReminder, setSendReminder]=useState(false);
-  
+  const [send, setSend] = useState(false);
+  const [sendReminder, setSendReminder] = useState(false);
 
-  const handleOpenModal = (idBoletaInscripcion,text) => {
+  const handleOpenModal = (idBoletaInscripcion, text) => {
     setIdBoleta(idBoletaInscripcion);
     setTextModal(text);
     setIsOpen(true);
@@ -120,37 +115,51 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{
   const handleDataFromChild = data => {
     setSend(data);
   };
-  const handleSendReminder =(idBoletaInscripcion)=>{
+  const handleSendReminder = idBoletaInscripcion => {
     setIdBoleta(idBoletaInscripcion);
     setSendReminder(true);
-  }
-  const handletSucces=(data)=>{
+  };
+  const handletSucces = data => {
     setSend(data);
     setSendReminder(data);
-  }
+  };
+
   const columns: GridColDef[] = [
     {
       field: 'estudiante',
       headerName: 'Estudiante',
-      width: 350,
-      renderCell: params => {
-        return (
-          <Grid sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography variant="body2">
-              {`${params.row.estudiante}`}
-            </Typography>
-          </Grid>
-        );
-      },
+      width: 200,
     },
-    { field: 'generacion', headerName: 'Generación', width: 120 },
-    { field: 'programa', headerName: 'Programa', width: 420 },
-    { field: 'unidad', headerName: 'Unidad', width: 260 },
-    { field: 'periodo', headerName: 'Periodo', width: 260 },
+    { field: 'generacion', headerName: 'Generación', width: 100 },
+    { field: 'programa', headerName: 'Programa', width: 200 },
+    { field: 'unidad', headerName: 'Unidad', width: 110 },
+    { field: 'periodo', headerName: 'Periodo', width: 120 },
     {
       field: 'periodoInscripcion',
       headerName: 'Periodo de inscripción',
-      width: 180,
+      renderHeader: () => {
+        return (
+          <>
+            <div
+              style={{ display: 'flex', flexDirection: 'column', width: 200 }}
+            >
+              <Typography
+                variant="subtitle2"
+                style={{ textAlign: 'center', fontWeight: 'bold' }}
+              >
+                Periodo de
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                style={{ textAlign: 'center', fontWeight: 'bold' }}
+              >
+                inscripción
+              </Typography>
+            </div>
+          </>
+        );
+      },
+      width: 120,
       renderCell: params => {
         return (
           <Grid sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -177,14 +186,18 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{
         const handleClick = () => {
           // FIX ME: Agregar enlace a endpoint para realizar notificaciones.
         };
-        
+
         return (
           <>
-          
             <Button
               size="small"
               variant="outlined"
-              onClick={()=>handleOpenModal(params.row.idBoletaInscripcion,'¿Está seguro/a de cancelar la inscripción?')}
+              onClick={() =>
+                handleOpenModal(
+                  params.row.idBoletaInscripcion,
+                  '¿Está seguro/a de cancelar la inscripción?'
+                )
+              }
               sx={{ marginRight: 1 }}
             >
               <Grid
@@ -194,16 +207,19 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{
                   alignItems: 'center',
                 }}
               >
-                <Typography variant="body2" style={{ fontSize: 10, textTransform: 'none' }}>
+                <Typography
+                  variant="body2"
+                  style={{ fontSize: 10, textTransform: 'none' }}
+                >
                   Cancelar <br /> inscripción
                 </Typography>
               </Grid>
             </Button>
-            
+
             <Button
               size="small"
               variant="outlined"
-              onClick={()=>handleSendReminder(params.row.idBoletaInscripcion)}
+              onClick={() => handleSendReminder(params.row.idBoletaInscripcion)}
               sx={{ marginLeft: 1 }}
             >
               <Grid
@@ -213,12 +229,14 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{
                   alignItems: 'center',
                 }}
               >
-                <Typography variant="body2" style={{ fontSize: 10, textTransform: 'none' }}>
+                <Typography
+                  variant="body2"
+                  style={{ fontSize: 10, textTransform: 'none' }}
+                >
                   Enviar <br /> recordatorio
                 </Typography>
               </Grid>
             </Button>
-            
           </>
         );
       },
@@ -226,7 +244,7 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{
   ];
   let rows = [];
   let estudiantesList: Inscripcion[] = estudiantes;
-  
+
   estudiantesList = estudiantes.filter(
     estudiante =>
       (programa == 'Todos'
@@ -234,8 +252,7 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{
         : estudiante.Alumno?.Programa.NombreLargo == programa) &&
       (unidad == 'Todos'
         ? estudiante.Alumno?.UnidadAdscripcion.value != unidad
-        : estudiante.Alumno?.UnidadAdscripcion.value == unidad) 
-     
+        : estudiante.Alumno?.UnidadAdscripcion.value == unidad)
   );
   estudiantesList.map((estudiante, index) =>
     rows.push({
@@ -252,14 +269,8 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{
       periodo: estudiante.FechasCuatri?.CuatrimestreSemestre,
       periodoInicioInscripcion: estudiante.FechasCuatri?.FechaInicioInscripcion,
       periodoFinInscripcion: estudiante.FechasCuatri?.FechaFinInscripcion,
-      matricula:estudiante.Alumno?.Matricula,
-      idBoletaInscripcion: estudiante.IdBoletasIncripciones
-      //seminario: estudiante.Alumno.Datos.Nombre_s_,
-      // clave: estudiante.Clave,
-      // creditos: estudiante.Creditos,
-      // periodoInicioCurso: estudiante.Iniciocurso,
-      // periodoFinCurso: estudiante.Fincurso,
-      // materia: estudiante.Materia
+      matricula: estudiante.Alumno?.Matricula,
+      idBoletaInscripcion: estudiante.IdBoletasIncripciones,
     })
   );
 
@@ -274,98 +285,123 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{
 
   return (
     <>
-    {send && idBoleta==null && <SendReminderAll onData={handletSucces}/>}
-        {send  && idBoleta!=null && <SendCancelInscription onData={handletSucces} IdBoletasIncripciones={idBoleta}/>}
-        {sendReminder  && idBoleta!=null && <SendReminder onData={handletSucces} IdBoletasIncripciones={idBoleta}/>}
-    <div style={{ height: 1200, width: '100%' }}>
-      <Modal 
-              isOpen={isOpen}
-              onClose={handleCloseModal}
-              onData={handleDataFromChild}
-              mensaje={textModal}
-            />
-       
-      <Grid
-        container
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          bgcolor: 'white',
-          pb: 2,
-          pt: 2,
-        }}
-      >
-        <Grid item sx={{ mr: 2, fontSize: 14 }}>
-          <b>Programa:</b>
-        </Grid>
-        <Grid item>
-          <SelectPrograma
-            estudiantes={estudiantes}
-            setPrograma={setPrograma}
-            programa={programa}
-            programas={programas}
-          />
-        </Grid>
-       
-        <Grid item sx={{ mr: 2, ml: 2 }}>
-          <b>Unidad:</b>
-        </Grid>
-        <Grid item>
-          <SelectUnidad
-            estudiantes={estudiantes}
-            setUnidad={setUnidad}
-            unidad={unidad}
-            unidades={unidades}
-          />
-        </Grid>
-      </Grid>
-      <Grid
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'right',
-          alignItems: 'center',
-          bgcolor: 'white',
-          pb: 1,
-          pt: 1,
-          pr: 5,
-        }}
-      >
-        
-        <Button
-          size="small"
-          variant="contained"
-          onClick={()=>handleOpenModal(null,'¿Esta seguro/a de enviar notificación a todas las personas estudiantes que tienen pendiente inscripción?')}
-          sx={{ marginRight: 1, marginLeft: 5 }}
+      {send && idBoleta == null && <SendReminderAll onData={handletSucces} />}
+      {send && idBoleta != null && (
+        <SendCancelInscription
+          onData={handletSucces}
+          IdBoletasIncripciones={idBoleta}
+        />
+      )}
+      {sendReminder && idBoleta != null && (
+        <SendReminder onData={handletSucces} IdBoletasIncripciones={idBoleta} />
+      )}
+      <div style={{ height: 1200, width: '100%' }}>
+        <Modal
+          isOpen={isOpen}
+          onClose={handleCloseModal}
+          onData={handleDataFromChild}
+          mensaje={textModal}
+        />
+
+        <Grid
+          container
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            bgcolor: 'white',
+            pb: 2,
+            pt: 2,
+          }}
         >
-            <Typography variant="body2" style={{ fontSize: 10, textTransform: 'none' }}>
+          <Grid item sx={{ mr: 2, fontSize: 14 }}>
+            <b>Programa:</b>
+          </Grid>
+          <Grid item>
+            <SelectPrograma
+              estudiantes={estudiantes}
+              setPrograma={setPrograma}
+              programa={programa}
+              programas={programas}
+            />
+          </Grid>
+
+          <Grid item sx={{ mr: 2, ml: 2 }}>
+            <b>Unidad:</b>
+          </Grid>
+          <Grid item>
+            <SelectUnidad
+              estudiantes={estudiantes}
+              setUnidad={setUnidad}
+              unidad={unidad}
+              unidades={unidades}
+            />
+          </Grid>
+        </Grid>
+        <Grid
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'right',
+            alignItems: 'center',
+            bgcolor: 'white',
+            pb: 1,
+            pt: 1,
+            pr: 5,
+          }}
+        >
+          <Button
+            size="small"
+            variant="contained"
+            onClick={() =>
+              handleOpenModal(
+                null,
+                '¿Esta seguro/a de enviar notificación a todas las personas estudiantes que tienen pendiente inscripción?'
+              )
+            }
+            sx={{ marginRight: 1, marginLeft: 5 }}
+          >
+            <Typography
+              variant="body2"
+              style={{ fontSize: 10, textTransform: 'none' }}
+            >
               Enviar recordatorio
               <br /> a todos
             </Typography>
-        </Button>
-      </Grid>
-      <DataGrid
-        sx={{ pb: 19 }}
-        rows={rows}
-        columns={columns}
-        disableColumnMenu
-        components={{
-          Toolbar: CustomToolbar,
-          Footer: CustomFooter,
-          NoRowsOverlay: CustomNoRowsOverlay,
-        }}
-        componentsProps={{
-          footer: { counter: rows.length, label: 'Estudiantes:' },
-        }}
-        onSelectionModelChange={ids => {
-          const selectedIDs = new Set(ids);
-          const selectedRows = rows.filter(row => selectedIDs.has(row.id));
-          setSelectedRows(selectedRows);
-        }}
-      />
-    </div></>
+          </Button>
+        </Grid>
+        <DataGrid
+        
+          // rowHeight={100}
+          sx={{ pb: 19 }}
+          rows={rows}
+          columns={columns}
+          disableColumnMenu
+          components={{
+            Cell: ({ value }) => (
+              <div style={{overflowWrap: 'anywhere',
+              wordWrap: 'normal',
+              wordBreak: 'normal',
+              whiteSpace: 'pre-line', }}>
+                {value}
+              </div>
+            ),
+            Toolbar: CustomToolbar,
+            Footer: CustomFooter,
+            NoRowsOverlay: CustomNoRowsOverlay,
+          }}
+          componentsProps={{
+            footer: { counter: rows.length, label: 'Estudiantes:' },
+          }}
+          onSelectionModelChange={ids => {
+            const selectedIDs = new Set(ids);
+            const selectedRows = rows.filter(row => selectedIDs.has(row.id));
+            setSelectedRows(selectedRows);
+          }}
+        />
+      </div>
+    </>
   );
 }; // TableEstudiantesPendientesWithoutFetch
 
@@ -387,15 +423,16 @@ function setProgramasList(estudiantes: Inscripcion[]): ProgramaUnidad[] {
   return programas;
 }
 
-const SendCancelInscription=({onData,IdBoletasIncripciones})=>{
+const SendCancelInscription = ({ onData, IdBoletasIncripciones }) => {
   const [open, setOpen] = useState(true);
   const handleClickFalse = () => {
     onData(false);
     setOpen(false);
   };
-  const { data, error, isLoading,isSuccess} = useQuery(
+  const { data, error, isLoading, isSuccess } = useQuery(
     'cancelar-inscripcion',
-    async () => await apiInscripciones.getCancelarInscricion(IdBoletasIncripciones),
+    async () =>
+      await apiInscripciones.getCancelarInscricion(IdBoletasIncripciones),
     {
       staleTime: 10000,
     }
@@ -414,37 +451,53 @@ const SendCancelInscription=({onData,IdBoletasIncripciones})=>{
     );
   if (error)
     return (
-      <MessageSnackbar onOpen={open} autoDuration={3000} close={handleClickFalse} message={"No se pudo generar la solicitud"} txtSeverity={"error"}/>
+      <MessageSnackbar
+        onOpen={open}
+        autoDuration={3000}
+        close={handleClickFalse}
+        message={'No se pudo generar la solicitud'}
+        txtSeverity={'error'}
+      />
     );
   if (isSuccess) {
     return (
-      <MessageSnackbar onOpen={open} autoDuration={3000} close={handleClickFalse} message={setMessage} txtSeverity={"success"}/>
+      <MessageSnackbar
+        onOpen={open}
+        autoDuration={3000}
+        close={handleClickFalse}
+        message={setMessage}
+        txtSeverity={'success'}
+      />
     );
-    
   } else {
     return (
-      <MessageSnackbar onOpen={open} autoDuration={3000} close={handleClickFalse} message={setMessage} txtSeverity={"warning"}/>
+      <MessageSnackbar
+        onOpen={open}
+        autoDuration={3000}
+        close={handleClickFalse}
+        message={setMessage}
+        txtSeverity={'warning'}
+      />
     );
-    
   }
-  }
+};
 
-const SendReminderAll=({onData})=>{
+const SendReminderAll = ({ onData }) => {
   const [open, setOpen] = useState(true);
-  const [showProgress, setShowProgress] = useState(true); 
+  const [showProgress, setShowProgress] = useState(true);
   const handleClickFalse = () => {
     onData(false);
     setOpen(false);
   };
 
-  const { data, error, isLoading,isSuccess, isFetched} = useQuery(
+  const { data, error, isLoading, isSuccess, isFetched } = useQuery(
     'enviar-revision_todos',
     async () => await apiInscripciones.getInscripcionesNotificacionAll(),
     {
       staleTime: 500000,
     }
   );
-  
+
   useEffect(() => {
     // Actualizar la variable de estado para ocultar el CircularProgress cuando isLoading sea falso
     if (!isLoading) {
@@ -465,34 +518,55 @@ const SendReminderAll=({onData})=>{
       </Snackbar>
     );
 
-  if (error){
+  if (error) {
     return (
-      <MessageSnackbar onOpen={open} autoDuration={3000} close={handleClickFalse} message={"No se pudo generar la solicitud"} txtSeverity={"error"}/>
-    );}
+      <MessageSnackbar
+        onOpen={open}
+        autoDuration={3000}
+        close={handleClickFalse}
+        message={'No se pudo generar la solicitud'}
+        txtSeverity={'error'}
+      />
+    );
+  }
   if (isSuccess) {
-    return (<>
-    <>Hola</>
-      <MessageSnackbar onOpen={open} autoDuration={3000} close={handleClickFalse} message={setMessage} txtSeverity={"success"}/>
+    return (
+      <>
+        <>Hola</>
+        <MessageSnackbar
+          onOpen={open}
+          autoDuration={3000}
+          close={handleClickFalse}
+          message={setMessage}
+          txtSeverity={'success'}
+        />
       </>
     );
-    
   } else {
     return (
-      <MessageSnackbar onOpen={open} autoDuration={3000} close={handleClickFalse} message={setMessage} txtSeverity={"warning"}/>
+      <MessageSnackbar
+        onOpen={open}
+        autoDuration={3000}
+        close={handleClickFalse}
+        message={setMessage}
+        txtSeverity={'warning'}
+      />
     );
-    
   }
-}
-const SendReminder=({onData,IdBoletasIncripciones})=>{
+};
+const SendReminder = ({ onData, IdBoletasIncripciones }) => {
   const [open, setOpen] = useState(true);
   const handleClickFalse = () => {
     onData(false);
     setOpen(false);
   };
- 
-  const { data, error, isLoading,isSuccess} = useQuery(
+
+  const { data, error, isLoading, isSuccess } = useQuery(
     'enviar-revision',
-    async () => await apiInscripciones.getInscripcionesNotificacion(IdBoletasIncripciones),
+    async () =>
+      await apiInscripciones.getInscripcionesNotificacion(
+        IdBoletasIncripciones
+      ),
     {
       staleTime: 10000,
     }
@@ -511,20 +585,36 @@ const SendReminder=({onData,IdBoletasIncripciones})=>{
     );
   if (error)
     return (
-      <MessageSnackbar onOpen={open} autoDuration={3000} close={handleClickFalse} message={"No se pudo generar la solicitud"} txtSeverity={"error"}/>
+      <MessageSnackbar
+        onOpen={open}
+        autoDuration={3000}
+        close={handleClickFalse}
+        message={'No se pudo generar la solicitud'}
+        txtSeverity={'error'}
+      />
     );
   if (isSuccess) {
     return (
-      <MessageSnackbar onOpen={open} autoDuration={3000} close={handleClickFalse} message={setMessage} txtSeverity={"success"}/>
+      <MessageSnackbar
+        onOpen={open}
+        autoDuration={3000}
+        close={handleClickFalse}
+        message={setMessage}
+        txtSeverity={'success'}
+      />
     );
-    
   } else {
     return (
-      <MessageSnackbar onOpen={open} autoDuration={3000} close={handleClickFalse} message={setMessage} txtSeverity={"warning"}/>
+      <MessageSnackbar
+        onOpen={open}
+        autoDuration={3000}
+        close={handleClickFalse}
+        message={setMessage}
+        txtSeverity={'warning'}
+      />
     );
-    
   }
-}
+};
 
 function setUnidadList(estudiantes: Inscripcion[]): ProgramaUnidad[] {
   let programas: ProgramaUnidad[] = [];
@@ -544,11 +634,9 @@ function setUnidadList(estudiantes: Inscripcion[]): ProgramaUnidad[] {
   return programas;
 }
 
-
 export const TableEstudiantesPendientes: React.FC<{}> = ({}) => {
   let programas: ProgramaUnidad[];
   let unidad: ProgramaUnidad[];
-
 
   const { data, isError, isLoading, isSuccess } = useGetEstudiantesPendientes();
   if (isError) {
@@ -578,7 +666,6 @@ export const TableEstudiantesPendientes: React.FC<{}> = ({}) => {
           estudiantes={estudiantesPendientes}
           programas={programas}
           unidades={unidad}
-         
         />
       </Card>
     </>

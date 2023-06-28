@@ -20,6 +20,7 @@ import {
 import { useRecoilValue } from 'recoil';
 import { useGetInformacionCompletaAsignatura } from '../../queries/index';
 import { format } from 'date-fns';
+// import TableStudents from './components/tableStuents';
 import { TableEstudiantesProgramaWithoutFetch } from '@modules/estudiantes/components/tableSeminarios/programa/tablaEstudiantePrograma';
 import TableProfessors from './components/tableProfessors';
 
