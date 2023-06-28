@@ -15,6 +15,7 @@ import {
   Typography,
   Snackbar,
   Modal,
+  Badge,
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
@@ -29,7 +30,10 @@ import { MessageSnackbar } from '@shared/components/layouts/messaAlert';
 // import Link from 'next/link';
 import ReactDOMServer from 'react-dom/server';
 import { useGetAsignaturaRegistroCompleto } from '@shared/queries/asignaturaRegistroCompleto';
-import { AsignaturaRegistroCompleto, ListadoAlumnos } from '@shared/types/asignaturaRegistroTypes';
+import {
+  AsignaturaRegistroCompleto,
+  ListadoAlumnos,
+} from '@shared/types/asignaturaRegistroTypes';
 import { ListaEstudiantes } from '@modules/estudiantes';
 const SelectPrograma = (props: any) => {
   let programas = [];
@@ -135,7 +139,8 @@ const SelectFecha = (props: any) => {
 
 export const TableEstudiantesProgramaWithoutFetch: React.FC<{
   estudiantes: ListadoAlumnos[];
-}> = ({estudiantes }) => {
+  urlboleta: string;
+}> = ({ estudiantes, urlboleta }) => {
   const [programa, setPrograma] = useState<string>('Todos');
   const [unidad, setUnidad] = useState<string>('Todos');
   const [periodo, setPeriodo] = useState<string>('Todos');
@@ -159,10 +164,18 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
         );
       },
     },
-    
+
     { field: 'matricula', headerName: 'Matricula', width: 260 },
-    { field: 'evaldocente', headerName: 'Evaluación docente realizada', width: 420 },
-    { field: 'evalseminario', headerName: 'Evaluación de seminario', width: 260 },
+    {
+      field: 'evaldocente',
+      headerName: 'Evaluación docente realizada',
+      width: 420,
+    },
+    {
+      field: 'evalseminario',
+      headerName: 'Evaluación de seminario',
+      width: 260,
+    },
     {
       field: 'calificacion',
       headerName: 'Calificación',
@@ -171,35 +184,48 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
       renderHeader: () => {
         return (
           <>
-        <div style={{display:'flex', flexDirection:'column', width:200,}}>
-         <Typography variant="subtitle2" style={{textAlign:'center', fontWeight: 'bold'}} >Calificación</Typography>
-         
-        <div style={{display:'flex', flexDirection:'row', alignItems:'center'}}>
-          <Grid container direction="column">
-            <Typography variant="caption">En número</Typography>
-          </Grid>
-          <Grid container direction="column">
-          <Typography variant="caption">En letras</Typography>
-          </Grid>
-          </div>
-          </div>
+            <div
+              style={{ display: 'flex', flexDirection: 'column', width: 200 }}
+            >
+              <Typography
+                variant="subtitle2"
+                style={{ textAlign: 'center', fontWeight: 'bold' }}
+              >
+                Calificación
+              </Typography>
+
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}
+              >
+                <Grid container direction="column">
+                  <Typography variant="caption">En número</Typography>
+                </Grid>
+                <Grid container direction="column">
+                  <Typography variant="caption">En letras</Typography>
+                </Grid>
+              </div>
+            </div>
           </>
         );
       },
       renderCell: params => {
         return (
           <>
-          <Grid container direction="column">
-            <Typography variant="body2">{params.row.numero}</Typography>
-          </Grid>
-          <Grid container direction="column">
-            <Typography variant="body2">{params.row.letra}</Typography>
-          </Grid>
+            <Grid container direction="column">
+              <Typography variant="body2">{params.row.numero}</Typography>
+            </Grid>
+            <Grid container direction="column">
+              <Typography variant="body2">{params.row.letra}</Typography>
+            </Grid>
           </>
         );
       },
     },
-    { field: 'boleta', headerName: 'Boleta', width: 260, },
+    { field: 'boleta', headerName: 'Boleta', width: 260 },
   ];
   let rows = [];
   let estudiantesList: ListadoAlumnos[] = estudiantes;
@@ -226,7 +252,8 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
         ' ' +
         estudiante.Estudiante?.Datos.ApellidoMaterno,
       matricula: estudiante.Matricula,
-      evaldocente: estudiante.Estudiante.EvaluacionDocente.Evaluo?.EstatusEvaluacion,
+      evaldocente:
+        estudiante.Estudiante.EvaluacionDocente.Evaluo?.EstatusEvaluacion,
       evalseminario: estudiante.EvaluacionSeminario?.Estatus.Descripcion,
       numero: estudiante.Calificacion?.Numerica,
       letra: estudiante.Calificacion?.EnLetra,
@@ -274,17 +301,24 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
           }}
         />
       </div>
+      {urlboleta != null ? (
+        <a href={urlboleta}>
+          <Badge>
+            <strong>Boleta de calificaciones del curso</strong>
+          </Badge>
+        </a>
+      ) : (
+        ''
+      )}
     </>
   );
 }; // TableEstudiantesPendientesWithoutFetch
 
-
-
-
 export const TableEstudiantesPrograma: React.FC<any> = props => {
   // console.log(datos);
-  const { data, isError, isLoading, isSuccess } = useGetAsignaturaRegistroCompleto(8527);
- 
+  const { data, isError, isLoading, isSuccess } =
+    useGetAsignaturaRegistroCompleto(8527);
+
   if (isError) {
     return (
       <Alert severity="error">
@@ -300,7 +334,7 @@ export const TableEstudiantesPrograma: React.FC<any> = props => {
     estudiantesPendientes = data;
   }
   let listaAlumnos: ListadoAlumnos[];
-  listaAlumnos=data[0].Alumnos?.Listado;
+  listaAlumnos = data[0].Alumnos?.Listado;
   console.log(listaAlumnos);
   return (
     <>
@@ -308,9 +342,7 @@ export const TableEstudiantesPrograma: React.FC<any> = props => {
         key={`ecosur-lista-estudiantes`}
         sx={{ border: 'none', boxShadow: 'none' }}
       >
-        <TableEstudiantesProgramaWithoutFetch
-          estudiantes={listaAlumnos}
-        />
+        <TableEstudiantesProgramaWithoutFetch estudiantes={listaAlumnos} />
       </Card>
     </>
   );
