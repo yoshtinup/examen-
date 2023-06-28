@@ -5,7 +5,7 @@ import { AsignaturaGql, FechasAsignaturaGql } from '@shared/types/listaAsignatur
 import { Button, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID" },
+  { field: "id", headerName: "Id Materia" },
   { field: "nombre", headerName: "Nombre", width: 500 },
   { field: "periodo", headerName: "Periodo lectivo", width: 180 },
   { field: "fechas", headerName: "Fechas de impartición", width: 220 },
@@ -40,10 +40,12 @@ const TablaAsignaturas = (props: any) => {
   useEffect(() => {
     setRows(getRows(asignaturas, unidad, programa, periodo));
   }, [ unidad, programa, periodo ] );
+   console.log(rows);
+
   return (
     <Grid item xs={12}>
       <h3>Filtros</h3>
-      <Box style={{marginBottom: "50px"}} >
+      <Box style={{marginBottom: "30px"}} >
         <CrearSelect nombre="unidades" data={unidad} setData={setUnidad} opciones={Unidades} />
         <CrearSelect nombre="programas" data={programa} setData={newPrograma} opciones={Programas} />
         {programa > 0 &&

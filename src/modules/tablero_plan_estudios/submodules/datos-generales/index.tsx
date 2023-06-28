@@ -134,9 +134,12 @@ const DatosGenerales = (props:any) => {
               style={{marginLeft: "20px", color:"#c56b16"}}
               primary={
                 <Typography variant="h4" gutterBottom>
+                {
+                  !matricula&&
+                  generoBienv[userInfo.Datos.IdGenero]
+                }
                   {
-                    generoBienv[userInfo.Datos.IdGenero] +
-                    userInfo.Datos.Nombre + " " +
+                     " " +userInfo.Datos.Nombre + " " +
                     userInfo.Datos.ApellidoPaterno + " " +
                     userInfo.Datos.ApellidoMaterno
                   }

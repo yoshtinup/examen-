@@ -17,11 +17,6 @@ const ServiciosEscolares = () => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant="body1" gutterBottom>
-            {/* <b>HOME SERVICIOS ESCOLARES.</b> */}
-          
-          {/* <Button variant="contained" onClick={handleClick}>
-          Continuar
-          </Button> */}
           <TableroServiciosEscolares/>
           
           </Typography>

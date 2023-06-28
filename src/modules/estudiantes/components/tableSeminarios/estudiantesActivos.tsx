@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { CustomToolbar, CustomFooter, CustomNoRowsOverlay } from '.';
 import {
   Alert,
@@ -15,9 +15,10 @@ import {
   Typography,
   Snackbar,
   Modal,
+  Tooltip,
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { useGetEstudiantes } from '../../queries';
 import ModalEstudiantes from '../../../../shared/components/layouts/modal-inscripcion';
 import { Estudiante, FiltroEstudiante } from '../../types';
@@ -30,6 +31,7 @@ import { MessageSnackbar } from '@shared/components/layouts/messaAlert';
 // import Link from 'next/link';
 import LinkIcon from '@mui/icons-material/Link';
 import { useGetAsignaturaRegistroCompleto } from '@shared/queries/asignaturaRegistroCompleto';
+import { Value } from '@modules/seminarios_investigacion/submodules/servicios_escolares/types';
 
 const SelectPrograma = (props: any) => {
   let programas = [];
@@ -161,31 +163,18 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
     {
       field: 'estudiante',
       headerName: 'Nombre',
-      width:200,  
-      renderCell: params => {
-        return (
-          <Grid sx={{ display: 'flex', flexDirection: 'column'}}>
-          <Typography variant="body2" sx={{ overflowWrap: 'break-word',
-            wordWrap: 'break-word',
-            wordBreak: 'break-all',
-            whiteSpace: 'pre-line',
-            width: 180,}}>
-            {`${params.row.estudiante}`}
-          </Typography>
-        </Grid>
-        );
-      },
+      width: 320,
     },
-    { field: 'programa', headerName: 'Programa', width: 200, },
-    { field: 'orientacion', headerName: 'Orientación', width: 200 },
+    { field: 'programa', headerName: 'Programa', width: 255 },
     { field: 'unidad', headerName: 'Unidad', width: 110 },
-    { field: 'anio', headerName: 'Año', width: 120 },
-    { field: 'matricula', headerName: 'Matricula', width: 95 },
+    { field: 'anio', headerName: 'Año', minWidth: 110 },
+    { field: 'matricula', headerName: 'Matricula', minWidth: 100 },
     {
       field: 'opcion',
       headerName: 'Opción',
       sortable: false,
-      width: 200,
+      width: 150,
+      
       renderCell: params => {
         const handleClick = () => {
           // FIX ME: Agregar enlace a endpoint para realizar notificaciones.
@@ -193,7 +182,14 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
 
         return (
           <>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'initial',
+                paddingTop: 10,
+              }}
+            >
               <Link aria-disabled={true}>
                 <a
                   onClick={() => handleClickExpediente(params.row.matricula)}
@@ -216,8 +212,19 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
                     color: '#00BFA5',
                   }}
                 >
-                  <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-                  Expendiente de ingreso
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
+                    <p>
+                      Expendiente <br />
+                      de ingreso
+                    </p>
+                  </div>
                 </a>
               </Link>
             </div>
@@ -266,6 +273,93 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
     alignItems: 'center',
     justifyContent: 'center',
   };
+  const gridRef = useRef(null);
+
+  useEffect(() => {
+    const adjustRowHeight = () => {
+      if (gridRef.current && gridRef.current.api) {
+        const rowNodes = gridRef.current.api.current.getRowNodes();
+        rowNodes.forEach((rowNode) => {
+          rowNode.setRowHeight('auto');
+        });
+      }
+    };
+
+    adjustRowHeight();
+
+    window.addEventListener('resize', adjustRowHeight);
+
+    return () => {
+      window.removeEventListener('resize', adjustRowHeight);
+    };
+  }, []);
+
+  const renderCellContent = (params: GridRenderCellParams<any, any>) => {
+    const { value, field,rowNode  } = params;
+
+    // Verificar si es la columna de opciones
+    if (field === 'opcion') {
+      return (
+        <>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'initial',
+                paddingTop: 10,
+              }}
+            >
+              <Link aria-disabled={true}>
+                <a
+                  onClick={() => handleClickExpediente(params.row.matricula)}
+                  style={{
+                    cursor: 'pointer',
+                    textDecoration: 'none',
+                    color: '#00BFA5',
+                  }}
+                >
+                  <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
+                  Ver expediente
+                </a>
+              </Link>
+
+              <Link onClick={() => handleOpenModal(params.row.matricula)}>
+                <a
+                  style={{
+                    cursor: 'pointer',
+                    textDecoration: 'none',
+                    color: '#00BFA5',
+                  }}
+                >
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
+                    <p>
+                      Expendiente <br />
+                      de ingreso
+                    </p>
+                  </div>
+                </a>
+              </Link>
+            </div>
+          </>
+      );
+    }
+
+    return (
+      <Tooltip title={value} enterDelay={300} placement="top-start">
+        <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          {value}
+        </div>
+      </Tooltip>
+    );
+  };
+
 
   return (
     <>
@@ -362,27 +456,27 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
             pr: 5,
           }}
         ></Grid>
-        <DataGrid
-        rowHeight={100}
-        
-          disableExtendRowFullWidth={true}
-          sx={{ pb: 19 }}
-          rows={rows}
-          columns={columns}
-          components={{
-            Toolbar: CustomToolbar,
-            Footer: CustomFooter,
-            NoRowsOverlay: CustomNoRowsOverlay,
-          }}
-          componentsProps={{
-            footer: { counter: rows.length, label: 'Estudiantes:' },
-          }}
-          onSelectionModelChange={ids => {
-            const selectedIDs = new Set(ids);
-            const selectedRows = rows.filter(row => selectedIDs.has(row.id));
-            setSelectedRows(selectedRows);
-          }}
-        />
+        <Box sx={{ height: 900, width: '100%' }} id="tabla-gestion-asignaturas">
+          <DataGrid
+          rowHeight={90}
+            rows={rows}
+            columns={columns}
+            disableColumnMenu
+            components={{
+              Toolbar: CustomToolbar,
+              Footer: CustomFooter,
+              NoRowsOverlay: CustomNoRowsOverlay,
+            }}
+            componentsProps={{
+              footer: { counter: rows.length, label: 'Estudiantes:' },
+            }}
+            onSelectionModelChange={ids => {
+              const selectedIDs = new Set(ids);
+              const selectedRows = rows.filter(row => selectedIDs.has(row.id));
+              setSelectedRows(selectedRows);
+            }}
+          />
+       </Box>
       </div>
     </>
   );

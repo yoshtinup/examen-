@@ -10,7 +10,7 @@ import EstudiantesPage from '@modules/estudiantes';
 const Page = () => {
   return (
     <Container maxWidth="xl" style={{ paddingTop: '30px' }}>
-      <HeaderSection label="Seguimiento de Estudiantes" />
+      <HeaderSection label="SEGUIMIENTO DE ESTUDIANTES" />
       <Box
         display="column"
         alignItems="center"

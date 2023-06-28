@@ -8,7 +8,7 @@ import { HeaderSection } from '@shared/components';
 const Page = () => {
   return (
     <Container maxWidth="xl" style={{ paddingTop: '30px' }}>
-      <HeaderSection label="Seguimiento de inscripciones pendientes" />
+      <HeaderSection label="SEGUIMIENTO DE INSCRIPCIONES A PERIODOS" />
       <Box
         display="column"
         alignItems="center"

@@ -379,14 +379,14 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{
           columns={columns}
           disableColumnMenu
           components={{
-            Cell: ({ value }) => (
-              <div style={{overflowWrap: 'anywhere',
-              wordWrap: 'normal',
-              wordBreak: 'normal',
-              whiteSpace: 'pre-line', }}>
-                {value}
-              </div>
-            ),
+            // Cell: ({ value }) => (
+            //   <div style={{overflowWrap: 'anywhere',
+            //   wordWrap: 'normal',
+            //   wordBreak: 'normal',
+            //   whiteSpace: 'pre-line', }}>
+            //     {value}
+            //   </div>
+            // ),
             Toolbar: CustomToolbar,
             Footer: CustomFooter,
             NoRowsOverlay: CustomNoRowsOverlay,

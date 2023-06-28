@@ -148,27 +148,26 @@ export const TableEstudiantesWithoutFetch: React.FC<{
     {
       field: 'estudiante',
       headerName: 'Nombre',
-      width: 350,
-      renderCell: params => {
-        return (
-          <Grid sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography variant="body2">
-              {`${params.row.estudiante}`}
-            </Typography>
-          </Grid>
-        );
-      },
+      width: 320,
+      // renderCell: params => {
+      //   return (
+      //     <Grid sx={{ display: 'flex', flexDirection: 'column' }}>
+      //       <Typography variant="body2">
+      //         {`${params.row.estudiante}`}
+      //       </Typography>
+      //     </Grid>
+      //   );
+      // },
     },
-    { field: 'programa', headerName: 'Programa', width: 420 },
-    { field: 'orientacion', headerName: 'Orientación', width: 260 },
-    { field: 'unidad', headerName: 'Unidad', width: 260 },
-    { field: 'generacion', headerName: 'Generación', width: 260 },
-    { field: 'matricula', headerName: 'Matricula', width: 260 },
+    { field: 'programa', headerName: 'Programa', width: 255 },
+    { field: 'unidad', headerName: 'Unidad', width: 120 },
+    { field: 'generacion', headerName: 'Generación', width: 100 },
+    { field: 'matricula', headerName: 'Matricula', width: 100 },
     {
       field: 'opcion',
       headerName: 'Opción',
       sortable: false,
-      width: 200,
+      width: 150,
       renderCell: params => {
         const handleClick = () => {
           // FIX ME: Agregar enlace a endpoint para realizar notificaciones.
@@ -310,8 +309,9 @@ export const TableEstudiantesWithoutFetch: React.FC<{
             pr: 5,
           }}
         ></Grid>
+        <Box sx={{ height: 900, width: '100%' }} id="tabla-gestion-asignaturas">
         <DataGrid
-          sx={{ pb: 19 }}
+          rowHeight={70}
           rows={rows}
           columns={columns}
           components={{
@@ -327,7 +327,7 @@ export const TableEstudiantesWithoutFetch: React.FC<{
             const selectedRows = rows.filter(row => selectedIDs.has(row.id));
             setSelectedRows(selectedRows);
           }}
-        />
+        /></Box>
       </div>
     </>
   );
