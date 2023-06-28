@@ -144,17 +144,15 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
   const [periodo, setPeriodo] = useState<string>('Todos');
   const [matricula, setMatricula] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
- 
-  
-  const handleOpenModal = (matricula) => {
+
+  const handleOpenModal = matricula => {
     setIsModalOpen(true);
-    setMatricula(matricula)
+    setMatricula(matricula);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-
 
   const handleClickExpediente = matricula => {
     window.open(`/home?matricula=${matricula}`, '_blank');
@@ -163,22 +161,26 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
     {
       field: 'estudiante',
       headerName: 'Nombre',
-      width: 350,
+      width:200,  
       renderCell: params => {
         return (
-          <Grid sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography variant="body2">
-              {`${params.row.estudiante}`}
-            </Typography>
-          </Grid>
+          <Grid sx={{ display: 'flex', flexDirection: 'column'}}>
+          <Typography variant="body2" sx={{ overflowWrap: 'break-word',
+            wordWrap: 'break-word',
+            wordBreak: 'break-all',
+            whiteSpace: 'pre-line',
+            width: 180,}}>
+            {`${params.row.estudiante}`}
+          </Typography>
+        </Grid>
         );
       },
     },
-    { field: 'programa', headerName: 'Programa', width: 420 },
-    { field: 'orientacion', headerName: 'Orientación', width: 260 },
-    { field: 'unidad', headerName: 'Unidad', width: 260 },
-    { field: 'anio', headerName: 'Año', width: 260 },
-    { field: 'matricula', headerName: 'Matricula', width: 260 },
+    { field: 'programa', headerName: 'Programa', width: 200, },
+    { field: 'orientacion', headerName: 'Orientación', width: 200 },
+    { field: 'unidad', headerName: 'Unidad', width: 110 },
+    { field: 'anio', headerName: 'Año', width: 120 },
+    { field: 'matricula', headerName: 'Matricula', width: 95 },
     {
       field: 'opcion',
       headerName: 'Opción',
@@ -188,9 +190,6 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
         const handleClick = () => {
           // FIX ME: Agregar enlace a endpoint para realizar notificaciones.
         };
-        
-        
-        
 
         return (
           <>
@@ -208,8 +207,8 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
                   Ver expediente
                 </a>
               </Link>
-              
-              <Link onClick={()=>handleOpenModal(params.row.matricula)}>
+
+              <Link onClick={() => handleOpenModal(params.row.matricula)}>
                 <a
                   style={{
                     cursor: 'pointer',
@@ -261,7 +260,6 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
     })
   );
 
-
   const [selectedRows, setSelectedRows] = React.useState([]);
   const modalStyle = {
     display: 'flex',
@@ -272,41 +270,40 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
   return (
     <>
       <Modal open={isModalOpen} onClose={handleCloseModal}>
-              <div style={modalStyle}>
-                <div
-                  style={{
-                    width: 700,
-                    height: 600,
-                    backgroundColor: '#fff',
-                    padding: 20,
-                    position: 'relative',
-                  }}
-                >
-                  <iframe
-                    src={
-                      'https://aplicaciones.ecosur.mx/app/funcionalidades-sip/archivos-ingreso-alumno-6490cd6ae8023e77eb94dee0?matricula=' +
-                      matricula
-                    }
-                    width="100%"
-                    height="100%"
-                    style={{ border: 'none' }}
-                  />
-                  <Button
-                    onClick={handleCloseModal}
-                    style={{
-                      position: 'absolute',
-                      top: 10,
-                      right: 10,
-                    }}
-                  >
-                    {' '}
-                    Cerrar
-                  </Button>
-                </div>
-                </div>
-              </Modal>
+        <div style={modalStyle}>
+          <div
+            style={{
+              width: 700,
+              height: 600,
+              backgroundColor: '#fff',
+              padding: 20,
+              position: 'relative',
+            }}
+          >
+            <iframe
+              src={
+                'https://aplicaciones.ecosur.mx/app/funcionalidades-sip/archivos-ingreso-alumno-6490cd6ae8023e77eb94dee0?matricula=' +
+                matricula
+              }
+              width="100%"
+              height="100%"
+              style={{ border: 'none' }}
+            />
+            <Button
+              onClick={handleCloseModal}
+              style={{
+                position: 'absolute',
+                top: 10,
+                right: 10,
+              }}
+            >
+              {' '}
+              Cerrar
+            </Button>
+          </div>
+        </div>
+      </Modal>
       <div style={{ height: 1200, width: '100%' }}>
-
         <Grid
           container
           sx={{
@@ -366,6 +363,9 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
           }}
         ></Grid>
         <DataGrid
+        rowHeight={100}
+        
+          disableExtendRowFullWidth={true}
           sx={{ pb: 19 }}
           rows={rows}
           columns={columns}
