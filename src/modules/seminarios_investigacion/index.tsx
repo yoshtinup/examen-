@@ -135,7 +135,7 @@ const DetallesSeminarioInvestigacion: React.FC<{
     <Layout>
       <Container maxWidth="xl" style={{ paddingTop: '30px' }}>
         <Box key={`ecosur-evaluacion-seminario-investigacion`} sx={{ border: 0 }}>
-          <HeaderSection label={'EVALUACIÓN: ' + dataID[0].alumno.MOC.MOA.Materia.NombreMateria} />
+          <HeaderSection label={'EVALUACIÓN: ' + dataID[0]?.alumno.MOC.MOA.Materia.NombreMateria} />
           <DetallesSeminarioWithoutFetch dataID={dataID} idEvaluacionSeminario={idEvaluacionSeminario} />
         </Box>
       </Container>
