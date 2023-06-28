@@ -59,7 +59,6 @@ const ActionButtons = ({ onClick }: { onClick: any }) => {
   const [aceptacionActive, setAceptacionActive] = useState<boolean>(
     !cartaAceptacion.includes(alumno.status)
   );
-  console.log('alumno.status', alumno.status);
   const [disabled, setDisabled] = useState<boolean>(
     !buttonsSave.includes(alumno.status)
   );

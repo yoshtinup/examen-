@@ -19,7 +19,7 @@ export function getDataCardCursoAIniciar(curso:CursoPorIniciarGql, currentRol:Ro
   }
   return {
     Titulo: curso.NombreMateria,
-    Subtitulo: "Clave: " + curso.Clave + ', Creditos: ' + curso.Creditos,
+    Subtitulo: "Clave: " + curso.Clave + ", IDMOA: " + curso.IdMateriasOfertaAnual + ', Creditos: ' + curso.Creditos,
     Items: [
       {
         Titulo: "Del " + DateFormat(curso.FechaInicioCurso) + " al " + DateFormat(curso.FechaFinCurso),

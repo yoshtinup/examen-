@@ -99,7 +99,6 @@ export default function BodyAsignarEvaluador() {
           <Autocomplete
             onChange={(event: any, newValue: any) => {
               setValue(newValue);
-              console.log(newValue);
             }}
             id="AsignarEvaluador-hi"
             options={listEvaluador.evaluadores}

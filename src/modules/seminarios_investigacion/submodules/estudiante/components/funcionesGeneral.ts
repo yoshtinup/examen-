@@ -17,8 +17,6 @@ export const formCompleto = formValues => {
 export const rangoFechasValido = (fecha1, fecha2) => {
     const f1 = moment(fecha1, 'DD/MM/yyyy').format('YYYY-MM-DD')
     const f2 = moment(fecha2, 'DD/MM/yyyy').format('YYYY-MM-DD')
-    console.log("fecha1",fecha1)
-    console.log("fecha2",fecha2)
     return fecha1<fecha2 //< f2
 }
 

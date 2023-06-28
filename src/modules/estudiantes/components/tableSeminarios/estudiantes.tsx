@@ -203,53 +203,6 @@ export const TableEstudiantesWithoutFetch: React.FC<{
                   Ver expediente
                 </a>
               </Link>
-              {/* <Modal open={isModalOpen} onClose={handleCloseModal}>
-                <div style={modalStyle}>
-                  
-                  <div
-                    style={{
-                      width: 700,
-                      height: 600,
-                      backgroundColor: '#fff',
-                      padding: 20,
-                      position: 'relative',
-                    }}
-                  >
-                    <iframe
-                      src={
-                        'https://aplicaciones.ecosur.mx/app/funcionalidades-sip/archivos-ingreso-alumno-6490cd6ae8023e77eb94dee0?matricula=' +
-                        params.row.matricula
-                      }
-                      width="100%"
-                      height="100%"
-                      style={{ border: 'none' }}
-                    />
-                    <Button
-                      onClick={handleCloseModal}
-                      style={{
-                        position: 'absolute',
-                        top: 10,
-                        right: 10,
-                      }}
-                    >
-                      {' '}
-                      Cerrar
-                    </Button>
-                  </div>
-                </div>
-              </Modal>
-              <Link onClick={handleOpenModal}>
-                <a
-                  style={{
-                    cursor: 'pointer',
-                    textDecoration: 'none',
-                    color: '#00BFA5',
-                  }}
-                >
-                  <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-                  Expendiente de ingreso
-                </a>
-              </Link> */}
             </div>
           </>
         );
@@ -281,11 +234,10 @@ export const TableEstudiantesWithoutFetch: React.FC<{
         ' ' +
         estudiante.DatosAlumno?.ApellidoMaterno,
       programa: estudiante.Programa?.Programa,
-      orientacion: estudiante.Orientacion,
+      orientacion: estudiante.Orientacion?.Nombre,
       unidad: estudiante.Unidad.Unidad,
       anio: estudiante.AnioDeEstudios.AnioActualtxt,
       matricula: estudiante.Matricula,
-      // idAlumno: estudiante?.IdAlumno,
       estatus: estudiante.EstatusAlumno.IdEstatus,
       generacion: estudiante.Generacion.GeneracionLargo,
     })
@@ -381,65 +333,6 @@ export const TableEstudiantesWithoutFetch: React.FC<{
   );
 }; // TableEstudiantesPendientesWithoutFetch
 
-const SendCancelInscription = ({ onData, IdBoletasIncripciones }) => {
-  const [open, setOpen] = useState(true);
-  const handleClickFalse = () => {
-    onData(false);
-    setOpen(false);
-  };
-  console.log(IdBoletasIncripciones);
-  const { data, error, isLoading, isSuccess } = useQuery(
-    'cancelar-inscripcion',
-    async () =>
-      await apiInscripciones.getCancelarInscricion(IdBoletasIncripciones),
-    {
-      staleTime: 10000,
-    }
-  );
-  let setMessage = data?.message;
-
-  if (isLoading)
-    return (
-      <Snackbar
-        open={open}
-        autoHideDuration={10000}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      >
-        <CircularProgress />
-      </Snackbar>
-    );
-  if (error)
-    return (
-      <MessageSnackbar
-        onOpen={open}
-        autoDuration={3000}
-        close={handleClickFalse}
-        message={'No se pudo generar la solicitud'}
-        txtSeverity={'error'}
-      />
-    );
-  if (isSuccess) {
-    return (
-      <MessageSnackbar
-        onOpen={open}
-        autoDuration={3000}
-        close={handleClickFalse}
-        message={setMessage}
-        txtSeverity={'success'}
-      />
-    );
-  } else {
-    return (
-      <MessageSnackbar
-        onOpen={open}
-        autoDuration={3000}
-        close={handleClickFalse}
-        message={setMessage}
-        txtSeverity={'warning'}
-      />
-    );
-  }
-};
 
 function setProgramasList(estudiantes: Estudiante[]): FiltroEstudiante[] {
   let programas: FiltroEstudiante[] = [];

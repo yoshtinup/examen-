@@ -29,6 +29,7 @@ import { MessageSnackbar } from '@shared/components/layouts/messaAlert';
 
 // import Link from 'next/link';
 import LinkIcon from '@mui/icons-material/Link';
+import { useGetAsignaturaRegistroCompleto } from '@shared/queries/asignaturaRegistroCompleto';
 
 const SelectPrograma = (props: any) => {
   let programas = [];
@@ -141,18 +142,19 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
   const [programa, setPrograma] = useState<string>('Todos');
   const [unidad, setUnidad] = useState<string>('Todos');
   const [periodo, setPeriodo] = useState<string>('Todos');
-  const [isOpen, setIsOpen] = useState(false);
-  const [idBoleta, setIdBoleta] = useState();
-  const [textModal, setTextModal] = useState('');
-  const [send, setSend] = useState(false);
-  const [sendReminder, setSendReminder] = useState(false);
+  const [matricula, setMatricula] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
  
   
-  const handleDataFromChild = data => {
-    console.log(data);
-    setSend(data);
+  const handleOpenModal = (matricula) => {
+    setIsModalOpen(true);
+    setMatricula(matricula)
   };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
 
   const handleClickExpediente = matricula => {
     window.open(`/home?matricula=${matricula}`, '_blank');
@@ -187,18 +189,8 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
           // FIX ME: Agregar enlace a endpoint para realizar notificaciones.
         };
         
-        const handleOpenModal = () => {
-          setIsModalOpen(true);
-        };
-
-        const handleCloseModal = () => {
-          setIsModalOpen(false);
-        };
-        const modalStyle = {
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        };
+        
+        
 
         return (
           <>
@@ -216,41 +208,8 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
                   Ver expediente
                 </a>
               </Link>
-              <Modal open={isModalOpen} onClose={handleCloseModal}>
-              <div style={modalStyle}>
-                <div
-                  style={{
-                    width: 700,
-                    height: 600,
-                    backgroundColor: '#fff',
-                    padding: 20,
-                    position: 'relative',
-                  }}
-                >
-                  <iframe
-                    src={
-                      'https://aplicaciones.ecosur.mx/app/funcionalidades-sip/archivos-ingreso-alumno-6490cd6ae8023e77eb94dee0?matricula=' +
-                      params.row.matricula
-                    }
-                    width="100%"
-                    height="100%"
-                    style={{ border: 'none' }}
-                  />
-                  <Button
-                    onClick={handleCloseModal}
-                    style={{
-                      position: 'absolute',
-                      top: 10,
-                      right: 10,
-                    }}
-                  >
-                    {' '}
-                    Cerrar
-                  </Button>
-                </div>
-                </div>
-              </Modal>
-              <Link onClick={handleOpenModal}>
+              
+              <Link onClick={()=>handleOpenModal(params.row.matricula)}>
                 <a
                   style={{
                     cursor: 'pointer',
@@ -293,7 +252,7 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
         ' ' +
         estudiante.DatosAlumno?.ApellidoMaterno,
       programa: estudiante?.Programa.Programa,
-      orientacion: estudiante?.Orientacion,
+      orientacion: estudiante.Orientacion?.Nombre,
       unidad: estudiante.Unidad?.Unidad,
       anio: estudiante.AnioDeEstudios?.AnioActualtxt,
       matricula: estudiante?.Matricula,
@@ -304,13 +263,48 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
 
 
   const [selectedRows, setSelectedRows] = React.useState([]);
+  const modalStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  };
 
   return (
     <>
-      {/* {send && idBoleta==null && <SendReminderAll onData={handletSucces}/>}
-        {send  && idBoleta!=null && <SendCancelInscription onData={handletSucces} IdBoletasIncripciones={idBoleta}/>}
-        {sendReminder  && idBoleta!=null && <SendReminder onData={handletSucces} IdBoletasIncripciones={idBoleta}/>} */}
-
+      <Modal open={isModalOpen} onClose={handleCloseModal}>
+              <div style={modalStyle}>
+                <div
+                  style={{
+                    width: 700,
+                    height: 600,
+                    backgroundColor: '#fff',
+                    padding: 20,
+                    position: 'relative',
+                  }}
+                >
+                  <iframe
+                    src={
+                      'https://aplicaciones.ecosur.mx/app/funcionalidades-sip/archivos-ingreso-alumno-6490cd6ae8023e77eb94dee0?matricula=' +
+                      matricula
+                    }
+                    width="100%"
+                    height="100%"
+                    style={{ border: 'none' }}
+                  />
+                  <Button
+                    onClick={handleCloseModal}
+                    style={{
+                      position: 'absolute',
+                      top: 10,
+                      right: 10,
+                    }}
+                  >
+                    {' '}
+                    Cerrar
+                  </Button>
+                </div>
+                </div>
+              </Modal>
       <div style={{ height: 1200, width: '100%' }}>
 
         <Grid
@@ -400,7 +394,6 @@ const SendCancelInscription = ({ onData, IdBoletasIncripciones }) => {
     onData(false);
     setOpen(false);
   };
-  console.log(IdBoletasIncripciones);
   const { data, error, isLoading, isSuccess } = useQuery(
     'cancelar-inscripcion',
     async () =>
@@ -529,7 +522,7 @@ export const TableEstudiantesActivos: React.FC<{}> = ({}) => {
   let programas: FiltroEstudiante[];
   let unidad: FiltroEstudiante[];
   let periodo: FiltroEstudiante[];
-
+  // const datos=useGetAsignaturaRegistroCompleto(8527);
   const { data, isError, isLoading, isSuccess } = useGetEstudiantes(1);
   if (isError) {
     return (

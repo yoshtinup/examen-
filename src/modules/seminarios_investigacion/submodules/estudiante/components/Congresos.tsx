@@ -44,7 +44,6 @@ export default props => {
       ...congreso,
       fecha,
     });
-    console.log("objCOngreso", congreso)
   };
 
   const addCogresoState = (congresoDado: DatosCongreso) => {

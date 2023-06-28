@@ -13,7 +13,7 @@ function ItemFileFunction(url:string){
 export function getDataCardCSFinalizado(CS:CSGql, currentRol:Roles){
   let data:CardListType = ItemsComunes(CS);
   let Enlaces:CardListItemChildrens = ItemWithChildrens("Enlaces", true);
-  let Cursos:CardListItemChildrens = ItemWithChildrens("Cursos", true);
+  let Cursos:CardListItemChildrens = ItemWithChildrens("Asignaturas", true);
   if(currentRol === Roles.Estudiante){
     let Calificacion:CardListItemChildrens = ItemWithChildrens("Calificación", true);
     if(CS.Calificacion){
@@ -40,7 +40,7 @@ export function getDataCardCSFinalizado(CS:CSGql, currentRol:Roles){
 export function getDataCardCSPendiente(CS:CSGql, currentRol:Roles, Inscribirse:any){
   let data:CardListType = ItemsComunes(CS);
   let Enlaces:CardListItemChildrens = ItemWithChildrens("Enlaces", true);
-  let Cursos:CardListItemChildrens = ItemWithChildrens("Cursos", true);
+  let Cursos:CardListItemChildrens = ItemWithChildrens("Asignaturas", true);
   if(currentRol === Roles.Estudiante){
     ItemsEnlacesCursos(CS, Enlaces, Cursos, () => Inscribirse(data), currentRol);
     if(Enlaces.Childrens.length){
@@ -60,10 +60,10 @@ export function getDataCardCSPendiente(CS:CSGql, currentRol:Roles, Inscribirse:a
 }
 
 export function getDataCardCSEnProceso(CS:CSGql, currentRol:Roles, Inscribirse:any){
-  const idBoletasIncripciones = CS.BoletaInscripcion.IdBoletasIncripciones;
+  const idBoletasIncripciones = CS.BoletaInscripcion?.IdBoletasIncripciones;
   let data:CardListType = ItemsComunes(CS);
   let Enlaces:CardListItemChildrens = ItemWithChildrens("Enlaces", true);
-  let Cursos:CardListItemChildrens = ItemWithChildrens("Cursos", true);
+  let Cursos:CardListItemChildrens = ItemWithChildrens("Asignaturas", true);
   if(currentRol === Roles.Estudiante){
     ItemsEnlacesCursos(CS, Enlaces, Cursos, () => Inscribirse(idBoletasIncripciones), currentRol);
     if(Enlaces.Childrens.length){

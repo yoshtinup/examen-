@@ -95,4 +95,17 @@ export interface DataID {
 
 export interface Alumno {
     Matricula: number;
+    MOC: MOCdataID;
+}
+
+export interface MOCdataID{
+    MOA: MOAdataID;
+}
+
+export interface MOAdataID{
+    Materia: MateriaDataID;
+}
+
+export interface MateriaDataID{
+    NombreMateria: string;
 }

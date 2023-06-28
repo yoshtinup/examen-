@@ -1,19 +1,26 @@
-import { DialogContentText, Grid, Link, TextField, Snackbar, CircularProgress} from "@mui/material";
-import { CardList } from "@shared/components/cards";
-import { useRecoilValue } from "recoil";
-import { rolStateAtom } from "@modules/auth/recoil";
-import Roles from "@definitions/Roles";
-import { CursoPorIniciarGql } from "@shared/types/cursosPorIniciarGql";
-import { getDataCardCursoAIniciar } from "@shared/components/cards/createDataCardCursoPorIniciar";
+import {
+  DialogContentText,
+  Grid,
+  Link,
+  TextField,
+  Snackbar,
+  CircularProgress,
+} from '@mui/material';
+import { CardList } from '@shared/components/cards';
+import { useRecoilValue } from 'recoil';
+import { rolStateAtom } from '@modules/auth/recoil';
+import Roles from '@definitions/Roles';
+import { CursoPorIniciarGql } from '@shared/types/cursosPorIniciarGql';
+import { getDataCardCursoAIniciar } from '@shared/components/cards/createDataCardCursoPorIniciar';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
-import { crearJSON } from "@modules/tablero_plan_estudios/hooks";
-import { useState } from "react";
-import Modal from "@shared/components/layouts/modal";
-import { MessageSnackbar } from "@shared/components/layouts/messaAlert";
-import apiAsignatura from "@shared/components/cards/apiAsignatura";
-import { useQuery } from "react-query";
+import { crearJSON } from '@modules/tablero_plan_estudios/hooks';
+import { useState } from 'react';
+import Modal from '@shared/components/layouts/modal';
+import { MessageSnackbar } from '@shared/components/layouts/messaAlert';
+import apiAsignatura from '@shared/components/cards/apiAsignatura';
+import { useQuery } from 'react-query';
 
-const CardsCursosAIniciar = (props) => {
+const CardsCursosAIniciar = props => {
   const show = props.show;
   const [open, setOpen] = useState(false);
   const [razonAgregarAsignatura, setRazonAgregarAsignatura] = useState('');
@@ -21,70 +28,79 @@ const CardsCursosAIniciar = (props) => {
   const currentRol: Roles = useRecoilValue(rolStateAtom);
   const [sendAsignatura, setSendAsignatura] = useState(false);
   const [idMateria, setIdMateria] = useState('');
- 
-  const arrayCursos: CursoPorIniciarGql[] = crearJSON().data.sort(
-    (a, b) => {
-      if (a.FechaInicioCurso > b.FechaInicioCurso) return 1;
-      if (a.FechaInicioCurso < b.FechaInicioCurso) return -1;
-      return 0;
-    }
-  );
+
+  const arrayCursos: CursoPorIniciarGql[] = crearJSON().data.sort((a, b) => {
+    if (a.FechaInicioCurso > b.FechaInicioCurso) return 1;
+    if (a.FechaInicioCurso < b.FechaInicioCurso) return -1;
+    return 0;
+  });
   //cualquier cambio dentro del textfield
-  const handleChangeTextField = (event) => {
-      setRazonAgregarAsignatura(event.target.value);
-      setError(false);
-  };  
-  const handleSubmit = (event) => {
+  const handleChangeTextField = event => {
+    setRazonAgregarAsignatura(event.target.value);
+    setError(false);
+  };
+  const handleSubmit = event => {
     event.preventDefault();
-    if (
-      razonAgregarAsignatura.trim() === ''
-    ) 
-    {
+    if (razonAgregarAsignatura.trim() === '') {
       setError(true);
       return;
     }
     setSendAsignatura(true);
     // Validar los campos del formulario aquí
   };
-  const handletSucces=(data)=>{
+  const handletSucces = data => {
     setOpen(data);
     setRazonAgregarAsignatura('');
     setSendAsignatura(false);
-  }
+  };
   //useGetCursosAIniciar(false).data;
-  if(!arrayCursos){
+  if (!arrayCursos) {
     return <></>;
   }
   return (
     <>
-    {sendAsignatura && <SendBajaAsignatura onData={handletSucces} idMateriasOfertaClave={idMateria} justificacion={razonAgregarAsignatura} />}
-      <Grid container spacing={2} style={{padding:"10px 50px 0"}}>
+      {sendAsignatura && (
+        <SendBajaAsignatura
+          onData={handletSucces}
+          idMateriasOfertaClave={idMateria}
+          justificacion={razonAgregarAsignatura}
+        />
+      )}
+      <Grid container spacing={2} style={{ padding: '10px 50px 0' }}>
         <Grid item xs={8}>
           <h3>Instrucciones</h3>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit,sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          <p style={{textAlign:'justify'}}>
+            En esta sección podrá dar de alta una asignatura a su plan de
+            estudios. En el listado de las asignaturas próximas a iniciar ubique
+            primero la que desea dar de alta, haga clic en el enlace<strong> Agregar a
+            plan de estudios</strong>
           </p>
-          <p>
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-            fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-            sunt in culpa qui officia deserunt mollit anim id est laborum.
+          <p style={{textAlign:'justify'}}>
+            En caso de que no ubique la asignatura de su interés contacte a la
+            persona de servicios escolares de su unidad.
           </p>
         </Grid>
-        <Grid item xs={4} style={{textAlign:"center", margin:"auto"}}>
+        <Grid item xs={4} style={{ textAlign: 'center', margin: 'auto' }}>
           <Link href="https://www.ecosur.mx/ecoconsulta/cursosposgrado">
-            <LibraryBooksIcon style={{fontSize:"70px"}} />
-            <h3>OFERTA DE CURSOS DEL AÑO VIGENTE</h3>
+            <LibraryBooksIcon style={{ fontSize: '70px' }} />
+            <h3>OFERTA DE ASIGNATURAS DEL AÑO VIGENTE</h3>
           </Link>
         </Grid>
       </Grid>
-      <Grid container spacing={2} style={{padding:"50px"}}>
-        {arrayCursos?.map((curso:CursoPorIniciarGql, i) =>
-          <Grid key={i} item xs={12} sm={6} md={4} lg={3} >
-            <CardList data={getDataCardCursoAIniciar(curso, currentRol, setOpen,setIdMateria, show)} />
+      <Grid container spacing={2} style={{ padding: '50px' }}>
+        {arrayCursos?.map((curso: CursoPorIniciarGql, i) => (
+          <Grid key={i} item xs={12} sm={6} md={4} lg={3}>
+            <CardList
+              data={getDataCardCursoAIniciar(
+                curso,
+                currentRol,
+                setOpen,
+                setIdMateria,
+                show
+              )}
+            />
           </Grid>
-        )}
+        ))}
       </Grid>
       <Modal
         open={open}
@@ -107,7 +123,6 @@ const CardsCursosAIniciar = (props) => {
               error={error}
               helperText={error ? 'Este campo es requerido' : ''}
             />
-            
           </DialogContentText>
         }
         clickClose={() => {
@@ -115,7 +130,7 @@ const CardsCursosAIniciar = (props) => {
           setError(false);
           setRazonAgregarAsignatura('');
         }}
-        clickFunction={()=>handleSubmit(event)} //;
+        clickFunction={() => handleSubmit(event)} //;
         btnTextCancel="Salir"
         btnTextAcept="Dar de Alta"
       />
@@ -123,17 +138,25 @@ const CardsCursosAIniciar = (props) => {
   );
 };
 
-const SendBajaAsignatura=({onData, idMateriasOfertaClave, justificacion})=>{
+const SendBajaAsignatura = ({
+  onData,
+  idMateriasOfertaClave,
+  justificacion,
+}) => {
   const [open, setOpen] = useState(true);
   const handleClickFalse = () => {
     // //retorno de valor True al padre
     onData(false);
     setOpen(false);
   };
-  
-  const {data, error, isLoading, isSuccess} = useQuery(
+
+  const { data, error, isLoading, isSuccess } = useQuery(
     'dar-baja-asignatura',
-    async () => await apiAsignatura.getBajaAsignatura(idMateriasOfertaClave,justificacion),
+    async () =>
+      await apiAsignatura.getBajaAsignatura(
+        idMateriasOfertaClave,
+        justificacion
+      ),
     {
       staleTime: Infinity,
     }
@@ -152,18 +175,34 @@ const SendBajaAsignatura=({onData, idMateriasOfertaClave, justificacion})=>{
     );
   if (error)
     return (
-      <MessageSnackbar onOpen={open} autoDuration={2000} close={()=>setOpen(false)} message={"No se pudo generar la solicitud"} txtSeverity={"error"}/>
+      <MessageSnackbar
+        onOpen={open}
+        autoDuration={2000}
+        close={() => setOpen(false)}
+        message={'No se pudo generar la solicitud'}
+        txtSeverity={'error'}
+      />
     );
   if (isSuccess) {
     return (
-      <MessageSnackbar onOpen={open} autoDuration={2000} close={handleClickFalse} message={setMessage} txtSeverity={"success"}/>
+      <MessageSnackbar
+        onOpen={open}
+        autoDuration={2000}
+        close={handleClickFalse}
+        message={setMessage}
+        txtSeverity={'success'}
+      />
     );
-    
   } else {
     return (
-      <MessageSnackbar onOpen={open} autoDuration={2000} close={()=>setOpen(false)} message={setMessage} txtSeverity={"warning"}/>
+      <MessageSnackbar
+        onOpen={open}
+        autoDuration={2000}
+        close={() => setOpen(false)}
+        message={setMessage}
+        txtSeverity={'warning'}
+      />
     );
-    
   }
 };
 

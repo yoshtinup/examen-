@@ -34,6 +34,19 @@ const Routes: RoutesProps[] = [
     ],
   },
   {
+    path: '/consejo_tutelar/',
+    all_math: true,
+    roles: [
+      Roles.Estudiante,
+      Roles.Academico,
+      Roles.Externo,
+      Roles.Responsable_Orientacion,
+      Roles.Coordinador_Unidad,
+      Roles.Coordinacion_General_Posgrado,
+      Roles.Servicios_Escolares,
+    ],
+  },
+  {
     path: '/cei',
     all_math: true,
     roles: [
@@ -61,6 +74,13 @@ const Routes: RoutesProps[] = [
   },
   {
     path: '/inscripciones',
+    all_math: true,
+    roles: [
+      Roles.Servicios_Escolares,
+    ],
+  },
+  {
+    path: '/estudiantes',
     all_math: true,
     roles: [
       Roles.Servicios_Escolares,
