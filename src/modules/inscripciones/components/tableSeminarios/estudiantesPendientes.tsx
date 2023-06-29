@@ -13,6 +13,7 @@ import {
   Select,
   Typography,
   Snackbar,
+  Container,
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
@@ -128,12 +129,12 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{
     {
       field: 'estudiante',
       headerName: 'Estudiante',
-      width: 200,
+      width: 260,
     },
     { field: 'generacion', headerName: 'Generación', width: 100 },
-    { field: 'programa', headerName: 'Programa', width: 200 },
-    { field: 'unidad', headerName: 'Unidad', width: 110 },
-    { field: 'periodo', headerName: 'Periodo', width: 120 },
+    { field: 'programa', headerName: 'Programa', width: 190 },
+    { field: 'unidad', headerName: 'Unidad', width: 100 },
+    { field: 'periodo', headerName: 'Periodo', width: 90 },
     {
       field: 'periodoInscripcion',
       headerName: 'Periodo de inscripción',
@@ -141,7 +142,7 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{
         return (
           <>
             <div
-              style={{ display: 'flex', flexDirection: 'column', width: 200 }}
+              style={{ display: 'flex', flexDirection: 'column', width: 190 }}
             >
               <Typography
                 variant="subtitle2"
@@ -159,7 +160,7 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{
           </>
         );
       },
-      width: 120,
+      width: 100,
       renderCell: params => {
         return (
           <Grid sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -191,7 +192,8 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{
           <>
             <Button
               size="small"
-              variant="outlined"
+              // variant="outlined"
+              variant='contained'
               onClick={() =>
                 handleOpenModal(
                   params.row.idBoletaInscripcion,
@@ -209,7 +211,7 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{
               >
                 <Typography
                   variant="body2"
-                  style={{ fontSize: 10, textTransform: 'none' }}
+                  style={{ fontSize: 11, textTransform: 'none' }}
                 >
                   Cancelar <br /> inscripción
                 </Typography>
@@ -218,7 +220,7 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{
 
             <Button
               size="small"
-              variant="outlined"
+              variant="contained"
               onClick={() => handleSendReminder(params.row.idBoletaInscripcion)}
               sx={{ marginLeft: 1 }}
             >
@@ -231,7 +233,7 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{
               >
                 <Typography
                   variant="body2"
-                  style={{ fontSize: 10, textTransform: 'none' }}
+                  style={{ fontSize: 11, textTransform: 'none' }}
                 >
                   Enviar <br /> recordatorio
                 </Typography>
@@ -295,7 +297,7 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{
       {sendReminder && idBoleta != null && (
         <SendReminder onData={handletSucces} IdBoletasIncripciones={idBoleta} />
       )}
-      <div style={{ height: 1200, width: '100%' }}>
+      <Box style={{ height: 1200, width: '100%' }}>
         <Modal
           isOpen={isOpen}
           onClose={handleCloseModal}
@@ -304,13 +306,11 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{
         />
 
         <Grid
-          container
           sx={{
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            bgcolor: 'white',
             pb: 2,
             pt: 2,
           }}
@@ -345,7 +345,7 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{
             flexDirection: 'row',
             justifyContent: 'right',
             alignItems: 'center',
-            bgcolor: 'white',
+            backgroundColor: 'transparent',
             pb: 1,
             pt: 1,
             pr: 5,
@@ -364,43 +364,38 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{
           >
             <Typography
               variant="body2"
-              style={{ fontSize: 10, textTransform: 'none' }}
+              style={{ fontSize: 14, textTransform: 'none' }}
             >
               Enviar recordatorio
               <br /> a todos
             </Typography>
           </Button>
         </Grid>
-        <DataGrid
-        
-          // rowHeight={100}
-          sx={{ pb: 19 }}
-          rows={rows}
-          columns={columns}
-          disableColumnMenu
-          components={{
-            Cell: ({ value }) => (
-              <div style={{overflowWrap: 'anywhere',
-              wordWrap: 'normal',
-              wordBreak: 'normal',
-              whiteSpace: 'pre-line', }}>
-                {value}
-              </div>
-            ),
-            Toolbar: CustomToolbar,
-            Footer: CustomFooter,
-            NoRowsOverlay: CustomNoRowsOverlay,
-          }}
-          componentsProps={{
-            footer: { counter: rows.length, label: 'Estudiantes:' },
-          }}
-          onSelectionModelChange={ids => {
-            const selectedIDs = new Set(ids);
-            const selectedRows = rows.filter(row => selectedIDs.has(row.id));
-            setSelectedRows(selectedRows);
-          }}
-        />
-      </div>
+        <Box
+          sx={{ height: 1000, width: '100%' }}
+          id="tabla-gestion-asignaturas"
+        >
+          <DataGrid
+            rowHeight={70}
+            rows={rows}
+            columns={columns}
+            disableColumnMenu
+            components={{
+              Toolbar: CustomToolbar,
+              Footer: CustomFooter,
+              NoRowsOverlay: CustomNoRowsOverlay,
+            }}
+            componentsProps={{
+              footer: { counter: rows.length, label: 'Estudiantes:' },
+            }}
+            onSelectionModelChange={ids => {
+              const selectedIDs = new Set(ids);
+              const selectedRows = rows.filter(row => selectedIDs.has(row.id));
+              setSelectedRows(selectedRows);
+            }}
+          />
+        </Box>
+      </Box>
     </>
   );
 }; // TableEstudiantesPendientesWithoutFetch
@@ -657,17 +652,12 @@ export const TableEstudiantesPendientes: React.FC<{}> = ({}) => {
   unidad = setUnidadList(estudiantesPendientes);
 
   return (
-    <>
-      <Card
-        key={`ecosur-lista-estudiantes-pendientes`}
-        sx={{ border: 'none', boxShadow: 'none' }}
-      >
+     
         <TableEstudiantesPendientesWithoutFetch
           estudiantes={estudiantesPendientes}
           programas={programas}
           unidades={unidad}
         />
-      </Card>
-    </>
+
   );
 }; // TableEstudiantesPendientes
