@@ -11,7 +11,7 @@ const Otros = () => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant="body1" gutterBottom>
-            <b>Otros.</b>
+            <b>No posee autorización suficiente.</b>
           </Typography>
         </Grid>
       </Grid>

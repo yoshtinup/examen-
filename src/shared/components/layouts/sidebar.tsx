@@ -3,58 +3,22 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import {
   Box,
-  Divider,
   Drawer,
-  Typography,
   useMediaQuery,
   Theme,
 } from '@mui/material';
 import Icon from '@mui/icons-material/Window';
 import { NavItem } from './nav-item';
-import { WithRol } from '@shared/hooks';
 import Roles from '@definitions/Roles';
-import { WithRolCheck } from '@shared/hooks';
-import { bool, boolean } from 'yup';
-const Hola=()=>{
-  return(<><h1>Hola</h1></>)
-}
+import { useRecoilValue } from 'recoil';
+import { rolStateAtom } from '@modules/auth/recoil';
+import Routes from 'Routes';
 
 type ItemsNav = {
-  href: string;
+  path: string;
   icon: JSX.Element;
   title: string;
 };
-
-const Header = WithRol(Roles.Estudiante)(Hola);
-const items: ItemsNav[] = [
- 
-  {
-    href: '/consejo_tutelar',
-    icon: <Icon />,
-    title: 'Consejo Tutelar',
-  },
-
-  /* Cambio de la rama development */
-  {
-    href: '/seminarios_investigacion',
-    icon: <Icon />,
-    title: 'Seminarios de Investigación',
-  },
-  {
-    href: '/inscripciones',
-    icon: <Icon />,
-    title: 'Inscripciones',
-  },
-
-  /* Cambio de la rama integrate-cei */
-  {
-    href: '/cei',
-    icon: <Icon />,
-    title: 'CEI',
-  },
-];
-
-
 
 type SidebarProps = {
   onClose: () => void;
@@ -67,8 +31,25 @@ export const Sidebar: FC<SidebarProps> = ({ open, onClose }) => {
     defaultMatches: true,
     noSsr: false,
   });
-  const rol = WithRolCheck(Roles.Servicios_Escolares);
-  const show= rol(null);
+
+  const currentRol: Roles = useRecoilValue(rolStateAtom);
+  let items: ItemsNav[] = new Array();
+  Routes.forEach(ruta => {
+    if(ruta.roles.includes(currentRol)){
+      items.push({
+        ...ruta,
+        icon: <Icon />
+      });
+    }
+  });
+  if(currentRol == Roles.Servicios_Escolares){
+    items.push({
+      title: "Gestión para el tramite de cédulas electrónicas",
+      path: "https://serviciosposgrado.ecosur.mx/general/generaciontitulosxml/gestion/serviciosescolares",
+      icon: <Icon />
+    });
+  }
+
   useEffect(
     () => {
       if (!router.isReady) {
@@ -106,23 +87,14 @@ export const Sidebar: FC<SidebarProps> = ({ open, onClose }) => {
         </Box>
       </div>
       
-      <Box sx={{ flexGrow: 1 }}> 
-   <NavItem
-  key={'Página principal'}
-  icon={<Icon />}
-  href={'/home'}
-  title={open ? 'Página principal' : ''}
-  
-/> 
-      {show && items.map((item: ItemsNav) => (
-          
+      <Box sx={{ flexGrow: 1 }}>
+        {items.map((item: ItemsNav) => (
           <NavItem
             key={item.title}
             icon={item.icon}
-            href={item.href}
+            href={item.path}
             title={open ? item.title : ''}
-            
-          /> 
+          />
         ))}
       </Box>
     </Box>

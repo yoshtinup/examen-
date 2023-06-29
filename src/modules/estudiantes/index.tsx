@@ -23,7 +23,7 @@ export const ListaEstudiantes = ({}) => {
   const tablasSeguimiento = [
     {
       titulo: 'Activos',
-
+      describe:'',
       componente: <TableEstudiantesActivos />,
     },
     {
@@ -33,17 +33,17 @@ export const ListaEstudiantes = ({}) => {
     },
     {
       titulo: 'Graduados',
-
+      describe:'',
       componente: <TableEstudiantes estatus={3} bajas={false} />,
     },
     {
       titulo: 'Bajas',
-
+      describe:'',
       componente: <TableEstudiantes estatus={null} bajas={true} />,
     },
     {
       titulo: 'Prorrogas',
-    
+      describe:'',
       componente: <TableEstudiantes estatus={8} bajas={false} />,
     },
   ];
@@ -52,9 +52,11 @@ export const ListaEstudiantes = ({}) => {
     backgroundColor: '#fff',
   };
   return (
-    <Container maxWidth={false} style={{ ...style }}>
-      <Grid container spacing={2}>
-        <Grid item xs={12} >
+    <>
+        <Card key={`ecosur-lista-seminarios`} sx={{ border: 'none', boxShadow: 'none' }}>
+          <Grid container sx={{ display: 'flex', flexDirection: 'column', bgcolor: 'background.default' }}>
+            <Grid container sx={{ display: 'flex', bgcolor: 'background.paper', mb: 2, p: 2 }}>
+              <Box sx={{ width: 1 }}>
           <EcosurTabs
             data={tablasSeguimiento}
             align="left"
@@ -63,10 +65,20 @@ export const ListaEstudiantes = ({}) => {
             color='#ecf0f5'
             activeTextColor="black"
           />
-        </Grid>
-      </Grid>
-    </Container>
+       </Box>   
+            </Grid>                             
+          </Grid>
+        </Card>
+      </>  
   );
 }; // ListaInscripciones
-
-export default ListaEstudiantes;
+const EstudaintesPage: React.FC<{ }> = ({ }) => {
+  return (
+    <>
+      <Card key={`ecosur-lista-inscripciones`} sx={{ border: 'none', boxShadow: 'none' }}>
+          <ListaEstudiantes />
+      </Card> 
+    </>       
+  );
+};
+export default EstudaintesPage;

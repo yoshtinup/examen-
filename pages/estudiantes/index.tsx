@@ -11,11 +11,8 @@ import { Card } from '@mui/material';
 const Page = () => {
   return (
     <Container maxWidth="xl" style={{ paddingTop: '30px' }}>
-      <HeaderSection label="SEGUIMIENTO DE ESTUDIANTES" />
-      
+      <HeaderSection label="SEGUIMIENTO DE ESTUDIANTES" /> 
       <EstudiantesPage /> 
-     
-      
     </Container>
   );
 };
