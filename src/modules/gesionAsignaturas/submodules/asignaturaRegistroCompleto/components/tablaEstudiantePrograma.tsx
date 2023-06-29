@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { CustomToolbar, CustomFooter, CustomNoRowsOverlay } from '..';
 import {
   Alert,
   CircularProgress,
@@ -19,19 +18,8 @@ import {
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { useGetEstudiantes } from '../../../queries';
-
-import { Estudiante, FiltroEstudiante } from '../../../types';
-import moment from 'moment';
-import { set } from 'react-hook-form';
-import { useQuery } from 'react-query';
-import apiInscripciones from '@shared/components/cards/apiInscripciones';
-import { MessageSnackbar } from '@shared/components/layouts/messaAlert';
-// import Link from 'next/link';
-import ReactDOMServer from 'react-dom/server';
-import { useGetAsignaturaRegistroCompleto } from '@shared/queries/asignaturaRegistroCompleto';
+import {  FiltroEstudiante } from '../../../../estudiantes/types';
 import {
-  AsignaturaRegistroCompleto,
   ListadoAlumnos,
 } from '@shared/types/asignaturaRegistroTypes';
 import { ListaEstudiantes } from '@modules/estudiantes';
@@ -286,11 +274,11 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
           sx={{ pb: 7 }}
           rows={rows}
           columns={columns}
-          components={{
-            Toolbar: CustomToolbar,
-            Footer: CustomFooter,
-            NoRowsOverlay: CustomNoRowsOverlay,
-          }}
+          // components={{
+          //   Toolbar: CustomToolbar,
+          //   Footer: CustomFooter,
+          //   NoRowsOverlay: CustomNoRowsOverlay,
+          // }}
           componentsProps={{
             footer: { counter: rows.length, label: 'Estudiantes:' },
           }}
@@ -314,36 +302,4 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
   );
 }; // TableEstudiantesPendientesWithoutFetch
 
-export const TableEstudiantesPrograma: React.FC<any> = props => {
-  // console.log(datos);
-  const { data, isError, isLoading, isSuccess } =
-    useGetAsignaturaRegistroCompleto(8527);
 
-  if (isError) {
-    return (
-      <Alert severity="error">
-        No se pudo cargar la información de los estudiantes.
-      </Alert>
-    );
-  }
-  if (isLoading) {
-    return <CircularProgress />;
-  }
-  let estudiantesPendientes: AsignaturaRegistroCompleto[];
-  if (isSuccess) {
-    estudiantesPendientes = data;
-  }
-  let listaAlumnos: ListadoAlumnos[];
-  listaAlumnos = data[0].Alumnos?.Listado;
-  console.log(listaAlumnos);
-  return (
-    <>
-      <Card
-        key={`ecosur-lista-estudiantes`}
-        sx={{ border: 'none', boxShadow: 'none' }}
-      >
-        <TableEstudiantesProgramaWithoutFetch estudiantes={listaAlumnos} />
-      </Card>
-    </>
-  );
-}; // TableEstudiantesPendientes
