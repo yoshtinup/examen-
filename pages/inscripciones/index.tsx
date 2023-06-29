@@ -8,15 +8,8 @@ import { HeaderSection } from '@shared/components';
 const Page = () => {
   return (
     <Container maxWidth="xl" style={{ paddingTop: '30px' }}>
-      <HeaderSection label="Seguimiento de inscripciones pendientes" />
-      <Box
-        display="column"
-        alignItems="center"
-        justifyContent="center"
-        style={{ padding: '30px !important', backgroundColor: '#fff' }}
-      >
+      <HeaderSection label="SEGUIMIENTO DE INSCRIPCIONES A PERIODOS" />
         <InscripcionesPage />    
-      </Box>
     </Container>
   );
 };

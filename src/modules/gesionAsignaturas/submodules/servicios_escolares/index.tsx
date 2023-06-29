@@ -30,9 +30,6 @@ const ServiciosEscolares = () => {
     <Container maxWidth={false} style={{...style}}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <HeaderSection label="GESTIÓN DE ASIGNATURAS" shadow={false} />
-        </Grid>
-        <Grid item xs={12}>
           <EcosurTabs
             data={tablas}
             align="left"

@@ -52,82 +52,85 @@ const EvaluacionEtica = (props: any) => {
           />
         </Grid>
         <Grid item xs={8}>
-          <List
-            sx={{
-              bgcolor: '#ecf0f5',
-              height: 'fit-content',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              width: 'fit-content',
-            }}
-          >
-            <ListItem>
-              <Paper
-                elevation={1}
-                style={{ width: 'fit-content', padding: '13px' }}
-              >
-                <SchoolIcon style={{ fontSize: '40px' }} />
-              </Paper>
-              <ListItemText
-                style={{ marginLeft: '20px' }}
-                primary="Protócolo"
-                secondary={
-                  <span style={{ width: '80%', display: 'block' }}>
-                    {userInfo.Tesis}
-                  </span>
-                }
-              />
-            </ListItem>
-            <ListItem
-              style={{
-                position: 'relative',
-                left: '0',
-                paddingTop: '0px',
+          <a href="/cei">
+            <List
+              sx={{
+                bgcolor: '#ecf0f5',
                 height: 'fit-content',
                 display: 'flex',
-                flexDirection: 'row',
+                flexDirection: 'column',
                 justifyContent: 'space-between',
-                width: '100%',
+                width: 'fit-content',
               }}
             >
-              {evaluacionInfo.haveestatus == 0 && (
+              <ListItem>
                 <Paper
-                  elevation={2}
-                  style={{
-                    width: '40%',
-                    height: '10vh',
-                    padding: '5px',
-                    textAlign: 'center',
-                  }}
+                  elevation={1}
+                  style={{ width: 'fit-content', padding: '13px' }}
                 >
-                  Estatus
-                  <br />
-                  <>
-                    <b style={{ color: 'green' }}>⬤ </b>pendiente de evaluacion
-                    {evaluacionInfo.Descripcion}
-                  </>
+                  <SchoolIcon style={{ fontSize: '40px' }} />
                 </Paper>
-              )}
-              {show &&
-                evaluacionInfo.PuedeRegistrarProtocolo_CEI === false &&
-                evaluacionInfo.idFormulariosRespuestas === null && (
-                  <ListItemText
-                    style={{ textAlign: 'center' }}
-                    primary="Realizar registro de propuesta"
-                    secondary={
-                      <Button
-                        variant="contained"
-                        href="https://ecosur365p.sharepoint.com/sites/CEI"
-                        target="_blank"
-                      >
-                        <InsertLinkIcon />
-                      </Button>
-                    }
-                  />
+                <ListItemText
+                  style={{ marginLeft: '20px' }}
+                  primary="Protócolo"
+                  secondary={
+                    <span style={{ width: '80%', display: 'block' }}>
+                      {userInfo.Tesis}
+                    </span>
+                  }
+                />
+              </ListItem>
+              <ListItem
+                style={{
+                  position: 'relative',
+                  left: '0',
+                  paddingTop: '0px',
+                  height: 'fit-content',
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  width: '100%',
+                }}
+              >
+                {evaluacionInfo.haveestatus == 0 && (
+                  <Paper
+                    elevation={2}
+                    style={{
+                      width: '40%',
+                      height: '10vh',
+                      padding: '5px',
+                      textAlign: 'center',
+                    }}
+                  >
+                    Estatus
+                    <br />
+                    <>
+                      <b style={{ color: 'green' }}>⬤ </b>pendiente de
+                      evaluacion
+                      {evaluacionInfo.Descripcion}
+                    </>
+                  </Paper>
                 )}
-            </ListItem>
-          </List>
+                {show &&
+                  evaluacionInfo.PuedeRegistrarProtocolo_CEI === false &&
+                  evaluacionInfo.idFormulariosRespuestas === null && (
+                    <ListItemText
+                      style={{ textAlign: 'center' }}
+                      primary="Realizar registro de propuesta"
+                      secondary={
+                        <Button
+                          variant="contained"
+                          href="https://ecosur365p.sharepoint.com/sites/CEI"
+                          target="_blank"
+                        >
+                          <InsertLinkIcon />
+                        </Button>
+                      }
+                    />
+                  )}
+              </ListItem>
+            </List>
+          </a>
         </Grid>
         <Grid item xs={4}>
           <Paper elevation={1} style={{ position: 'relative' }}>

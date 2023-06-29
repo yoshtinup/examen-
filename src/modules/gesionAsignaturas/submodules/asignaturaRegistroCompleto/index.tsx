@@ -2,10 +2,12 @@ import Roles from '@definitions/Roles';
 import { rolStateAtom } from '@modules/auth/recoil';
 import {
   Alert,
+  Badge,
   Box,
   CircularProgress,
   Container,
   Grid,
+  Paper,
   Stack,
   Table,
   TableBody,
@@ -13,15 +15,14 @@ import {
   TableHead,
   TableRow,
   Typography,
+  styled,
 } from '@mui/material';
 import { useRecoilValue } from 'recoil';
 import { useGetInformacionCompletaAsignatura } from '../../queries/index';
 import { format } from 'date-fns';
 // import TableStudents from './components/tableStuents';
-import {
-  TableEstudiantesPrograma,
-  TableEstudiantesProgramaWithoutFetch,
-} from '@modules/estudiantes/components/tableSeminarios/programa/tablaEstudiantePrograma';
+import { TableEstudiantesProgramaWithoutFetch } from '@modules/estudiantes/components/tableSeminarios/programa/tablaEstudiantePrograma';
+import TableProfessors from './components/tableProfessors';
 
 const style = {
   padding: '30px',
@@ -49,17 +50,36 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
   }
 
   if (isSuccess) {
-    return (
+    const infoBasicMateria = (
+      <Grid item xs={12}>
+        <Typography variant="body1" gutterBottom>
+          <h2>{data.Asignatura.Datos.Nombre.Valor}</h2>
+          {data.CursoCancelado ? (
+            <>
+              <Alert severity="error">
+                Curso Cancelado - Fecha de cancelacion:{' '}
+                {format(new Date(data.FechaCancelacionCurso), 'dd/MM/yyyy')}
+              </Alert>
+            </>
+          ) : (
+            ''
+          )}
+        </Typography>
+      </Grid>
+    );
+    return data.CursoCancelado ? (
       <Container maxWidth={false} style={{ ...style }}>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography variant="body1" gutterBottom>
-              <h2>{data.Asignatura.Datos.Nombre.Valor}</h2>
-            </Typography>
-          </Grid>
+          {infoBasicMateria}
+        </Grid>
+      </Container>
+    ) : (
+      <Container maxWidth={false} style={{ ...style }}>
+        <Grid container spacing={2}>
+          {infoBasicMateria}
           <Grid item xs={12} spacing={3}>
             <Grid container spacing={4}>
-              <Grid item md={8} xs={12}>
+              <Grid item lg={8} md={6} xs={12}>
                 <h4>Datos del curso</h4>
                 <Box sx={{ backgroundColor: '#f5f5f5', padding: '5px' }}>
                   <Stack
@@ -76,6 +96,29 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                     </div>
                     <div>
                       <p>
+                        <strong>Clave:</strong> {data.Asignatura.Datos.Clave}
+                      </p>
+                    </div>
+                    <div>
+                      <p>
+                        <strong>Créditos:</strong>{' '}
+                        {data.Asignatura.Datos.Nombre.Creditos}
+                      </p>
+                    </div>
+                    <div>
+                      <p>
+                        <strong>Horas:</strong>{' '}
+                        {data.Asignatura.Datos.Nombre.Horas}
+                      </p>
+                    </div>
+                    <div>
+                      <p>
+                        <strong>Tipo:</strong>{' '}
+                        {data.Asignatura.Datos.Nombre.ObligatoriaOptativa}
+                      </p>
+                    </div>
+                    <div>
+                      <p>
                         <strong>Fecha de inicio:</strong>{' '}
                         {format(
                           new Date(data.Datos.Fechas.FechaInicioAsignatura),
@@ -85,23 +128,48 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                     </div>
                     <div>
                       <p>
-                        <strong>Fecha de finalizacion:</strong>{' '}
+                        <strong>Fecha de finalización:</strong>{' '}
                         {format(
                           new Date(data.Datos.Fechas.FechaFinAsignatura),
                           'dd/MM/yyyy'
                         )}
                       </p>
                     </div>
+                  </Stack>
+                  <hr></hr>
+                  <Stack
+                    direction="row"
+                    justifyContent="flex-start"
+                    alignItems="flex-start"
+                    spacing={2}
+                  >
                     <div>
                       <p>
-                        <strong>Cuatrimestre:</strong>{' '}
-                        {data.Datos.Periodo.Nombre}
+                        <strong>Periodo:</strong> {data.Datos.Periodo.Nombre}
+                      </p>
+                    </div>
+                    <div>
+                      <p>
+                        <strong>Fecha de inicio periodo:</strong>{' '}
+                        {format(
+                          new Date(data.Datos.Fechas.FechaInicioPeriodo),
+                          'dd/MM/yyyy'
+                        )}
+                      </p>
+                    </div>
+                    <div>
+                      <p>
+                        <strong>Fecha de finalización periodo:</strong>{' '}
+                        {format(
+                          new Date(data.Datos.Fechas.FechaFinPeriodo),
+                          'dd/MM/yyyy'
+                        )}
                       </p>
                     </div>
                   </Stack>
                 </Box>
               </Grid>
-              <Grid item md={4} xs={12}>
+              <Grid item lg={4} md={6} xs={12}>
                 <h4>Estatus de los procesos</h4>
                 <Box sx={{ backgroundColor: '#f5f5f5', padding: '5px' }}>
                   <Table size="small">
@@ -168,30 +236,15 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                 </Box>
               </Grid>
               <Grid item md={12}>
-                <h4>Profesores del curso</h4>
-                <Box sx={{ backgroundColor: '#f5f5f5', padding: '5px' }}>
-                  <Table aria-label="simple table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Nombre</TableCell>
-                        <TableCell>Correo</TableCell>
-                        <TableCell>Tipo de participación</TableCell>
-                        <TableCell>Institución</TableCell>
-                        <TableCell>Porcentaje de participación</TableCell>
-                        <TableCell>Acta de participación</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell></TableCell>
-                        <TableCell></TableCell>
-                        <TableCell></TableCell>
-                        <TableCell></TableCell>
-                        <TableCell></TableCell>
-                        <TableCell></TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
+                <h4>Docentes de la asignatura</h4>
+                <Box
+                  sx={{
+                    backgroundColor: '#f5f5f5',
+                    padding: '5px',
+                    minHeight: '200px',
+                  }}
+                >
+                  <TableProfessors professsors={data.Docentes} />
                 </Box>
               </Grid>
               <Grid item md={12}>
@@ -200,11 +253,12 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                   sx={{
                     backgroundColor: '#f5f5f5',
                     padding: '5px',
-                    height: '400px',
+                    minHeight: '200px',
                   }}
                 >
                   <TableEstudiantesProgramaWithoutFetch
                     estudiantes={data.Alumnos.Listado}
+                    urlboleta={data.ConcentradoCalificacionesAlumnos}
                   />
                 </Box>
               </Grid>

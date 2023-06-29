@@ -15,7 +15,7 @@ const Page = ({matricula}) => {
   ;
   return (
     <Container maxWidth={false} style={{ padding: '30px' }}>
-       <Header/>
+       {!matricula&&<Header/>}
       <Box
         display="column"
         alignItems="center"
