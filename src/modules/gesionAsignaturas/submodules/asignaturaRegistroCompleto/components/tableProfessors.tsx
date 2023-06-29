@@ -4,6 +4,8 @@ import {
   CustomToolbar,
 } from '@modules/estudiantes/components/tableSeminarios';
 import ModalDatosParticipante from '@modules/estudiantes/components/tableSeminarios/programa/modalDatosParticipante';
+import { Professor } from '@modules/gesionAsignaturas/types/Professor';
+import { ProfessorRow } from '@modules/gesionAsignaturas/types/ProfessorRow';
 
 import { Button, Grid } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
@@ -16,7 +18,7 @@ const TableProfessors: React.FC<{
     {
       field: 'nombre',
       headerName: 'Nombre',
-      width: 350,
+      width: 250,
     },
 
     { field: 'id', headerName: 'Correo', width: 200 },
