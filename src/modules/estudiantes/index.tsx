@@ -11,7 +11,6 @@ import {
 import { EcosurTabs } from 'ecosur-ui';
 import React from 'react';
 import { TableEstudiantes } from './components/tableSeminarios/estudiantes';
-import { TableEstudiantesPrograma } from './components/tableSeminarios/programa/tablaEstudiantePrograma';
 
 export const ListaEstudiantes = ({}) => {
   const currentYear = new Date().getFullYear();
@@ -44,7 +43,7 @@ export const ListaEstudiantes = ({}) => {
     },
     {
       titulo: 'Prorrogas',
-
+    
       componente: <TableEstudiantes estatus={8} bajas={false} />,
     },
   ];
