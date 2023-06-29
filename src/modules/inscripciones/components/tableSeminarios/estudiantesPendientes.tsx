@@ -287,7 +287,7 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{
 
   return (
     <>
-      {send && idBoleta == null && <SendReminderAll onData={handletSucces} />}
+      {/* {send && idBoleta == null && <SendReminderAll onData={handletSucces} />}
       {send && idBoleta != null && (
         <SendCancelInscription
           onData={handletSucces}
@@ -296,7 +296,7 @@ export const TableEstudiantesPendientesWithoutFetch: React.FC<{
       )}
       {sendReminder && idBoleta != null && (
         <SendReminder onData={handletSucces} IdBoletasIncripciones={idBoleta} />
-      )}
+      )} */}
       <Box style={{ height: 1200, width: '100%' }}>
         <Modal
           isOpen={isOpen}

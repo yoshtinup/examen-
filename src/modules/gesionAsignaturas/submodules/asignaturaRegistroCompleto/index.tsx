@@ -2,12 +2,10 @@ import Roles from '@definitions/Roles';
 import { rolStateAtom } from '@modules/auth/recoil';
 import {
   Alert,
-  Badge,
   Box,
   CircularProgress,
   Container,
   Grid,
-  Paper,
   Stack,
   Table,
   TableBody,
@@ -15,13 +13,13 @@ import {
   TableHead,
   TableRow,
   Typography,
-  styled,
 } from '@mui/material';
 import { useRecoilValue } from 'recoil';
 import { useGetInformacionCompletaAsignatura } from '../../queries/index';
 import { format } from 'date-fns';
 // import TableStudents from './components/tableStuents';
 import { TableEstudiantesProgramaWithoutFetch } from '@modules/gesionAsignaturas/submodules/asignaturaRegistroCompleto/components/tablaEstudiantePrograma';
+
 import TableProfessors from './components/tableProfessors';
 
 const style = {
@@ -79,7 +77,7 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
           {infoBasicMateria}
           <Grid item xs={12} spacing={3}>
             <Grid container spacing={4}>
-              <Grid item lg={8} md={6} xs={12}>
+              <Grid item xs={12}>
                 <h4>Datos del curso</h4>
                 <Box sx={{ backgroundColor: '#f5f5f5', padding: '5px' }}>
                   <Stack
@@ -119,24 +117,15 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                     </div>
                     <div>
                       <p>
-                        <strong>Fecha de inicio:</strong>{' '}
-                        {format(
-                          new Date(data.Datos.Fechas.FechaInicioAsignatura),
-                          'dd/MM/yyyy'
-                        )}
-                      </p>
-                    </div>
-                    <div>
-                      <p>
-                        <strong>Fecha de finalización:</strong>{' '}
-                        {format(
-                          new Date(data.Datos.Fechas.FechaFinAsignatura),
-                          'dd/MM/yyyy'
-                        )}
+                        <strong>Periodo:</strong> {data.Datos.Periodo.Nombre}
                       </p>
                     </div>
                   </Stack>
-                  <hr></hr>
+                </Box>
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <h4>Fechas importantes</h4>
+                <Box sx={{ backgroundColor: '#f5f5f5', padding: '5px' }}>
                   <Stack
                     direction="row"
                     justifyContent="flex-start"
@@ -145,31 +134,52 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                   >
                     <div>
                       <p>
-                        <strong>Periodo:</strong> {data.Datos.Periodo.Nombre}
-                      </p>
-                    </div>
-                    <div>
-                      <p>
                         <strong>Fecha de inicio periodo:</strong>{' '}
-                        {format(
-                          new Date(data.Datos.Fechas.FechaInicioPeriodo),
-                          'dd/MM/yyyy'
-                        )}
+                        {data.Datos.Fechas.FechaInicioPeriodo !== null
+                          ? format(
+                              new Date(data.Datos.Fechas.FechaInicioPeriodo),
+                              'dd/MM/yyyy'
+                            )
+                          : 'No definida'}
                       </p>
                     </div>
                     <div>
                       <p>
                         <strong>Fecha de finalización periodo:</strong>{' '}
-                        {format(
-                          new Date(data.Datos.Fechas.FechaFinPeriodo),
-                          'dd/MM/yyyy'
-                        )}
+                        {data.Datos.Fechas.FechaFinPeriodo !== null
+                          ? format(
+                              new Date(data.Datos.Fechas.FechaFinPeriodo),
+                              'dd/MM/yyyy'
+                            )
+                          : 'No definida'}
+                      </p>
+                    </div>
+                    <div>
+                      <p>
+                        <strong>Fecha de inicio asignatura:</strong>{' '}
+                        {data.Datos.Fechas.FechaInicioAsignatura !== null
+                          ? format(
+                              new Date(data.Datos.Fechas.FechaInicioAsignatura),
+                              'dd/MM/yyyy'
+                            )
+                          : 'No definida'}
+                      </p>
+                    </div>
+                    <div>
+                      <p>
+                        <strong>Fecha de finalización asignatura:</strong>{' '}
+                        {data.Datos.Fechas.FechaFinAsignatura !== null
+                          ? format(
+                              new Date(data.Datos.Fechas.FechaFinAsignatura),
+                              'dd/MM/yyyy'
+                            )
+                          : 'No definida'}
                       </p>
                     </div>
                   </Stack>
                 </Box>
               </Grid>
-              <Grid item lg={4} md={6} xs={12}>
+              <Grid item md={6} xs={12}>
                 <h4>Estatus de los procesos</h4>
                 <Box sx={{ backgroundColor: '#f5f5f5', padding: '5px' }}>
                   <Table size="small">
@@ -193,9 +203,12 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                         <TableCell>
                           {data.EstatusRegistroDocentes != null &&
                           data.EstatusRegistroDocentes
-                            .IdcatalogoEstatusRegistroDocentesPorcentajes == 2
-                            ? 'Enviar recordatorio'
-                            : ''}
+                            .IdcatalogoEstatusRegistroDocentesPorcentajes ==
+                            2 ? (
+                            <a href="#">Enviar recordatorio</a>
+                          ) : (
+                            ''
+                          )}
                         </TableCell>
                       </TableRow>
                       <TableRow>
@@ -212,9 +225,11 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                         </TableCell>
                         <TableCell>
                           {data.EvaluacionDocente != null &&
-                          [1, 3].includes(data.EvaluacionDocente.Estatus.Id)
-                            ? 'Enviar notificación'
-                            : ''}
+                          [1, 3].includes(data.EvaluacionDocente.Estatus.Id) ? (
+                            <a href="#">Enviar notificación</a>
+                          ) : (
+                            ''
+                          )}
                         </TableCell>
                       </TableRow>
                       <TableRow>
@@ -226,16 +241,20 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                         </TableCell>
                         <TableCell>
                           {data.EstatusAsignacionCalificacion != null &&
-                          [1, 2].includes(data.EstatusAsignacionCalificacion.Id)
-                            ? 'Enviar notificación'
-                            : ''}
+                          [1, 2].includes(
+                            data.EstatusAsignacionCalificacion.Id
+                          ) ? (
+                            <a href="#">Enviar notificación</a>
+                          ) : (
+                            ''
+                          )}
                         </TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
                 </Box>
               </Grid>
-              <Grid item md={12}>
+              <Grid item xs={12}>
                 <h4>Docentes de la asignatura</h4>
                 <Box
                   sx={{
@@ -247,7 +266,7 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                   <TableProfessors professsors={data.Docentes} />
                 </Box>
               </Grid>
-              <Grid item md={12}>
+              <Grid item xs={12}>
                 <h4>Estudiantes del curso</h4>
                 <Box
                   sx={{

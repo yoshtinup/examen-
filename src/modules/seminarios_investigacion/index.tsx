@@ -1,6 +1,6 @@
-import { Alert, CircularProgress, Container, Box, Typography, Button, Grid } from '@mui/material';
+import { Alert, CircularProgress, Container, Box, Typography, Paper, List, ListItem, ListItemText } from '@mui/material';
 import { HeaderSection, Perfil } from '@shared/components';
-import { EcosurContainer, EcosurSectionTitle } from 'ecosur-ui';
+import { EcosurContainer} from 'ecosur-ui';
 import { CardCT } from './components/evaluacion';
 import { CardActividades } from './components/evaluacion';
 import { CardPrograma } from './components/evaluacion';
@@ -11,29 +11,38 @@ import { DataID } from './types';
 import Roles from '@definitions/Roles';
 import { useRecoilValue } from 'recoil';
 import { rolStateAtom } from '@modules/auth/recoil';
-import { useRouter } from 'next/router';
 import { Layout } from '@shared/components/layouts';
 
 const PerfilWithStatus: React.FC<{matricula: number, status: string, seminario: number}> = ({matricula, status, seminario}) => {
+  const estatusColor = status == "Calificado y firmado" ? 'green' : 'red';
   const evaluacionSeminarioComponentes = [  
     {
       componente:       
-         <>
-          <Box sx={{ pb: 2, mt: 4, mb: 2 }}>
-            <Perfil matricula={matricula}  />
-            <Typography sx={{ pl: 3 }} component='div'>
-              <b>Estatus de evaluación: </b> {status}
-            </Typography>
-          </Box>
-        </>,
-      width: 8,
+        <Box sx={{ pb: 2, mt: 4, mb: 2 }}>
+          <Paper elevation={3} style={{backgroundColor:"#f1f1f1"}}>
+          <List sx={{ width: '100%', color:"#373737" }}>
+            <ListItem>
+              <ListItemText
+                primary={<Perfil matricula={matricula} simple={true} />}
+                secondary={
+                  <Typography sx={{ pl: 3 }} component='div'>
+                    <b style={{ color: estatusColor }}>⬤ </b>
+                    <b>Estatus de evaluación: </b> {status}
+                  </Typography>
+                }
+              />
+            </ListItem>
+          </List>
+          </Paper>
+        </Box>,
+      width: 12,
     },  
     {
       componente: 
         <Box sx={{ pb: 2 }}>
           <CardCT IdEvaluacionSeminario={seminario} />
         </Box>,
-      width: 4,
+      width: 12,
     },  
   ]
   return (
@@ -129,7 +138,6 @@ const DetallesSeminarioInvestigacion: React.FC<{
   let dataID: DataID[];
   if (isSuccess) {
     dataID = data;
-    console.log(data);
   }
   return (
     <Layout>

@@ -23,7 +23,6 @@ import { useQuery } from 'react-query';
 import apiInscripciones from '@shared/components/cards/apiInscripciones';
 import Modal from '../../../../shared/components/layouts/modal-inscripcion';
 import { EcosurAuth } from '@modules/auth/definitions';
-import { useGetCursosAlumno } from '@shared/queries';
 import { getCuatrimestresSemestres } from '@modules/tablero_plan_estudios/hooks';
 import { useRouter } from 'next/router';
 

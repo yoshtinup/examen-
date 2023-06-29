@@ -4,6 +4,9 @@ import {
   CustomToolbar,
 } from '@modules/estudiantes/components/tableSeminarios';
 import ModalDatosParticipante from '@modules/gesionAsignaturas/submodules/asignaturaRegistroCompleto/components/programa/modalDatosParticipante';
+import { Professor } from '@modules/gesionAsignaturas/types/Professor';
+import { ProfessorRow } from '@modules/gesionAsignaturas/types/ProfessorRow';
+
 
 import { Button, Grid } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
@@ -16,7 +19,7 @@ const TableProfessors: React.FC<{
     {
       field: 'nombre',
       headerName: 'Nombre',
-      width: 350,
+      width: 250,
     },
 
     { field: 'id', headerName: 'Correo', width: 200 },
@@ -45,37 +48,46 @@ const TableProfessors: React.FC<{
       },
     },
   ];
-  let rows = professsors.map(proffesor => {
+  let rows: ProfessorRow[] = professsors.map((proffesor: Professor) => {
+    const {
+      Nombre,
+      TipoDeParticipacion,
+      PorcentajeParticipacion,
+      ConstanciaDeParticipacionDocente,
+      IdProfesores,
+    } = proffesor;
+
+    const enlaces = (
+      <>
+        {TipoDeParticipacion.IdParticipacion === 13 ? (
+          <ModalDatosParticipante idParticipante={IdProfesores} />
+        ) : (
+          ''
+        )}
+        {ConstanciaDeParticipacionDocente != null ? (
+          <Button
+            href={ConstanciaDeParticipacionDocente}
+            target="_blank"
+            variant="outlined"
+          >
+            Constancia
+          </Button>
+        ) : (
+          ''
+        )}
+      </>
+    );
+
     return {
-      nombre:
-        proffesor.Nombre.Nombre_s_ + ' ' + proffesor.Nombre.ApellidoPaterno,
-      id: proffesor.Nombre.Email,
-      tipo_participacion: proffesor.TipoDeParticipacion.Value,
-      unidad: proffesor.Nombre.Unidad.Value,
+      nombre: `${Nombre.Nombre_s_} ${Nombre.ApellidoPaterno}`,
+      id: Nombre.Email,
+      tipo_participacion: TipoDeParticipacion.Value,
+      unidad: Nombre.Unidad.Value,
       porcentaje_participacion:
-        proffesor.TipoDeParticipacion.IdParticipacion == 13
+        TipoDeParticipacion.IdParticipacion === 13
           ? 'N/A'
-          : proffesor.PorcentajeParticipacion,
-      enlaces: (
-        <>
-          {proffesor.TipoDeParticipacion.IdParticipacion == 13 ? (
-            <ModalDatosParticipante idParticipante={proffesor.IdProfesores} />
-          ) : (
-            ''
-          )}
-          {proffesor.ConstanciaDeParticipacionDocente != null ? (
-            <Button
-              href={proffesor.ConstanciaDeParticipacionDocente}
-              target="_blank"
-              variant="outlined"
-            >
-              Constancia
-            </Button>
-          ) : (
-            ''
-          )}
-        </>
-      ),
+          : PorcentajeParticipacion,
+      enlaces,
     };
   });
 

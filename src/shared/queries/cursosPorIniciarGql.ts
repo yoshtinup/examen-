@@ -31,5 +31,8 @@ export function useGetCursosAIniciar(doctorado:boolean) {
       { date }
     );
     return Cursos;
+  },
+  {
+    staleTime: Infinity
   });
 }

@@ -274,10 +274,8 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
     alignItems: 'center',
     justifyContent: 'center',
   };
- 
 
   return (
-   
      
       <Container style={{ height: 1200, width: '100%', marginTop:'-14px'}}>
       <Modal open={isModalOpen} onClose={handleCloseModal}>
@@ -320,7 +318,6 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            
             pb: 4,
             pt: 5,
             
