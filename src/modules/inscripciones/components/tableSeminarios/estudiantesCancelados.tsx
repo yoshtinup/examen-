@@ -136,25 +136,38 @@ const [estudiante, setEstudiante] = useState<Inscripcion[]>([]);
     {
       field: 'nombre',
       headerName: 'Nombre',
-      width: 350,
-      renderCell: params => {
-        return (
-          <Grid sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography variant="body2">
-              {`${params.row.nombre}`}
-            </Typography>
-          </Grid>
-        );
-      },
+      width: 230,
     },
-    { field: 'programa', headerName: 'Programa', width: 420 },
-    { field: 'unidad', headerName: 'Unidad', width: 260 },
-    { field: 'generacion', headerName: 'Generación', width: 120 },   
-    { field: 'periodo', headerName: 'Periodo', width: 260 },
+    { field: 'programa', headerName: 'Programa', width: 180 },
+    { field: 'unidad', headerName: 'Unidad', width: 100 },
+    { field: 'generacion', headerName: 'Generación', width: 100 },   
+    { field: 'periodo', headerName: 'Periodo', width: 90 },
     {
       field: 'periodoInscripcion',
       headerName: 'Fecha del Periodo',
-      width: 180,
+      width: 120,
+      renderHeader: () => {
+        return (
+          <>
+            <div
+              style={{ display: 'flex', flexDirection: 'column', width: 190 }}
+            >
+              <Typography
+                variant="subtitle2"
+                style={{ textAlign: 'center', fontWeight: 'bold' }}
+              >
+                Fecha del
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                style={{ textAlign: 'center', fontWeight: 'bold' }}
+              >
+                Periodo
+              </Typography>
+            </div>
+          </>
+        );
+      },
       renderCell: params => {
         return (
           <Grid sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -172,7 +185,7 @@ const [estudiante, setEstudiante] = useState<Inscripcion[]>([]);
         );
       },
     },
-    { field: 'boleta', headerName: 'Boleta', width: 260 },
+    { field: 'boleta', headerName: 'Boleta', width: 230 },
    
   ];
 
@@ -216,7 +229,6 @@ const [estudiante, setEstudiante] = useState<Inscripcion[]>([]);
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            bgcolor: 'white',
             pb: 2,
             pt: 2,
           }}
@@ -249,7 +261,6 @@ const [estudiante, setEstudiante] = useState<Inscripcion[]>([]);
             flexDirection: 'row',
             justifyContent: 'right',
             alignItems: 'center',
-            bgcolor: 'white',
             pb: 1,
             pt: 1,
             pr: 5,
@@ -261,8 +272,12 @@ const [estudiante, setEstudiante] = useState<Inscripcion[]>([]);
           </Typography> 
           </Button>
         </Grid>
-
+        <Box
+          sx={{ height: 1200, width: '100%' }}
+          id="tabla-gestion-asignaturas"
+        >
         <DataGrid
+        rowHeight={70}
           sx={{ pb: 18 }}
           rows={rows}
           columns={columns}
@@ -275,12 +290,8 @@ const [estudiante, setEstudiante] = useState<Inscripcion[]>([]);
           componentsProps={{
             footer: { counter: rows.length, label: 'Estudiantes:' },
           }}
-          // onSelectionModelChange={ids => {
-          //   const selectedIDs = new Set(ids);
-          //   const selectedRows = rows.filter(row => selectedIDs.has(row.id));
-          //   setSelectedRows(selectedRows);
-          // }}
         />
+        </Box>
       </div>
     </>
   );
@@ -369,17 +380,11 @@ export const TableEstudiantesCancelados = props => {
   ////
 
   return (
-    <>
-      <Card
-        key={`ecosur-lista-estudiantes-cancelados`}
-        sx={{ border: 'none', boxShadow: 'none' }}
-      >
+   
         <TableEstudiantesCanceladosWithoutFetch
           programas={programas}
-          unidades={unidad}
-          
+          unidades={unidad}  
         />
-      </Card>
-    </>
+  
   );
 }; // TableEstudiantesinscritos

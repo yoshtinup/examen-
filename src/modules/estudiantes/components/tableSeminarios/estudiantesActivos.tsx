@@ -16,6 +16,7 @@ import {
   Snackbar,
   Modal,
   Tooltip,
+  Container,
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
@@ -163,9 +164,9 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
     {
       field: 'estudiante',
       headerName: 'Nombre',
-      width: 320,
+      width: 280,
     },
-    { field: 'programa', headerName: 'Programa', width: 255 },
+    { field: 'programa', headerName: 'Programa', width: 240 },
     { field: 'unidad', headerName: 'Unidad', width: 110 },
     { field: 'anio', headerName: 'Año', minWidth: 110 },
     { field: 'matricula', headerName: 'Matricula', minWidth: 100 },
@@ -273,96 +274,12 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
     alignItems: 'center',
     justifyContent: 'center',
   };
-  const gridRef = useRef(null);
-
-  useEffect(() => {
-    const adjustRowHeight = () => {
-      if (gridRef.current && gridRef.current.api) {
-        const rowNodes = gridRef.current.api.current.getRowNodes();
-        rowNodes.forEach((rowNode) => {
-          rowNode.setRowHeight('auto');
-        });
-      }
-    };
-
-    adjustRowHeight();
-
-    window.addEventListener('resize', adjustRowHeight);
-
-    return () => {
-      window.removeEventListener('resize', adjustRowHeight);
-    };
-  }, []);
-
-  const renderCellContent = (params: GridRenderCellParams<any, any>) => {
-    const { value, field,rowNode  } = params;
-
-    // Verificar si es la columna de opciones
-    if (field === 'opcion') {
-      return (
-        <>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'initial',
-                paddingTop: 10,
-              }}
-            >
-              <Link aria-disabled={true}>
-                <a
-                  onClick={() => handleClickExpediente(params.row.matricula)}
-                  style={{
-                    cursor: 'pointer',
-                    textDecoration: 'none',
-                    color: '#00BFA5',
-                  }}
-                >
-                  <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-                  Ver expediente
-                </a>
-              </Link>
-
-              <Link onClick={() => handleOpenModal(params.row.matricula)}>
-                <a
-                  style={{
-                    cursor: 'pointer',
-                    textDecoration: 'none',
-                    color: '#00BFA5',
-                  }}
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-                    <p>
-                      Expendiente <br />
-                      de ingreso
-                    </p>
-                  </div>
-                </a>
-              </Link>
-            </div>
-          </>
-      );
-    }
-
-    return (
-      <Tooltip title={value} enterDelay={300} placement="top-start">
-        <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-          {value}
-        </div>
-      </Tooltip>
-    );
-  };
-
+ 
 
   return (
-    <>
+   
+     
+      <Container style={{ height: 1200, width: '100%', marginTop:'-14px'}}>
       <Modal open={isModalOpen} onClose={handleCloseModal}>
         <div style={modalStyle}>
           <div
@@ -397,17 +314,16 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
           </div>
         </div>
       </Modal>
-      <div style={{ height: 1200, width: '100%' }}>
         <Grid
-          container
           sx={{
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            bgcolor: 'white',
-            pb: 2,
-            pt: 2,
+            
+            pb: 4,
+            pt: 5,
+            
           }}
         >
           <Grid item sx={{ mr: 2, fontSize: 14 }}>
@@ -444,19 +360,7 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
             />
           </Grid>
         </Grid>
-        <Grid
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'right',
-            alignItems: 'center',
-            bgcolor: 'white',
-            pb: 1,
-            pt: 1,
-            pr: 5,
-          }}
-        ></Grid>
-        <Box sx={{ height: 900, width: '100%' }} id="tabla-gestion-asignaturas">
+        <Box sx={{ height: 1100, width: '100%' }} id="tabla-gestion-asignaturas">
           <DataGrid
           rowHeight={90}
             rows={rows}
@@ -477,8 +381,8 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
             }}
           />
        </Box>
-      </div>
-    </>
+      </Container>
+  
   );
 }; // TableEstudiantesPendientesWithoutFetch
 
@@ -636,18 +540,13 @@ export const TableEstudiantesActivos: React.FC<{}> = ({}) => {
   unidad = setUnidadList(estudiantesPendientes);
   periodo = setAniosList(estudiantesPendientes);
   return (
-    <>
-      <Card
-        key={`ecosur-lista-estudiantes-pendientes`}
-        sx={{ border: 'none', boxShadow: 'none' }}
-      >
+   
         <TableEstudiantesActivosWithoutFetch
           estudiantes={estudiantesPendientes}
           programas={programas}
           unidades={unidad}
           periodos={periodo}
         />
-      </Card>
-    </>
+    
   );
 }; // TableEstudiantesPendientes

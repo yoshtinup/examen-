@@ -32,14 +32,14 @@ export const ListaInscripciones = ({  }) => {
         componente: <TableEstudiantesCancelados />,
       }    
     ]
-  
+    const colorsistem='#ecf0f5'
     return (
       <>
         <Card key={`ecosur-lista-seminarios`} sx={{ border: 'none', boxShadow: 'none' }}>
           <Grid container sx={{ display: 'flex', flexDirection: 'column', bgcolor: 'background.default' }}>
             <Grid container sx={{ display: 'flex', bgcolor: 'background.paper', mb: 2, p: 2 }}>
-              <Box sx={{ width: 1,backgroundColor: '#ECECEC' }}>
-                <EcosurTabs data={tablasSeminarios} align='left' key='ecosur-tabs-seminarios' color="white" activeColor="white" activeTextColor="black"/>        
+              <Box sx={{ width: 1 }}>
+                <EcosurTabs data={tablasSeminarios} align='left' key='ecosur-tabs-seminarios' color='rgb(236, 240, 245)' activeColor="#ecf0f5" activeTextColor="black"/>        
               </Box>   
             </Grid>                             
           </Grid>

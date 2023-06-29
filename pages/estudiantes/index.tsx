@@ -6,19 +6,16 @@ import { Container, Box } from '@mui/system';
 import { HeaderSection } from '@shared/components';
 import TableroServiciosEscolares from '@modules/tablero_servicios_escolares';
 import EstudiantesPage from '@modules/estudiantes';
+import { Card } from '@mui/material';
 
 const Page = () => {
   return (
     <Container maxWidth="xl" style={{ paddingTop: '30px' }}>
       <HeaderSection label="SEGUIMIENTO DE ESTUDIANTES" />
-      <Box
-        display="column"
-        alignItems="center"
-        justifyContent="center"
-        style={{ padding: '30px !important', backgroundColor: '#fff' }}
-      >
-        <EstudiantesPage />    
-      </Box>
+      
+      <EstudiantesPage /> 
+     
+      
     </Container>
   );
 };

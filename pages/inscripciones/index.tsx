@@ -9,14 +9,7 @@ const Page = () => {
   return (
     <Container maxWidth="xl" style={{ paddingTop: '30px' }}>
       <HeaderSection label="SEGUIMIENTO DE INSCRIPCIONES A PERIODOS" />
-      <Box
-        display="column"
-        alignItems="center"
-        justifyContent="center"
-        style={{ padding: '30px !important', backgroundColor: '#fff' }}
-      >
         <InscripcionesPage />    
-      </Box>
     </Container>
   );
 };

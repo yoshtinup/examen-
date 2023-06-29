@@ -40,7 +40,7 @@ const TablaAsignaturas = (props: any) => {
   useEffect(() => {
     setRows(getRows(asignaturas, unidad, programa, periodo));
   }, [ unidad, programa, periodo ] );
-   console.log(rows);
+
 
   return (
     <Grid item xs={12}>

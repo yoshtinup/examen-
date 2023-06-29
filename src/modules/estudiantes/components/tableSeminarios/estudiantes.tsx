@@ -15,6 +15,7 @@ import {
   Typography,
   Snackbar,
   Modal,
+  Container,
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
@@ -148,18 +149,10 @@ export const TableEstudiantesWithoutFetch: React.FC<{
     {
       field: 'estudiante',
       headerName: 'Nombre',
-      width: 320,
-      // renderCell: params => {
-      //   return (
-      //     <Grid sx={{ display: 'flex', flexDirection: 'column' }}>
-      //       <Typography variant="body2">
-      //         {`${params.row.estudiante}`}
-      //       </Typography>
-      //     </Grid>
-      //   );
-      // },
+      width: 280,
+      
     },
-    { field: 'programa', headerName: 'Programa', width: 255 },
+    { field: 'programa', headerName: 'Programa', width: 240 },
     { field: 'unidad', headerName: 'Unidad', width: 120 },
     { field: 'generacion', headerName: 'Generación', width: 100 },
     { field: 'matricula', headerName: 'Matricula', width: 100 },
@@ -245,12 +238,8 @@ export const TableEstudiantesWithoutFetch: React.FC<{
   const [selectedRows, setSelectedRows] = React.useState([]);
 
   return (
-    <>
-      {/* {send && idBoleta==null && <SendReminderAll onData={handletSucces}/>}
-        {send  && idBoleta!=null && <SendCancelInscription onData={handletSucces} IdBoletasIncripciones={idBoleta}/>}
-        {sendReminder  && idBoleta!=null && <SendReminder onData={handletSucces} IdBoletasIncripciones={idBoleta}/>} */}
 
-      <div style={{ height: 1200, width: '100%' }}>
+<Container style={{ height: 1200, width: '100%', marginTop:'-14px'}}>
         <Grid
           container
           sx={{
@@ -258,9 +247,9 @@ export const TableEstudiantesWithoutFetch: React.FC<{
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            bgcolor: 'white',
-            pb: 2,
-            pt: 2,
+            
+            pb: 4,
+            pt: 5,
           }}
         >
           <Grid item sx={{ mr: 2, fontSize: 14 }}>
@@ -297,18 +286,7 @@ export const TableEstudiantesWithoutFetch: React.FC<{
             />
           </Grid>
         </Grid>
-        <Grid
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'right',
-            alignItems: 'center',
-            bgcolor: 'white',
-            pb: 1,
-            pt: 1,
-            pr: 5,
-          }}
-        ></Grid>
+       
         <Box sx={{ height: 900, width: '100%' }} id="tabla-gestion-asignaturas">
         <DataGrid
           rowHeight={70}
@@ -328,8 +306,8 @@ export const TableEstudiantesWithoutFetch: React.FC<{
             setSelectedRows(selectedRows);
           }}
         /></Box>
-      </div>
-    </>
+      </Container>
+  
   );
 }; // TableEstudiantesPendientesWithoutFetch
 
@@ -434,18 +412,13 @@ export const TableEstudiantes: React.FC<any> = props => {
   unidad = setUnidadList(estudiantesPendientes);
   periodo = setAniosList(estudiantesPendientes);
   return (
-    <>
-      <Card
-        key={`ecosur-lista-estudiantes`}
-        sx={{ border: 'none', boxShadow: 'none' }}
-      >
+   
         <TableEstudiantesWithoutFetch
           estudiantes={estudiantesPendientes}
           programas={programas}
           unidades={unidad}
           periodos={periodo}
         />
-      </Card>
-    </>
+    
   );
 }; // TableEstudiantesPendientes
