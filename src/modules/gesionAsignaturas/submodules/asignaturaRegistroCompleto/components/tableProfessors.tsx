@@ -16,7 +16,7 @@ const TableProfessors: React.FC<{
     {
       field: 'nombre',
       headerName: 'Nombre',
-      width: 350,
+      width: 250,
     },
 
     { field: 'id', headerName: 'Correo', width: 200 },
