@@ -139,7 +139,7 @@ const SelectFecha = (props: any) => {
 
 export const TableEstudiantesProgramaWithoutFetch: React.FC<{
   estudiantes: ListadoAlumnos[];
-  urlboleta: string;
+  urlboleta?: string;
 }> = ({ estudiantes, urlboleta }) => {
   const [programa, setPrograma] = useState<string>('Todos');
   const [unidad, setUnidad] = useState<string>('Todos');
