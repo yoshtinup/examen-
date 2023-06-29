@@ -201,9 +201,12 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                         <TableCell>
                           {data.EstatusRegistroDocentes != null &&
                           data.EstatusRegistroDocentes
-                            .IdcatalogoEstatusRegistroDocentesPorcentajes == 2
-                            ? 'Enviar recordatorio'
-                            : ''}
+                            .IdcatalogoEstatusRegistroDocentesPorcentajes ==
+                            2 ? (
+                            <a href="#">Enviar recordatorio</a>
+                          ) : (
+                            ''
+                          )}
                         </TableCell>
                       </TableRow>
                       <TableRow>
@@ -220,9 +223,11 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                         </TableCell>
                         <TableCell>
                           {data.EvaluacionDocente != null &&
-                          [1, 3].includes(data.EvaluacionDocente.Estatus.Id)
-                            ? 'Enviar notificación'
-                            : ''}
+                          [1, 3].includes(data.EvaluacionDocente.Estatus.Id) ? (
+                            <a href="#">Enviar notificación</a>
+                          ) : (
+                            ''
+                          )}
                         </TableCell>
                       </TableRow>
                       <TableRow>
@@ -234,9 +239,13 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                         </TableCell>
                         <TableCell>
                           {data.EstatusAsignacionCalificacion != null &&
-                          [1, 2].includes(data.EstatusAsignacionCalificacion.Id)
-                            ? 'Enviar notificación'
-                            : ''}
+                          [1, 2].includes(
+                            data.EstatusAsignacionCalificacion.Id
+                          ) ? (
+                            <a href="#">Enviar notificación</a>
+                          ) : (
+                            ''
+                          )}
                         </TableCell>
                       </TableRow>
                     </TableBody>
