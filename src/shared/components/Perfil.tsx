@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Alert, CircularProgress } from '@mui/material';
+import { Alert, CircularProgress, Typography } from '@mui/material';
 import { EcosurProfileCard } from 'ecosur-ui';
 import { EstudianteGql } from '../types';
 import { useGetEstudianteInfo } from '../queries';
@@ -10,12 +10,16 @@ type PerfilWithoutFetchProps = {
   infoExtra?: object;
 };
 
+type PerfilSimpleWithoutFetchProps = {
+  estudiante: EstudianteGql;
+};
+
 export const PerfilWithoutFetch: React.FC<PerfilWithoutFetchProps> = ({
   estudiante,
   infoExtra = {},
 }) => {
   const estudianteInfo = {
-    nombre: `${estudiante.Datos.Nombre}, ${estudiante.Datos.ApellidoPaterno} ${estudiante.Datos.ApellidoMaterno}`,
+    nombre: `${estudiante.Datos.Nombre}, ${estudiante.Datos.ApellidoPaterno} ${estudiante.Datos.ApellidoMaterno} (${estudiante.Datos.Email})`,
     programa: estudiante.Programa.NombreLargo,
     orientación: estudiante.Orientacion.Nombre,
     generación: estudiante.Generacion.Value,
@@ -29,9 +33,19 @@ export const PerfilWithoutFetch: React.FC<PerfilWithoutFetchProps> = ({
   return <EcosurProfileCard data={estudianteInfo} titleColor="#555" />;
 };
 
+export const PerfilSimpleWithoutFetch: React.FC<PerfilSimpleWithoutFetchProps> = ({estudiante}) => {
+  const nombre: string = `${estudiante.Datos.Nombre}, ${estudiante.Datos.ApellidoPaterno} ${estudiante.Datos.ApellidoMaterno}`;
+  return (
+    <Typography variant='h5' sx={{ pl: 3 }} component='div'>
+      <b>Nombre: </b>{nombre}
+    </Typography>
+  );
+};
+
 export const Perfil: React.FC<{
   matricula: number;
-}> = ({ matricula }) => {
+  simple?: boolean;
+}> = ({ matricula, simple = false }) => {
   const { data, isError, isLoading, isSuccess } =
     useGetEstudianteInfo(matricula);
   if (isError)
@@ -44,6 +58,9 @@ export const Perfil: React.FC<{
   let estudiante: EstudianteGql;
   if (isSuccess) {
     estudiante = data[0];
+  }
+  if(simple){
+    return <PerfilSimpleWithoutFetch estudiante={estudiante} />
   }
   return <PerfilWithoutFetch estudiante={estudiante} />;
 };

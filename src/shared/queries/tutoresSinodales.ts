@@ -30,5 +30,8 @@ export function useGetTutoresSinodales(matricula: number) {
       { matricula }
     );
     return {ConsejoTutelar, ConformacionCT};
+  },
+  {
+    staleTime: Infinity
   });
 }

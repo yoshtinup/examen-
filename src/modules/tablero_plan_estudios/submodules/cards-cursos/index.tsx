@@ -32,16 +32,13 @@ import Roles from '@definitions/Roles';
 import { EcosurAuth } from '@modules/auth/definitions';
 import { useState } from 'react';
 import { CursoPorIniciarGql } from '@shared/types/cursosPorIniciarGql';
-import { useGetCursosAlumno } from '@shared/queries';
-import {
-  crearJSON,
-  getCursosEstudiante,
-} from '@modules/tablero_plan_estudios/hooks';
+import { getCursosEstudiante } from '@modules/tablero_plan_estudios/hooks';
 import { format } from 'date-fns';
 import { useQuery } from 'react-query';
 import apiAsignatura from '@shared/components/cards/apiAsignatura';
 import Modal from '@shared/components/layouts/modal';
 import { MessageSnackbar } from '@shared/components/layouts/messaAlert';
+import { useGetCursosAIniciar } from '@shared/queries/cursosPorIniciarGql';
 
 const MenuProps = {
   PaperProps: {
@@ -61,13 +58,14 @@ const CardsCursos = (props: any) => {
   const [listaCursos, setListaCursos] = useState(data);
   const [procesoCambio, setPorcesoCambio] = useState(proceso);
   const arrayCursos: CursosAlumnoGql = getCursosEstudiante(listaCursos);
-  const arrayCursosAIniciar: CursoPorIniciarGql[] = crearJSON().data.sort(
+  console.log(user);
+  const arrayCursosAIniciar: CursoPorIniciarGql[] = useGetCursosAIniciar(user.estudiante.clavePrograma == 2)?.data?.sort(
     (a, b) => {
       if (a.FechaInicioCurso > b.FechaInicioCurso) return 1;
       if (a.FechaInicioCurso < b.FechaInicioCurso) return -1;
       return 0;
     }
-  ); //useGetCursosAIniciar(false).data;
+  );
   const [openBM, setOpenBM] = useState(false);
   const [openCM, setOpenCM] = useState(false);
   const [sendAsignatura, setSendAsignatura] = useState(false);
@@ -260,7 +258,7 @@ const CardsCursos = (props: any) => {
                 onChange={handleChange}
                 MenuProps={MenuProps}
               >
-                {arrayCursosAIniciar.map((curso, i) => (
+                {arrayCursosAIniciar?.map((curso, i) => (
                   <MenuItem key={i} value={curso.IdMateriasOfertaAnual}>
                     <ListItemText
                       primary={curso.NombreMateria}
