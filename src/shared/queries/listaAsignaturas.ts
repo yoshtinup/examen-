@@ -8,6 +8,9 @@ export function useGetListaAsignaturasProcesoIniciar(){
       getQuery("IdCatalogoEstatusFirmado: {_nin: [3,4]},", "CursoCancelado: {_eq: false}")
     );
     return { Asignaturas };
+  },
+  {
+    staleTime: Infinity
   });
 }
 
@@ -17,6 +20,9 @@ export function useGetListaAsignaturasConcluidas(){
       getQuery("CursoCancelado: {_eq: true}", "")
     );
     return { Asignaturas };
+  },
+  {
+    staleTime: Infinity
   });
 }
 
@@ -26,6 +32,9 @@ export function useGetListaAsignaturasCanceladas(){
       getQuery("IdCatalogoEstatusFirmado: {_in: [3,4]},", "CursoCancelado: {_eq: false}")
     );
     return { Asignaturas };
+  },
+  {
+    staleTime: Infinity
   });
 }
 

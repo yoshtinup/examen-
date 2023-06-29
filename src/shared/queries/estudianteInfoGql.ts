@@ -69,6 +69,9 @@ export function useGetEstudianteInfo(matricula: number) {
       { matricula }
     );
     return Alumno;
+  },
+  {
+    staleTime: Infinity
   });
 }
 export function useGetEvaluacionEtica(matricula: number) {
@@ -92,5 +95,8 @@ export function useGetEvaluacionEtica(matricula: number) {
       { matricula }
     );
     return EvaluacionEtica;
+  },
+  {
+    staleTime: Infinity
   });
 }

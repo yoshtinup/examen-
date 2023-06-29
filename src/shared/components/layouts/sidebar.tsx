@@ -69,7 +69,6 @@ export const Sidebar: FC<SidebarProps> = ({ open, onClose }) => {
   });
   const rol = WithRolCheck(Roles.Servicios_Escolares);
   const show= rol(null);
-  console.log(show)
   useEffect(
     () => {
       if (!router.isReady) {
