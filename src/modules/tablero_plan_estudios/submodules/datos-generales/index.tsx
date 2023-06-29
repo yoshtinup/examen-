@@ -24,7 +24,7 @@ import {
   TextField,
   Typography
 } from "@mui/material";
-import { useGetEstudianteInfo, useGetEvaluacionEtica } from "@shared/queries";
+import { useGetEstudianteInfo } from "@shared/queries";
 import { useGetTutoresSinodales } from "@shared/queries/tutoresSinodales";
 import { EstudianteGql } from "@shared/types";
 import { useRecoilValue } from "recoil";
