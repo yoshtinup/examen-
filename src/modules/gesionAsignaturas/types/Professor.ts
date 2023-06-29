@@ -1,4 +1,4 @@
-interface Professor {
+export interface Professor {
   Nombre: {
     Nombre_s_: string;
     ApellidoPaterno: string;

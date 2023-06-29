@@ -1,4 +1,4 @@
-interface ProfessorRow {
+export interface ProfessorRow {
   nombre: string;
   id: string;
   tipo_participacion: string;
