@@ -14,10 +14,6 @@ const Routes: RoutesProps[] = [
     all_math: true,
     roles: [
       Roles.Estudiante,
-      Roles.Academico,
-      Roles.Externo,
-      Roles.Responsable_Orientacion,
-      Roles.Coordinador_Unidad,
       Roles.Coordinacion_General_Posgrado,
       Roles.Servicios_Escolares,
     ],
@@ -61,6 +57,7 @@ const Routes: RoutesProps[] = [
     path: '/seminarios_investigacion',
     all_math: true,
     roles: [
+      Roles.Estudiante,
       Roles.Servicios_Escolares,
     ],
   },
@@ -70,6 +67,7 @@ const Routes: RoutesProps[] = [
     all_math: true,
     roles: [
       Roles.Servicios_Escolares,
+      Roles.Coordinacion_General_Posgrado,
     ],
   },
   {
@@ -78,15 +76,7 @@ const Routes: RoutesProps[] = [
     all_math: true,
     roles: [
       Roles.Servicios_Escolares,
-    ],
-  },
-  {
-    title: "Servicios escolares",
-    path: '/servicios_escolares',
-    all_math: true,
-    roles: [
-      Roles.Estudiante,
-      Roles.Servicios_Escolares,
+      Roles.Coordinacion_General_Posgrado,
     ],
   },
   {
@@ -95,6 +85,7 @@ const Routes: RoutesProps[] = [
     all_math: true,
     roles: [
       Roles.Servicios_Escolares,
+      Roles.Coordinacion_General_Posgrado,
     ]
   },
   {
@@ -103,6 +94,7 @@ const Routes: RoutesProps[] = [
     all_math: true,
     roles: [
       Roles.Servicios_Escolares,
+      Roles.Coordinacion_General_Posgrado,
     ]
   },
   {
@@ -111,6 +103,7 @@ const Routes: RoutesProps[] = [
     all_math: true,
     roles: [
       Roles.Servicios_Escolares,
+      Roles.Coordinacion_General_Posgrado,
     ]
   },
   {
@@ -119,6 +112,7 @@ const Routes: RoutesProps[] = [
     all_math: true,
     roles: [
       Roles.Servicios_Escolares,
+      Roles.Coordinacion_General_Posgrado,
     ]
   },
   {
@@ -127,6 +121,7 @@ const Routes: RoutesProps[] = [
     all_math: true,
     roles: [
       Roles.Servicios_Escolares,
+      Roles.Coordinacion_General_Posgrado,
     ]
   }
 

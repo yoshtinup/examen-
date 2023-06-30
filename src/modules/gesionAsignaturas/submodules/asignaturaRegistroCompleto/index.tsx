@@ -15,12 +15,13 @@ import {
   Typography,
 } from '@mui/material';
 import { useRecoilValue } from 'recoil';
-import { useGetInformacionCompletaAsignatura } from '../../queries/index';
+import { useGetInformacionCompletaAsignatura } from '../../queries/hasura';
 import { format } from 'date-fns';
 // import TableStudents from './components/tableStuents';
 import { TableEstudiantesProgramaWithoutFetch } from '@modules/gesionAsignaturas/submodules/asignaturaRegistroCompleto/components/tablaEstudiantePrograma';
 
 import TableProfessors from './components/tableProfessors';
+import MessageGenerarConstnaciasPersonal from './components/messageGenerarConstanciasPersonal';
 
 const style = {
   padding: '30px',
@@ -263,6 +264,11 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                     minHeight: '200px',
                   }}
                 >
+                  {data.EstatusAsignacionCalificacion.Id === 3 ? (
+                    <MessageGenerarConstnaciasPersonal idMOA={idMOA} />
+                  ) : (
+                    ''
+                  )}
                   <TableProfessors professsors={data.Docentes} />
                 </Box>
               </Grid>
