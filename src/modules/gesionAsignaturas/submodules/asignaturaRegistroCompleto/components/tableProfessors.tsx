@@ -94,18 +94,6 @@ const TableProfessors: React.FC<{
 
   return (
     <div style={{ height: 500, width: '100%' }}>
-      <Grid
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'right',
-          alignItems: 'center',
-          bgcolor: 'white',
-          pb: 1,
-          pt: 1,
-          pr: 5,
-        }}
-      ></Grid>
       <DataGrid
         sx={{ pb: 7 }}
         rows={rows}
@@ -113,7 +101,6 @@ const TableProfessors: React.FC<{
         components={{
           Toolbar: CustomToolbar,
           Footer: CustomFooter,
-          NoRowsOverlay: CustomNoRowsOverlay,
         }}
         componentsProps={{
           footer: { counter: rows.length, label: 'Profesores:' },
