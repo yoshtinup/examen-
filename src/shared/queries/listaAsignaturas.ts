@@ -17,7 +17,7 @@ export function useGetListaAsignaturasProcesoIniciar(){
 export function useGetListaAsignaturasConcluidas(){
   return useQuery(['lista-asignaturas-concluidas'], async () => {
     const { Asignaturas } = await hasuraClient.request(
-      getQuery("CursoCancelado: {_eq: true}", "")
+      getQuery("IdCatalogoEstatusFirmado: {_in: [3,4]},", "CursoCancelado: {_eq: false}")
     );
     return { Asignaturas };
   },
@@ -29,7 +29,7 @@ export function useGetListaAsignaturasConcluidas(){
 export function useGetListaAsignaturasCanceladas(){
   return useQuery(['lista-asignaturas-canceladas'], async () => {
     const { Asignaturas } = await hasuraClient.request(
-      getQuery("IdCatalogoEstatusFirmado: {_in: [3,4]},", "CursoCancelado: {_eq: false}")
+      getQuery("CursoCancelado: {_eq: true}", "")
     );
     return { Asignaturas };
   },

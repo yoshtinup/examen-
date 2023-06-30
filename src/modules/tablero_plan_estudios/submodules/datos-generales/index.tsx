@@ -182,9 +182,11 @@ const TutoresSinodales = (props:any) => {
   const matricula=props.matricula;
   const TS:TutoresSinodalesGql = props.dataTS.data;
   const generoNivelPart = new Array();
+  const nivelesPart = new Array();
   generoNivelPart[1] = ["Director de tesis", "Directora de tesis"];
   generoNivelPart[2] = ["Asesor", "Asesora"];
   generoNivelPart[33] = ["Coodirector", "Coodirectora"];
+  nivelesPart.push(1, 2, 33)
   return (
     <Paper>
       <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
@@ -196,10 +198,17 @@ const TutoresSinodales = (props:any) => {
           <>
             {TS.ConsejoTutelar.map((item, i) =>
               <ItemTS key={i}
-                elemento={<>
-                  {item.Persona.nombre}{' '}{item.Persona.ApellidoPaterno}{' '}{item.Persona.ApellidoMaterno}{item.Persona.Email && `(${item.Persona.Email})`} -{' '}
-                 <span style={{color:'#666'}}> { generoNivelPart[item.Nivel.IdParticipacion][item.Persona.IdGenero-1] }</span>
-                 </>}
+                elemento={
+                  <>
+                    {item.Persona.nombre}{' '}{item.Persona.ApellidoPaterno}{' '}{item.Persona.ApellidoMaterno}{item.Persona.Email && `(${item.Persona.Email})`} -{' '}
+                    <span style={{color:'#666'}}>
+                      {nivelesPart.includes(item.Nivel.IdParticipacion)
+                        ? generoNivelPart[item.Nivel.IdParticipacion][item.Persona.IdGenero-1]
+                        : item.Nivel.Participacion
+                      }
+                    </span>
+                  </>
+                }
               />
             )}
           </>
