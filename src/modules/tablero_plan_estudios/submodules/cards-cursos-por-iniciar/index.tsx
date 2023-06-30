@@ -31,7 +31,7 @@ const CardsCursosAIniciar = props => {
   const [sendAsignatura, setSendAsignatura] = useState(false);
   const [idMateria, setIdMateria] = useState('');
 
-  const arrayCursos: CursoPorIniciarGql[] = useGetCursosAIniciar(user.estudiante.clavePrograma == 2)?.data?.sort((a, b) => {
+  const arrayCursos: CursoPorIniciarGql[] = useGetCursosAIniciar(props.idPrograma)?.data?.sort((a, b) => {
     if (a.FechaInicioCurso > b.FechaInicioCurso) return 1;
     if (a.FechaInicioCurso < b.FechaInicioCurso) return -1;
     return 0;
