@@ -3,7 +3,7 @@ import {
   CustomNoRowsOverlay,
   CustomToolbar,
 } from '@modules/estudiantes/components/tableSeminarios';
-import ModalDatosParticipante from '@modules/estudiantes/components/tableSeminarios/programa/modalDatosParticipante';
+import ModalDatosParticipante from '@modules/gesionAsignaturas/submodules/asignaturaRegistroCompleto/components/modalDatosParticipante';
 import { Professor } from '@modules/gesionAsignaturas/types/Professor';
 import { ProfessorRow } from '@modules/gesionAsignaturas/types/ProfessorRow';
 
