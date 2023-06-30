@@ -1,10 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
-  Alert,
-  CircularProgress,
-  Link,
-  Button,
-  Card,
   Grid,
   InputLabel,
   MenuItem,
@@ -12,16 +7,12 @@ import {
   Box,
   Select,
   Typography,
-  Snackbar,
-  Modal,
   Badge,
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import {  FiltroEstudiante } from '../../../../estudiantes/types';
-import {
-  ListadoAlumnos,
-} from '@shared/types/asignaturaRegistroTypes';
+import { FiltroEstudiante } from '../../../../estudiantes/types';
+import { ListadoAlumnos } from '@shared/types/asignaturaRegistroTypes';
 import { ListaEstudiantes } from '@modules/estudiantes';
 const SelectPrograma = (props: any) => {
   let programas = [];
@@ -243,7 +234,7 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
       evaldocente:
         estudiante.Estudiante.EvaluacionDocente.Evaluo?.EstatusEvaluacion,
       evalseminario: estudiante.EvaluacionSeminario?.Estatus.Descripcion,
-      numero: estudiante.Calificacion?.Numerica,
+      numero: estudiante.Calificacion?.Numerica.toFixed(1),
       letra: estudiante.Calificacion?.EnLetra,
       boleta: estudiante?.BoletaCalificaciones,
     })
@@ -301,5 +292,3 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
     </>
   );
 }; // TableEstudiantesPendientesWithoutFetch
-
-
