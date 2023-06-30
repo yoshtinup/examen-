@@ -6,15 +6,18 @@ import Swal from 'sweetalert2';
 const MessageGenerarConstnaciasPersonal: React.FC<{
   idMOA: number;
 }> = ({ idMOA }) => {
-  const [apiResponse, setApiResponse] = useState(null);
   const handleMessage = () => {
     Swal.fire({
       title:
         'Está seguro de generar las constancias de los docentes registrados',
       showCancelButton: true,
       confirmButtonText: 'Generar',
+      confirmButtonColor: '#1ab394',
       showLoaderOnConfirm: true,
-      preConfirm: login => {
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true,
+      cancelButtonColor: '#d5d8dc',
+      preConfirm: () => {
         return ProfesorConstanciaParticipacion.generar(idMOA);
       },
       allowOutsideClick: () => !Swal.isLoading(),
@@ -22,7 +25,7 @@ const MessageGenerarConstnaciasPersonal: React.FC<{
       if (result.isConfirmed) {
         Swal.fire({
           title: `Carta generada exitosamente`,
-          text: result.value,
+          text: result.value.message,
         });
       }
     });
@@ -30,7 +33,11 @@ const MessageGenerarConstnaciasPersonal: React.FC<{
 
   return (
     <div style={{ width: '100%', height: '38px' }}>
-      <Button style={{ float: 'right' }} onClick={handleMessage}>
+      <Button
+        variant="outlined"
+        style={{ float: 'right' }}
+        onClick={handleMessage}
+      >
         Generar constancias del personal docente
       </Button>
     </div>
