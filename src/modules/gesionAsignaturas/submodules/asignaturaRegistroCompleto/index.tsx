@@ -17,7 +17,9 @@ import {
 import { useRecoilValue } from 'recoil';
 import { useGetInformacionCompletaAsignatura } from '../../queries/hasura';
 import { format } from 'date-fns';
-import { TableEstudiantesProgramaWithoutFetch } from '@modules/estudiantes/components/tableSeminarios/programa/tablaEstudiantePrograma';
+// import TableStudents from './components/tableStuents';
+import { TableEstudiantesProgramaWithoutFetch } from '@modules/gesionAsignaturas/submodules/asignaturaRegistroCompleto/components/tablaEstudiantePrograma';
+
 import TableProfessors from './components/tableProfessors';
 import MessageGenerarConstnaciasPersonal from './components/messageGenerarConstanciasPersonal';
 
