@@ -11,10 +11,11 @@ import { Container, padding } from '@mui/system';
 import { Card, CardContent, Grid, Typography } from '@mui/material';
 import { HeaderSection } from '@shared/components';
 import EvaluacionEtica from './submodules/evaluacion-etica';
-import { useGetCursosAlumno } from '@shared/queries';
+import { useGetCursosAlumno, useGetEstudianteInfo } from '@shared/queries';
 import { useGetProcesoCambioPlanEstudios } from '@shared/queries/procesoCambioPlan';
 import { WithRolCheck} from '@shared/hooks';
 import Roles from '@definitions/Roles';
+import { EstudianteGql } from '@shared/types';
 const style = {
   padding: '30px',
   backgroundColor: '#fff',
@@ -38,22 +39,24 @@ const TableroPlanEstudios = (props) => {
     registrationUser
   );
   const procesoCambio = useGetProcesoCambioPlanEstudios(registrationUser);
+  const { data: dataEst, isError: isErrorEst, isLoading: isLoadingEst } = useGetEstudianteInfo(registrationUser);
   const cursos = data?.Cursos;
   let proceso = true;
 
-  if (isLoading) {
+  if (isLoading || isLoadingEst) {
     return <>Cargando</>;
   }
-  if (error) {
+  if (error || isErrorEst) {
     return <>Error</>;
   }
   if (procesoCambio.data?.length > 0) {
     proceso = false;
   }
+  let userInfo:EstudianteGql =  dataEst[0];
   const tabCursos = [
     {
       titulo: 'Asignaturas',
-      componente: <CardsCursos data={cursos} proceso={proceso} show={show}/>,
+      componente: <CardsCursos data={cursos} proceso={proceso} show={show} idPrograma={userInfo.Programa.Id} />,
     },
     {
       titulo: 'Periodos lectivos',
@@ -61,7 +64,7 @@ const TableroPlanEstudios = (props) => {
     },
     {
       titulo: 'Alta de asignaturas',
-      componente: <CardsCursosAIniciar show={show}/>,
+      componente: <CardsCursosAIniciar show={show} idPrograma={userInfo.Programa.Id} />,
     },
   ];
   return (
