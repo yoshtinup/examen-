@@ -9,7 +9,7 @@ type RoutesProps = {
 
 const Routes: RoutesProps[] = [
   {
-    title: "Página principal",
+    title: 'Página principal',
     path: '/home',
     all_math: true,
     roles: [
@@ -19,7 +19,7 @@ const Routes: RoutesProps[] = [
     ],
   },
   {
-    title: "Consejo tutelar",
+    title: 'Consejo tutelar',
     path: '/consejo_tutelar',
     all_math: true,
     roles: [
@@ -33,7 +33,7 @@ const Routes: RoutesProps[] = [
     ],
   },
   {
-    title: "Evaluación ética de protocolos de investigación",
+    title: 'Evaluación ética de protocolos de investigación',
     path: '/cei',
     all_math: true,
     roles: [
@@ -44,87 +44,55 @@ const Routes: RoutesProps[] = [
       Roles.Servicios_Escolares,
     ],
   },
+
   {
-    title: "Evaluación docente",
-    path: '/evaluaciondocente',
-    all_math: true,
-    roles: [
-      Roles.Estudiante,
-    ],
-  },
-  {
-    title: "Evaluación de seminarios de investigación",
-    path: '/seminarios_investigacion',
-    all_math: true,
-    roles: [
-      Roles.Estudiante,
-      Roles.Servicios_Escolares,
-    ],
-  },
-  {
-    title: "Inscripciones",
+    title: 'Inscripciones',
     path: '/inscripciones',
     all_math: true,
-    roles: [
-      Roles.Servicios_Escolares,
-      Roles.Coordinacion_General_Posgrado,
-    ],
+    roles: [Roles.Servicios_Escolares, Roles.Coordinacion_General_Posgrado],
   },
   {
-    title: "Asignaturas",
+    title: 'Estudiantes',
     path: '/estudiantes',
     all_math: true,
-    roles: [
-      Roles.Servicios_Escolares,
-      Roles.Coordinacion_General_Posgrado,
-    ],
+    roles: [Roles.Servicios_Escolares, Roles.Coordinacion_General_Posgrado],
   },
   {
-    title: "Gestion de asignaturas",
+    title: 'Asignaturas',
     path: '/gestionAsignaturas',
     all_math: true,
-    roles: [
-      Roles.Servicios_Escolares,
-      Roles.Coordinacion_General_Posgrado,
-    ]
+    roles: [Roles.Servicios_Escolares, Roles.Coordinacion_General_Posgrado],
   },
   {
-    title: "Altas y bajas de asignaturas",
+    title: 'Altas y bajas de asignaturas',
     path: '/seguimientoAltasYBajas',
     all_math: true,
-    roles: [
-      Roles.Servicios_Escolares,
-      Roles.Coordinacion_General_Posgrado,
-    ]
+    roles: [Roles.Servicios_Escolares, Roles.Coordinacion_General_Posgrado],
   },
   {
-    title: "Seguimiento de evaluación docente",
-    path: '/seguimientoEvaluacionDocente',
-    all_math: true,
-    roles: [
-      Roles.Servicios_Escolares,
-      Roles.Coordinacion_General_Posgrado,
-    ]
-  },
-  {
-    title: "Registro de docentes",
+    title: 'Registro docente',
     path: '/seguimientoRegistroDocentes',
     all_math: true,
-    roles: [
-      Roles.Servicios_Escolares,
-      Roles.Coordinacion_General_Posgrado,
-    ]
+    roles: [Roles.Servicios_Escolares, Roles.Coordinacion_General_Posgrado],
   },
   {
-    title: "Asignación de calificaciones",
+    title: 'Evaluación docente',
+    path: '/seguimientoEvaluacionDocente',
+    all_math: true,
+    roles: [Roles.Servicios_Escolares, Roles.Coordinacion_General_Posgrado],
+  },
+  {
+    title: 'Calificaciones',
     path: '/seguimientoRegistroCalificaciones',
     all_math: true,
-    roles: [
-      Roles.Servicios_Escolares,
-      Roles.Coordinacion_General_Posgrado,
-    ]
-  }
-
+    roles: [Roles.Servicios_Escolares, Roles.Coordinacion_General_Posgrado],
+  },
+  {
+    title: 'Evaluación seminarios de investigación',
+    path: '/seminarios_investigacion',
+    all_math: true,
+    roles: [Roles.Estudiante, Roles.Servicios_Escolares],
+  },
 ];
 
 export default Routes;
