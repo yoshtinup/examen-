@@ -26,6 +26,9 @@ export function useGetInformacionCompletaAsignatura(idMOA: number) {
               Docentes: db17_Profesores {
                 IdProfesores
                 PorcentajeParticipacion
+                TieneEvaluacionDocente: db18_EvaluacionDocente_EvaluacionComite {
+                  Comentarios
+                }
                 ConstanciaDeParticipacionDocente: db12_ConstanciasDeParticipacionDocente {
                   URL
                 }
@@ -43,6 +46,7 @@ export function useGetInformacionCompletaAsignatura(idMOA: number) {
                   }
                 }
               }
+
               ConcentradoCalificacionesAlumnos: NombreArchivoConcentrado
               EstatusAsignacionCalificacion: db12_CatalogoEstatusFirmado {
                 Nombre: Descripcion
