@@ -14,4 +14,7 @@ export interface Professor {
   PorcentajeParticipacion: number;
   ConstanciaDeParticipacionDocente?: string;
   IdProfesores: number;
+  TieneEvaluacionDocente: {
+    Comentarios: string;
+  };
 }
