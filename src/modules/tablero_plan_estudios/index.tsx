@@ -118,14 +118,14 @@ const MyCard = props => {
     >
       <CardContent sx={{ padding: 0.5, paddingBottom: 0 }}>
         <Typography
-          sx={{ mb: 0.1, fontSize: 10, padding: 0 }}
+          sx={{ mb: 0.1, fontSize: 13, padding: 0 }}
           color="dark"
           gutterBottom
         >
           Pendiente de que su director/a de tesis revise los siguientes cambios
           en su plan de estudios:
         </Typography>
-        <Typography variant="body2" sx={{ mb: 0.1, fontSize: 9, padding: 0 }}>
+        <Typography variant="body2" sx={{ mb: 0.1, fontSize: 10, padding: 0 }}>
         {data.map(element => (
           <>
           {'*'+element.Materia.curso.CursoSeminario+' ('+element.Estatus?.Descripcion+')'}
