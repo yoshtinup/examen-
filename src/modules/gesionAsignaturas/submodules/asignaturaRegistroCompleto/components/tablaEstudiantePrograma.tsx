@@ -281,7 +281,15 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
         />
       </div>
       {urlboleta != null ? (
-        <a href={urlboleta}>
+        <a
+          href={
+            urlboleta.includes('sharepoint')
+              ? urlboleta
+              : 'https://serviciosposgrado.ecosur.mx/alumnos/Content/Cursos/BoletasInscripciones/' +
+                urlboleta
+          }
+          target="_blank"
+        >
           <Badge>
             <strong>Boleta de calificaciones del curso</strong>
           </Badge>
