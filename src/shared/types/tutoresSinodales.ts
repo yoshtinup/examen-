@@ -10,6 +10,7 @@ export interface DatosConsejoTutelarGql {
 
 export interface ConformacionCTGql {
   Catalogo: CatalogoCT;
+  ActaDeConformacionComite:ActaDeConfromacionCT;
 }
 
 export interface PersonaCT{
@@ -18,6 +19,7 @@ export interface PersonaCT{
   ApellidoMaterno: string;
   Email: string;
   IdGenero: number;
+  Grado: string;
 }
 
 export interface NivelCT{
@@ -27,4 +29,9 @@ export interface NivelCT{
 
 export interface CatalogoCT{
   Estatus: string;
+  IDEstatus:number;
+}
+
+export interface ActaDeConfromacionCT{
+  url:string;
 }

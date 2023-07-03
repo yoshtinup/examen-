@@ -22,6 +22,8 @@ import { TableEstudiantesProgramaWithoutFetch } from '@modules/gesionAsignaturas
 
 import TableProfessors from './components/tableProfessors';
 import MessageGenerarConstnaciasPersonal from './components/messageGenerarConstanciasPersonal';
+import { TableEstudiantesProgramaBajasWithoutFetch } from './components/tablaEstudianteProgramaBajas';
+import { TableEstudiantesProgramaDirectorWithoutFetch } from './components/tablaEstudianteProgramaDirector';
 
 const style = {
   padding: '30px',
@@ -48,7 +50,7 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
     return <CircularProgress />;
   }
 
-  if (isSuccess) {
+  if (isSuccess && data) {
     const infoBasicMateria = (
       <Grid item xs={12}>
         <Typography variant="body1" gutterBottom>
@@ -285,7 +287,7 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                 </Grid>
               )}
               <Grid item xs={12}>
-                <h4>Estudiantes del curso</h4>
+                <h4>Inscritos/Pendientes de inscribirse</h4>
                 <Box
                   sx={{
                     backgroundColor: '#f5f5f5',
@@ -296,6 +298,43 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                   <TableEstudiantesProgramaWithoutFetch
                     estudiantes={data.Alumnos.Listado}
                     urlboleta={data.ConcentradoCalificacionesAlumnos}
+                    categoriaMateria={data.Asignatura.Datos.CategoriaMateria}
+                    concentradoCalAlumno={data.ConcentradoCalificacionesAlumnos}
+                  />
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+                <h4>
+                  En proceso de aprobación de Director/a de tesis de alta o baja
+                </h4>
+
+                <Box
+                  sx={{
+                    backgroundColor: '#f5f5f5',
+                    padding: '5px',
+                    minHeight: '200px',
+                  }}
+                >
+                  <TableEstudiantesProgramaDirectorWithoutFetch
+                    estudiantes={data.Alumnos.Listado}
+                    urlboleta={data.ConcentradoCalificacionesAlumnos}
+                    categoriaMateria={data.Asignatura.Datos.CategoriaMateria}
+                  />
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+                <h4>Bajas</h4>
+                <Box
+                  sx={{
+                    backgroundColor: '#f5f5f5',
+                    padding: '5px',
+                    minHeight: '200px',
+                  }}
+                >
+                  <TableEstudiantesProgramaBajasWithoutFetch
+                    estudiantes={data.Alumnos.Listado}
+                    urlboleta={data.ConcentradoCalificacionesAlumnos}
+                    categoriaMateria={data.Asignatura.Datos.CategoriaMateria}
                   />
                 </Box>
               </Grid>

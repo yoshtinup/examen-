@@ -6,6 +6,7 @@ import {
   FormControl,
   Box,
   Select,
+  Link,
   Typography,
   Badge,
 } from '@mui/material';
@@ -14,125 +15,21 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { FiltroEstudiante } from '../../../../estudiantes/types';
 import { ListadoAlumnos } from '@shared/types/asignaturaRegistroTypes';
 import { ListaEstudiantes } from '@modules/estudiantes';
-const SelectPrograma = (props: any) => {
-  let programas = [];
-  const handleChangeNotificacion = (event: SelectChangeEvent) => {
-    props.setPrograma(event.target.value as string);
-  };
-  props.programas.map((programa: FiltroEstudiante, index: number) => {
-    programas.push(
-      <MenuItem key={index + 1} value={`${programa.value}`}>
-        {programa.label}
-      </MenuItem>
-    );
-  });
-
-  return (
-    <Box sx={{ minWidth: 300, maxWidth: 400 }}>
-      <FormControl fullWidth size="small">
-        <InputLabel id="ecosur-select-programa">Opciones</InputLabel>
-        <Select
-          labelId="select-programa"
-          id="select-programa"
-          value={props.programa}
-          label="Programa"
-          onChange={handleChangeNotificacion}
-        >
-          <MenuItem key={0} value="Todos">
-            Todos
-          </MenuItem>
-          {programas}
-        </Select>
-      </FormControl>
-    </Box>
-  );
-};
-
-const SelectUnidad = (props: any) => {
-  let unidades = [];
-  const handleChangeNotificacion = (event: SelectChangeEvent) => {
-    props.setUnidad(event.target.value as string);
-  };
-  props.unidades.map((unidad: FiltroEstudiante, index: number) => {
-    unidades.push(
-      <MenuItem key={index + 1} value={`${unidad.value}`}>
-        {unidad.label}
-      </MenuItem>
-    );
-  });
-
-  return (
-    <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth size="small">
-        <InputLabel id="ecosur-select-unidad">Opciones</InputLabel>
-        <Select
-          labelId="select-unidad"
-          id="select-unidad"
-          value={props.unidad}
-          label="Unidad"
-          onChange={handleChangeNotificacion}
-        >
-          <MenuItem key={0} value="Todos">
-            Todos
-          </MenuItem>
-          {unidades}
-        </Select>
-      </FormControl>
-    </Box>
-  );
-};
-
-const SelectFecha = (props: any) => {
-  let periodos = [];
-  const handleChangeNotificacion = (event: SelectChangeEvent) => {
-    props.setPeriodo(event.target.value as string);
-  };
-  props.periodos.map((periodo: FiltroEstudiante, index: number) => {
-    periodos.push(
-      <MenuItem key={index + 1} value={`${periodo.value}`}>
-        {periodo.label}
-      </MenuItem>
-    );
-  });
-
-  return (
-    <Box sx={{ minWidth: 120 }}>
-      <FormControl fullWidth size="small">
-        <InputLabel id="ecosur-select-periodo">Opciones</InputLabel>
-        <Select
-          labelId="select-periodo"
-          id="select-periodo"
-          value={props.periodo}
-          label="Periodo"
-          onChange={handleChangeNotificacion}
-        >
-          <MenuItem key={0} value="Todos">
-            Todos
-          </MenuItem>
-          {periodos}
-        </Select>
-      </FormControl>
-    </Box>
-  );
-};
+import LinkIcon from '@mui/icons-material/Link';
 
 export const TableEstudiantesProgramaWithoutFetch: React.FC<{
   estudiantes: ListadoAlumnos[];
   urlboleta?: string;
-}> = ({ estudiantes, urlboleta }) => {
-  const [programa, setPrograma] = useState<string>('Todos');
-  const [unidad, setUnidad] = useState<string>('Todos');
-  const [periodo, setPeriodo] = useState<string>('Todos');
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  categoriaMateria?: string;
+  concentradoCalAlumno?: string;
+}> = ({ estudiantes, urlboleta, categoriaMateria, concentradoCalAlumno }) => {
+  let columns: GridColDef[];
 
-  const handleClickExpediente = matricula => {
-    window.open(`/home?matricula=${matricula}`, '_blank');
-  };
-  const columns: GridColDef[] = [
+  const columnsGrid: GridColDef[] = [
     {
       field: 'estudiante',
       headerName: 'Nombre',
-      width: 350,
+      width: 300,
       renderCell: params => {
         return (
           <Grid sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -144,16 +41,32 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
       },
     },
 
-    { field: 'matricula', headerName: 'Matricula', width: 260 },
+    { field: 'matricula', headerName: 'Matricula', width: 130 },
     {
       field: 'evaldocente',
       headerName: 'Evaluación docente realizada',
-      width: 420,
+      width: 220,
+      renderCell: params => {
+        return <>{params.row.evaldocente == undefined ? 'Sí' : 'No'}</>;
+      },
     },
     {
       field: 'evalseminario',
       headerName: 'Evaluación de seminario',
       width: 260,
+      renderCell: params => {
+        return (
+          <>
+            {params.row.evalseminario == undefined
+              ? 'No ha iniciado'
+              : params.row.evalseminario == 1
+              ? 'Pendiente de que estudiante registre información'
+              : params.row.evalseminario != 1 && params.row.evalseminario != 5
+              ? params.row.evalseminariodesc
+              : 'No data'}
+          </>
+        );
+      },
     },
     {
       field: 'calificacion',
@@ -204,72 +117,234 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
         );
       },
     },
-    { field: 'boleta', headerName: 'Boleta', width: 260 },
+    {
+      field: 'enlaces',
+      headerName: 'Enlaces',
+      width: 260,
+      renderCell: params => {
+        const handleClick = () => {
+          // FIX ME: Agregar enlace a endpoint para realizar notificaciones.
+        };
+
+        return (
+          <>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'initial',
+                paddingTop: 10,
+              }}
+            >
+              {params.row.evalseminario != 1 &&
+              params.row.evalseminario != 5 ? (
+                <Link
+                  aria-disabled={true}
+                  href={
+                    'https://sip.ecosur.mx/seminarios_investigacion/' +
+                    params.row.idseminariosevaluaciones
+                  }
+                >
+                  <a
+                    style={{
+                      cursor: 'pointer',
+                      textDecoration: 'none',
+                      color: '#00BFA5',
+                    }}
+                  >
+                    <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
+                    Ver detalles
+                  </a>
+                </Link>
+              ) : (
+                <></>
+              )}
+              {/* //checar Sharepoint */}
+              {params.row.evalseminario == 4 ? (
+                <Link
+                  aria-disabled={true}
+                  href={
+                    params.row.urlonedrive.includes('sharepoint')
+                      ? params.row.urlonedrive
+                      : 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/EvaluacionSeminarios/' +
+                        params.row.urlonedrive
+                  }
+                >
+                  <a
+                    style={{
+                      cursor: 'pointer',
+                      textDecoration: 'none',
+                      color: '#00BFA5',
+                    }}
+                  >
+                    <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
+                    acta de evaluación
+                  </a>
+                </Link>
+              ) : (
+                <></>
+              )}
+              {params.row.evalseminario != 4 &&
+              params.row.evalseminario != 5 ? (
+                <Link aria-disabled={true} href={'#'}>
+                  <a
+                    style={{
+                      cursor: 'pointer',
+                      textDecoration: 'none',
+                      color: '#00BFA5',
+                    }}
+                  >
+                    <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
+                    Enviar recordatorio
+                  </a>
+                </Link>
+              ) : (
+                <></>
+              )}
+              {params.row.boletainscripcion != undefined ? (
+                <Link
+                  aria-disabled={true}
+                  href={
+                    params.row.boletainscripcion.includes('sharepoint')
+                      ? params.row.boletainscripcion
+                      : 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/BoletasInscripciones/' +
+                        params.row.boletainscripcion
+                  }
+                >
+                  <a
+                    style={{
+                      cursor: 'pointer',
+                      textDecoration: 'none',
+                      color: '#00BFA5',
+                    }}
+                  >
+                    <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
+                    Boleta de inscripción
+                  </a>
+                </Link>
+              ) : (
+                <></>
+              )}
+              {params.row.boletacalificaciones != null ? (
+                <Link
+                  aria-disabled={true}
+                  href={
+                    params.row.boletacalificaciones.includes('sharepoint')
+                      ? params.row.boletacalificaciones
+                      : 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/Calificaciones/BoletasEstudiantes/' +
+                        params.row.boletacalificaciones
+                  }
+                >
+                  <a
+                    style={{
+                      cursor: 'pointer',
+                      textDecoration: 'none',
+                      color: '#00BFA5',
+                    }}
+                  >
+                    <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
+                    Boleta de calificaciones
+                  </a>
+                </Link>
+              ) : (
+                <></>
+              )}
+              <Link aria-disabled={true} href={'#'}>
+                <a
+                  style={{
+                    cursor: 'pointer',
+                    textDecoration: 'none',
+                    color: '#00BFA5',
+                  }}
+                >
+                  <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
+                  Generar acta
+                </a>
+              </Link>
+              <Link aria-disabled={true} href={'#'}>
+                <a
+                  style={{
+                    cursor: 'pointer',
+                    textDecoration: 'none',
+                    color: '#00BFA5',
+                  }}
+                >
+                  <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
+                  Generar boleta de calificaciones
+                </a>
+              </Link>
+            </div>
+          </>
+        );
+      },
+    },
   ];
+  let opcionesFiltro;
+  if (categoriaMateria == 'Seminario') {
+    opcionesFiltro = columnsGrid.filter(
+      column => column.field != 'evaldocente'
+    );
+  } else if (categoriaMateria == 'Curso') {
+    opcionesFiltro = columnsGrid.filter(
+      column => column.field != 'evalseminario'
+    );
+  } else {
+    opcionesFiltro = columnsGrid.filter(
+      column => column.field != 'evalseminario' && column.field != 'evaldocente'
+    );
+  }
   let rows = [];
   let estudiantesList: ListadoAlumnos[] = estudiantes;
 
-  // estudiantesList = estudiantes.filter(
-  //   estudiante =>
-  //     (programa == 'Todos'
-  //       ? estudiante.Programa?.Programa != programa
-  //       : estudiante.Programa?.Programa == programa) &&
-  //     (unidad == 'Todos'
-  //       ? estudiante.Unidad?.Unidad != unidad
-  //       : estudiante.Unidad?.Unidad == unidad) &&
-  //     (periodo == 'Todos'
-  //       ? estudiante.Generacion?.GeneracionLargo != periodo
-  //       : estudiante.Generacion?.GeneracionLargo == periodo)
-  // );
-  estudiantesList.map((estudiante, index) =>
-    rows.push({
-      id: index,
-      estudiante:
-        estudiante.Estudiante?.Datos.Nombre_s_ +
-        ' ' +
-        estudiante.Estudiante?.Datos.ApellidoPaterno +
-        ' ' +
-        estudiante.Estudiante?.Datos.ApellidoMaterno,
-      matricula: estudiante.Matricula,
-      evaldocente:
-        estudiante.Estudiante.EvaluacionDocente.Evaluo?.EstatusEvaluacion,
-      evalseminario: estudiante.EvaluacionSeminario?.Estatus.Descripcion,
-      numero: estudiante.Calificacion?.Numerica.toFixed(1),
-      letra: estudiante.Calificacion?.EnLetra,
-      boleta: estudiante?.BoletaCalificaciones,
-    })
-  );
+  estudiantesList.map((estudiante, index) => {
+    console.log(estudiante.EnRevisionDeDT?.Id)
+    console.log(estudiante.AltaOBajaAsignatura)
+    if (
+      (estudiante.EnRevisionDeDT?.Id == 2 &&
+        estudiante.AltaOBajaAsignatura == 4) ||
+      (estudiante.EnRevisionDeDT?.Id == 1 &&
+        estudiante.AltaOBajaAsignatura == 3) ||
+      (estudiante.EnRevisionDeDT?.Id == 1 &&
+        estudiante.AltaOBajaAsignatura == 4)
+    ) {
+      rows.push({
+        id: index,
+        estudiante:
+          estudiante.Estudiante?.Datos.Nombre_s_ +
+          ' ' +
+          estudiante.Estudiante?.Datos.ApellidoPaterno +
+          ' ' +
+          estudiante.Estudiante?.Datos.ApellidoMaterno,
+        matricula: estudiante.Matricula,
+        evaldocente:
+          estudiante.Estudiante.EvaluacionDocente.Evaluo?.EstatusEvaluacion,
+        evalseminario:
+          estudiante.EvaluacionSeminario?.Estatus.IdSeminarios_CatalogoEstatus,
+        evalseminariodesc: estudiante.EvaluacionSeminario?.Estatus.Descripcion,
+        idseminariosevaluaciones:
+          estudiante.EvaluacionSeminario?.IdSeminarios_Evaluaciones,
+        numero: estudiante.Calificacion?.Numerica,
+        letra: estudiante.Calificacion?.EnLetra,
+        boleta: estudiante?.BoletaCalificaciones,
+        boletainscripcion: estudiante.BoletaInscripcion?.NombreArchivo,
+        boletacalificaciones: estudiante?.BoletaCalificaciones,
+        enrevisionDT: estudiante.EnRevisionDeDT?.Id,
+        urlonedrive: estudiante.EvaluacionSeminario?.url_one_drive,
+      });
+    }
+  });
+
 
   const [selectedRows, setSelectedRows] = React.useState([]);
 
   return (
     <>
-      {/* {send && idBoleta==null && <SendReminderAll onData={handletSucces}/>}
-        {send  && idBoleta!=null && <SendCancelInscription onData={handletSucces} IdBoletasIncripciones={idBoleta}/>}
-        {sendReminder  && idBoleta!=null && <SendReminder onData={handletSucces} IdBoletasIncripciones={idBoleta}/>} */}
-
-      <div style={{ height: 500, width: '100%' }}>
-        <Grid
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'right',
-            alignItems: 'center',
-            bgcolor: 'white',
-            pb: 1,
-            pt: 1,
-            pr: 5,
-          }}
-        ></Grid>
+      <Box sx={{ height: 600, width: '100%' }} id="tabla-gestion-estudiantes">
         <DataGrid
           sx={{ pb: 7 }}
           rows={rows}
-          columns={columns}
-          // components={{
-          //   Toolbar: CustomToolbar,
-          //   Footer: CustomFooter,
-          //   NoRowsOverlay: CustomNoRowsOverlay,
-          // }}
+          columns={opcionesFiltro}
+          disableColumnMenu
           componentsProps={{
             footer: { counter: rows.length, label: 'Estudiantes:' },
           }}
@@ -279,7 +354,7 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
             setSelectedRows(selectedRows);
           }}
         />
-      </div>
+      </Box>
       {urlboleta != null ? (
         <a
           href={
@@ -296,6 +371,38 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
         </a>
       ) : (
         ''
+      )}
+      {categoriaMateria == 'Cursos' && concentradoCalAlumno != null ? (
+        <a
+          href={
+            concentradoCalAlumno.includes('sharepoint')
+              ? concentradoCalAlumno
+              : 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/Calificaciones/ConcentradoCursos/' +
+                concentradoCalAlumno
+          }
+        >
+          <Badge>
+            <strong>Concentrado de calificacione</strong>
+          </Badge>
+        </a>
+      ) : (
+        <></>
+      )}
+      {categoriaMateria == 'Cursos' ? (
+        <Link aria-disabled={true} href={'#'}>
+          <a
+            style={{
+              cursor: 'pointer',
+              textDecoration: 'none',
+              color: '#00BFA5',
+            }}
+          >
+            <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
+            Generar concentrado
+          </a>
+        </Link>
+      ) : (
+        <></>
       )}
     </>
   );
