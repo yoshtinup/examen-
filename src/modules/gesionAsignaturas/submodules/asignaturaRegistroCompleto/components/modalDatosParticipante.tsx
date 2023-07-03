@@ -31,7 +31,7 @@ const ModalDatosParticipante = ({
         clickable
         color="info"
         label="Ver detalles"
-      ></Chip>
+      />
       <Modal
         open={open}
         onClose={handleClose}
