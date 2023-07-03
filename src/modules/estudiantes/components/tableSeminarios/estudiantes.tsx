@@ -239,7 +239,7 @@ export const TableEstudiantesWithoutFetch: React.FC<{
 
   return (
 
-<Container style={{ height: 1200, width: '100%', marginTop:'-14px'}}>
+<Container maxWidth={false} style={{ height: 1200, width: '100%', marginTop:'-14px'}}>
         <Grid
           container
           sx={{

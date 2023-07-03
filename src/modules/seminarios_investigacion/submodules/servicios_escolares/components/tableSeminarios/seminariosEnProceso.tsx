@@ -55,6 +55,7 @@ export const TableSeminariosEnProcesoWithoutFetch: React.FC<{ seminarios: EnProc
             </Button><br/>
             <Button
               href={"/seminarios_investigacion/" + params.id}
+              target='_blank'
               style={{marginTop:"7px"}}
               variant="contained"
               size="small"

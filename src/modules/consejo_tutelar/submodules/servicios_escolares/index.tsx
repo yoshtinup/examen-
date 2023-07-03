@@ -271,7 +271,7 @@ const ServiciosEscolaresIndex: React.FC<{
               <Table
                 key="ct-table-list-2"
                 rows={rowsCompleted}
-                actionColumn={false}
+                actionColumn={true}
                 customToolBar={
                   <>
                     <Grid container direction="row" justifyContent="flex-end">
