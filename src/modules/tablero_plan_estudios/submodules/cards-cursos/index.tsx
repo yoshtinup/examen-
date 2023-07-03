@@ -58,8 +58,7 @@ const CardsCursos = (props: any) => {
   const [listaCursos, setListaCursos] = useState(data);
   const [procesoCambio, setPorcesoCambio] = useState(proceso);
   const arrayCursos: CursosAlumnoGql = getCursosEstudiante(listaCursos);
-  console.log(user);
-  const arrayCursosAIniciar: CursoPorIniciarGql[] = useGetCursosAIniciar(user.estudiante.clavePrograma == 2)?.data?.sort(
+  const arrayCursosAIniciar: CursoPorIniciarGql[] = useGetCursosAIniciar(props.idPrograma)?.data?.sort(
     (a, b) => {
       if (a.FechaInicioCurso > b.FechaInicioCurso) return 1;
       if (a.FechaInicioCurso < b.FechaInicioCurso) return -1;

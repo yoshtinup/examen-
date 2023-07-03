@@ -12,10 +12,10 @@ export const TableSeminariosConcluidosWithoutFetch: React.FC<{ seminarios: Concl
 }) => {    
 const router = useRouter();
   const columns: GridColDef[] = [
-    { field: 'nombre', headerName: 'Estudiante', width: 260 },
-    { field: 'programa', headerName: 'Programa', width: 420 },
+    { field: 'nombre', headerName: 'Estudiante', width: 250 },
+    { field: 'programa', headerName: 'Programa', width: 350 },
     { field: 'unidad', headerName: 'Unidad', width: 120 },
-    { field: 'seminario', headerName: 'Seminario', width: 280 },
+    { field: 'seminario', headerName: 'Seminario', width: 250 },
     { field: 'periodo', headerName: 'Periodo', width: 160 },
     { field: 'opciones', headerName: 'Opciones', sortable: false, width: 120,
       renderCell: (params) => {
@@ -37,11 +37,12 @@ const router = useRouter();
       seminario: seminario.Alumno.Materia.Data.Detalles.Nombre,
       periodo: moment(new Date(seminario.Alumno.Materia.Data.Periodo.Fecha.Inicio)).format('D/M/Y') + ' - ' + moment(new Date(seminario.Alumno.Materia.Data.Periodo.Fecha.Fin)).format('D/M/Y'),
     })
-  ))
+  ));
 
   return (
-    <div style={{ height: 500, width: '100%' }}>
+    <div style={{ height: 900, width: '100%' }} id="tabla-seminarios-concluidos" >
       <DataGrid
+        rowHeight={90}
         rows={rows}
         columns={columns}
         disableColumnMenu

@@ -111,6 +111,7 @@ export interface EnProceso {
 }
 
 export interface Estatus {
+    Id: number;
     Descripcion: string;
 }
 

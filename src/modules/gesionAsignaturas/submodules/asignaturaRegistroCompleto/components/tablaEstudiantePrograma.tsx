@@ -1,19 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
-  Alert,
-  CircularProgress,
-  Link,
-  Button,
-  Card,
   Grid,
   InputLabel,
   MenuItem,
   FormControl,
   Box,
   Select,
+  Link,
   Typography,
-  Snackbar,
-  Modal,
   Badge,
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
@@ -340,6 +334,7 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
     }
   });
 
+
   const [selectedRows, setSelectedRows] = React.useState([]);
 
   return (
@@ -361,7 +356,15 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
         />
       </Box>
       {urlboleta != null ? (
-        <a href={urlboleta}>
+        <a
+          href={
+            urlboleta.includes('sharepoint')
+              ? urlboleta
+              : 'https://serviciosposgrado.ecosur.mx/alumnos/Content/Cursos/BoletasInscripciones/' +
+                urlboleta
+          }
+          target="_blank"
+        >
           <Badge>
             <strong>Boleta de calificaciones del curso</strong>
           </Badge>

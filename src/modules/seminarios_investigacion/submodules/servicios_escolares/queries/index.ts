@@ -10,6 +10,7 @@ export function useGetSeminariosEnProceso(anio: number) {
         seminariosEnProceso:db12_Seminarios_Evaluaciones(where: {_and: [{ db12_AlumnosMateria:{db12_MateriasOferataClave:{db12_MateriasOferataAnual:{db12_FechaTrimestre:{db12_Fecha:{db15_Anio:{Anio:{_eq:$anio}}}}}}}  }    {IdSeminarios_CatalogoEstatus:{_nin:4}}]} ) {
             IdEvaluacion:IdSeminarios_Evaluaciones
             estatus:db12_Seminarios_CatalogoEstatus{
+              Id:IdSeminarios_CatalogoEstatus
               Descripcion
             }
             Alumno:db12_AlumnosMateria {

@@ -28,7 +28,9 @@
 .itemMenu {
   color: #1ab394 !important;
   font-weight: lighter;
-  font-size: 17px;
+  font-size: 16px;
+  line-height: 18px;
+  padding: 5px 0px;
 }
 
 body {
@@ -71,7 +73,9 @@ body {
   height: 180px !important;
 }
 
-#tabla-gestion-asignaturas .MuiDataGrid-cellContent {
+#tabla-gestion-asignaturas .MuiDataGrid-cellContent,
+#tabla-seminarios-en-proceso .MuiDataGrid-cellContent,
+#tabla-seminarios-concluidos .MuiDataGrid-cellContent {
   white-space: break-spaces !important;
 }
 #tabla-gestion-estudiantes .MuiDataGrid-cell{

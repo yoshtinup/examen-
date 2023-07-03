@@ -3,6 +3,7 @@ import { rolStateAtom } from '@modules/auth/recoil';
 import {
   Alert,
   Box,
+  Chip,
   CircularProgress,
   Container,
   Grid,
@@ -17,7 +18,6 @@ import {
 import { useRecoilValue } from 'recoil';
 import { useGetInformacionCompletaAsignatura } from '../../queries/hasura';
 import { format } from 'date-fns';
-// import TableStudents from './components/tableStuents';
 import { TableEstudiantesProgramaWithoutFetch } from '@modules/gesionAsignaturas/submodules/asignaturaRegistroCompleto/components/tablaEstudiantePrograma';
 
 import TableProfessors from './components/tableProfessors';
@@ -54,7 +54,15 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
     const infoBasicMateria = (
       <Grid item xs={12}>
         <Typography variant="body1" gutterBottom>
-          <h2>{data.Asignatura.Datos.Nombre.Valor}</h2>
+          <h2 style={{ margin: '0px' }}>
+            {data.Asignatura.Datos.Nombre.Valor}{' '}
+            <Chip
+              color="info"
+              variant="outlined"
+              label={data.Asignatura.Datos.CategoriaMateria}
+              style={{ float: 'right' }}
+            />
+          </h2>
           {data.CursoCancelado ? (
             <>
               <Alert severity="error">
@@ -182,102 +190,102 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                   </Stack>
                 </Box>
               </Grid>
-              <Grid item md={6} xs={12}>
-                <h4>Estatus de los procesos</h4>
-                <Box sx={{ backgroundColor: '#f5f5f5', padding: '5px' }}>
-                  <Table size="small">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Proceso</TableCell>
-                        <TableCell>Estatus</TableCell>
-                        <TableCell>Acciones</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell>
-                          Districución de porcentaje de participación
-                        </TableCell>
-                        <TableCell>
-                          {data.EstatusRegistroDocentes == null
-                            ? ''
-                            : data.EstatusRegistroDocentes.Descripcion}
-                        </TableCell>
-                        <TableCell>
-                          {data.EstatusRegistroDocentes != null &&
-                          data.EstatusRegistroDocentes
-                            .IdcatalogoEstatusRegistroDocentesPorcentajes ==
-                            2 ? (
-                            <a href="#">Enviar recordatorio</a>
-                          ) : (
-                            ''
-                          )}
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>Evaluación de seminario</TableCell>
-                        <TableCell></TableCell>
-                        <TableCell></TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>Evaluación docente</TableCell>
-                        <TableCell>
-                          {data.EvaluacionDocente == null
-                            ? 'No ha iniciado la evaluación'
-                            : data.EvaluacionDocente.Estatus.Nombre}
-                        </TableCell>
-                        <TableCell>
-                          {data.EvaluacionDocente != null &&
-                          [1, 3].includes(data.EvaluacionDocente.Estatus.Id) ? (
-                            <a href="#">Enviar notificación</a>
-                          ) : (
-                            ''
-                          )}
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>Asignación de calificaciones</TableCell>
-                        <TableCell>
-                          {data.EstatusAsignacionCalificacion == null
-                            ? ''
-                            : data.EstatusAsignacionCalificacion.Nombre}
-                        </TableCell>
-                        <TableCell>
-                          {data.EstatusAsignacionCalificacion != null &&
-                          [1, 2].includes(
-                            data.EstatusAsignacionCalificacion.Id
-                          ) ? (
-                            <a href="#">Enviar notificación</a>
-                          ) : (
-                            ''
-                          )}
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </Box>
-              </Grid>
-              <Grid item xs={12}>
-                <h4>Docentes de la asignatura</h4>
-                <Box
-                  sx={{
-                    backgroundColor: '#f5f5f5',
-                    padding: '5px',
-                    minHeight: '200px',
-                  }}
-                >
-                  {data.EstatusAsignacionCalificacion.Id === 3 ? (
-                    <MessageGenerarConstnaciasPersonal idMOA={idMOA} />
-                  ) : (
-                    ''
-                  )}
-                  <TableProfessors professsors={data.Docentes} />
-                </Box>
-              </Grid>
-              <Grid item>
-                <h1>Estudiantes del curso</h1>
-              </Grid>
-
+              {data.Asignatura.Datos.CategoriaMateria === 'Curso' && (
+                <Grid item md={6} xs={12}>
+                  <h4>Estatus de los procesos</h4>
+                  <Box sx={{ backgroundColor: '#f5f5f5', padding: '5px' }}>
+                    <Table size="small">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Proceso</TableCell>
+                          <TableCell>Estatus</TableCell>
+                          <TableCell>Acciones</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell>
+                            Districución de porcentaje de participación
+                          </TableCell>
+                          <TableCell>
+                            {data.EstatusRegistroDocentes == null
+                              ? ''
+                              : data.EstatusRegistroDocentes.Descripcion}
+                          </TableCell>
+                          <TableCell>
+                            {data.EstatusRegistroDocentes != null &&
+                            data.EstatusRegistroDocentes
+                              .IdcatalogoEstatusRegistroDocentesPorcentajes ==
+                              2 ? (
+                              <a href="#">Enviar recordatorio</a>
+                            ) : (
+                              ''
+                            )}
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>Evaluación docente</TableCell>
+                          <TableCell>
+                            {data.EvaluacionDocente == null
+                              ? 'No ha iniciado la evaluación'
+                              : data.EvaluacionDocente.Estatus.Nombre}
+                          </TableCell>
+                          <TableCell>
+                            {data.EvaluacionDocente != null &&
+                            [1, 3].includes(
+                              data.EvaluacionDocente.Estatus.Id
+                            ) ? (
+                              <a href="#">Enviar notificación</a>
+                            ) : (
+                              ''
+                            )}
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>Asignación de calificaciones</TableCell>
+                          <TableCell>
+                            {data.EstatusAsignacionCalificacion == null
+                              ? ''
+                              : data.EstatusAsignacionCalificacion.Nombre}
+                          </TableCell>
+                          <TableCell>
+                            {data.EstatusAsignacionCalificacion != null &&
+                            [1, 2].includes(
+                              data.EstatusAsignacionCalificacion.Id
+                            ) ? (
+                              <a href="#">Enviar notificación</a>
+                            ) : (
+                              ''
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </Box>
+                </Grid>
+              )}
+              {data.Asignatura.Datos.CategoriaMateria === 'Curso' && (
+                <Grid item xs={12}>
+                  <h4>Docentes de la asignatura</h4>
+                  <Box
+                    sx={{
+                      backgroundColor: '#f5f5f5',
+                      padding: '5px',
+                      minHeight: '200px',
+                    }}
+                  >
+                    {data.EstatusAsignacionCalificacion.Id === 3 ? (
+                      <MessageGenerarConstnaciasPersonal idMOA={idMOA} />
+                    ) : (
+                      ''
+                    )}
+                    <TableProfessors
+                      professsors={data.Docentes}
+                      idMOA={idMOA}
+                    />
+                  </Box>
+                </Grid>
+              )}
               <Grid item xs={12}>
                 <h4>Inscritos/Pendientes de inscribirse</h4>
                 <Box
