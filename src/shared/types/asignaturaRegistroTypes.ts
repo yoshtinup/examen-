@@ -75,7 +75,7 @@ export interface AsignaturaRegistroCompleto {
   Asignatura: {
     Datos: {
       Clave: string;
-      CategoriaMateria:string;
+      CategoriaMateria: string;
       Nombre: {
         Valor: string;
         ObligatoriaOptativa: string;
@@ -90,36 +90,45 @@ export interface AsignaturaRegistroCompleto {
   };
 }
 
-
-export interface ListadoAlumnos{
-        EvaluacionSeminario: {
-          Estatus: {
-            IdSeminarios_CatalogoEstatus: number;
-            Descripcion: string;
-          };
-        };
-        IdAlumnoMateria: number;
-        Matricula: number;
-        Calificacion: {
-          EnLetra: string;
-          Numerica: number;
-        };
-        CambioEnAsignatura: {
-          Descripcion: string;
-          Id: number;
-        };
-        Estudiante: {
-          EvaluacionDocente: {
-            Evaluo: {
-              EstatusEvaluacion: number;
-            };
-          };
-          IdAlumno: number;
-          Datos: {
-            Nombre_s_: string;
-            ApellidoPaterno: string;
-            ApellidoMaterno: string;
-          };
-        };
-        BoletaCalificaciones: string;
+export interface ListadoAlumnos {
+  BoletaInscripcion: {
+    NombreArchivo: string;
+  };
+  EvaluacionSeminario: {
+    IdSeminarios_Evaluaciones: number;
+    url_one_drive: string;
+    Estatus: {
+      IdSeminarios_CatalogoEstatus: number;
+      Descripcion: string;
+    };
+  };
+  EnRevisionDeDT: {
+    Descripcion: string;
+    Id: number;
+  };
+  AltaOBajaAsignatura: number;
+  IdAlumnoMateria: number;
+  Matricula: number;
+  Calificacion: {
+    EnLetra: string;
+    Numerica: number;
+  };
+  CambioEnAsignatura: {
+    Descripcion: string;
+    Id: number;
+  };
+  Estudiante: {
+    EvaluacionDocente: {
+      Evaluo: {
+        EstatusEvaluacion: number;
+      };
+    };
+    IdAlumno: number;
+    Datos: {
+      Nombre_s_: string;
+      ApellidoPaterno: string;
+      ApellidoMaterno: string;
+    };
+  };
+  BoletaCalificaciones: string;
 }
