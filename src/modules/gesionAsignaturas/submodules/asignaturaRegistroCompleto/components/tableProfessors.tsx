@@ -1,28 +1,27 @@
 import {
   CustomFooter,
-  CustomNoRowsOverlay,
   CustomToolbar,
 } from '@modules/estudiantes/components/tableSeminarios';
 import ModalDatosParticipante from '@modules/gesionAsignaturas/submodules/asignaturaRegistroCompleto/components/modalDatosParticipante';
 import { Professor } from '@modules/gesionAsignaturas/types/Professor';
 import { ProfessorRow } from '@modules/gesionAsignaturas/types/ProfessorRow';
 
-import { Badge, Button, ButtonGroup, Chip, Grid } from '@mui/material';
+import { Chip } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import React from 'react';
 
 const TableProfessors: React.FC<{
   professsors: [];
   idMOA: number;
-}> = ({ professsors, idMOA }) => {
+  IdcatalogoEstatusRegistroDocentesPorcentajes: number;
+}> = ({ professsors, idMOA, IdcatalogoEstatusRegistroDocentesPorcentajes }) => {
   const columns: GridColDef[] = [
     {
       field: 'nombre',
       headerName: 'Nombre',
       width: 250,
     },
-
-    { field: 'id', headerName: 'Correo', width: 200 },
+    { field: 'email', headerName: 'Correo', width: 200 },
     {
       field: 'tipo_participacion',
       headerName: 'Tipo de participación',
@@ -61,7 +60,12 @@ const TableProfessors: React.FC<{
     const enlaces = (
       <>
         {TipoDeParticipacion.IdParticipacion === 13 ? (
-          <ModalDatosParticipante idParticipante={IdProfesores} />
+          <ModalDatosParticipante
+            IdcatalogoEstatusRegistroDocentesPorcentajes={
+              IdcatalogoEstatusRegistroDocentesPorcentajes
+            }
+            idParticipante={IdProfesores}
+          />
         ) : (
           ''
         )}
@@ -102,8 +106,9 @@ const TableProfessors: React.FC<{
     );
 
     return {
+      id: IdProfesores,
       nombre: `${Nombre.Nombre_s_} ${Nombre.ApellidoPaterno}`,
-      id: Nombre.Email,
+      email: Nombre.Email,
       tipo_participacion: TipoDeParticipacion.Value,
       unidad: Nombre.Unidad.Value,
       porcentaje_participacion:
@@ -131,7 +136,7 @@ const TableProfessors: React.FC<{
         }}
         onSelectionModelChange={ids => {
           const selectedIDs = new Set(ids);
-          const selectedRows = rows.filter(row => selectedIDs.has(row.id));
+          const selectedRows = rows.filter(row => selectedIDs.has(row.email));
           setSelectedRows(selectedRows);
         }}
       />

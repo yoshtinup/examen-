@@ -1,6 +1,7 @@
 export interface ProfessorRow {
+  email: string;
   nombre: string;
-  id: string;
+  id: number;
   tipo_participacion: string;
   unidad: string;
   porcentaje_participacion: number | 'N/A';

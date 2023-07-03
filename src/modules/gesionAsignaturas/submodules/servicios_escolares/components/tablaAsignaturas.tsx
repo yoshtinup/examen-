@@ -31,6 +31,7 @@ const columns: GridColDef[] = [
       return (
         <Button
           href={'/gestionAsignaturas/' + params.id}
+          target='_blank'
           variant="contained"
           size="small"
         >
