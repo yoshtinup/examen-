@@ -71,7 +71,9 @@ body {
   height: 180px !important;
 }
 
-#tabla-gestion-asignaturas .MuiDataGrid-cellContent {
+#tabla-gestion-asignaturas .MuiDataGrid-cellContent,
+#tabla-seminarios-en-proceso .MuiDataGrid-cellContent,
+#tabla-seminarios-concluidos .MuiDataGrid-cellContent {
   white-space: break-spaces !important;
 }
 #grafica-pastel-leyendas,
