@@ -18,9 +18,7 @@ const ServiciosEscolares = () => {
         <Grid item xs={12}>
           <Typography variant="body1" gutterBottom>
           <TableroServiciosEscolares/>
-          
           </Typography>
-          
         </Grid> 
       </Grid>
     </Container>

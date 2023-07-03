@@ -15,7 +15,7 @@ const Page = () => {
         justifyContent="center"
         style={{ padding: '30px !important', backgroundColor: '#fff' }}
       >
-        <SeminariosEvaluacion />    
+        <SeminariosEvaluacion />
       </Box>
     </Container>
   );

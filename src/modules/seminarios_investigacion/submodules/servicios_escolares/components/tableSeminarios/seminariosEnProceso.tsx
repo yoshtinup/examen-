@@ -1,7 +1,7 @@
 import React from 'react';
 import { CustomToolbar, CustomFooter, CustomNoRowsOverlay } from '.'
 import EcosurCommentDialog from '../DialogActa';
-import { Alert, CircularProgress, Button, Card, Grid, InputLabel, MenuItem, FormControl, Box, Select } from '@mui/material';
+import { Alert, CircularProgress, Button, Card, Grid, InputLabel, MenuItem, FormControl, Box, Select, ButtonGroup } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useGetSeminariosEnProceso } from '../../queries';
@@ -31,12 +31,12 @@ export const TableSeminariosEnProcesoWithoutFetch: React.FC<{ seminarios: EnProc
   }
   const [selectedRows, setSelectedRows] = React.useState([]);
   const columns: GridColDef[] = [
-    { field: 'nombre', headerName: 'Estudiante', width: 260 },
-    { field: 'programa', headerName: 'Programa', width: 420 },
+    { field: 'nombre', headerName: 'Estudiante', width: 180 },
+    { field: 'programa', headerName: 'Programa', width: 280 },
     { field: 'unidad', headerName: 'Unidad', width: 120 },
-    { field: 'seminario', headerName: 'Seminario', width: 280 },
-    { field: 'periodo', headerName: 'Periodo', width: 160 },
-    { field: 'estatus', headerName: 'Estatus', width: 380 },
+    { field: 'seminario', headerName: 'Seminario', width: 200 },
+    { field: 'periodo', headerName: 'Periodo', width: 120 },
+    { field: 'estatus', headerName: 'Estatus', width: 180 },
     { field: 'opciones', headerName: 'Opciones', sortable: false, width: 160,
       renderCell: (params) => {
         const handleOpen = () => {
@@ -45,15 +45,23 @@ export const TableSeminariosEnProcesoWithoutFetch: React.FC<{ seminarios: EnProc
         };
 
         return (
-          <>
+          <ButtonGroup orientation="vertical">
             <Button
               onClick={handleOpen}
               variant="contained"
               size="small"
             >
               Cambiar estatus
+            </Button><br/>
+            <Button
+              href={"/seminarios_investigacion/" + params.id}
+              style={{marginTop:"7px"}}
+              variant="contained"
+              size="small"
+            >
+              Ver detalles
             </Button>
-          </>
+          </ButtonGroup>
         )
       },
     },
@@ -72,7 +80,7 @@ export const TableSeminariosEnProcesoWithoutFetch: React.FC<{ seminarios: EnProc
   ))
 
   return (
-    <div style={{ height: 500, width: '100%' }}>
+    <div style={{ height: 900, width: '100%' }} id="tabla-seminarios-en-proceso" >
       {
         (selectedRows.length !== 0) ?
           <Grid container sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', bgcolor: 'background.default', pb: 2, pt: 1.8 }}>                
@@ -91,8 +99,9 @@ export const TableSeminariosEnProcesoWithoutFetch: React.FC<{ seminarios: EnProc
               <SelectUser />
             </Grid>                   
           </Grid>  
-      }     
+      }
       <DataGrid
+        rowHeight={90}
         sx={{ pb: 7 }}
         rows={rows}
         columns={columns}
