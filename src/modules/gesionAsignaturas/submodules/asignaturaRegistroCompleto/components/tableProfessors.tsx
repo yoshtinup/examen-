@@ -7,13 +7,14 @@ import ModalDatosParticipante from '@modules/gesionAsignaturas/submodules/asigna
 import { Professor } from '@modules/gesionAsignaturas/types/Professor';
 import { ProfessorRow } from '@modules/gesionAsignaturas/types/ProfessorRow';
 
-import { Button, Grid } from '@mui/material';
+import { Badge, Button, ButtonGroup, Chip, Grid } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import React from 'react';
 
 const TableProfessors: React.FC<{
   professsors: [];
-}> = ({ professsors }) => {
+  idMOA: number;
+}> = ({ professsors, idMOA }) => {
   const columns: GridColDef[] = [
     {
       field: 'nombre',
@@ -41,7 +42,7 @@ const TableProfessors: React.FC<{
     {
       field: 'enlaces',
       headerName: 'Enlaces',
-      width: 250,
+      minWidth: 400,
       renderCell: params => {
         return params.row.enlaces;
       },
@@ -54,6 +55,7 @@ const TableProfessors: React.FC<{
       PorcentajeParticipacion,
       ConstanciaDeParticipacionDocente,
       IdProfesores,
+      TieneEvaluacionDocente,
     } = proffesor;
 
     const enlaces = (
@@ -63,14 +65,36 @@ const TableProfessors: React.FC<{
         ) : (
           ''
         )}
-        {ConstanciaDeParticipacionDocente != null ? (
-          <Button
+        {ConstanciaDeParticipacionDocente !== null ? (
+          <Chip
             href={ConstanciaDeParticipacionDocente}
             target="_blank"
+            label="Constancia"
+            component="a"
+            clickable
+            size="small"
             variant="outlined"
-          >
-            Constancia
-          </Button>
+            color="info"
+          ></Chip>
+        ) : (
+          ''
+        )}
+        {TieneEvaluacionDocente !== null ? (
+          <Chip
+            href={
+              'https://serviciosposgrado.ecosur.mx/Profesores/evaluaciondocente/profesor/descargarEvaluacionPDF?id=' +
+              idMOA +
+              '&idProfesor=' +
+              IdProfesores
+            }
+            target="_blank"
+            label="Acta de evaluación docente"
+            component="a"
+            clickable
+            size="small"
+            variant="outlined"
+            color="info"
+          ></Chip>
         ) : (
           ''
         )}

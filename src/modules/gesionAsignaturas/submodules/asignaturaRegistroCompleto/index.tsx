@@ -277,7 +277,10 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                     ) : (
                       ''
                     )}
-                    <TableProfessors professsors={data.Docentes} />
+                    <TableProfessors
+                      professsors={data.Docentes}
+                      idMOA={idMOA}
+                    />
                   </Box>
                 </Grid>
               )}

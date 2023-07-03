@@ -1,4 +1,4 @@
-import { Box, Button, Modal } from '@mui/material';
+import { Box, Button, Chip, Modal } from '@mui/material';
 import { useState } from 'react';
 
 const style = {
@@ -24,9 +24,14 @@ const ModalDatosParticipante = ({
 
   return (
     <>
-      <Button onClick={handleOpen} variant="outlined">
-        Ver detalles
-      </Button>
+      <Chip
+        onClick={handleOpen}
+        variant="outlined"
+        size="small"
+        clickable
+        color="info"
+        label="Ver detalles"
+      ></Chip>
       <Modal
         open={open}
         onClose={handleClose}
