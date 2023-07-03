@@ -14,7 +14,7 @@ const ServiciosEscolaresPage = WithRol(Roles.Servicios_Escolares)(
 const GestionAsignaturas = () => {
   return (
     <>
-    <HeaderSection label="GESTIÓN DE ASIGNATURAS" />
+      <HeaderSection label="GESTIÓN DE ASIGNATURAS" />
       <OtrosPage />
       <ServiciosEscolaresPage />
     </>

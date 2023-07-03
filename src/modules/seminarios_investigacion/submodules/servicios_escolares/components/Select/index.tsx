@@ -12,9 +12,9 @@ interface EcosurSelectProps {
 const menuItems = (size: number) => {
   let menuItem = [];
   let currentYear = new Date().getFullYear();
-  for (let index = size; index >= 0; index--) {
-    menuItem.push(<MenuItem key={`ecosur-menu-item-${index}`} value={currentYear}>{`${currentYear}`}</MenuItem>);
-    currentYear--;
+  let startYear = currentYear - size;
+  for (let index = startYear; index <= currentYear; index+=1) {
+    menuItem.push(<MenuItem key={`ecosur-menu-item-${index}`} value={index}>{`${index}`}</MenuItem>);
   }
     return menuItem;
 }

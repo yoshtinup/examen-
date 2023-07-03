@@ -35,14 +35,14 @@ export const ListaSeminarios = ({  }) => {
             <Typography variant='h6' sx={{ fontWeight: 'bold', pb: 3 }}>
               Instrucciones
             </Typography>
-            <Typography variant='body2' sx={{ pb: 3 }}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus commodi reiciendis quae. Ab non, exercitationem officiis earum tempore placeat iure distinctio iste ipsum reprehenderit quae delectus, ea rerum nostrum atque?
+            <Typography variant='body2' sx={{ pb: 3, width: "100%" }}>
+              Seleccione el año de las evaluaciones que desea consultar
             </Typography>  
             <Grid container sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', pr: 2 }}>
               <Grid item sx={{ pr: 2 }}>
                 Filtrar por: 
               </Grid>  
-              <EcosurSelect label='Año' value={anio} handleChange={handleChangeFiltro} />
+              <EcosurSelect label='Año' value={anio} handleChange={handleChangeFiltro} size={currentYear-2020} />
             </Grid>        
             <Box sx={{ width: 1 }}>
               <EcosurTabs data={tablasSeminarios} align='left' key='ecosur-tabs-seminarios' />        
