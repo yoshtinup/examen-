@@ -6,14 +6,15 @@ import ModalDatosParticipante from '@modules/gesionAsignaturas/submodules/asigna
 import { Professor } from '@modules/gesionAsignaturas/types/Professor';
 import { ProfessorRow } from '@modules/gesionAsignaturas/types/ProfessorRow';
 
-import { Badge, Button, ButtonGroup, Chip, Grid } from '@mui/material';
+import { Chip } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import React from 'react';
 
 const TableProfessors: React.FC<{
   professsors: [];
   idMOA: number;
-}> = ({ professsors, idMOA }) => {
+  IdcatalogoEstatusRegistroDocentesPorcentajes: number;
+}> = ({ professsors, idMOA, IdcatalogoEstatusRegistroDocentesPorcentajes }) => {
   const columns: GridColDef[] = [
     {
       field: 'nombre',
@@ -59,7 +60,12 @@ const TableProfessors: React.FC<{
     const enlaces = (
       <>
         {TipoDeParticipacion.IdParticipacion === 13 ? (
-          <ModalDatosParticipante idParticipante={IdProfesores} />
+          <ModalDatosParticipante
+            IdcatalogoEstatusRegistroDocentesPorcentajes={
+              IdcatalogoEstatusRegistroDocentesPorcentajes
+            }
+            idParticipante={IdProfesores}
+          />
         ) : (
           ''
         )}

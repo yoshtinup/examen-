@@ -1,9 +1,8 @@
 import ProfesorConstanciaParticipacion from '@modules/gesionAsignaturas/queries/apiRest';
 import { Button } from '@mui/material';
-import { useState } from 'react';
 import Swal from 'sweetalert2';
 
-const MessageGenerarConstnaciasPersonal: React.FC<{
+const MessageGenerarConstanciasDocentes: React.FC<{
   idMOA: number;
 }> = ({ idMOA }) => {
   const handleMessage = () => {
@@ -18,7 +17,7 @@ const MessageGenerarConstnaciasPersonal: React.FC<{
       reverseButtons: true,
       cancelButtonColor: '#d5d8dc',
       preConfirm: () => {
-        return ProfesorConstanciaParticipacion.generar(idMOA);
+        return ProfesorConstanciaParticipacion.generarTodas(idMOA);
       },
       allowOutsideClick: () => !Swal.isLoading(),
     }).then(result => {
@@ -44,4 +43,4 @@ const MessageGenerarConstnaciasPersonal: React.FC<{
   );
 };
 
-export default MessageGenerarConstnaciasPersonal;
+export default MessageGenerarConstanciasDocentes;

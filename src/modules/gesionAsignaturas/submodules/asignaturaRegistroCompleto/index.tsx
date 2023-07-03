@@ -21,7 +21,7 @@ import { format } from 'date-fns';
 import { TableEstudiantesProgramaWithoutFetch } from '@modules/gesionAsignaturas/submodules/asignaturaRegistroCompleto/components/tablaEstudiantePrograma';
 
 import TableProfessors from './components/tableProfessors';
-import MessageGenerarConstnaciasPersonal from './components/messageGenerarConstanciasPersonal';
+import MessageGenerarConstanciasDocentes from './components/messageGenerarConstanciasDocentes';
 import { TableEstudiantesProgramaBajasWithoutFetch } from './components/tablaEstudianteProgramaBajas';
 import { TableEstudiantesProgramaDirectorWithoutFetch } from './components/tablaEstudianteProgramaDirector';
 
@@ -275,13 +275,17 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                     }}
                   >
                     {data.EstatusAsignacionCalificacion.Id === 3 ? (
-                      <MessageGenerarConstnaciasPersonal idMOA={idMOA} />
+                      <MessageGenerarConstanciasDocentes idMOA={idMOA} />
                     ) : (
                       ''
                     )}
                     <TableProfessors
                       professsors={data.Docentes}
                       idMOA={idMOA}
+                      IdcatalogoEstatusRegistroDocentesPorcentajes={
+                        data.EstatusRegistroDocentes
+                          .IdcatalogoEstatusRegistroDocentesPorcentajes
+                      }
                     />
                   </Box>
                 </Grid>
