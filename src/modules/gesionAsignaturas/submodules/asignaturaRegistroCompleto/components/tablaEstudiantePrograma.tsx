@@ -141,8 +141,7 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
                 <Link
                   aria-disabled={true}
                   href={
-                    'https://sip.ecosur.mx/seminarios_investigacion/' +
-                    params.row.idseminariosevaluaciones
+                    'https://sip.ecosur.mx/seminarios_investigacion/'+ params.row.idseminariosevaluaciones
                   }
                 >
                   <a
@@ -299,13 +298,13 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
   estudiantesList.map((estudiante, index) => {
     console.log(estudiante.EnRevisionDeDT?.Id)
     console.log(estudiante.AltaOBajaAsignatura)
-    if (
-      (estudiante.EnRevisionDeDT?.Id == 2 &&
-        estudiante.AltaOBajaAsignatura == 4) ||
-      (estudiante.EnRevisionDeDT?.Id == 1 &&
-        estudiante.AltaOBajaAsignatura == 3) ||
-      (estudiante.EnRevisionDeDT?.Id == 1 &&
-        estudiante.AltaOBajaAsignatura == 4)
+    if ((estudiante.EnRevisionDeDT?.Id!=undefined) ||
+      ((estudiante.EnRevisionDeDT?.Id != 2 &&
+        estudiante.AltaOBajaAsignatura != 4) ||
+      (estudiante.EnRevisionDeDT?.Id != 1 &&
+        estudiante.AltaOBajaAsignatura != 3) ||
+      (estudiante.EnRevisionDeDT?.Id != 1 &&
+        estudiante.AltaOBajaAsignatura != 4))
     ) {
       rows.push({
         id: index,
@@ -321,8 +320,7 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
         evalseminario:
           estudiante.EvaluacionSeminario?.Estatus.IdSeminarios_CatalogoEstatus,
         evalseminariodesc: estudiante.EvaluacionSeminario?.Estatus.Descripcion,
-        idseminariosevaluaciones:
-          estudiante.EvaluacionSeminario?.IdSeminarios_Evaluaciones,
+        idseminariosevaluaciones:estudiante.EvaluacionSeminario?.IdSeminarios_Evaluaciones,
         numero: estudiante.Calificacion?.Numerica,
         letra: estudiante.Calificacion?.EnLetra,
         boleta: estudiante?.BoletaCalificaciones,

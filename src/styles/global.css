@@ -80,10 +80,10 @@ body {
 }
 #tabla-gestion-estudiantes .MuiDataGrid-cell{
   white-space: break-spaces !important;
-  max-height: 100px !important;
+  max-height: 150px !important;
 }
 #tabla-gestion-estudiantes .MuiDataGrid-row{
-  max-height: 100px !important;
+  max-height: 150px !important;
 }
 #grafica-pastel-leyendas,
 #grafica-pastel-leyendas-col2 {
