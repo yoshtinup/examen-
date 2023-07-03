@@ -49,7 +49,8 @@ const TableroPlanEstudios = (props) => {
   if (error || isErrorEst) {
     return <>Error</>;
   }
-  if (procesoCambio.data?.length > 0) {
+  let dataProces=procesoCambio?.data;
+  if (dataProces.length > 0 || data[0] ) {
     proceso = false;
   }
   let userInfo:EstudianteGql =  dataEst[0];
@@ -77,9 +78,6 @@ const TableroPlanEstudios = (props) => {
           <Grid item xs={12}>
             <GraficaCursos matricula={registrationUser}/>
             {!proceso && <MyCard data={procesoCambio.data} />}
-
-            {/* <a className="tab">Pendiente de que su director/a de tesis revise los siguientes cambios en su plan de estudios: <br/>
-            {procesoCambio.data[0].Estatus?.Descripcion}<br/>{procesoCambio.data[0].Estatus?.Descripcion}<br/>{procesoCambio.data[0].Estatus?.Descripcion}<br/></a> */}
             <EcosurTabs
               data={tabCursos}
               align="left"
@@ -101,6 +99,7 @@ const TableroPlanEstudios = (props) => {
 
 const MyCard = props => {
   const data = props.data;
+  console.log(data);
   return (
     <Card
       id="mycard"
