@@ -14,6 +14,7 @@ export function useGetTutoresSinodales(matricula: number) {
               ApellidoMaterno
               Email
               IdGenero
+              Grado
             }
             Nivel:db17_Participacion{
               Participacion
@@ -23,7 +24,12 @@ export function useGetTutoresSinodales(matricula: number) {
           ConformacionCT:db18_CT_Conformacion(where:{Matricula:{_eq:$matricula}}){
             Catalogo:db18_CT_CatalogoEstatusGeneral{
               Estatus
+              IDEstatus
             }
+            ActaDeConformacionComite:db18_CT_CartaAceptacionEstudiante{
+              URL
+            }
+
           }
         }
       `,

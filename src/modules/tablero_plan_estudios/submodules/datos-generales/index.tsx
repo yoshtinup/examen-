@@ -197,8 +197,8 @@ const TutoresSinodales = (props:any) => {
             {TS.ConsejoTutelar.map((item, i) =>
               <ItemTS key={i}
                 elemento={<>
-                  {item.Persona.nombre}{' '}{item.Persona.ApellidoPaterno}{' '}{item.Persona.ApellidoMaterno}{item.Persona.Email && `(${item.Persona.Email})`} -{' '}
-                 <span style={{color:'#666'}}> { generoNivelPart[item.Nivel.IdParticipacion][item.Persona.IdGenero-1] }</span>
+                 {`${item.Persona.Grado} `} {item.Persona.nombre}{' '}{item.Persona.ApellidoPaterno}{' '}{item.Persona.ApellidoMaterno}{item.Persona.Email && `(${item.Persona.Email})`} -{' '}
+                 <span style={{color:'#666'}}> { generoNivelPart[item.Nivel.IdParticipacion][item.Persona.IdGenero-1] }{`(${item.Persona.Grado})`}</span>
                  </>}
               />
             )}

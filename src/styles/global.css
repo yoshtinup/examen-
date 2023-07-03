@@ -74,6 +74,13 @@ body {
 #tabla-gestion-asignaturas .MuiDataGrid-cellContent {
   white-space: break-spaces !important;
 }
+#tabla-gestion-estudiantes .MuiDataGrid-cell{
+  white-space: break-spaces !important;
+  max-height: 100px !important;
+}
+#tabla-gestion-estudiantes .MuiDataGrid-row{
+  max-height: 100px !important;
+}
 #grafica-pastel-leyendas,
 #grafica-pastel-leyendas-col2 {
   list-style: none;
