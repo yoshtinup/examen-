@@ -14,7 +14,7 @@ export function useGetCursosAIniciar(doctorado:boolean) {
     const { Cursos } = await hasuraClient.request(
       gql`
         query CursosAIniciar($date:datetime!) {
-          Cursos:CnsI_ayb_02_MateriasDisponibles(where:{FechaLimiteAltaYBaja:{_lte: "'$'{new Date().toISOString()}"} ` + queryPlus + `){
+          Cursos:CnsI_ayb_02_MateriasDisponibles(where:{FechaLimiteAltaYBaja:{_lte: $date} ` + queryPlus + `}){
             Creditos
             FechaFinCurso:FechaIni
             FechaInicioCurso:FechaFin
