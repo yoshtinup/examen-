@@ -9,6 +9,7 @@ import {
   Link,
   Typography,
   Badge,
+  Chip
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
@@ -16,6 +17,7 @@ import { FiltroEstudiante } from '../../../../estudiantes/types';
 import { ListadoAlumnos } from '@shared/types/asignaturaRegistroTypes';
 import { ListaEstudiantes } from '@modules/estudiantes';
 import LinkIcon from '@mui/icons-material/Link';
+import { CustomFooter, CustomToolbar } from './programa/extraComponents';
 
 export const TableEstudiantesProgramaWithoutFetch: React.FC<{
   estudiantes: ListadoAlumnos[];
@@ -142,79 +144,65 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
               }}
             >
               {params.row.boletainscripcion != undefined ? (
-                <Link
-                  aria-disabled={true}
-                  href={
-                    params.row.boletainscripcion.includes('sharepoint')
+                <Chip
+                href={
+                  params.row.boletainscripcion.includes('sharepoint')
                       ? params.row.boletainscripcion
                       : 'https://serviciosposgrado.ecosur.mx/alumnos/Content/Cursos/BoletasInscripciones/' +
                         params.row.boletainscripcion
-                  }
-                >
-                  <a
-                    style={{
-                      cursor: 'pointer',
-                      textDecoration: 'none',
-                      color: '#00BFA5',
-                    }}
-                  >
-                    <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-                    Boleta de inscripción
-                  </a>
-                </Link>
+                }
+                target="_blank"
+                label="Boleta de inscripción"
+                component="a"
+                clickable
+                size="small"
+                variant="outlined"
+                color="info"
+              ></Chip>
+
               ) : (
                 <></>
               )}
               {/* //checar Sharepoint */}
               {EsSeminario && params.row.evalseminario == 4 ? (
-                <Link
-                  aria-disabled={true}
-                  href={
-                    params.row.urlonedrive
-                      ? params.row.urlonedrive.includes('sharepoint')
-                        ? params.row.urlonedrive
-                        : 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/EvaluacionSeminarios/' +
-                          params.row.urlonedrive
-                      : 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/EvaluacionSeminarios/' +
-                        params.row.NombreArchivo_Acta
-                  }
-                >
-                  <a
-                    style={{
-                      cursor: 'pointer',
-                      textDecoration: 'none',
-                      color: '#00BFA5',
-                    }}
-                  >
-                    <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-                    Acta de evaluación
-                  </a>
-                </Link>
+                <Chip
+                href={
+                  params.row.urlonedrive==null
+                  ? params.row.urlonedrive?.includes('sharepoint')
+                    ? params.row.urlonedrive
+                    : 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/EvaluacionSeminarios/' +
+                      params.row.urlonedrive
+                  : 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/EvaluacionSeminarios/' +
+                    params.row.NombreArchivo_Acta
+                }
+                target="_blank"
+                label="Acta de evaluación"
+                component="a"
+                clickable
+                size="small"
+                variant="outlined"
+                color="info"
+              ></Chip>
               ) : (
                 <></>
               )}
 
               {params.row.boletacalificaciones != null ? (
-                <Link
-                  aria-disabled={true}
-                  href={
-                    params.row.boletacalificaciones.includes('sharepoint')
-                      ? params.row.boletacalificaciones
-                      : 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/Calificaciones/BoletasEstudiantes/' +
-                        params.row.boletacalificaciones
-                  }
-                >
-                  <a
-                    style={{
-                      cursor: 'pointer',
-                      textDecoration: 'none',
-                      color: '#00BFA5',
-                    }}
-                  >
-                    <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-                    Boleta de calificación
-                  </a>
-                </Link>
+                <Chip
+                href={
+                  params.row.boletacalificaciones.includes('sharepoint')
+                  ? params.row.boletacalificaciones
+                  : 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/Calificaciones/BoletasEstudiantes/' +
+                    params.row.boletacalificaciones
+                }
+                target="_blank"
+                label="Boleta de calificación"
+                component="a"
+                clickable
+                size="small"
+                variant="outlined"
+                color="info"
+              ></Chip>
               ) : (
                 <></>
               )}
@@ -246,24 +234,20 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
               {EsSeminario &&
               params.row.evalseminario != 1 &&
               params.row.evalseminario != 5 ? (
-                <Link
-                  aria-disabled={true}
-                  href={
-                    'https://sip.ecosur.mx/seminarios_investigacion/' +
+                <Chip
+                href={
+                  'https://sip.ecosur.mx/seminarios_investigacion/' +
                     params.row.idseminariosevaluaciones
-                  }
-                >
-                  <a
-                    style={{
-                      cursor: 'pointer',
-                      textDecoration: 'none',
-                      color: '#00BFA5',
-                    }}
-                  >
-                    <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-                    Detalles de evaluación
-                  </a>
-                </Link>
+                }
+                target="_blank"
+                label=" Detalles de evaluación"
+                component="a"
+                clickable
+                size="small"
+                variant="outlined"
+                color="info"
+              ></Chip>
+               
               ) : (
                 <></>
               )}
@@ -271,38 +255,74 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
               {EsSeminario &&
               params.row.evalseminario != 4 &&
               params.row.evalseminario != 5 ? (
-                <Link aria-disabled={true} href={'#'}>
-                  <a
-                    style={{
-                      cursor: 'pointer',
-                      textDecoration: 'none',
-                      color: '#00BFA5',
-                    }}
-                  >
-                    <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-                    Enviar recordatorio de evaluación
-                  </a>
-                </Link>
+                <Chip
+                href={'#'
+                }
+                target="_blank"
+                label="Enviar recordatorio de evaluación"
+                component="a"
+                clickable
+                size="small"
+                variant="outlined"
+                color="info"
+              ></Chip>
+                // <Link aria-disabled={true} href={'#'}>
+                //   <a
+                //     style={{
+                //       cursor: 'pointer',
+                //       textDecoration: 'none',
+                //       color: '#00BFA5',
+                //     }}
+                //   >
+                //     <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
+                //     Enviar recordatorio de evaluación
+                //   </a>
+                // </Link>
               ) : (
                 <></>
               )}
               {EsSeminario && params.row.evalseminario == 4 ? (
-                <Link aria-disabled={true} href={'#'}>
-                  <a
-                    style={{
-                      cursor: 'pointer',
-                      textDecoration: 'none',
-                      color: '#00BFA5',
-                    }}
-                  >
-                    <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-                    Generar acta de evaluación
-                  </a>
-                </Link>
+                <Chip
+                href={'#'
+                }
+                target="_blank"
+                label="Generar acta de evaluación"
+                component="a"
+                clickable
+                size="small"
+                variant="outlined"
+                color="info"
+              ></Chip>
+                // <Link aria-disabled={true} href={'#'}>
+                //   <a
+                //     style={{
+                //       cursor: 'pointer',
+                //       textDecoration: 'none',
+                //       color: '#00BFA5',
+                //     }}
+                //   >
+                //     <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
+                //     Generar acta de evaluación
+                //   </a>
+                // </Link>
               ) : (
                 <></>
               )}
-              <Link aria-disabled={true} href={'#'}>
+              {
+              params.row.numero>0 && params.row.letra!= undefined?
+              <Chip
+                href={'#'
+                }
+                target="_blank"
+                label="Generar boleta de calificación"
+                component="a"
+                clickable
+                size="small"
+                variant="outlined"
+                color="info"
+              ></Chip>:<></>
+              }
+              {/* <Link aria-disabled={true} href={'#'}>
                 <a
                   style={{
                     cursor: 'pointer',
@@ -313,7 +333,7 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
                   <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
                   Generar boleta de calificación
                 </a>
-              </Link>
+              </Link> */}
             </div>
           </>
         );
@@ -365,7 +385,7 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
         evalseminariodesc: estudiante.EvaluacionSeminario?.Estatus.Descripcion,
         idseminariosevaluaciones:
           estudiante.EvaluacionSeminario?.IdSeminarios_Evaluaciones,
-        numero: estudiante.Calificacion?.Numerica,
+        numero: estudiante.Calificacion?.Numerica.toFixed(1),
         letra: estudiante.Calificacion?.EnLetra,
         boleta: estudiante?.BoletaCalificaciones,
         boletainscripcion: estudiante.BoletaInscripcion?.NombreArchivo,
@@ -375,7 +395,19 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
       });
     }
   });
-
+  rows.sort(function(a, b) {
+    var nombreA = a.estudiante.toUpperCase();
+    var nombreB = b.estudiante.toUpperCase();
+    
+    if (nombreA < nombreB) {
+      return -1;
+    }
+    if (nombreA > nombreB) {
+      return 1;
+    }
+    
+    return 0;
+  });
   const [selectedRows, setSelectedRows] = React.useState([]);
 
   return (
@@ -387,7 +419,7 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
               ? concentradoCalAlumno
               : 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/Calificaciones/ConcentradoCursos/' +
                 concentradoCalAlumno
-          }
+          } target="_blank"
         >
           <Badge>
             <strong>Concentrado de calificaciones </strong>
@@ -396,19 +428,14 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
       ) : (
         <></>
       )}
-      {categoriaMateria == 'Curso' && estatusAsignacionCalificacion==3? (
-        <Link aria-disabled={true} href={'#'}>
-          <a
-            style={{
-              cursor: 'pointer',
-              textDecoration: 'none',
-              color: '#00BFA5',
-            }}
-          >
-            <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-            Generar concentrado
-          </a>
-        </Link>
+      {categoriaMateria == 'Curso' && estatusAsignacionCalificacion==3 ? (
+         <a
+         href={'#' } target="_blank"
+       >
+         <Badge>
+           <strong>Generar concentrado </strong>
+         </Badge>
+       </a>
       ) : (
         <></>
       )}
@@ -418,6 +445,10 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
           rows={rows}
           columns={opcionesFiltro}
           disableColumnMenu
+          components={{
+            Toolbar: CustomToolbar,
+            Footer: CustomFooter,
+          }}
           componentsProps={{
             footer: { counter: rows.length, label: 'Estudiantes:' },
           }}

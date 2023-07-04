@@ -184,8 +184,10 @@ const TutoresSinodales = (props:any) => {
   const nivelesPart = new Array();
   generoNivelPart[1] = ["Director de tesis", "Directora de tesis"];
   generoNivelPart[2] = ["Asesor", "Asesora"];
+  generoNivelPart[29] = ["Director", "Directora"];
+  generoNivelPart[30] = ["Miembro del Consejo Tutelar", "Miembro del Consejo Tutelar"];
   generoNivelPart[33] = ["Coodirector", "Coodirectora"];
-  nivelesPart.push(1, 2, 33)
+  nivelesPart.push(1, 2, 29, 30, 33);
   return (
     <Paper>
       <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
@@ -195,21 +197,24 @@ const TutoresSinodales = (props:any) => {
         {(TS && TS.ConsejoTutelar && TS.ConsejoTutelar.length > 0)
           ?
           <>
-            {TS.ConsejoTutelar.map((item, i) =>
-              <ItemTS key={i}
-                elemento={
-                  <>
-                    {item.Persona.nombre}{' '}{item.Persona.ApellidoPaterno}{' '}{item.Persona.ApellidoMaterno}{item.Persona.Email && `(${item.Persona.Email})`} -{' '}
-                    <span style={{color:'#666'}}>
-                      {nivelesPart.includes(item.Nivel.IdParticipacion)
-                        ? generoNivelPart[item.Nivel.IdParticipacion][item.Persona.IdGenero-1]
-                        : item.Nivel.Participacion
-                      }
-                    </span>
-                  </>
-                }
-              />
-            )}
+            {TS.ConsejoTutelar.map((item, i) => {
+              if(!nivelesPart.includes(item.Nivel.IdParticipacion)){
+                return <></>;
+              }
+              return (
+                <ItemTS key={i}
+                  elemento={
+                    <>
+                      {item.Persona.Grado}{' '}{item.Persona.nombre}{' '}{item.Persona.ApellidoPaterno}{' '}{item.Persona.ApellidoMaterno}
+                      {item.Persona.Email && `(${item.Persona.Email})`} -{' '}
+                      <span style={{color:'#666'}}>
+                        {generoNivelPart[item.Nivel.IdParticipacion][item.Persona.IdGenero-1]}
+                      </span>
+                    </>
+                  }
+                />
+              );
+            })}
           </>
           :
           <ItemTS elemento="Sin integrantes registrados"/>
@@ -217,10 +222,15 @@ const TutoresSinodales = (props:any) => {
         {(TS && TS.ConformacionCT && TS.ConformacionCT.length > 0)
           ?
           <ItemTS
-            icono={TS.ConformacionCT[0].Catalogo.Estatus!='Aprobado'?<ErrorIcon style={{color:"red"}}/>:<CheckCircle style={{color:"green"}}/>}
+            icono={TS.ConformacionCT[0].Catalogo.Estatus.trim()!='Aprobado'?<ErrorIcon style={{color:"red"}}/>:<CheckCircle style={{color:"green"}}/>}
             elemento={TS.ConformacionCT[0].Catalogo.Estatus}
             secondaryAction={
+              <>
               <Button onClick={() => {show?window.location.href = `/consejo_tutelar`:window.location.href = `/consejo_tutelar/${matricula}`}} variant="contained">Ver</Button>
+              {TS.ConformacionCT[0].ActaDeConformacionComite && TS.ConformacionCT[0].ActaDeConformacionComite.url &&
+                <Button href={TS.ConformacionCT[0].ActaDeConformacionComite.url} target="_blank" variant="contained">Acta de conformación</Button>
+              }
+              </>
             }
           />
           :
