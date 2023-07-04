@@ -17,7 +17,7 @@ export function getDataCardCSFinalizado(CS:CSGql, currentRol:Roles){
   if(currentRol === Roles.Estudiante){
     let Calificacion:CardListItemChildrens = ItemWithChildrens("Calificación", true);
     if(CS.Calificacion){
-      let nota = CS.CalificacionPendiente ? " - ¡¡¡ calificaciones pendientes !!!" : "";
+      let nota = CS.CalificacionPendiente ? " *"/*" - ¡¡¡ calificaciones pendientes !!!"*/ : "";
       Calificacion.Childrens.push(ItemSimple("Global: " + CS.Calificacion.toFixed(2) + nota, <People />));
     }else{
       Calificacion.Childrens.push(ItemSimple("Pendiente de calificación", <People />));
