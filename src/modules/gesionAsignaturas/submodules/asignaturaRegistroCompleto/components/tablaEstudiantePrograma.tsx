@@ -414,6 +414,7 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
 
   return (
     <>
+    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
       {categoriaMateria == 'Curso' && concentradoCalAlumno != null ? (
         <a
           href={
@@ -440,6 +441,7 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
       ) : (
         <></>
       )}
+      </div>
       <Box sx={{ height: 600, width: '100%' }} id="tabla-gestion-estudiantes">
         <DataGrid
           sx={{ pb: 7 }}
