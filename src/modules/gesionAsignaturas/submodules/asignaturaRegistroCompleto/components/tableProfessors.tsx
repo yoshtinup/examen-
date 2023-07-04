@@ -132,7 +132,7 @@ const TableProfessors: React.FC<{
           Footer: CustomFooter,
         }}
         componentsProps={{
-          footer: { counter: rows.length, label: 'Profesores:' },
+          footer: { counter: rows.length, label: 'Docentes:' },
         }}
         onSelectionModelChange={ids => {
           const selectedIDs = new Set(ids);
