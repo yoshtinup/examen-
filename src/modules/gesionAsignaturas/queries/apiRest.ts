@@ -2,13 +2,24 @@ import { ApiQuerys } from '@shared/queries';
 import Swal from 'sweetalert2';
 
 class ProfesorConstanciaParticipacion extends ApiQuerys {
-  async generar(idMOA): Promise<any> {
+  async generarTodas(idMOA): Promise<any> {
     try {
       const response = await this.api(
-        'generar_constancias_participacion_docente?idMOA=1',
+        'generar_constancias_participacion_docente?idMOA=' + idMOA,
         this.getFormRequest(new FormData(), 'POST')
       );
-      console.log(response);
+      return response;
+    } catch (e) {
+      Swal.showValidationMessage(`Error al generar la carta: ${e}`);
+    }
+  }
+
+  async generarIndividual(idDocente): Promise<any> {
+    try {
+      const response = await this.api(
+        'generar_constancias_participacion_docente?idProfesor=' + idDocente,
+        this.getFormRequest(new FormData(), 'POST')
+      );
       return response;
     } catch (e) {
       Swal.showValidationMessage(`Error al generar la carta: ${e}`);

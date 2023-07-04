@@ -1,22 +1,26 @@
-import { Box, Button, Chip, Modal } from '@mui/material';
+import { Box, Chip, Modal } from '@mui/material';
 import { useState } from 'react';
+import MessageGenerarConstanciaDocente from './messageGenerarConstanciaDocente';
 
 const style = {
   position: 'absolute' as 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '100%',
+  minWidth: '600px',
+  width: '50%',
   bgcolor: 'background.paper',
   boxShadow: 24,
   p: 4,
-  height: '80vh',
+  height: '450px',
 };
 
 const ModalDatosParticipante = ({
   idParticipante,
+  IdcatalogoEstatusRegistroDocentesPorcentajes,
 }: {
   idParticipante: number;
+  IdcatalogoEstatusRegistroDocentesPorcentajes: number;
 }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -37,6 +41,7 @@ const ModalDatosParticipante = ({
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        style={{ zIndex: '1050' }}
       >
         <Box sx={style}>
           <iframe
@@ -46,7 +51,7 @@ const ModalDatosParticipante = ({
               '&embed=true'
             }
             width="100%"
-            height="100%"
+            height="90%"
             style={{ border: 'none' }}
           ></iframe>
         </Box>

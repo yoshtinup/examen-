@@ -21,7 +21,7 @@ import { format } from 'date-fns';
 import { TableEstudiantesProgramaWithoutFetch } from '@modules/gesionAsignaturas/submodules/asignaturaRegistroCompleto/components/tablaEstudiantePrograma';
 
 import TableProfessors from './components/tableProfessors';
-import MessageGenerarConstnaciasPersonal from './components/messageGenerarConstanciasPersonal';
+import MessageGenerarConstanciasDocentes from './components/messageGenerarConstanciasDocentes';
 import { TableEstudiantesProgramaBajasWithoutFetch } from './components/tablaEstudianteProgramaBajas';
 import { TableEstudiantesProgramaDirectorWithoutFetch } from './components/tablaEstudianteProgramaDirector';
 
@@ -51,22 +51,44 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
   }
 
   if (isSuccess && data) {
+    let EsSeminario =
+      data.Asignatura.Datos.CategoriaMateria == 'Seminario' ||
+      data.Asignatura.Datos.CategoriaMateria == 'Tutelar'
+        ? true
+        : false;
     const infoBasicMateria = (
       <Grid item xs={12}>
         <Typography variant="body1" gutterBottom>
-          <h2 style={{ margin: '0px' }}>
+          <h1 style={{ margin: '0px' }}>
             {data.Asignatura.Datos.Nombre.Valor}{' '}
             <Chip
               color="info"
               variant="outlined"
               label={data.Asignatura.Datos.CategoriaMateria}
-              style={{ float: 'right' }}
             />
-          </h2>
+          </h1>
+          <p className="asignaturaFecha">
+            {' '}
+            Del{' '}
+            {data.Datos.Fechas.FechaInicioAsignatura !== null
+              ? format(
+                  new Date(data.Datos.Fechas.FechaInicioAsignatura),
+                  'dd/MM/yyyy'
+                )
+              : 'No definida'}{' '}
+            al{' '}
+            {data.Datos.Fechas.FechaFinAsignatura !== null
+              ? format(
+                  new Date(data.Datos.Fechas.FechaFinAsignatura),
+                  'dd/MM/yyyy'
+                )
+              : 'No definida'}
+          </p>
+
           {data.CursoCancelado ? (
             <>
               <Alert severity="error">
-                Curso Cancelado - Fecha de cancelacion:{' '}
+                Asignatura cancelada - Fecha de cancelación:{' '}
                 {format(new Date(data.FechaCancelacionCurso), 'dd/MM/yyyy')}
               </Alert>
             </>
@@ -89,7 +111,6 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
           <Grid item xs={12} spacing={3}>
             <Grid container spacing={4}>
               <Grid item xs={12}>
-                <h4>Datos del curso</h4>
                 <Box sx={{ backgroundColor: '#f5f5f5', padding: '5px' }}>
                   <Stack
                     direction="row"
@@ -114,12 +135,14 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                         {data.Asignatura.Datos.Nombre.Creditos}
                       </p>
                     </div>
-                    <div>
-                      <p>
-                        <strong>Horas:</strong>{' '}
-                        {data.Asignatura.Datos.Nombre.Horas}
-                      </p>
-                    </div>
+                    {data.Asignatura.Datos.Nombre.Horas && (
+                      <div>
+                        <p>
+                          <strong>Horas:</strong>{' '}
+                          {data.Asignatura.Datos.Nombre.Horas}
+                        </p>
+                      </div>
+                    )}
                     <div>
                       <p>
                         <strong>Tipo:</strong>{' '}
@@ -128,63 +151,22 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                     </div>
                     <div>
                       <p>
-                        <strong>Periodo:</strong> {data.Datos.Periodo.Nombre}
-                      </p>
-                    </div>
-                  </Stack>
-                </Box>
-              </Grid>
-              <Grid item md={6} xs={12}>
-                <h4>Fechas importantes</h4>
-                <Box sx={{ backgroundColor: '#f5f5f5', padding: '5px' }}>
-                  <Stack
-                    direction="row"
-                    justifyContent="flex-start"
-                    alignItems="flex-start"
-                    spacing={2}
-                  >
-                    <div>
-                      <p>
-                        <strong>Fecha de inicio periodo:</strong>{' '}
+                        <strong>Periodo:</strong> {data.Datos.Periodo.Nombre} (
+                        {''}
                         {data.Datos.Fechas.FechaInicioPeriodo !== null
                           ? format(
                               new Date(data.Datos.Fechas.FechaInicioPeriodo),
                               'dd/MM/yyyy'
                             )
-                          : 'No definida'}
-                      </p>
-                    </div>
-                    <div>
-                      <p>
-                        <strong>Fecha de finalización periodo:</strong>{' '}
+                          : 'No definida'}{' '}
+                        al{' '}
                         {data.Datos.Fechas.FechaFinPeriodo !== null
                           ? format(
                               new Date(data.Datos.Fechas.FechaFinPeriodo),
                               'dd/MM/yyyy'
                             )
                           : 'No definida'}
-                      </p>
-                    </div>
-                    <div>
-                      <p>
-                        <strong>Fecha de inicio asignatura:</strong>{' '}
-                        {data.Datos.Fechas.FechaInicioAsignatura !== null
-                          ? format(
-                              new Date(data.Datos.Fechas.FechaInicioAsignatura),
-                              'dd/MM/yyyy'
-                            )
-                          : 'No definida'}
-                      </p>
-                    </div>
-                    <div>
-                      <p>
-                        <strong>Fecha de finalización asignatura:</strong>{' '}
-                        {data.Datos.Fechas.FechaFinAsignatura !== null
-                          ? format(
-                              new Date(data.Datos.Fechas.FechaFinAsignatura),
-                              'dd/MM/yyyy'
-                            )
-                          : 'No definida'}
+                        )
                       </p>
                     </div>
                   </Stack>
@@ -192,21 +174,87 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
               </Grid>
               {data.Asignatura.Datos.CategoriaMateria === 'Curso' && (
                 <Grid item md={6} xs={12}>
-                  <h4>Estatus de los procesos</h4>
+                  <h4 style={{ color: '#c56b16' }}>Fechas importantes</h4>
                   <Box sx={{ backgroundColor: '#f5f5f5', padding: '5px' }}>
                     <Table size="small">
                       <TableHead>
                         <TableRow>
-                          <TableCell>Proceso</TableCell>
-                          <TableCell>Estatus</TableCell>
-                          <TableCell>Acciones</TableCell>
+                          <TableCell>
+                            <b>Tipo</b>
+                          </TableCell>
+                          <TableCell>
+                            <b>Fecha</b>
+                          </TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
                         <TableRow>
                           <TableCell>
-                            Districución de porcentaje de participación
+                            Límite de <b></b>alta o baja de asignatura de plan
+                            de estudios
                           </TableCell>
+                          <TableCell>
+                            {data.FechaLimiteAltaYBaja !== null
+                              ? format(
+                                  new Date(data.FechaLimiteAltaYBaja),
+                                  'dd/MM/yyyy'
+                                )
+                              : 'No definida'}{' '}
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>Límite de registro de docentes </TableCell>
+                          <TableCell>
+                            {data.FechaLimiteRegistroDocente !== null
+                              ? format(
+                                  new Date(data.FechaLimiteRegistroDocente),
+                                  'dd/MM/yyyy'
+                                )
+                              : 'No definida'}{' '}
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>
+                            Inicio de entrega de calificaciones
+                          </TableCell>
+                          <TableCell>
+                            {' '}
+                            {data.FechaInicioEntregaCalificaciones !== null
+                              ? format(
+                                  new Date(
+                                    data.FechaInicioEntregaCalificaciones
+                                  ),
+                                  'dd/MM/yyyy'
+                                )
+                              : 'No definida'}{' '}
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </Box>
+                </Grid>
+              )}
+              {data.Asignatura.Datos.CategoriaMateria === 'Curso' && (
+                <Grid item md={6} xs={12}>
+                  <h4 style={{ color: '#c56b16' }}>Estatus de los procesos</h4>
+                  <Box sx={{ backgroundColor: '#f5f5f5', padding: '5px' }}>
+                    <Table size="small">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>
+                            <b>Proceso</b>
+                          </TableCell>
+                          <TableCell>
+                            <b>Estatus</b>
+                          </TableCell>
+                          <TableCell>
+                            <b>Acciones</b>
+                          </TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell>Registro de docentes</TableCell>
                           <TableCell>
                             {data.EstatusRegistroDocentes == null
                               ? ''
@@ -266,7 +314,9 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
               )}
               {data.Asignatura.Datos.CategoriaMateria === 'Curso' && (
                 <Grid item xs={12}>
-                  <h4>Docentes de la asignatura</h4>
+                  <h4 style={{ color: '#c56b16' }}>
+                    Docentes de la asignatura
+                  </h4>
                   <Box
                     sx={{
                       backgroundColor: '#f5f5f5',
@@ -275,19 +325,24 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                     }}
                   >
                     {data.EstatusAsignacionCalificacion.Id === 3 ? (
-                      <MessageGenerarConstnaciasPersonal idMOA={idMOA} />
+                      <MessageGenerarConstanciasDocentes idMOA={idMOA} />
                     ) : (
                       ''
                     )}
                     <TableProfessors
                       professsors={data.Docentes}
                       idMOA={idMOA}
+                      IdcatalogoEstatusRegistroDocentesPorcentajes={
+                        data.EstatusRegistroDocentes
+                          .IdcatalogoEstatusRegistroDocentesPorcentajes
+                      }
                     />
                   </Box>
                 </Grid>
               )}
               <Grid item xs={12}>
-                <h4>Inscritos/Pendientes de inscribirse</h4>
+                <h4 style={{ color: '#c56b16' }}>Estudiantes</h4>
+                <h5>Inscritos/Pendientes de inscribirse</h5>
                 <Box
                   sx={{
                     backgroundColor: '#f5f5f5',
@@ -304,9 +359,9 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                 </Box>
               </Grid>
               <Grid item xs={12}>
-                <h4>
+                <h5>
                   En proceso de aprobación de Director/a de tesis de alta o baja
-                </h4>
+                </h5>
 
                 <Box
                   sx={{
@@ -323,7 +378,7 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                 </Box>
               </Grid>
               <Grid item xs={12}>
-                <h4>Bajas</h4>
+                <h5>Bajas</h5>
                 <Box
                   sx={{
                     backgroundColor: '#f5f5f5',

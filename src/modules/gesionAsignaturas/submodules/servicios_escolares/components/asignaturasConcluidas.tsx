@@ -14,7 +14,9 @@ const AsignaturasConcluidas = () => {
           <>Error</>
         ) : (
           <TablaAsignaturas
-            asignaturas={data.Asignaturas.sort(
+            asignaturas={data.Asignaturas.filter(
+              (item: AsignaturaGql) => Date.parse(item.Datos.FechasAsignatura.FechaFin) < Date.now()
+            ).sort(
               (a: AsignaturaGql, b: AsignaturaGql) => {
                 if (
                   Date.parse(a.Datos.FechasAsignatura.FechaFin) >

@@ -83,7 +83,27 @@ const Table: React.FC<{
       field: 'Estatus.Value',
       headerName: 'Estatus',
       renderCell: (params: GridCellParams) => <>{params.row.Estatus.Value}</>,
-      width: 300,
+      width: 150,
+    },
+    {
+      field: 'opciones',
+      headerName: 'Opciones',
+      sortable: false,
+      width: 130,
+      renderCell: params => {
+        return (
+          <>
+            <Button
+              href={'/consejo_tutelar/' + params.row.Matricula}
+              target='_blank'
+              variant="contained"
+              size="small"
+            >
+              Ver detalles
+            </Button>
+          </>
+        );
+      },
     },
     {
       field: 'Num_ronda',
@@ -92,7 +112,7 @@ const Table: React.FC<{
     },
   ];
 
-  if (actionColumn) {
+  /*if (actionColumn) {
     columns.push({
       field: 'action',
       headerName: 'Opciones',
@@ -107,7 +127,7 @@ const Table: React.FC<{
       ),
       width: 500,
     });
-  }
+  }*/
 
   const check = rows?.filter(data => data?.Num_ronda);
 
