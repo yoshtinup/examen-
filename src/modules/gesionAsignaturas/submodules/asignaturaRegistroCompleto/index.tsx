@@ -54,19 +54,36 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
     const infoBasicMateria = (
       <Grid item xs={12}>
         <Typography variant="body1" gutterBottom>
-          <h2 style={{ margin: '0px' }}>
+          <h1 style={{ margin: '0px' }}>
             {data.Asignatura.Datos.Nombre.Valor}{' '}
             <Chip
               color="info"
               variant="outlined"
               label={data.Asignatura.Datos.CategoriaMateria}
-              style={{ float: 'right' }}
             />
-          </h2>
+          </h1>
+          <p className="asignaturaFecha">
+            {' '}
+            Del{' '}
+            {data.Datos.Fechas.FechaInicioAsignatura !== null
+              ? format(
+                  new Date(data.Datos.Fechas.FechaInicioAsignatura),
+                  'dd/MM/yyyy'
+                )
+              : 'No definida'}{' '}
+            al{' '}
+            {data.Datos.Fechas.FechaFinAsignatura !== null
+              ? format(
+                  new Date(data.Datos.Fechas.FechaFinAsignatura),
+                  'dd/MM/yyyy'
+                )
+              : 'No definida'}
+          </p>
+
           {data.CursoCancelado ? (
             <>
               <Alert severity="error">
-                Curso Cancelado - Fecha de cancelacion:{' '}
+                Asignatura cancelada - Fecha de cancelación:{' '}
                 {format(new Date(data.FechaCancelacionCurso), 'dd/MM/yyyy')}
               </Alert>
             </>
@@ -89,7 +106,6 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
           <Grid item xs={12} spacing={3}>
             <Grid container spacing={4}>
               <Grid item xs={12}>
-                <h4>Datos del curso</h4>
                 <Box sx={{ backgroundColor: '#f5f5f5', padding: '5px' }}>
                   <Stack
                     direction="row"
@@ -128,84 +144,107 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                     </div>
                     <div>
                       <p>
-                        <strong>Periodo:</strong> {data.Datos.Periodo.Nombre}
-                      </p>
-                    </div>
-                  </Stack>
-                </Box>
-              </Grid>
-              <Grid item md={6} xs={12}>
-                <h4>Fechas importantes</h4>
-                <Box sx={{ backgroundColor: '#f5f5f5', padding: '5px' }}>
-                  <Stack
-                    direction="row"
-                    justifyContent="flex-start"
-                    alignItems="flex-start"
-                    spacing={2}
-                  >
-                    <div>
-                      <p>
-                        <strong>Fecha de inicio periodo:</strong>{' '}
+                        <strong>Periodo:</strong> {data.Datos.Periodo.Nombre} (
+                        {''}
                         {data.Datos.Fechas.FechaInicioPeriodo !== null
                           ? format(
                               new Date(data.Datos.Fechas.FechaInicioPeriodo),
                               'dd/MM/yyyy'
                             )
-                          : 'No definida'}
-                      </p>
-                    </div>
-                    <div>
-                      <p>
-                        <strong>Fecha de finalización periodo:</strong>{' '}
+                          : 'No definida'}{' '}
+                        al{' '}
                         {data.Datos.Fechas.FechaFinPeriodo !== null
                           ? format(
                               new Date(data.Datos.Fechas.FechaFinPeriodo),
                               'dd/MM/yyyy'
                             )
                           : 'No definida'}
-                      </p>
-                    </div>
-                    <div>
-                      <p>
-                        <strong>Fecha de inicio asignatura:</strong>{' '}
-                        {data.Datos.Fechas.FechaInicioAsignatura !== null
-                          ? format(
-                              new Date(data.Datos.Fechas.FechaInicioAsignatura),
-                              'dd/MM/yyyy'
-                            )
-                          : 'No definida'}
-                      </p>
-                    </div>
-                    <div>
-                      <p>
-                        <strong>Fecha de finalización asignatura:</strong>{' '}
-                        {data.Datos.Fechas.FechaFinAsignatura !== null
-                          ? format(
-                              new Date(data.Datos.Fechas.FechaFinAsignatura),
-                              'dd/MM/yyyy'
-                            )
-                          : 'No definida'}
+                        )
                       </p>
                     </div>
                   </Stack>
                 </Box>
               </Grid>
+              <Grid item md={6} xs={12}>
+                <h4 style={{ color: '#c56b16' }}>Fechas importantes</h4>
+                <Box sx={{ backgroundColor: '#f5f5f5', padding: '5px' }}>
+                  <Table size="small">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>
+                          <b>Tipo</b>
+                        </TableCell>
+                        <TableCell>
+                          <b>Fecha</b>
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell>
+                          Límite de <b></b>alta o baja de asignatura de plan de
+                          estudios
+                        </TableCell>
+                        <TableCell>
+                          {data.FechaLimiteAltaYBaja !== null
+                            ? format(
+                                new Date(data.FechaLimiteAltaYBaja),
+                                'dd/MM/yyyy'
+                              )
+                            : 'No definida'}{' '}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>Límite de registro de docentes </TableCell>
+                        <TableCell>
+                          {data.FechaLimiteRegistroDocente !== null
+                            ? format(
+                                new Date(data.FechaLimiteRegistroDocente),
+                                'dd/MM/yyyy'
+                              )
+                            : 'No definida'}{' '}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>
+                          Inicio de entrega de calificaciones
+                        </TableCell>
+                        <TableCell>
+                          {' '}
+                          {data.FechaInicioEntregaCalificaciones !== null
+                            ? format(
+                                new Date(data.FechaInicioEntregaCalificaciones),
+                                'dd/MM/yyyy'
+                              )
+                            : 'No definida'}{' '}
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </Box>
+              </Grid>
               {data.Asignatura.Datos.CategoriaMateria === 'Curso' && (
                 <Grid item md={6} xs={12}>
-                  <h4>Estatus de los procesos</h4>
+                  <h4 style={{ color: '#c56b16' }}>Estatus de los procesos</h4>
                   <Box sx={{ backgroundColor: '#f5f5f5', padding: '5px' }}>
                     <Table size="small">
                       <TableHead>
                         <TableRow>
-                          <TableCell>Proceso</TableCell>
-                          <TableCell>Estatus</TableCell>
-                          <TableCell>Acciones</TableCell>
+                          <TableCell>
+                            <b>Proceso</b>
+                          </TableCell>
+                          <TableCell>
+                            <b>Estatus</b>
+                          </TableCell>
+                          <TableCell>
+                            <b>Acciones</b>
+                          </TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
                         <TableRow>
                           <TableCell>
-                            Districución de porcentaje de participación
+                            Distribución de porcentaje de participación
                           </TableCell>
                           <TableCell>
                             {data.EstatusRegistroDocentes == null
