@@ -159,26 +159,7 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
                 variant="outlined"
                 color="info"
               ></Chip>
-                // <Link
-                //   aria-disabled={true}
-                //   href={
-                    // params.row.boletainscripcion.includes('sharepoint')
-                    //   ? params.row.boletainscripcion
-                    //   : 'https://serviciosposgrado.ecosur.mx/alumnos/Content/Cursos/BoletasInscripciones/' +
-                    //     params.row.boletainscripcion
-                //   }
-                // >
-                //   <a
-                //     style={{
-                //       cursor: 'pointer',
-                //       textDecoration: 'none',
-                //       color: '#00BFA5',
-                //     }}
-                //   >
-                //     <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-                //     Boleta de inscripción
-                //   </a>
-                // </Link>
+
               ) : (
                 <></>
               )}
@@ -202,29 +183,6 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
                 variant="outlined"
                 color="info"
               ></Chip>
-                // <Link
-                //   aria-disabled={true}
-                //   href={
-                    // params.row.urlonedrive
-                    //   ? params.row.urlonedrive.includes('sharepoint')
-                    //     ? params.row.urlonedrive
-                    //     : 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/EvaluacionSeminarios/' +
-                    //       params.row.urlonedrive
-                    //   : 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/EvaluacionSeminarios/' +
-                    //     params.row.NombreArchivo_Acta
-                //   }
-                // >
-                //   <a
-                //     style={{
-                //       cursor: 'pointer',
-                //       textDecoration: 'none',
-                //       color: '#00BFA5',
-                //     }}
-                //   >
-                //     <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-                //     Acta de evaluación
-                //   </a>
-                // </Link>
               ) : (
                 <></>
               )}
@@ -245,26 +203,6 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
                 variant="outlined"
                 color="info"
               ></Chip>
-                // <Link
-                //   aria-disabled={true}
-                //   href={
-                    // params.row.boletacalificaciones.includes('sharepoint')
-                    //   ? params.row.boletacalificaciones
-                    //   : 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/Calificaciones/BoletasEstudiantes/' +
-                    //     params.row.boletacalificaciones
-                //   }
-                // >
-                //   <a
-                //     style={{
-                //       cursor: 'pointer',
-                //       textDecoration: 'none',
-                //       color: '#00BFA5',
-                //     }}
-                //   >
-                //     <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-                //     Boleta de calificación
-                //   </a>
-                // </Link>
               ) : (
                 <></>
               )}
@@ -309,24 +247,7 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
                 variant="outlined"
                 color="info"
               ></Chip>
-                // <Link
-                //   aria-disabled={true}
-                //   href={
-                    // 'https://sip.ecosur.mx/seminarios_investigacion/' +
-                    // params.row.idseminariosevaluaciones
-                //   }
-                // >
-                //   <a
-                //     style={{
-                //       cursor: 'pointer',
-                //       textDecoration: 'none',
-                //       color: '#00BFA5',
-                //     }}
-                //   >
-                //     <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-                //     Detalles de evaluación
-                //   </a>
-                // </Link>
+               
               ) : (
                 <></>
               )}
