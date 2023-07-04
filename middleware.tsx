@@ -132,6 +132,10 @@ export const config = {
     '/servicios_escolares/:path',
     '/inscripciones/:path',
     '/estudiantes/:path',
-    '/seminarios_investigacion/:path'
+    '/seminarios_investigacion/:path',
+    '/seguimientoEvaluacionDocente/:path',
+    '/seguimientoRegistroCalificaciones/:path',
+    '/seguimientoRegistroDocentes/:path',
+    '/seguimientoAltasYBajas/:path'
   ],
 };
