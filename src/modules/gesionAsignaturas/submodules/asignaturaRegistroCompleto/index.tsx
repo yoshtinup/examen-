@@ -51,6 +51,11 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
   }
 
   if (isSuccess && data) {
+    let EsSeminario =
+      data.Asignatura.Datos.CategoriaMateria == 'Seminario' ||
+      data.Asignatura.Datos.CategoriaMateria == 'Tutelar'
+        ? true
+        : false;
     const infoBasicMateria = (
       <Grid item xs={12}>
         <Typography variant="body1" gutterBottom>
@@ -130,12 +135,14 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                         {data.Asignatura.Datos.Nombre.Creditos}
                       </p>
                     </div>
-                    <div>
-                      <p>
-                        <strong>Horas:</strong>{' '}
-                        {data.Asignatura.Datos.Nombre.Horas}
-                      </p>
-                    </div>
+                    {data.Asignatura.Datos.Nombre.Horas && (
+                      <div>
+                        <p>
+                          <strong>Horas:</strong>{' '}
+                          {data.Asignatura.Datos.Nombre.Horas}
+                        </p>
+                      </div>
+                    )}
                     <div>
                       <p>
                         <strong>Tipo:</strong>{' '}
@@ -165,64 +172,68 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                   </Stack>
                 </Box>
               </Grid>
-              <Grid item md={6} xs={12}>
-                <h4 style={{ color: '#c56b16' }}>Fechas importantes</h4>
-                <Box sx={{ backgroundColor: '#f5f5f5', padding: '5px' }}>
-                  <Table size="small">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>
-                          <b>Tipo</b>
-                        </TableCell>
-                        <TableCell>
-                          <b>Fecha</b>
-                        </TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell>
-                          Límite de <b></b>alta o baja de asignatura de plan de
-                          estudios
-                        </TableCell>
-                        <TableCell>
-                          {data.FechaLimiteAltaYBaja !== null
-                            ? format(
-                                new Date(data.FechaLimiteAltaYBaja),
-                                'dd/MM/yyyy'
-                              )
-                            : 'No definida'}{' '}
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>Límite de registro de docentes </TableCell>
-                        <TableCell>
-                          {data.FechaLimiteRegistroDocente !== null
-                            ? format(
-                                new Date(data.FechaLimiteRegistroDocente),
-                                'dd/MM/yyyy'
-                              )
-                            : 'No definida'}{' '}
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>
-                          Inicio de entrega de calificaciones
-                        </TableCell>
-                        <TableCell>
-                          {' '}
-                          {data.FechaInicioEntregaCalificaciones !== null
-                            ? format(
-                                new Date(data.FechaInicioEntregaCalificaciones),
-                                'dd/MM/yyyy'
-                              )
-                            : 'No definida'}{' '}
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </Box>
-              </Grid>
+              {data.Asignatura.Datos.CategoriaMateria === 'Curso' && (
+                <Grid item md={6} xs={12}>
+                  <h4 style={{ color: '#c56b16' }}>Fechas importantes</h4>
+                  <Box sx={{ backgroundColor: '#f5f5f5', padding: '5px' }}>
+                    <Table size="small">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>
+                            <b>Tipo</b>
+                          </TableCell>
+                          <TableCell>
+                            <b>Fecha</b>
+                          </TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell>
+                            Límite de <b></b>alta o baja de asignatura de plan
+                            de estudios
+                          </TableCell>
+                          <TableCell>
+                            {data.FechaLimiteAltaYBaja !== null
+                              ? format(
+                                  new Date(data.FechaLimiteAltaYBaja),
+                                  'dd/MM/yyyy'
+                                )
+                              : 'No definida'}{' '}
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>Límite de registro de docentes </TableCell>
+                          <TableCell>
+                            {data.FechaLimiteRegistroDocente !== null
+                              ? format(
+                                  new Date(data.FechaLimiteRegistroDocente),
+                                  'dd/MM/yyyy'
+                                )
+                              : 'No definida'}{' '}
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>
+                            Inicio de entrega de calificaciones
+                          </TableCell>
+                          <TableCell>
+                            {' '}
+                            {data.FechaInicioEntregaCalificaciones !== null
+                              ? format(
+                                  new Date(
+                                    data.FechaInicioEntregaCalificaciones
+                                  ),
+                                  'dd/MM/yyyy'
+                                )
+                              : 'No definida'}{' '}
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </Box>
+                </Grid>
+              )}
               {data.Asignatura.Datos.CategoriaMateria === 'Curso' && (
                 <Grid item md={6} xs={12}>
                   <h4 style={{ color: '#c56b16' }}>Estatus de los procesos</h4>
@@ -243,9 +254,7 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                       </TableHead>
                       <TableBody>
                         <TableRow>
-                          <TableCell>
-                            Distribución de porcentaje de participación
-                          </TableCell>
+                          <TableCell>Registro de docentes</TableCell>
                           <TableCell>
                             {data.EstatusRegistroDocentes == null
                               ? ''
@@ -305,7 +314,9 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
               )}
               {data.Asignatura.Datos.CategoriaMateria === 'Curso' && (
                 <Grid item xs={12}>
-                  <h4>Docentes de la asignatura</h4>
+                  <h4 style={{ color: '#c56b16' }}>
+                    Docentes de la asignatura
+                  </h4>
                   <Box
                     sx={{
                       backgroundColor: '#f5f5f5',
@@ -330,7 +341,8 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                 </Grid>
               )}
               <Grid item xs={12}>
-                <h4>Inscritos/Pendientes de inscribirse</h4>
+                <h4 style={{ color: '#c56b16' }}>Estudiantes</h4>
+                <h5>Inscritos/Pendientes de inscribirse</h5>
                 <Box
                   sx={{
                     backgroundColor: '#f5f5f5',
@@ -347,9 +359,9 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                 </Box>
               </Grid>
               <Grid item xs={12}>
-                <h4>
+                <h5>
                   En proceso de aprobación de Director/a de tesis de alta o baja
-                </h4>
+                </h5>
 
                 <Box
                   sx={{
@@ -366,7 +378,7 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                 </Box>
               </Grid>
               <Grid item xs={12}>
-                <h4>Bajas</h4>
+                <h5>Bajas</h5>
                 <Box
                   sx={{
                     backgroundColor: '#f5f5f5',

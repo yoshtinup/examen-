@@ -72,6 +72,7 @@ export function useGetInformacionCompletaAsignatura(idMOA: number) {
                   EvaluacionSeminario: db12_Seminarios_Evaluaciones_Array {
                     IdSeminarios_Evaluaciones
                     url_one_drive
+                    NombreArchivo_Acta
                     Estatus: db12_Seminarios_CatalogoEstatus {
                       IdSeminarios_CatalogoEstatus
                       Descripcion
