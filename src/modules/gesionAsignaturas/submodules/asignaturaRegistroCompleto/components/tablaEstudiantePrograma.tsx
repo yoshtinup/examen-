@@ -266,18 +266,6 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
                 variant="outlined"
                 color="info"
               ></Chip>
-                // <Link aria-disabled={true} href={'#'}>
-                //   <a
-                //     style={{
-                //       cursor: 'pointer',
-                //       textDecoration: 'none',
-                //       color: '#00BFA5',
-                //     }}
-                //   >
-                //     <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-                //     Enviar recordatorio de evaluación
-                //   </a>
-                // </Link>
               ) : (
                 <></>
               )}
@@ -293,18 +281,6 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
                 variant="outlined"
                 color="info"
               ></Chip>
-                // <Link aria-disabled={true} href={'#'}>
-                //   <a
-                //     style={{
-                //       cursor: 'pointer',
-                //       textDecoration: 'none',
-                //       color: '#00BFA5',
-                //     }}
-                //   >
-                //     <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-                //     Generar acta de evaluación
-                //   </a>
-                // </Link>
               ) : (
                 <></>
               )}
@@ -322,18 +298,6 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
                 color="info"
               ></Chip>:<></>
               }
-              {/* <Link aria-disabled={true} href={'#'}>
-                <a
-                  style={{
-                    cursor: 'pointer',
-                    textDecoration: 'none',
-                    color: '#00BFA5',
-                  }}
-                >
-                  <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-                  Generar boleta de calificación
-                </a>
-              </Link> */}
             </div>
           </>
         );
@@ -412,6 +376,7 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
 
   return (
     <>
+    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
       {categoriaMateria == 'Curso' && concentradoCalAlumno != null ? (
         <a
           href={
@@ -430,7 +395,7 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
       )}
       {categoriaMateria == 'Curso' && estatusAsignacionCalificacion==3 ? (
          <a
-         href={'#' } target="_blank"
+         href={'#' } target="_blank" style={{ textAlign: 'right' }}
        >
          <Badge>
            <strong>Generar concentrado </strong>
@@ -439,6 +404,7 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
       ) : (
         <></>
       )}
+      </div>
       <Box sx={{ height: 600, width: '100%' }} id="tabla-gestion-estudiantes">
         <DataGrid
           sx={{ pb: 7 }}
