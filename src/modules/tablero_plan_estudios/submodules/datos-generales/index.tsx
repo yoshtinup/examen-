@@ -97,7 +97,7 @@ const DatosGenerales = (props:any) => {
               <>
                 {userInfo.Estatus == "Activo" &&
                   <Stack spacing={2} direction="row">
-                    <Button onClick={() => {}} variant="contained">Descargar constancia de estudios.</Button>
+                    <Button onClick={() => {}} variant="contained">Constancia de estudios</Button>
                     <Button onClick={() => window.open("https://www.ecosur.mx/posgrado/posgrado/reglamentos-y-normas/")} variant="contained">Reglamento</Button>
                     <Button onClick={() => window.open("https://www.ecosur.mx/posgrado/posgrado/convocatorias/")} variant="contained">Convocatorias</Button>
                   </Stack>
@@ -105,7 +105,7 @@ const DatosGenerales = (props:any) => {
                 {userInfo.Estatus == "Egresado" &&
                   <>
                   <Link href="https://">
-                    <InsertLinkIcon style={{margin:"0 0 -7px"}}/> Descargar constancia de estudios.
+                    <InsertLinkIcon style={{margin:"0 0 -7px"}}/> Constancia de estudios
                   </Link><br />
                   <Link href="https://forms.office.com/Pages/ResponsePage.aspx?id=ueQ7jWW-mEWHw68xN_k1NX_jq7a_lFNEqZUSVzf_V9FUOUlFV1kzQ0pVMUdNU05VRjBRUzVVNjlPMC4u">
                     <InsertLinkIcon style={{margin:"5px 0 -7px"}}/> Solicitar fecha de examen de grado
