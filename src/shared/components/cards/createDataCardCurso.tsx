@@ -13,7 +13,8 @@ function ItemFileFunction(url:string){
 }
 
 function RedirectFunction(url:string){
-  return () => {window.location.href = url};
+  //return () => {window.location.href = url};
+  return () => {window.open(url)};
 }
 
 export function getDataCardCursoFinalizado(curso:CursoGql, currentRol:Roles){

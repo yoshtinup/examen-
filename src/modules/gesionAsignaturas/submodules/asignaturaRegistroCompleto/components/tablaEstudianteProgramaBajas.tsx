@@ -52,7 +52,6 @@ export const TableEstudiantesProgramaBajasWithoutFetch: React.FC<{
   let estudiantesList: ListadoAlumnos[] = estudiantes;
 
   estudiantesList.map((estudiante, index) => {
-    
     if (
       estudiante.EnRevisionDeDT?.Id == 2 &&
       estudiante.AltaOBajaAsignatura == 4
@@ -98,15 +97,6 @@ export const TableEstudiantesProgramaBajasWithoutFetch: React.FC<{
           }}
         />
       </Box>
-      {/* {urlboleta != null ? (
-        <a href={urlboleta}>
-          <Badge>
-            <strong>Boleta de calificaciones del curso</strong>
-          </Badge>
-        </a>
-      ) : (
-        ''
-      )} */}
     </>
   );
 }; // TableEstudiantesPendientesWithoutFetch

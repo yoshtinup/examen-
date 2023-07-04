@@ -34,7 +34,7 @@ const MessageGenerarConstanciaDocente: React.FC<{
     <div style={{ width: '100%', height: '38px' }}>
       <Button
         variant="outlined"
-        style={{ float: 'right' }}
+        style={{ float: 'right', fontWeight: 'bold' }}
         onClick={handleMessage}
       >
         Generar constancias del personal docente

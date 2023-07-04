@@ -18,6 +18,14 @@
   color: #fff !important;
 }
 
+.asignaturaFecha {
+  color: rgb(91, 91, 91);
+  font-size: 17px;
+  font-weight: lighter;
+  margin-left: 10px;
+  margin-top: 0px;
+}
+
 .itemDeLista {
   background: #f5f5f5;
   border: 1px solid #ddd;
@@ -78,12 +86,12 @@ body {
 #tabla-seminarios-concluidos .MuiDataGrid-cellContent {
   white-space: break-spaces !important;
 }
-#tabla-gestion-estudiantes .MuiDataGrid-cell{
+#tabla-gestion-estudiantes .MuiDataGrid-cell {
   white-space: break-spaces !important;
-  max-height: 100px !important;
+  max-height: 150px !important;
 }
-#tabla-gestion-estudiantes .MuiDataGrid-row{
-  max-height: 100px !important;
+#tabla-gestion-estudiantes .MuiDataGrid-row {
+  max-height: 150px !important;
 }
 #grafica-pastel-leyendas,
 #grafica-pastel-leyendas-col2 {

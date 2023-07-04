@@ -23,6 +23,10 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
   categoriaMateria?: string;
   concentradoCalAlumno?: string;
 }> = ({ estudiantes, urlboleta, categoriaMateria, concentradoCalAlumno }) => {
+  let EsSeminario =
+    categoriaMateria == 'Seminario' || categoriaMateria == 'Tutelar'
+      ? true
+      : false;
   let columns: GridColDef[];
 
   const columnsGrid: GridColDef[] = [
@@ -136,78 +140,13 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
                 paddingTop: 10,
               }}
             >
-              {params.row.evalseminario != 1 &&
-              params.row.evalseminario != 5 ? (
-                <Link
-                  aria-disabled={true}
-                  href={
-                    'https://sip.ecosur.mx/seminarios_investigacion/' +
-                    params.row.idseminariosevaluaciones
-                  }
-                >
-                  <a
-                    style={{
-                      cursor: 'pointer',
-                      textDecoration: 'none',
-                      color: '#00BFA5',
-                    }}
-                  >
-                    <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-                    Ver detalles
-                  </a>
-                </Link>
-              ) : (
-                <></>
-              )}
-              {/* //checar Sharepoint */}
-              {params.row.evalseminario == 4 ? (
-                <Link
-                  aria-disabled={true}
-                  href={
-                    params.row.urlonedrive.includes('sharepoint')
-                      ? params.row.urlonedrive
-                      : 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/EvaluacionSeminarios/' +
-                        params.row.urlonedrive
-                  }
-                >
-                  <a
-                    style={{
-                      cursor: 'pointer',
-                      textDecoration: 'none',
-                      color: '#00BFA5',
-                    }}
-                  >
-                    <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-                    acta de evaluación
-                  </a>
-                </Link>
-              ) : (
-                <></>
-              )}
-              {params.row.evalseminario != 4 &&
-              params.row.evalseminario != 5 ? (
-                <Link aria-disabled={true} href={'#'}>
-                  <a
-                    style={{
-                      cursor: 'pointer',
-                      textDecoration: 'none',
-                      color: '#00BFA5',
-                    }}
-                  >
-                    <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-                    Enviar recordatorio
-                  </a>
-                </Link>
-              ) : (
-                <></>
-              )}
               {params.row.boletainscripcion != undefined ? (
                 <Link
                   aria-disabled={true}
                   href={
                     params.row.boletainscripcion.includes('sharepoint')
                       ? params.row.boletainscripcion
-                      : 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/BoletasInscripciones/' +
+                      : 'https://serviciosposgrado.ecosur.mx/alumnos/Content/Cursos/BoletasInscripciones/' +
                         params.row.boletainscripcion
                   }
                 >
@@ -225,6 +164,35 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
               ) : (
                 <></>
               )}
+              {/* //checar Sharepoint */}
+              {EsSeminario && params.row.evalseminario == 4 ? (
+                <Link
+                  aria-disabled={true}
+                  href={
+                    params.row.urlonedrive
+                      ? params.row.urlonedrive.includes('sharepoint')
+                        ? params.row.urlonedrive
+                        : 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/EvaluacionSeminarios/' +
+                          params.row.urlonedrive
+                      : 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/EvaluacionSeminarios/' +
+                        params.row.NombreArchivo_Acta
+                  }
+                >
+                  <a
+                    style={{
+                      cursor: 'pointer',
+                      textDecoration: 'none',
+                      color: '#00BFA5',
+                    }}
+                  >
+                    <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
+                    Acta de evaluación
+                  </a>
+                </Link>
+              ) : (
+                <></>
+              )}
+
               {params.row.boletacalificaciones != null ? (
                 <Link
                   aria-disabled={true}
@@ -243,7 +211,91 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
                     }}
                   >
                     <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-                    Boleta de calificaciones
+                    Boleta de calificación
+                  </a>
+                </Link>
+              ) : (
+                <></>
+              )}
+            </div>
+          </>
+        );
+      },
+    },
+    ,
+    {
+      field: 'opciones',
+      headerName: 'Opciones',
+      width: 260,
+      renderCell: params => {
+        const handleClick = () => {
+          // FIX ME: Agregar enlace a endpoint para realizar notificaciones.
+        };
+
+        return (
+          <>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'initial',
+                paddingTop: 10,
+              }}
+            >
+              {EsSeminario &&
+              params.row.evalseminario != 1 &&
+              params.row.evalseminario != 5 ? (
+                <Link
+                  aria-disabled={true}
+                  href={
+                    'https://sip.ecosur.mx/seminarios_investigacion/' +
+                    params.row.idseminariosevaluaciones
+                  }
+                >
+                  <a
+                    style={{
+                      cursor: 'pointer',
+                      textDecoration: 'none',
+                      color: '#00BFA5',
+                    }}
+                  >
+                    <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
+                    Detalles de evaluación
+                  </a>
+                </Link>
+              ) : (
+                <></>
+              )}
+
+              {EsSeminario &&
+              params.row.evalseminario != 4 &&
+              params.row.evalseminario != 5 ? (
+                <Link aria-disabled={true} href={'#'}>
+                  <a
+                    style={{
+                      cursor: 'pointer',
+                      textDecoration: 'none',
+                      color: '#00BFA5',
+                    }}
+                  >
+                    <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
+                    Enviar recordatorio de evaluación
+                  </a>
+                </Link>
+              ) : (
+                <></>
+              )}
+              {EsSeminario && params.row.evalseminario == 4 ? (
+                <Link aria-disabled={true} href={'#'}>
+                  <a
+                    style={{
+                      cursor: 'pointer',
+                      textDecoration: 'none',
+                      color: '#00BFA5',
+                    }}
+                  >
+                    <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
+                    Generar acta de evaluación
                   </a>
                 </Link>
               ) : (
@@ -258,19 +310,7 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
                   }}
                 >
                   <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-                  Generar acta
-                </a>
-              </Link>
-              <Link aria-disabled={true} href={'#'}>
-                <a
-                  style={{
-                    cursor: 'pointer',
-                    textDecoration: 'none',
-                    color: '#00BFA5',
-                  }}
-                >
-                  <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-                  Generar boleta de calificaciones
+                  Generar boleta de calificación
                 </a>
               </Link>
             </div>
@@ -280,7 +320,7 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
     },
   ];
   let opcionesFiltro;
-  if (categoriaMateria == 'Seminario') {
+  if (EsSeminario) {
     opcionesFiltro = columnsGrid.filter(
       column => column.field != 'evaldocente'
     );
@@ -297,15 +337,16 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
   let estudiantesList: ListadoAlumnos[] = estudiantes;
 
   estudiantesList.map((estudiante, index) => {
-    console.log(estudiante.EnRevisionDeDT?.Id)
-    console.log(estudiante.AltaOBajaAsignatura)
+    console.log(estudiante.EnRevisionDeDT?.Id);
+    console.log(estudiante.AltaOBajaAsignatura);
     if (
-      (estudiante.EnRevisionDeDT?.Id == 2 &&
-        estudiante.AltaOBajaAsignatura == 4) ||
-      (estudiante.EnRevisionDeDT?.Id == 1 &&
-        estudiante.AltaOBajaAsignatura == 3) ||
-      (estudiante.EnRevisionDeDT?.Id == 1 &&
-        estudiante.AltaOBajaAsignatura == 4)
+      estudiante.EnRevisionDeDT?.Id != undefined ||
+      (estudiante.EnRevisionDeDT?.Id != 2 &&
+        estudiante.AltaOBajaAsignatura != 4) ||
+      (estudiante.EnRevisionDeDT?.Id != 1 &&
+        estudiante.AltaOBajaAsignatura != 3) ||
+      (estudiante.EnRevisionDeDT?.Id != 1 &&
+        estudiante.AltaOBajaAsignatura != 4)
     ) {
       rows.push({
         id: index,
@@ -334,11 +375,42 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
     }
   });
 
-
   const [selectedRows, setSelectedRows] = React.useState([]);
 
   return (
     <>
+      {categoriaMateria == 'Curso' && concentradoCalAlumno != null ? (
+        <a
+          href={
+            concentradoCalAlumno.includes('sharepoint')
+              ? concentradoCalAlumno
+              : 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/Calificaciones/ConcentradoCursos/' +
+                concentradoCalAlumno
+          }
+        >
+          <Badge>
+            <strong>Concentrado de calificaciones </strong>
+          </Badge>
+        </a>
+      ) : (
+        <></>
+      )}
+      {categoriaMateria == 'Curso' ? (
+        <Link aria-disabled={true} href={'#'}>
+          <a
+            style={{
+              cursor: 'pointer',
+              textDecoration: 'none',
+              color: '#00BFA5',
+            }}
+          >
+            <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
+            Generar concentrado
+          </a>
+        </Link>
+      ) : (
+        <></>
+      )}
       <Box sx={{ height: 600, width: '100%' }} id="tabla-gestion-estudiantes">
         <DataGrid
           sx={{ pb: 7 }}
@@ -355,55 +427,6 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
           }}
         />
       </Box>
-      {urlboleta != null ? (
-        <a
-          href={
-            urlboleta.includes('sharepoint')
-              ? urlboleta
-              : 'https://serviciosposgrado.ecosur.mx/alumnos/Content/Cursos/BoletasInscripciones/' +
-                urlboleta
-          }
-          target="_blank"
-        >
-          <Badge>
-            <strong>Boleta de calificaciones del curso</strong>
-          </Badge>
-        </a>
-      ) : (
-        ''
-      )}
-      {categoriaMateria == 'Cursos' && concentradoCalAlumno != null ? (
-        <a
-          href={
-            concentradoCalAlumno.includes('sharepoint')
-              ? concentradoCalAlumno
-              : 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/Calificaciones/ConcentradoCursos/' +
-                concentradoCalAlumno
-          }
-        >
-          <Badge>
-            <strong>Concentrado de calificacione</strong>
-          </Badge>
-        </a>
-      ) : (
-        <></>
-      )}
-      {categoriaMateria == 'Cursos' ? (
-        <Link aria-disabled={true} href={'#'}>
-          <a
-            style={{
-              cursor: 'pointer',
-              textDecoration: 'none',
-              color: '#00BFA5',
-            }}
-          >
-            <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-            Generar concentrado
-          </a>
-        </Link>
-      ) : (
-        <></>
-      )}
     </>
   );
 }; // TableEstudiantesPendientesWithoutFetch

@@ -54,11 +54,6 @@ const ModalDatosParticipante = ({
             height="90%"
             style={{ border: 'none' }}
           ></iframe>
-          {IdcatalogoEstatusRegistroDocentesPorcentajes == 1 ? (
-            <MessageGenerarConstanciaDocente idDocente={idParticipante} />
-          ) : (
-            ''
-          )}
         </Box>
       </Modal>
     </>

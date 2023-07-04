@@ -16,6 +16,7 @@ export function useGetInformacionCompletaAsignatura(idMOA: number) {
               FechaLimiteAltaYBaja
               FechaInicioEntregaCalificaciones
               FechaLimiteEntregaCalificaciones
+              FechaLimiteRegistroDocente: FechaLimiteReporte
               CursoCancelado
               FechaCancelacionCurso
               EstatusRegistroDocentes: catalogoEstatusRegistroDocentesPorcentaje {
@@ -65,19 +66,23 @@ export function useGetInformacionCompletaAsignatura(idMOA: number) {
               Alumnos: db12_MateriasOferataClave {
                 IdMateriasOfertaClave
                 Listado: db12_AlumnosMaterias {
-                  BoletaInscripcion:db12_BoletasIncripcione{
+                  BoletaInscripcion: db12_BoletasIncripcione {
                     NombreArchivo
-                  }          
+                  }
                   EvaluacionSeminario: db12_Seminarios_Evaluaciones_Array {
                     IdSeminarios_Evaluaciones
                     url_one_drive
+                    NombreArchivo_Acta
                     Estatus: db12_Seminarios_CatalogoEstatus {
                       IdSeminarios_CatalogoEstatus
                       Descripcion
                     }
                   }
-                  EnRevisionDeDT:db12_CatalogoEstatusAltasYBajasMateria{ Descripcion Id:IdCatalogoEstatusAltasYBajasMaterias }
-                  AltaOBajaAsignatura:MateriaBaja
+                  EnRevisionDeDT: db12_CatalogoEstatusAltasYBajasMateria {
+                    Descripcion
+                    Id: IdCatalogoEstatusAltasYBajasMaterias
+                  }
+                  AltaOBajaAsignatura: MateriaBaja
                   IdAlumnoMateria: IdAlumnosMaterias
                   Matricula
                   Calificacion: db12_Calificacione {

@@ -277,7 +277,7 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
 
   return (
      
-      <Container style={{ height: 1200, width: '100%', marginTop:'-14px'}}>
+      <Container maxWidth={false} style={{ height: 1200, width: '100%', marginTop:'-14px'}}>
       <Modal open={isModalOpen} onClose={handleCloseModal}>
         <div style={modalStyle}>
           <div
