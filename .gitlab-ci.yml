@@ -19,6 +19,7 @@ build_prod:
             --build-arg HASURA_URL=$HASURA_URL
             --build-arg HASURA_SECRET=$HASURA_SECRET
             --build-arg API_URL=$API_URL
+            --build-arg API_CEI=$API_CEI
             --no-cache -t sip:latest --add-host utilitics.ecosur.mx:10.1.5.112 --force-rm .
     environment:
         name: production

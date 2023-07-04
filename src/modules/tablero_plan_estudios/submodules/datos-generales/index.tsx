@@ -1,14 +1,12 @@
 import { EcosurAuth } from "@modules/auth/definitions";
 import { userStateAtom } from "@modules/auth/recoil";
 import {
-  Alert,
   Avatar,
   Button,
   CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   Divider,
   Grid,
@@ -32,16 +30,13 @@ import { People } from "@mui/icons-material";
 import ErrorIcon from '@mui/icons-material/Error';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { TutoresSinodalesGql } from "@shared/types/tutoresSinodales";
-import { Component, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useUpdateEmail } from "@modules/home/submodules/estudiante/queries/intex";
 import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import Swal from "sweetalert2";
-import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import apiRevisionCurp from "@shared/components/cards/apiRevisionCurp";
-import message from "@modules/consejo_tutelar/submodules/evaluacion/pages/message";
 import { MessageSnackbar } from "@shared/components/layouts/messaAlert";
-import { number } from "yup";
 import { WithRolCheck} from '@shared/hooks';
 import Roles from '@definitions/Roles';
 import { CheckCircle } from '@mui/icons-material';
@@ -102,17 +97,21 @@ const DatosGenerales = (props:any) => {
               <>
                 {userInfo.Estatus == "Activo" &&
                   <Stack spacing={2} direction="row">
+                    <Button onClick={() => {}} variant="contained">Descargar constancia de estudios.</Button>
                     <Button onClick={() => window.open("https://www.ecosur.mx/posgrado/posgrado/reglamentos-y-normas/")} variant="contained">Reglamento</Button>
                     <Button onClick={() => window.open("https://www.ecosur.mx/posgrado/posgrado/convocatorias/")} variant="contained">Convocatorias</Button>
                   </Stack>
                 }
                 {userInfo.Estatus == "Egresado" &&
                   <>
+                  <Link href="https://">
+                    <InsertLinkIcon style={{margin:"0 0 -7px"}}/> Descargar constancia de estudios.
+                  </Link><br />
                   <Link href="https://forms.office.com/Pages/ResponsePage.aspx?id=ueQ7jWW-mEWHw68xN_k1NX_jq7a_lFNEqZUSVzf_V9FUOUlFV1kzQ0pVMUdNU05VRjBRUzVVNjlPMC4u">
-                    <InsertLinkIcon /> Solicitar fecha de examen de grado
+                    <InsertLinkIcon style={{margin:"5px 0 -7px"}}/> Solicitar fecha de examen de grado
                   </Link><br />
                   <Link href="https://forms.office.com/Pages/ResponsePage.aspx?id=ueQ7jWW-mEWHw68xN_k1NX_jq7a_lFNEqZUSVzf_V9FUNkw1U0IzN04zTE9ISkg2SUNHNTk2UzVNUS4u">
-                    <InsertLinkIcon /> Registrar revisores de examen de grado
+                    <InsertLinkIcon style={{margin:"5px 0 -7px"}}/> Registrar revisores de examen de grado
                   </Link>
                   </>
                 }
