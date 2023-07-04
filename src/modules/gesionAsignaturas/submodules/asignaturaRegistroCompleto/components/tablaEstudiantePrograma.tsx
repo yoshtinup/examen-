@@ -22,7 +22,8 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
   urlboleta?: string;
   categoriaMateria?: string;
   concentradoCalAlumno?: string;
-}> = ({ estudiantes, urlboleta, categoriaMateria, concentradoCalAlumno }) => {
+  estatusAsignacionCalificacion: number;
+}> = ({ estudiantes, urlboleta, categoriaMateria, concentradoCalAlumno, estatusAsignacionCalificacion }) => {
   let EsSeminario =
     categoriaMateria == 'Seminario' || categoriaMateria == 'Tutelar'
       ? true
@@ -395,7 +396,7 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
       ) : (
         <></>
       )}
-      {categoriaMateria == 'Curso' ? (
+      {categoriaMateria == 'Curso' && estatusAsignacionCalificacion==3? (
         <Link aria-disabled={true} href={'#'}>
           <a
             style={{
