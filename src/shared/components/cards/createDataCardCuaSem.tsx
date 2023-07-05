@@ -102,12 +102,13 @@ function ItemsComunes(CS:CSGql){
 function ItemsInscripcionService(CS:CSGql, Enlaces:CardListItemChildrens, Cursos:CardListItemChildrens, Inscribirse:any, currentRol:Roles){
   let debeInscribirse:Boolean = false;
   let x:number;
+  console.log(CS)
   for(x=0; x<CS.Cursos.length; x+=1){
     if(CS.Cursos[x].BoletaInscripcion && CS.Cursos[x].BoletaInscripcion.IdCatalogoEstatusInscripciones==1){
       debeInscribirse = true;
       break;
     }else if(CS.Cursos[x].BoletaInscripcion && CS.Cursos[x].BoletaInscripcion.url){
-      // Enlaces.Childrens.push(ItemSimple("Boleta de inscripción", <People />, ItemFileFunction(CS.Cursos[x].BoletaInscripcion.url)));
+       Enlaces.Childrens.push(ItemSimple("Boleta de inscripción", <People />, ItemFileFunction(CS.Cursos[x].BoletaInscripcion.url)));
       break;
     }
   }

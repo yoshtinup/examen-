@@ -61,7 +61,7 @@ export function getDataCardCursoPendiente(curso:CursoGql, currentRol:Roles, baja
   let Opciones:CardListItemChildrens = ItemWithChildrens("Opciones", true);
   let Enlaces:CardListItemChildrens = ItemWithChildrens("Enlaces", true);
   if(currentRol === Roles.Estudiante){
-    if(proceso==true){
+    if(proceso==true && curso.CategoriaMateria.Datos.Value=='Curso' && (curso.IdBoletasIncripciones==null ||curso.IdBoletasIncripciones==0)){
       Opciones.Childrens.push(ItemSimple("Dar de baja", <PermMedia />, () =>{ bajaMateria(true); idMateria(curso.IdMateriasOfertaClave)}));
       Opciones.Childrens.push(ItemSimple("Sustituir", <PermMedia />, () => {cambioMateria(true); idMateria(curso.IdMateriasOfertaClave)}));
       ItemCreateSubtitle(Opciones);
@@ -85,7 +85,7 @@ export function getDataCardCursoEnProceso(curso:CursoGql, currentRol:Roles, baja
   let Opciones:CardListItemChildrens = ItemWithChildrens("Opciones", true);
   let Enlaces:CardListItemChildrens = ItemWithChildrens("Enlaces", true);
   if(currentRol === Roles.Estudiante){
-    if(proceso==true){
+    if(proceso==true && curso.CategoriaMateria.Datos.Value=='Curso' && (curso.IdBoletasIncripciones==null ||curso.IdBoletasIncripciones==0)){
       Opciones.Childrens.push(ItemSimple("Dar de baja", <PermMedia />, () =>{ bajaMateria(true); idMateria(curso.IdMateriasOfertaClave)}));
       Opciones.Childrens.push(ItemSimple("Sustituir", <PermMedia />, () => {cambioMateria(true); idMateria(curso.IdMateriasOfertaClave)}));
       ItemCreateSubtitle(Opciones);
@@ -127,21 +127,49 @@ function ItemsComunes(curso:CursoGql){
   } as CardListType;
 }
 function ItemsEnlacesService(curso:CursoGql, Enlaces:CardListItemChildrens){
-
+  if(curso.BoletaCalificaciones && curso.BoletaCalificaciones[0] &&
+    curso.BoletaCalificaciones[0].IDMOC == curso.IdMateriasOfertaClave &&
+    curso.BoletaCalificaciones[0].NombreArchivoBoletaMateria &&
+    curso.BoletaCalificaciones[0].NombreArchivoBoletaMateria != ""
+  ){
+    Enlaces.Childrens.push(
+      ItemSimple(
+        "Boleta de calificaciones",
+        <InsertLinkIcon style={{color: '#1ab394'}} />,
+        ItemFileFunction(curso.BoletaCalificaciones[0].NombreArchivoBoletaMateria),
+        
+      )
+    );
+  }
   if(curso.EvaluacionSeminario){
     let redireccionamiento = "seminarios_investigacion/";
     if(curso.EvaluacionSeminario.SeminariosCatalogoEstatus.IdSeminarios_CatalogoEstatus == 1){
       redireccionamiento += "evaluacion/";
     }
     redireccionamiento += curso.EvaluacionSeminario.IdSeminarios_Evaluaciones;
+    if(curso.EvaluacionSeminario.SeminariosCatalogoEstatus.IdSeminarios_CatalogoEstatus == 4 &&
+      curso.EvaluacionSeminario.url_one_drive && curso.EvaluacionSeminario.url_one_drive != "")
+    {
+      Enlaces.Childrens.push(
+        ItemSimple(
+          "Acta de seminario",
+          <InsertLinkIcon style={{color: '#1ab394'}} />,
+          RedirectFunction(curso.EvaluacionSeminario.url_one_drive)
+        )
+      );
+    }
     let redireccionar = null;
     if(curso.EvaluacionSeminario.SeminariosCatalogoEstatus.IdSeminarios_CatalogoEstatus != 1){
       redireccionar=RedirectFunction(redireccionamiento);
-    }-
+    }
+    let colorIcon= 'orange';
+    if(redireccionar!=null){
+     colorIcon='#1ab394';
+    }
     Enlaces.Childrens.push(
       ItemSimple(
         "Evaluación seminario (" + curso.EvaluacionSeminario.SeminariosCatalogoEstatus.Descripcion + ")",
-        <InsertLinkIcon style={{color: 'orange'}} />,
+        <InsertLinkIcon style={{color: colorIcon }} />,
         redireccionar, true
       )
     );
