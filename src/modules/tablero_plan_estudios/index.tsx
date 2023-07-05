@@ -35,9 +35,10 @@ const TableroPlanEstudios = (props) => {
   if(matricula!=undefined){
     registrationUser=Number(matricula);
   }else{
-    // registrationUser= 202021004;
-    registrationUser=user.estudiante.matricula;
+     registrationUser= 202021004 ;
+   // registrationUser=user.estudiante.matricula;
   }
+  registrationUser= 202021004 ;
   const { data, error, isLoading } = useGetCursosAlumno(
     registrationUser
   );
