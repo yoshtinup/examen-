@@ -61,7 +61,7 @@ export function getDataCardCursoPendiente(curso:CursoGql, currentRol:Roles, baja
   let Opciones:CardListItemChildrens = ItemWithChildrens("Opciones", true);
   let Enlaces:CardListItemChildrens = ItemWithChildrens("Enlaces", true);
   if(currentRol === Roles.Estudiante){
-    if(proceso==true){
+    if(proceso==true && curso.CategoriaMateria.Datos.Value=='Curso' && (curso.IdBoletasIncripciones==null ||curso.IdBoletasIncripciones==0)){
       Opciones.Childrens.push(ItemSimple("Dar de baja", <PermMedia />, () =>{ bajaMateria(true); idMateria(curso.IdMateriasOfertaClave)}));
       Opciones.Childrens.push(ItemSimple("Sustituir", <PermMedia />, () => {cambioMateria(true); idMateria(curso.IdMateriasOfertaClave)}));
       ItemCreateSubtitle(Opciones);
@@ -85,7 +85,7 @@ export function getDataCardCursoEnProceso(curso:CursoGql, currentRol:Roles, baja
   let Opciones:CardListItemChildrens = ItemWithChildrens("Opciones", true);
   let Enlaces:CardListItemChildrens = ItemWithChildrens("Enlaces", true);
   if(currentRol === Roles.Estudiante){
-    if(proceso==true){
+    if(proceso==true && curso.CategoriaMateria.Datos.Value=='Curso' && (curso.IdBoletasIncripciones==null ||curso.IdBoletasIncripciones==0)){
       Opciones.Childrens.push(ItemSimple("Dar de baja", <PermMedia />, () =>{ bajaMateria(true); idMateria(curso.IdMateriasOfertaClave)}));
       Opciones.Childrens.push(ItemSimple("Sustituir", <PermMedia />, () => {cambioMateria(true); idMateria(curso.IdMateriasOfertaClave)}));
       ItemCreateSubtitle(Opciones);

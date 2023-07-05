@@ -25,6 +25,7 @@ export interface CursoGql {
   IdMateriasOfertaClave: number;
   CalificacionNumerico: number;
   IdBoletasIncripciones: number;
+  CategoriaMateria: DatosCategoriaMateria;
   BoletaInscripcion:BoletaInscripcionGql;
   BoletaCalificaciones:BoletaCalificacionesGql[];
   EvaluacionSeminario:EvaluacionSeminarioGql;
@@ -32,7 +33,11 @@ export interface CursoGql {
   Unidad:UnidadCursoGql;
   Estatus: Estatus;
 }
-
+export interface DatosCategoriaMateria{
+    Datos:{
+      Value:string
+    }
+}
 export interface BoletaCalificacionesGql{
   IDMOC: number;
   NombreArchivoBoletaMateria: string;

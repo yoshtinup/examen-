@@ -29,14 +29,14 @@ const TableroPlanEstudios = (props) => {
   //checar si el rol es el adecuado
   const rol = WithRolCheck(Roles.Estudiante);
   let show = rol(null);
- if(user.estudiante?.estatus=="Egresado"){
+ if(user.estudiante?.estatus!="Activo"){
    show= false;
  }
   if(matricula!=undefined){
     registrationUser=Number(matricula);
   }else{
-    registrationUser= 202021004;
-    // registrationUser=user.estudiante.matricula;
+    // registrationUser= 202021004;
+    registrationUser=user.estudiante.matricula;
   }
   const { data, error, isLoading } = useGetCursosAlumno(
     registrationUser
