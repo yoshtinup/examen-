@@ -355,6 +355,7 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                     urlboleta={data.ConcentradoCalificacionesAlumnos}
                     categoriaMateria={data.Asignatura.Datos.CategoriaMateria}
                     concentradoCalAlumno={data.ConcentradoCalificacionesAlumnos}
+                    estatusAsignacionCalificacion={data.EstatusAsignacionCalificacion.Id}
                   />
                 </Box>
               </Grid>
