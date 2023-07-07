@@ -1,12 +1,11 @@
 import Roles from "@definitions/Roles";
-import { Home, PermMedia, People, Dns } from "@mui/icons-material";
+import { Home, People, Dns } from "@mui/icons-material";
 import { Estatus } from "@shared/types";
 import { CardListItemChildrens, CardListType, FontSize } from "@shared/types/cardsTypes";
 import { CSGql } from "@shared/types/cuatrimestresSemestresGql";
 
 function ItemFileFunction(url:string){
-  const base = "https://serviciosposgrado.ecosur.mx/alumnos/Content/Cursos/BoletasInscripciones/";
-  const Url = (process.env.URL_BOLETAS_INSCRIPCIONES || base) + url;
+  const Url = process.env.URL_BOLETAS_INSCRIPCIONES + url;
   return () => {window.open(Url)};
 }
 

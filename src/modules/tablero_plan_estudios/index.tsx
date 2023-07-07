@@ -17,7 +17,7 @@ import { WithRolCheck} from '@shared/hooks';
 import Roles from '@definitions/Roles';
 import { EstudianteGql } from '@shared/types';
 const style = {
-  padding: '30px',
+  padding: '1.5vw',
   backgroundColor: '#fff',
   marginTop: '30px',
 };

@@ -57,10 +57,10 @@ const ProductosActividadesRealizadas = ({
       <Grid item xs={12}>
         <HeaderSection label="TOTAL DE PRODUCTOS Y ACTIVIDADES REGISTRADAS" shadow={false} />
       </Grid>
-      <Grid item xs={5}>
+      <Grid item md={5} sm={9} xs={11} style={{margin:"auto"}}>
         <GraficaProductosActividadesRealizadas data={listData} />
       </Grid>
-      <Grid item xs={7}>
+      <Grid item md={7} xs={12}>
         <TabsProductosActividadesRealizadas data={listData} />
       </Grid>
     </Grid>

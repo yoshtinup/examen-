@@ -17,7 +17,7 @@ import {
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'Id Materia' },
-  { field: 'nombre', headerName: 'Nombre', width: 500 },
+  { field: 'nombre', headerName: 'Nombre', width: 480 },
   { field: 'periodo', headerName: 'Periodo lectivo', width: 180 },
   { field: 'fechas', headerName: 'Fechas de impartición', width: 220 },
   { field: 'unidad', headerName: 'Unidad', width: 150 },
@@ -60,7 +60,7 @@ const TablaAsignaturas = (props: any) => {
   return (
     <Grid item xs={12}>
       <h3>Filtros</h3>
-      <Box style={{ marginBottom: '30px' }}>
+      <Box>
         <CrearSelect
           nombre="unidades"
           data={unidad}
@@ -82,7 +82,6 @@ const TablaAsignaturas = (props: any) => {
           />
         )}
       </Box>
-
       <Box sx={{ height: 900, width: '100%' }} id="tabla-gestion-asignaturas">
         <DataGrid
           rows={rows}
@@ -110,7 +109,7 @@ function CrearSelect({
 }) {
   const nameFirstUpper = nombre.charAt(0).toUpperCase() + nombre.slice(1);
   return (
-    <FormControl style={{ width: '25%', margin: '0 4%' }}>
+    <FormControl style={{ width: '25%', margin: '0 4% 4%', minWidth:'220px' }}>
       <InputLabel id={'asignaturas-' + nombre + '-select-label'}>
         {nameFirstUpper}
       </InputLabel>

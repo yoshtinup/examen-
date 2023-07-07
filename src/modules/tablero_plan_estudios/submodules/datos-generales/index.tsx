@@ -41,6 +41,10 @@ import { WithRolCheck} from '@shared/hooks';
 import Roles from '@definitions/Roles';
 import { CheckCircle } from '@mui/icons-material';
 
+function redirectPagPosgrado(ruta:string){
+  return window.open(process.env.URL_PAGINA_POSGRADO + ruta);
+}
+
 const DatosGenerales = (props:any) => {
   const matricula = props.matricula;
   const user: EcosurAuth = useRecoilValue(userStateAtom);
@@ -90,66 +94,61 @@ const DatosGenerales = (props:any) => {
   ];
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} style={{padding:"20px"}}>
-        <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-          <ListItem
-            secondaryAction={
-              <>
-                {userInfo.Estatus == "Activo" &&
-                  <Stack spacing={2} direction="row">
-                    <Button onClick={() => {}} variant="contained">Constancia de estudios</Button>
-                    <Button onClick={() => window.open("https://www.ecosur.mx/posgrado/posgrado/reglamentos-y-normas/")} variant="contained">Reglamento</Button>
-                    <Button onClick={() => window.open("https://www.ecosur.mx/posgrado/posgrado/convocatorias/")} variant="contained">Convocatorias</Button>
-                  </Stack>
-                }
-                {userInfo.Estatus == "Egresado" &&
-                  <>
-                  <Link href="https://">
-                    <InsertLinkIcon style={{margin:"0 0 -7px"}}/> Constancia de estudios
-                  </Link><br />
-                  <Link href="https://forms.office.com/Pages/ResponsePage.aspx?id=ueQ7jWW-mEWHw68xN_k1NX_jq7a_lFNEqZUSVzf_V9FUOUlFV1kzQ0pVMUdNU05VRjBRUzVVNjlPMC4u">
-                    <InsertLinkIcon style={{margin:"5px 0 -7px"}}/> Solicitar fecha de examen de grado
-                  </Link><br />
-                  <Link href="https://forms.office.com/Pages/ResponsePage.aspx?id=ueQ7jWW-mEWHw68xN_k1NX_jq7a_lFNEqZUSVzf_V9FUNkw1U0IzN04zTE9ISkg2SUNHNTk2UzVNUS4u">
-                    <InsertLinkIcon style={{margin:"5px 0 -7px"}}/> Registrar revisores de examen de grado
-                  </Link>
-                  </>
-                }
-              </>
-            }
-          >
-            <ListItemAvatar>
-              <Avatar
-                alt={
-                  userInfo.Datos.Nombre + " " +
-                  userInfo.Datos.ApellidoPaterno + " " + 
+      <Grid item md={7} style={{padding:"1.1vw"}}>
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar
+              alt={
+                userInfo.Datos.Nombre + " " +
+                userInfo.Datos.ApellidoPaterno + " " + 
+                userInfo.Datos.ApellidoMaterno
+              }
+              src="https://"
+              sx={{ width: 90, height: 90, margin:"auto", fontSize:"37px" }}
+            />
+          </ListItemAvatar>
+          <ListItemText
+            style={{marginLeft: "20px", color:"#c56b16"}}
+            primary={
+              <Typography variant="h4" gutterBottom>
+              {
+                !matricula&&
+                generoBienv[userInfo.Datos.IdGenero]
+              }
+                {
+                    " " +userInfo.Datos.Nombre + " " +
+                  userInfo.Datos.ApellidoPaterno + " " +
                   userInfo.Datos.ApellidoMaterno
                 }
-                src="https://"
-                sx={{ width: 90, height: 90, margin:"auto", fontSize:"37px" }}
-              />
-            </ListItemAvatar>
-            <ListItemText
-              style={{marginLeft: "20px", color:"#c56b16"}}
-              primary={
-                <Typography variant="h4" gutterBottom>
-                {
-                  !matricula&&
-                  generoBienv[userInfo.Datos.IdGenero]
-                }
-                  {
-                     " " +userInfo.Datos.Nombre + " " +
-                    userInfo.Datos.ApellidoPaterno + " " +
-                    userInfo.Datos.ApellidoMaterno
-                  }
-                </Typography>
-              }
-              secondary={<>Ingresó al Posgrado: {formatoFecha(userInfo.FechaDeIngresoAlPosgrado)} - <b>{userInfo.Estatus}</b></>}
-            />
-          </ListItem>
-        </List>
+              </Typography>
+            }
+            secondary={<>Ingresó al Posgrado: {formatoFecha(userInfo.FechaDeIngresoAlPosgrado)} - <b>{userInfo.Estatus}</b></>}
+          />
+        </ListItem>
       </Grid>
-      <Grid item xs={6}>
+      <Grid item md={5} style={{padding:"1.1vw", margin:"auto"}}>
+        {userInfo.Estatus == "Activo" &&
+          <Stack direction="row" flexWrap="wrap">
+            <Button style={{margin:"3px"}} onClick={() => {}} variant="contained">Constancia de estudios</Button>
+            <Button style={{margin:"3px"}} onClick={() => redirectPagPosgrado("posgrado/reglamentos-y-normas/")} variant="contained">Reglamento</Button>
+            <Button style={{margin:"3px"}} onClick={() => redirectPagPosgrado("posgrado/convocatorias/")} variant="contained">Convocatorias</Button>
+          </Stack>
+        }
+        {userInfo.Estatus == "Egresado" &&
+          <>
+          <Link href="https://">
+            <InsertLinkIcon style={{margin:"0 0 -7px"}}/> Constancia de estudios
+          </Link><br />
+          <Link href="https://forms.office.com/Pages/ResponsePage.aspx?id=ueQ7jWW-mEWHw68xN_k1NX_jq7a_lFNEqZUSVzf_V9FUOUlFV1kzQ0pVMUdNU05VRjBRUzVVNjlPMC4u">
+            <InsertLinkIcon style={{margin:"5px 0 -7px"}}/> Solicitar fecha de examen de grado
+          </Link><br />
+          <Link href="https://forms.office.com/Pages/ResponsePage.aspx?id=ueQ7jWW-mEWHw68xN_k1NX_jq7a_lFNEqZUSVzf_V9FUNkw1U0IzN04zTE9ISkg2SUNHNTk2UzVNUS4u">
+            <InsertLinkIcon style={{margin:"5px 0 -7px"}}/> Registrar revisores de examen de grado
+          </Link>
+          </>
+        }
+      </Grid>
+      <Grid item lg={6}>
         <Paper>
           <List sx={{ width: '100%', bgcolor: '#ecf0f5' }}>
             <ListItem>
@@ -169,7 +168,7 @@ const DatosGenerales = (props:any) => {
           </List>
         </Paper>
       </Grid>
-      <Grid item xs={6}>
+      <Grid item lg={6}>
         <TutoresSinodales dataTS={dataTS} show={show} matricula={matricula}/>
       </Grid>
     </Grid>
@@ -206,7 +205,7 @@ const TutoresSinodales = (props:any) => {
                   elemento={
                     <>
                       {item.Persona.Grado}{' '}{item.Persona.nombre}{' '}{item.Persona.ApellidoPaterno}{' '}{item.Persona.ApellidoMaterno}
-                      {item.Persona.Email && `(${item.Persona.Email})`} -{' '}
+                      {item.Persona.Email && ` (${item.Persona.Email})`} -{' '}
                       <span style={{color:'#666'}}>
                         {generoNivelPart[item.Nivel.IdParticipacion][item.Persona.IdGenero-1]}
                       </span>
@@ -383,7 +382,10 @@ const Modal = props => {
   const btnAcept = props.btnTextAcept;
   const btnCancel = props.btnTextCancel;
   return (<>
-    <Link aria-disabled={true}><a style={{cursor:"pointer"}} onClick={handleSubmit}> Solicitar corrección</a>
+    <Link aria-disabled={true}>
+      <a style={{cursor:"pointer"}} onClick={handleSubmit}>
+        <p style={{width:"10vw", minWidth:"100px", textAlign:"right"}}>Solicitar corrección</p>
+      </a>
     {openModal && <Dialog
       open={open}
       fullWidth={false}
@@ -462,7 +464,9 @@ function renderSwitch(op:string, userInfo:EstudianteGql){
       component = <ActualizarCorreo userInfo={userInfo}/>;
       break;
     case "Tesis":
-      component = <Link href="https://forms.office.com/Pages/ResponsePage.aspx?id=ueQ7jWW-mEWHw68xN_k1NX_jq7a_lFNEqZUSVzf_V9FUQ0FNME83SEFNMVpBUTVPRUZXSzEwMlIzVi4u">Solicitar cambio de título</Link>;
+      component = <Link href="https://forms.office.com/Pages/ResponsePage.aspx?id=ueQ7jWW-mEWHw68xN_k1NX_jq7a_lFNEqZUSVzf_V9FUQ0FNME83SEFNMVpBUTVPRUZXSzEwMlIzVi4u">
+        <p style={{width:"10vw", minWidth:"100px", textAlign:"right"}}>Solicitar cambio de título</p>
+      </Link>;
       break;
     case "CURP":
       component = <Modal
