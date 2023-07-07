@@ -19,9 +19,10 @@ import { WithRolCheck } from '@shared/hooks';
 import Roles from '@definitions/Roles';
 
 const style = {
-  padding: '30px',
+  padding: '1.5vw',
   backgroundColor: '#fff',
   marginTop: '30px',
+  paddingBottom: '20px',
 };
 
 const EvaluacionEtica = (props: any) => {
@@ -51,7 +52,7 @@ const EvaluacionEtica = (props: any) => {
             shadow={false}
           />
         </Grid>
-        <Grid item xs={8}>
+        <Grid item md={7} xs={12}>
           <a href="/cei">
             <List
               sx={{
@@ -132,7 +133,7 @@ const EvaluacionEtica = (props: any) => {
             </List>
           </a>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item md={5} sm={10} xs={12}>
           <Paper elevation={1} style={{ position: 'relative' }}>
             <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
               <ListItem

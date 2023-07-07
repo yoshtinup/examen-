@@ -68,16 +68,16 @@ export function NumeraliaGraficaCurso(props:any){
   const promedio = sumatoria/elementos;
 
   return (
-    <Grid container spacing={7} style={{textAlign:"center"}}>
+    <Grid container spacing={5} style={{textAlign:"center"}}>
       {promedio > 0 &&
         <Grid item xs={12}>
           <Paper elevation={5} style={{borderBottom:"solid 3px #1ab394", padding:"15px 0 5px"}}>
             <Grid container spacing={2} alignItems="center">
-              <Grid item xs={6}>
-                <TextLine variant="h4" text={<b>Promedio global</b>}/>
+              <Grid item sm={8} xs={12}>
+                <TextLine fontSize={25} text={<b>Promedio global</b>}/>
               </Grid>
-              <Grid item xs={6}>
-                <TextLine variant="h3" text={promedio.toFixed(2)}/>
+              <Grid item sm={4} xs={12}>
+                <TextLine fontSize={40} text={promedio.toFixed(2)}/>
               </Grid>
             </Grid>
           </Paper>
@@ -87,12 +87,12 @@ export function NumeraliaGraficaCurso(props:any){
         <Grid item xs={12}>
           <Paper elevation={5} style={{borderBottom:"solid 3px #1ab394", padding:"10px 0 0"}}>
             <Grid container spacing={2} alignItems="center">
-              <Grid item xs={6}>
+              <Grid item sm={8} xs={12}>
                 <TextLine variant="h5" text={<b>Créditos cubiertos</b>}/>
-                <TextLine variant="h4" text={TotalDeCreditosCubiertos!=null && TotalDeCreditosCubiertos}/>
+                <TextLine fontSize={25} text={TotalDeCreditosCubiertos!=null && TotalDeCreditosCubiertos}/>
               </Grid>
-              <Grid item xs={6}>
-                <TextLine variant="h4" text={TotalDeCreditos!=null && TotalDeCreditos!=0 ?(TotalDeCreditosCubiertos*100/TotalDeCreditos).toFixed(2) + "%": ""}/>
+              <Grid item sm={4} xs={12}>
+                <TextLine fontSize={25} text={TotalDeCreditos!=null && TotalDeCreditos!=0 ?(TotalDeCreditosCubiertos*100/TotalDeCreditos).toFixed(2) + "%": ""}/>
               </Grid>
             </Grid>
           </Paper>
@@ -102,12 +102,12 @@ export function NumeraliaGraficaCurso(props:any){
         <Grid item xs={12}>
           <Paper elevation={5} style={{borderBottom:"solid 3px #c56b16", padding:"10px 0 0"}}>
             <Grid container spacing={2} alignItems="center">
-              <Grid item xs={6}>
+              <Grid item sm={8} xs={12}>
                 <TextLine variant="h5" text={<b>Créditos pendientes</b>}/>
-                <TextLine variant="h4" text={TotalDeCreditos!=null && TotalDeCreditos!=0 ?(creditosPendientes).toFixed(2): ''}/>
+                <TextLine fontSize={25} text={TotalDeCreditos!=null && TotalDeCreditos!=0 ?(creditosPendientes).toFixed(2): ''}/>
               </Grid>
-              <Grid item xs={6}>
-                <TextLine variant="h4" text={TotalDeCreditos!=null && TotalDeCreditos!=0 ?(creditosPendientes*100/TotalDeCreditos).toFixed(2) + "%": ""}/>
+              <Grid item sm={4} xs={12}>
+                <TextLine fontSize={25} text={TotalDeCreditos!=null && TotalDeCreditos!=0 ?(creditosPendientes*100/TotalDeCreditos).toFixed(2) + "%": ""}/>
               </Grid>
             </Grid>
           </Paper>
@@ -119,7 +119,7 @@ export function NumeraliaGraficaCurso(props:any){
 
 const TextLine = (props:any) => {
   return(
-    <Typography variant={props.variant} gutterBottom>
+    <Typography fontSize={props.fontSize} variant={props.variant} gutterBottom>
       {props.text}
     </Typography>
   );
@@ -129,7 +129,7 @@ function FooterGraficaCurso(){
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} style={{textAlign:"center", padding: '0'}}>
-        <Typography variant="subtitle1" gutterBottom>
+        <Typography fontSize={23} gutterBottom>
           <b>Asignaturas</b>
         </Typography>
       </Grid>

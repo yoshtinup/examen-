@@ -1,5 +1,5 @@
 import Roles from "@definitions/Roles";
-import { Home, PermMedia, People, Dns, ColorLens } from "@mui/icons-material";
+import { Home, PermMedia, People, Dns } from "@mui/icons-material";
 import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import { CursoGql } from "@shared/types";
 import { CardListItemChildrens, CardListType, FontSize } from "@shared/types/cardsTypes";
@@ -7,13 +7,11 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 
 function ItemFileFunction(url:string){
-  const base = "https://serviciosposgrado.ecosur.mx/profesores/Content/Cursos/Calificaciones/BoletasEstudiantesMaterias/";
-  const Url = (process.env.URL_BOLETAS_ESTUDIANTES_MATERIAS || base) + url;
+  const Url = process.env.URL_BOLETAS_ESTUDIANTES_MATERIAS + url;
   return () => {window.open(Url)};
 }
 
 function RedirectFunction(url:string){
-  //return () => {window.location.href = url};
   return () => {window.open(url)};
 }
 
@@ -277,6 +275,5 @@ const ItemCreateSubtitle = (item:CardListItemChildrens) => {
   item.Childrens.forEach((element, i) => {
     item.Subtitulo += (i > 0) ? ", " : "";
     item.Subtitulo += element.Titulo.split(":")[0];
-    
   });
 }

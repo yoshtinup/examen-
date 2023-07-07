@@ -68,9 +68,11 @@ export const LoginInternals: React.FC<React.PropsWithChildren<Props>> = ({
               style={{
                 position: 'relative',
                 textAlign: 'center',
-                width: '360px',
+                width: '85vw',
+                maxWidth: '360px',
                 padding: '38px 0px 5px 0px',
                 borderRadius: '2px',
+                margin: 'auto'
               }}
             >
               {instructions}

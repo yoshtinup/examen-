@@ -126,7 +126,7 @@ const CardsCursos = (props: any) => {
         />
       )}
 
-      <Grid container spacing={2} style={{ padding: '10px 50px 0' }}>
+      <Grid container spacing={2} style={{ padding: '10px 2.5vw 0' }}>
         <Grid item xs={12}>
           <h3>Instrucciones</h3>
           <p style={{textAlign:'justify'}}>
@@ -138,7 +138,7 @@ const CardsCursos = (props: any) => {
           </p>
         </Grid>
       </Grid>
-      <Grid container spacing={2} style={{ padding: '50px' }}>
+      <Grid container spacing={2} style={{ padding: '2.5vw' }}>
         {(arrayCursos?.EnProceso?.length > 0 ||
           arrayCursos?.Pendientes?.length > 0) && (
           <>
@@ -148,7 +148,7 @@ const CardsCursos = (props: any) => {
               </Typography>
             </Grid>
             {arrayCursos?.EnProceso?.map((curso: CursoGql, i) => (
-              <Grid key={i} item xs={12} sm={6} md={4} lg={3}>
+              <Grid key={i} item xs={12} sm={6} md={4} xl={3}>
                 <CardList
                   data={getDataCardCursoEnProceso(
                     curso,
@@ -162,7 +162,7 @@ const CardsCursos = (props: any) => {
               </Grid>
             ))}
             {arrayCursos?.Pendientes?.map((curso: CursoGql, i) => (
-              <Grid key={i} item xs={12} sm={6} md={4} lg={3}>
+              <Grid key={i} item xs={12} sm={6} md={4} xl={3}>
                 <CardList
                   data={getDataCardCursoPendiente(
                     curso,
@@ -195,7 +195,7 @@ const CardsCursos = (props: any) => {
               </Typography>
             </Grid>
             {arrayCursos?.Finalizados?.map((curso: CursoGql, i) => (
-              <Grid key={i} item xs={12} sm={6} md={4} lg={3}>
+              <Grid key={i} item xs={12} sm={6} md={4} xl={3}>
                 <CardList data={getDataCardCursoFinalizado(curso, currentRol)} />
               </Grid>
             ))}

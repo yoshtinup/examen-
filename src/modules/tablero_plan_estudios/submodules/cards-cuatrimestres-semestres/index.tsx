@@ -60,7 +60,7 @@ const CardsCS = (props: any) => {
     });
   return (
     <>
-      <Grid container spacing={2} style={{ padding: '10px 50px 0' }}>
+      <Grid container spacing={2} style={{ padding: '10px 2.5vw 0' }}>
         <Grid item xs={12}>
           <h3>Instrucciones</h3>
           <p style={{ textAlign: 'justify' }}>
@@ -70,7 +70,7 @@ const CardsCS = (props: any) => {
           </p>
         </Grid>
       </Grid>
-      <Grid container spacing={2} style={{ padding: '50px' }}>
+      <Grid container spacing={2} style={{ padding: '2.5vw' }}>
         {(arrayCS?.EnProceso?.length > 0 ||
           arrayCS?.Pendientes?.length > 0) && (
           <>
