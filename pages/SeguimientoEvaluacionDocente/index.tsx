@@ -5,7 +5,7 @@ import RenderIFrame from '@modules/iFrameConRol';
 import Roles from '@definitions/Roles';
 
 const Page = () => {
-  const url: string = "https://aplicaciones.ecosur.mx/app/funcionalidades-sip/listado-evaluaciondocente-64960cc4e8023e77eb94df13?embed=true"
+  const url: string = process.env.APPSMITH_URL + "listado-evaluaciondocente-64960cc4e8023e77eb94df13?embed=true"
   return (
     <Container maxWidth={false} style={{ padding: '30px' }}>
       <Box
