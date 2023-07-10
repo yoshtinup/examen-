@@ -14,7 +14,11 @@ const DashboardCoordinacionGeneralPosgrado = () => {
       </ul>
       <iframe
         style={{ minWidth: '100%', height: '88vh', border: '0px' }}
-        src="https://dev-aplicaciones.utic.ecosur.mx/app/posgrado-cei/alumnos-activos-para-evaluacio-63bef82ced6fa67792e69021?embed=true"
+        src={
+          process.env.APPSMITH_URL +
+          process.env.APP_POSGRADO_CEI +
+          '?embed=true'
+        }
       ></iframe>
     </>
   );

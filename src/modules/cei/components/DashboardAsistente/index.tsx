@@ -3,7 +3,11 @@ const DashboardAsistentes = () => {
     <>
       <iframe
         style={{ minWidth: '100%', height: '88vh', border: '0px' }}
-        src="https://dev-aplicaciones.utic.ecosur.mx/app/servicios-escolares/page1-63da793aed6fa67792e690a6?embed=true"
+        src={
+          process.env.APP_POSGRADO_CEI +
+          process.env.APP_SERVICIOS_ESCOLARES_CEI +
+          '?embed=true'
+        }
       ></iframe>
     </>
   );
