@@ -67,8 +67,8 @@ const CardsCursosAIniciar = props => {
           justificacion={razonAgregarAsignatura}
         />
       )}
-      <Grid container spacing={2} style={{ padding: '10px 50px 0' }}>
-        <Grid item xs={8}>
+      <Grid container spacing={2} style={{ padding: '10px 2.5vw 0' }}>
+        <Grid item md={8} xs={12}>
           <h3>Instrucciones</h3>
           <p style={{ textAlign: 'justify' }}>
             En esta sección podrá dar de alta una asignatura a su plan de
@@ -81,14 +81,14 @@ const CardsCursosAIniciar = props => {
             persona de servicios escolares de su unidad.
           </p>
         </Grid>
-        <Grid item xs={4} style={{ textAlign: 'center', margin: 'auto' }}>
+        <Grid item md={4} xs={12} style={{ textAlign: 'center', margin: 'auto' }}>
           <Link href="https://www.ecosur.mx/ecoconsulta/cursosposgrado">
             <LibraryBooksIcon style={{ fontSize: '70px' }} />
             <h3>OFERTA DE ASIGNATURAS DEL AÑO VIGENTE</h3>
           </Link>
         </Grid>
       </Grid>
-      <Grid container spacing={2} style={{ padding: '50px' }}>
+      <Grid container spacing={2} style={{ padding: '2.5vw' }}>
         {arrayCursos?.map((curso: CursoPorIniciarGql, i) => (
           <Grid key={i} item xs={12} sm={6} md={4} lg={3}>
             <CardList

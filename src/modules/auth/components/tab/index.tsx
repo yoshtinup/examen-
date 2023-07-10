@@ -55,7 +55,7 @@ export const BasicTabs: React.FC<BasicTabsProps> = ({ tabs }) => {
         >
           <Tabs value={value} onChange={handleChange}>
             {tabs.map((data: any, idx: number) => {
-              return <Tab key={`tab-${idx}`} label={data.title} />;
+              return <Tab key={`tab-${idx}`} label={data.title} style={{padding:"13px"}} />;
             })}
           </Tabs>
         </Box>

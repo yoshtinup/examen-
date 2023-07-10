@@ -7,7 +7,7 @@ const AsignaturasPorIniciar = () => {
   const { isLoading, isError, data } = useGetListaAsignaturasProcesoIniciar();
   return (
     <>
-      <Grid container spacing={2} style={{ padding: '20px 50px' }}>
+      <Grid container spacing={2} style={{ padding: '1vw 2.5vw' }}>
         {isLoading ? (
           <>Cargando</>
         ) : isError ? (

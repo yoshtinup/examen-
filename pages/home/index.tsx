@@ -14,7 +14,7 @@ const Header = WithRol(Roles.Servicios_Escolares)(
 const Page = ({matricula}) => {
   ;
   return (
-    <Container maxWidth={false} style={{ padding: '30px' }}>
+    <Container maxWidth={false} style={{ padding: '1.5vw' }}>
        {!matricula&&<Header/>}
       <Box
         display="column"

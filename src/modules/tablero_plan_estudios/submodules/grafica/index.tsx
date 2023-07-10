@@ -1,17 +1,12 @@
-import { EcosurAuth } from "@modules/auth/definitions";
-import { userStateAtom } from "@modules/auth/recoil";
 import { getCursosEstudiante } from "@modules/tablero_plan_estudios/hooks";
 import { Grid } from "@mui/material";
 import { GraficaBarras } from "@shared/components/graficas";
 import { NumeraliaGraficaCurso, getDataGraficaCurso } from "@shared/components/graficas/createDataGraficaCurso";
-import { GraficaPastel } from "@shared/components/graficas/graficaPastel";
 import { useGetCursosAlumno } from "@shared/queries";
 import { Alineacion, GraficaColor, CursosAlumnoGql, GraficaBarrasType, GraficaPastelType } from "@shared/types";
-import { useRecoilValue } from "recoil";
 
 const GraficaCursos = (props) => {
   const matriculaEstudiante=props.matricula;
-  const user: EcosurAuth = useRecoilValue(userStateAtom);
   const {data, error, isLoading}= useGetCursosAlumno(matriculaEstudiante);
   const arrayCursos: CursosAlumnoGql = getCursosEstudiante(data?.Cursos);
   if(isLoading){
@@ -52,17 +47,12 @@ const GraficaCursos = (props) => {
       }
     ]
   }
-  /*
-    <Grid item xs={12}>
-      <GraficaPastel data={dataExample} />
-    </Grid>
-  */
   return (
     <Grid container spacing={5} style={{marginBottom:"70px"}} alignItems="center">
-      <Grid item xs={5}>
+      <Grid item xl={6} lg={7} md={9} sm={11} xs={12} style={{margin:"auto"}}>
         <GraficaBarras data={dataCursos} />
       </Grid>
-      <Grid item xs={5}>
+      <Grid item lg={5} md={9} xs={11} style={{margin:"auto"}}>
         <NumeraliaGraficaCurso data={arrayCursos} dataCredit={data?.CreditosAsignatura}/>
       </Grid>
     </Grid>
