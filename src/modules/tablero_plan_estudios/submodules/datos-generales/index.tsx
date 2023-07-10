@@ -74,7 +74,8 @@ const DatosGenerales = (props:any) => {
     {key:"Programa", value:userInfo.Programa.NombreLargo},
     {key:"Orientación", value:userInfo.Orientacion.Nombre},
     {key:"Generación", value:userInfo.Generacion.Value},
-    {key:"Unidad", value:userInfo.UnidadAdscripcion.value},
+    {key:"Unidad de adscripción", value:userInfo.UnidadAdscripcion.value},
+    {key:"Unidad de inscripción", value:userInfo.UnidadInscripcion.value},
     {key:"Tesis", value:userInfo.Tesis},
     {
       key:"Estudio inmediato anterior",
@@ -88,6 +89,14 @@ const DatosGenerales = (props:any) => {
     {key:"Correo institucional", value:userInfo.Datos.CorreoElectronicoEcosur},
     {key:"Correo personal", value:userInfo.Datos.Email}
   ];
+  let datosFiltro;
+  if(userInfo.UnidadAdscripcion.value==userInfo.UnidadInscripcion.value){
+  datosFiltro = datosGenerales.filter(
+    column => column.key != 'Unidad de inscripción'
+  );
+  }else{
+    datosFiltro= datosGenerales;
+  }
   return (
     <Grid container spacing={2}>
       <Grid item xs={12} style={{padding:"20px"}}>
@@ -155,7 +164,7 @@ const DatosGenerales = (props:any) => {
             <ListItem>
               <ListItemText primary={<b style={{fontSize:"23px"}}>DATOS GENERALES</b>}/>
             </ListItem>
-            {datosGenerales.map((item, i) =>
+            {datosFiltro.map((item, i) =>
               <ListItem key={i} secondaryAction={show && renderSwitch(item.key, userInfo)}>
                 <ListItemText
                   primary={

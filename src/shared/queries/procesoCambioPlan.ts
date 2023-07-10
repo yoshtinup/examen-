@@ -6,24 +6,21 @@ export function useGetProcesoCambioPlanEstudios(matricula: number) {
   return useQuery(['plan-estudios', matricula], async () => {
     const { Plan } = await hasuraClient.request(
       gql`
-        query EnProcesoCambioPlanEstudio ($matricula: Int!){
-          Plan: db12_AlumnosMaterias(
-            where: {
-              Matricula: { _eq: $matricula }
-              IdCatalogoEstatusAltasYBajasMaterias: { _eq: 1 }
-            }
-          ) {
-            IDMOC
-            Estatus: db12_CatalogoEstatusAltasYBajasMateria {
-              Descripcion
-            }
-            Materia: db12_MateriasOferataClave {
-              curso: db12_ClaveMaterium {
-                CursoSeminario
+      query EnProcesoCambioPlanEstudio($matricula: Int!) {
+        Plan: db12_AlumnosMaterias(where: {Matricula: {_eq: $matricula}, IdCatalogoEstatusAltasYBajasMaterias: {_eq: 1}}) { 
+          Estatus: db12_CatalogoEstatusAltasYBajasMateria {
+            Descripcion
+          }
+          Materia: db12_MateriasOferataClave {
+            Curso: db12_ClaveMaterium {
+              Nombre: db12_Materia {
+                Valor: NombreMateria
               }
             }
           }
         }
+      }
+      
       `,
       { matricula }
     );

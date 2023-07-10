@@ -71,19 +71,19 @@ const Routes: RoutesProps[] = [
   },
   {
     title: 'Registro docente',
-    path: '/seguimientoRegistroDocentes',
+    path: '/SeguimientoRegistroDocentes',
     all_math: true,
     roles: [Roles.Servicios_Escolares, Roles.Coordinacion_General_Posgrado],
   },
   {
     title: 'Evaluación docente',
-    path: '/seguimientoEvaluacionDocente',
+    path: '/SeguimientoEvaluacionDocente',
     all_math: true,
     roles: [Roles.Servicios_Escolares, Roles.Coordinacion_General_Posgrado],
   },
   {
     title: 'Calificaciones',
-    path: '/seguimientoRegistroCalificaciones',
+    path: '/SeguimientoRegistroCalificaciones',
     all_math: true,
     roles: [Roles.Servicios_Escolares, Roles.Coordinacion_General_Posgrado],
   },

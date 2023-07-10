@@ -155,12 +155,8 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
                 <Chip
                   href={
                     params.row.urlonedrive == null
-                      ? params.row.urlonedrive?.includes('sharepoint')
-                        ? params.row.urlonedrive
-                        : 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/EvaluacionSeminarios/' +
-                          params.row.urlonedrive
-                      : 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/EvaluacionSeminarios/' +
-                        params.row.NombreArchivo_Acta
+                      ? 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/EvaluacionSeminarios/' + params.row.NombreArchivo_Acta
+                      : '#'
                   }
                   target="_blank"
                   label="Acta de evaluación"

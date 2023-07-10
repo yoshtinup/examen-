@@ -3,7 +3,7 @@ import { useGetListaAsignaturasProcesoIniciar } from '@shared/queries/listaAsign
 import TablaAsignaturas from './tablaAsignaturas';
 import { AsignaturaGql } from '@shared/types/listaAsignaturas';
 
-const AsignaturasEnProcesoPorIniciar = () => {
+const AsignaturasPorIniciar = () => {
   const { isLoading, isError, data } = useGetListaAsignaturasProcesoIniciar();
   return (
     <>
@@ -15,7 +15,7 @@ const AsignaturasEnProcesoPorIniciar = () => {
         ) : (
           <TablaAsignaturas
             asignaturas={data.Asignaturas.filter(
-              (item: AsignaturaGql) => Date.parse(item.Datos.FechasAsignatura.FechaFin) > Date.now()
+              (item: AsignaturaGql) => Date.parse(item.Datos.FechasAsignatura.FechaInicio) > Date.now()
             ).sort(
               (a: AsignaturaGql, b: AsignaturaGql) => {
                 if (
@@ -38,4 +38,4 @@ const AsignaturasEnProcesoPorIniciar = () => {
   );
 };
 
-export default AsignaturasEnProcesoPorIniciar;
+export default AsignaturasPorIniciar;

@@ -10,10 +10,11 @@ import {
   Typography,
 } from '@mui/material';
 import { EcosurTabs } from 'ecosur-ui';
-import AsignaturasEnProcesoPorIniciar from './components/asignaturasEnProcesoPorIniciar';
 import AsignaturasConcluidas from './components/asignaturasConcluidas';
 import AsignaturasCanceladas from './components/asignaturasCanceladas';
 import PollOutlinedIcon from '@mui/icons-material/PollOutlined';
+import AsignaturasEnProceso from './components/asignaturasEnProceso';
+import AsignaturasPorIniciar from './components/asignaturasPorIniciar';
 
 const style = {
   padding: '30px',
@@ -23,8 +24,12 @@ const style = {
 const ServiciosEscolares = () => {
   const tablas = [
     {
-      titulo: 'Por iniciar - En proceso',
-      componente: <AsignaturasEnProcesoPorIniciar />,
+      titulo: 'En proceso',
+      componente: <AsignaturasEnProceso />,
+    },
+    {
+      titulo: 'Por iniciar',
+      componente: <AsignaturasPorIniciar />,
     },
     {
       titulo: 'Concluidas',
