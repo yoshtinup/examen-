@@ -140,7 +140,7 @@ export const LoginInternals: React.FC<React.PropsWithChildren<Props>> = ({
                         values.rol = Roles.Presidente_CEI;
                       }}
                     >
-                      Presidente CEI
+                      Coordinador(a) CEI
                     </MenuItem>
                     <MenuItem
                       value={Roles.Revisor_CEI}
