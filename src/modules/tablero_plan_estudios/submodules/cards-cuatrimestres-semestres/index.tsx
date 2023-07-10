@@ -49,9 +49,18 @@ const CardsCS = (props: any) => {
   const [listaCursos, setListaCursos] = useState(data);
   const arrayCS: SemestresCuatrimestresGql =
     getCuatrimestresSemestres(listaCursos);
+
+    arrayCS?.Finalizados?.sort(function(a, b) {
+      let fechaA = new Date(a.FechaFinPeriodo);
+      let fechaB = new Date(b.FechaFinPeriodo);
+      if (isNaN(fechaA.getTime()) || isNaN(fechaB.getTime())) {
+        return 0; // Si alguna fecha es inválida, no se realiza el ordenamiento
+      }
+      return fechaB.getTime() - fechaA.getTime();
+    });
   return (
     <>
-      <Grid container spacing={2} style={{ padding: '10px 50px 0' }}>
+      <Grid container spacing={2} style={{ padding: '10px 2.5vw 0' }}>
         <Grid item xs={12}>
           <h3>Instrucciones</h3>
           <p style={{ textAlign: 'justify' }}>
@@ -61,7 +70,7 @@ const CardsCS = (props: any) => {
           </p>
         </Grid>
       </Grid>
-      <Grid container spacing={2} style={{ padding: '50px' }}>
+      <Grid container spacing={2} style={{ padding: '2.5vw' }}>
         {(arrayCS?.EnProceso?.length > 0 ||
           arrayCS?.Pendientes?.length > 0) && (
           <>

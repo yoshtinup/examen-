@@ -8,7 +8,7 @@ import {
 } from '@shared/types';
 
 const textStyle:React.CSSProperties = {
-  fontSize: "20px"
+  fontSize: "30px"
 };
 
 type GraficaBarrasLineData = {
@@ -69,8 +69,8 @@ function ObtenerVerticales(items: GraficaBarrasItemChildrens[]){
     const Xn = 100 + VStep*x;
     LineasVerticales.push({
       Text: items[x] ? items[x].Titulo : "",
-      TextX: items[x] ? Xn + ((VStep-(items[x].Titulo.length*10))/2) : 0,
-      TextY: 550,
+      TextX: items[x] ? Xn + ((VStep-(items[x].Titulo.length*15))/2) : 0,
+      TextY: 560,
       PathD: "M " + Xn + " 45 V 530"
     });
   }
@@ -86,8 +86,8 @@ function ObtenerHorizontales(graduacion:GraficaBarrasGraduacion){
     const Yn = 525 - HStep*x;
     LineasHorizontales.push({
       Text: itemValue.toString(),
-      TextX: 75 - (itemValue.toString().length*11),
-      TextY: Yn+5,
+      TextX: 75 - (itemValue.toString().length*16),
+      TextY: Yn+8,
       PathD: "M 85 " + Yn + " H 955"
     });
   }

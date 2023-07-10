@@ -111,7 +111,7 @@ export const DetallesSeminarioWithoutFetch: React.FC<{ dataID: DataID[], idEvalu
             )}
             {currentRol == Roles.Estudiante && (
               <Box sx={{ pb: 4 }}>
-                      <CardCT IdEvaluacionSeminario={idEvaluacionSeminario} />
+                <CardCT IdEvaluacionSeminario={idEvaluacionSeminario} />
               </Box>
             )}          
             <EcosurContainer data={EcosurComponentesInformacion}  />    

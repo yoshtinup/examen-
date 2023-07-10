@@ -25,9 +25,10 @@ export const Footer: FC<FooterProps> = ({open}) => {
     >
       <Container maxWidth="lg">
         <Grid container justifyContent="center" alignItems="center">
-          <Grid item xs={6} lg={8} sm={8}>
-            <p style={{ color: '#6a6a6a' }}>
+          <Grid item xs={10} lg={8} sm={8}>
+            <p style={{ color: '#6a6a6a', textAlign: 'center' }}>
               <b>Soporte técnico:</b> notificaciones.posgrado@ecosur.mx.{' '}
+              <br />
               <b>Tel.</b> 967 67 49000 <b>Ext.</b> 1771 y 1772
             </p>
           </Grid>

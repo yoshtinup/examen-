@@ -149,7 +149,7 @@ const Auth = ({ user }: { user: EcosurAuth }) => {
       >
         <Container maxWidth="lg">
           <Grid container justifyContent="center">
-            <Grid item xs={6} lg={6} sm={6}>
+            <Grid item xs={12} sm={9} lg={6}>
               <section id="login">
                 <Grid item style={{ textAlign: 'center' }}>
                   <a
@@ -172,7 +172,6 @@ const Auth = ({ user }: { user: EcosurAuth }) => {
                 </Grid>
                 <div
                   style={{
-                    display: 'flex',
                     justifyContent: 'center',
                     backgroundColor: '#e7ebf0',
                     padding: '20px 0px',
@@ -189,9 +188,10 @@ const Auth = ({ user }: { user: EcosurAuth }) => {
       <Box sx={{ flexGrow: 1 }} style={{ padding: '20px 0' }}>
         <Container maxWidth="lg">
           <Grid container justifyContent="center" alignItems="center">
-            <Grid item xs={6} lg={8} sm={8}>
-              <p style={{ color: '#6a6a6a' }}>
+            <Grid item xs={10} lg={8} sm={8}>
+              <p style={{ color: '#6a6a6a', textAlign: 'center' }}>
                 <b>Soporte técnico:</b> notificaciones.posgrado@ecosur.mx.{' '}
+                <br />
                 <b>Tel.</b> 967 67 49000 <b>Ext.</b> 1771 y 1772
               </p>
             </Grid>

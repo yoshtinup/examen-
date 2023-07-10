@@ -1,12 +1,11 @@
 import Roles from "@definitions/Roles";
-import { Home, PermMedia, People, Dns } from "@mui/icons-material";
+import { Home, People, Dns } from "@mui/icons-material";
 import { Estatus } from "@shared/types";
 import { CardListItemChildrens, CardListType, FontSize } from "@shared/types/cardsTypes";
 import { CSGql } from "@shared/types/cuatrimestresSemestresGql";
 
 function ItemFileFunction(url:string){
-  const base = "https://serviciosposgrado.ecosur.mx/alumnos/Content/Cursos/BoletasInscripciones/";
-  const Url = (process.env.URL_BOLETAS_INSCRIPCIONES || base) + url;
+  const Url = process.env.URL_BOLETAS_INSCRIPCIONES + url;
   return () => {window.open(Url)};
 }
 
@@ -26,6 +25,16 @@ export function getDataCardCSFinalizado(CS:CSGql, currentRol:Roles){
     data.Items.push(Calificacion);
 
     ItemsEnlacesCursos(CS, Enlaces, Cursos, null,currentRol);
+    if(Enlaces.Childrens.length){
+      data.Items.push(Enlaces);
+    }
+    if(Cursos.Childrens.length){
+      data.Items.push(Cursos);
+    }
+  }
+  else{
+    ItemsInscripcionService(CS, Enlaces, Cursos, null, currentRol);
+    
     if(Enlaces.Childrens.length){
       data.Items.push(Enlaces);
     }
@@ -55,6 +64,9 @@ export function getDataCardCSPendiente(CS:CSGql, currentRol:Roles, Inscribirse:a
     if(Enlaces.Childrens.length){
       data.Items.push(Enlaces);
     }
+    if(Cursos.Childrens.length){
+      data.Items.push(Cursos);
+    }
   }
   return data;
 }
@@ -77,6 +89,9 @@ export function getDataCardCSEnProceso(CS:CSGql, currentRol:Roles, Inscribirse:a
     ItemsInscripcionService(CS, Enlaces, Cursos, null, currentRol);
     if(Enlaces.Childrens.length){
       data.Items.push(Enlaces);
+    }
+    if(Cursos.Childrens.length){
+      data.Items.push(Cursos);
     }
   }
   return data;
@@ -102,19 +117,25 @@ function ItemsComunes(CS:CSGql){
 function ItemsInscripcionService(CS:CSGql, Enlaces:CardListItemChildrens, Cursos:CardListItemChildrens, Inscribirse:any, currentRol:Roles){
   let debeInscribirse:Boolean = false;
   let x:number;
+  console.log(CS)
   for(x=0; x<CS.Cursos.length; x+=1){
     if(CS.Cursos[x].BoletaInscripcion && CS.Cursos[x].BoletaInscripcion.IdCatalogoEstatusInscripciones==1){
       debeInscribirse = true;
       break;
     }else if(CS.Cursos[x].BoletaInscripcion && CS.Cursos[x].BoletaInscripcion.url){
-      // Enlaces.Childrens.push(ItemSimple("Boleta de inscripción", <People />, ItemFileFunction(CS.Cursos[x].BoletaInscripcion.url)));
+      console.log('paso')
+       Enlaces.Childrens.push(ItemSimple("Boleta de inscripción", <People />, ItemFileFunction(CS.Cursos[x].BoletaInscripcion.url)));
       break;
     }
   }
   if(CS.Estatus!=Estatus.Finalizado && debeInscribirse){ 
     Enlaces.Childrens.push(ItemSimple("Pendiente de inscribirse", <People style={{color:'orange'}} />,null, true));
   }
-
+  ItemCreateSubtitle(Enlaces);
+  for(x=0; x<CS.Cursos.length; x+=1){
+    Cursos.Childrens.push(ItemSimple(CS.Cursos[x].NombreMateria + " (Del " + DateFormat(CS.Cursos[x].FechaIni) + " al " + DateFormat(CS.Cursos[x].FechaFin) + ")", <Dns />));
+  }
+  ItemCreateSubtitle(Cursos);
 }
 
 function ItemsEnlacesCursos(CS:CSGql, Enlaces:CardListItemChildrens, Cursos:CardListItemChildrens, Inscribirse:any, currentRol:Roles){

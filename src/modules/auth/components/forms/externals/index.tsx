@@ -188,7 +188,9 @@ export const LoginExternals: React.FC<
               style={{
                 position: 'relative',
                 textAlign: 'center',
-                width: '360px',
+                width: '85vw',
+                maxWidth: '360px',
+                margin: 'auto'
               }}
             >
               <form noValidate onSubmit={handleSubmit}>

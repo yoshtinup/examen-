@@ -85,16 +85,20 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
               : 'No definida'}
           </p>
 
-          {data.CursoCancelado ? (
+          {data.CursoCancelado && data.FechaCancelacionCurso!=null? (
             <>
               <Alert severity="error">
                 Asignatura cancelada - Fecha de cancelación:{' '}
                 {format(new Date(data.FechaCancelacionCurso), 'dd/MM/yyyy')}
               </Alert>
             </>
-          ) : (
-            ''
-          )}
+          ) : data.FechaCancelacionCurso==null?(
+            <>
+            <Alert severity="error">
+              Asignatura cancelada - Sin Fecha de cancelación registrada
+            </Alert>
+          </>
+          ): ''}
         </Typography>
       </Grid>
     );
@@ -355,6 +359,7 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                     urlboleta={data.ConcentradoCalificacionesAlumnos}
                     categoriaMateria={data.Asignatura.Datos.CategoriaMateria}
                     concentradoCalAlumno={data.ConcentradoCalificacionesAlumnos}
+                    estatusAsignacionCalificacion={data.EstatusAsignacionCalificacion.Id}
                   />
                 </Box>
               </Grid>

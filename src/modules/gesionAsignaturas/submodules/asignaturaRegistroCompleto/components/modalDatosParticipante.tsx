@@ -46,7 +46,7 @@ const ModalDatosParticipante = ({
         <Box sx={style}>
           <iframe
             src={
-              'https://aplicaciones.ecosur.mx/app/funcionalidades-sip/datos-participantes-asignatura-6490b028e8023e77eb94dec9?idProfesor=' +
+              process.env.APPSMITH_URL + 'datos-participantes-asignatura-6490b028e8023e77eb94dec9?idProfesor=' +
               idParticipante +
               '&embed=true'
             }

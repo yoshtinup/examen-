@@ -17,7 +17,7 @@ import { WithRolCheck} from '@shared/hooks';
 import Roles from '@definitions/Roles';
 import { EstudianteGql } from '@shared/types';
 const style = {
-  padding: '30px',
+  padding: '1.5vw',
   backgroundColor: '#fff',
   marginTop: '30px',
 };
@@ -28,13 +28,17 @@ const TableroPlanEstudios = (props) => {
   let registrationUser;
   //checar si el rol es el adecuado
   const rol = WithRolCheck(Roles.Estudiante);
-  const show = rol(null);
-
+  let show = rol(null);
+ if(user.estudiante?.estatus!="Activo"){
+   show= false;
+ }
   if(matricula!=undefined){
     registrationUser=Number(matricula);
   }else{
-    registrationUser=user.estudiante.matricula;
+    //  registrationUser= 202021004 ;
+     registrationUser=user.estudiante.matricula;
   }
+  // registrationUser= 202021004 ;
   const { data, error, isLoading } = useGetCursosAlumno(
     registrationUser
   );
@@ -49,8 +53,9 @@ const TableroPlanEstudios = (props) => {
   if (error || isErrorEst) {
     return <>Error</>;
   }
+  console.log(data);
   let dataProces=procesoCambio?.data;
-  if (dataProces?.length > 0 || data[0] ) {
+  if (dataProces?.length > 0 || data[0]) {
     proceso = false;
   }
   let userInfo:EstudianteGql =  dataEst[0];
@@ -77,7 +82,7 @@ const TableroPlanEstudios = (props) => {
           </Grid>
           <Grid item xs={12}>
             <GraficaCursos matricula={registrationUser}/>
-            {/* {!proceso && <MyCard data={procesoCambio.data} />} */}
+             {!proceso && <MyCard data={procesoCambio.data} />} 
             <EcosurTabs
               data={tabCursos}
               align="left"
@@ -128,7 +133,8 @@ const MyCard = props => {
         <Typography variant="body2" sx={{ mb: 0.1, fontSize: 10, padding: 0 }}>
         {data.map(element => (
           <>
-          {'*'+element.Materia.curso.CursoSeminario+' ('+element.Estatus?.Descripcion?element.Estatus?.Descripcion:'pendiente'+')'}
+          *{element.Materia.Curso.Nombre.Valor} ({element.Estatus?.Descripcion?element.Estatus?.Descripcion:'pendiente'})
+          {/* {'*'+ element.Materia.Curso.Nombre.Valor +' ('+ element.Estatus?.Descripcion?element.Estatus?.Descripcion:'pendiente'+')'} */}
           <br />
           </>
         ))}

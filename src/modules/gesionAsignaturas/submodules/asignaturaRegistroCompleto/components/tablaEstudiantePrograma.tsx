@@ -149,36 +149,14 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
                 paddingTop: 10,
               }}
             >
-              {params.row.boletainscripcion != undefined ? (
-                <Chip
-                  href={
-                    params.row.boletainscripcion.includes('sharepoint')
-                      ? params.row.boletainscripcion
-                      : 'https://serviciosposgrado.ecosur.mx/alumnos/Content/Cursos/BoletasInscripciones/' +
-                        params.row.boletainscripcion
-                  }
-                  target="_blank"
-                  label="Boleta de inscripción"
-                  component="a"
-                  clickable
-                  size="small"
-                  variant="outlined"
-                  color="info"
-                ></Chip>
-              ) : (
-                <></>
-              )}
+              
               {/* //checar Sharepoint */}
               {EsSeminario && params.row.evalseminario == 4 ? (
                 <Chip
                   href={
                     params.row.urlonedrive == null
-                      ? params.row.urlonedrive?.includes('sharepoint')
-                        ? params.row.urlonedrive
-                        : 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/EvaluacionSeminarios/' +
-                          params.row.urlonedrive
-                      : 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/EvaluacionSeminarios/' +
-                        params.row.NombreArchivo_Acta
+                      ? 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/EvaluacionSeminarios/' + params.row.NombreArchivo_Acta
+                      : '#'
                   }
                   target="_blank"
                   label="Acta de evaluación"
@@ -197,11 +175,11 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
                   href={
                     params.row.boletacalificaciones.includes('sharepoint')
                       ? params.row.boletacalificaciones
-                      : 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/Calificaciones/BoletasEstudiantes/' +
+                      : 'https://serviciosposgrado.ecosur.mx/Profesores/Content/Cursos/Calificaciones/BoletasEstudiantesMaterias/' +
                         params.row.boletacalificaciones
                   }
                   target="_blank"
-                  label="Boleta de calificación"
+                  label="Boleta de calificaciones"
                   component="a"
                   clickable
                   size="small"
@@ -282,6 +260,25 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
                 //     Enviar recordatorio de evaluación
                 //   </a>
                 // </Link>
+                <></>
+              )}
+              {params.row.boletainscripcion != undefined ? (
+                <Chip
+                  href={
+                    params.row.boletainscripcion.includes('sharepoint')
+                      ? params.row.boletainscripcion
+                      : 'https://serviciosposgrado.ecosur.mx/alumnos/Content/Cursos/BoletasInscripciones/' +
+                        params.row.boletainscripcion
+                  }
+                  target="_blank"
+                  label="Boleta de inscripción"
+                  component="a"
+                  clickable
+                  size="small"
+                  variant="outlined"
+                  color="info"
+                ></Chip>
+              ) : (
                 <></>
               )}
               {EsSeminario && params.row.evalseminario == 4 ? (
