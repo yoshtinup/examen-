@@ -9,6 +9,7 @@ export interface EstudianteGql {
   Programa: ProgramaGql;
   AnioDeEstudiosActual: ValueGql;
   UnidadAdscripcion: ValueGql;
+  UnidadInscripcion: ValueGql;
   DirectorTesis: DirectorTesisGql[];
   Beca: BecaGql;
 }
@@ -19,7 +20,6 @@ export interface EvaluacionEticaGql {
   idFormulariosRespuestas: number;
   message: string;
 }
-
 export interface ValueGql {
   value: string;
 }

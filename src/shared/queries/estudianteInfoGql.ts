@@ -49,6 +49,9 @@ export function useGetEstudianteInfo(matricula: number) {
             UnidadAdscripcion: Unidad {
               value: UnidadAdscripcion
             }
+            UnidadInscripcion: Unidad_Inscripcion {
+              value: UnidadAdscripcion
+            }
             DirectorTesis: TutoresSinodales(
               where: { IdParticipacion: { _eq: 1 } }
             ) {
