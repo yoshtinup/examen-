@@ -25,12 +25,14 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
   categoriaMateria?: string;
   concentradoCalAlumno?: string;
   estatusAsignacionCalificacion?: number;
+  show?:boolean;
 }> = ({
   estudiantes,
   urlboleta,
   categoriaMateria,
   concentradoCalAlumno,
   estatusAsignacionCalificacion,
+  show
 }) => {
   let EsSeminario =
     categoriaMateria == 'Seminario' || categoriaMateria == 'Tutelar'
@@ -281,7 +283,7 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
               ) : (
                 <></>
               )}
-              {EsSeminario && params.row.evalseminario == 4 ? (
+              {show && EsSeminario && params.row.evalseminario == 4 ? (
                 <Chip
                   href={'#'}
                   target="_blank"
@@ -307,7 +309,7 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
                 // </Link>
                 <></>
               )}
-              {params.row.numero > 0 && params.row.letra != undefined ? (
+              { show && params.row.numero > 0 && params.row.letra != undefined ? (
                 <Chip
                   href={'#'}
                   target="_blank"
@@ -429,7 +431,7 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
       ) : (
         <></>
       )}
-      {categoriaMateria == 'Curso' && estatusAsignacionCalificacion == 3 ? (
+      { show && categoriaMateria == 'Curso' && estatusAsignacionCalificacion == 3 ? (
         <a href={'#'} target="_blank">
           <Badge>
             <strong>Generar concentrado </strong>
