@@ -36,7 +36,7 @@ const ModalDatosParticipante = ({
         <Box sx={style}>
           <iframe
             src={
-              process.env.APPSMITH_URL + 'datos-participantes-asignatura-6490b028e8023e77eb94dec9?idProfesor=' +
+              process.env.APPSMITH_URL + '/app/funcionalidades-sip/datos-participantes-asignatura-6490b028e8023e77eb94dec9?idProfesor=' +
               idParticipante +
               '&embed=true'
             }

@@ -291,7 +291,7 @@ export const TableEstudiantesActivosWithoutFetch: React.FC<{
           >
             <iframe
               src={
-                process.env.APPSMITH_URL + 'archivos-ingreso-alumno-6490cd6ae8023e77eb94dee0?matricula=' +
+                process.env.APPSMITH_URL + '/app/funcionalidades-sip/archivos-ingreso-alumno-6490cd6ae8023e77eb94dee0?matricula=' +
                 matricula
               }
               width="100%"

@@ -5,7 +5,7 @@ import RenderIFrame from '@modules/iFrameConRol';
 import Roles from '@definitions/Roles';
 
 const Page = () => {
-  const url: string = process.env.APPSMITH_URL + "listado-altasbajas-64979902e8023e77eb94df1b?embed=true"
+  const url: string = process.env.APPSMITH_URL + "/app/funcionalidades-sip/listado-altasbajas-64979902e8023e77eb94df1b?embed=true"
   return (
     <Container maxWidth={false} style={{ padding: '30px' }}>
       <Box
