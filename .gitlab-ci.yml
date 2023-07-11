@@ -18,8 +18,17 @@ build_prod:
             --build-arg JWT_SECRET=$JWT_SECRET
             --build-arg HASURA_URL=$HASURA_URL
             --build-arg HASURA_SECRET=$HASURA_SECRET
-            --build-arg API_URL=$API_URL
             --build-arg API_CEI=$API_CEI
+            --build-arg RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED=$RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED
+            --build-arg LOGIN_ALUMNOS_POSGRADO=$LOGIN_ALUMNOS_POSGRADO
+            --build-arg APPSMITH_URL=$APPSMITH_URL
+            --build-arg URL_BOLETAS_ESTUDIANTES_MATERIAS=$URL_BOLETAS_ESTUDIANTES_MATERIAS
+            --build-arg URL_BOLETAS_INSCRIPCIONES=$URL_BOLETAS_INSCRIPCIONES
+            --build-arg URL_PAGINA_POSGRADO=$URL_PAGINA_POSGRADO
+            --build-arg APP_POSGRADO_CEI=$APP_POSGRADO_CEI
+            --build-arg APP_SERVICIOS_ESCOLARES_CEI=$APP_SERVICIOS_ESCOLARES_CEI
+            --build-arg APP_PRESIDENTE_CEI=$APP_PRESIDENTE_CEI
+            --build-arg API_URL=$API_URL
             --no-cache -t sip:latest --add-host utilitics.ecosur.mx:10.1.5.112 --force-rm .
     environment:
         name: production
@@ -43,8 +52,15 @@ build_dev:
             --build-arg DEV_HASURA_URL=$DEV_HASURA_URL
             --build-arg DEV_HASURA_SECRET=$DEV_HASURA_SECRET
             --build-arg DEV_API_CEI=$DEV_API_CEI
-            --build-arg DEV_LOGIN_ALUMNOS_POSGRADO=$DEV_LOGIN_ALUMNOS_POSGRADO
             --build-arg DEV_RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED=$DEV_RECOIL_DUPLICATE_ATOM_KEY_CHECKING_ENABLED
+            --build-arg DEV_LOGIN_ALUMNOS_POSGRADO=$DEV_LOGIN_ALUMNOS_POSGRADO
+            --build-arg DEV_APPSMITH_URL=$DEV_APPSMITH_URL
+            --build-arg DEV_URL_BOLETAS_ESTUDIANTES_MATERIAS=$DEV_URL_BOLETAS_ESTUDIANTES_MATERIAS
+            --build-arg DEV_URL_BOLETAS_INSCRIPCIONES=$DEV_URL_BOLETAS_INSCRIPCIONES
+            --build-arg DEV_URL_PAGINA_POSGRADO=$DEV_URL_PAGINA_POSGRADO
+            --build-arg DEV_APP_POSGRADO_CEI=$DEV_APP_POSGRADO_CEI
+            --build-arg DEV_APP_SERVICIOS_ESCOLARES_CEI=$DEV_APP_SERVICIOS_ESCOLARES_CEI
+            --build-arg DEV_APP_PRESIDENTE_CEI=$DEV_APP_PRESIDENTE_CEI
             --build-arg DEV_API_URL=$DEV_API_URL
             --no-cache -t sip:latest --add-host utilitics.ecosur.mx:10.1.5.112 -f Dockerfile-dev --force-rm .
     environment:
