@@ -5,16 +5,19 @@ import {
 import ModalDatosParticipante from '@modules/gesionAsignaturas/submodules/asignaturaRegistroCompleto/components/modalDatosParticipante';
 import { Professor } from '@modules/gesionAsignaturas/types/Professor';
 import { ProfessorRow } from '@modules/gesionAsignaturas/types/ProfessorRow';
-
+import ProfesorConstanciaParticipacion from '@modules/gesionAsignaturas/queries/apiRest';
 import { Chip } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import React from 'react';
+import Swal from 'sweetalert2';
 
 const TableProfessors: React.FC<{
   professsors: [];
   idMOA: number;
   IdcatalogoEstatusRegistroDocentesPorcentajes: number;
-}> = ({ professsors, idMOA, IdcatalogoEstatusRegistroDocentesPorcentajes }) => {
+  show: boolean;
+}> = ({ professsors, idMOA, IdcatalogoEstatusRegistroDocentesPorcentajes, show }) => {
+
   const columns: GridColDef[] = [
     {
       field: 'nombre',
@@ -57,6 +60,32 @@ const TableProfessors: React.FC<{
       TieneEvaluacionDocente,
     } = proffesor;
 
+
+    const handleMessage = () => {
+     
+      Swal.fire({
+        title:
+          'Está seguro/a de generar la constancia de la persona, se enviará por correo.',
+        showCancelButton: true,
+        confirmButtonText: 'Generar',
+        confirmButtonColor: '#1ab394',
+        showLoaderOnConfirm: true,
+        cancelButtonText: 'Cancelar',
+        reverseButtons: true,
+        cancelButtonColor: '#d5d8dc',
+        preConfirm: () => {
+          return ProfesorConstanciaParticipacion.generarIndividual(IdProfesores);
+        },
+        allowOutsideClick: () => !Swal.isLoading(),
+      }).then(result => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: `Carta generada exitosamente`,
+            text: result.value.message,
+          });
+        }
+      });
+    };
     const enlaces = (
       <>
         {TipoDeParticipacion.IdParticipacion === 13 ? (
@@ -102,9 +131,23 @@ const TableProfessors: React.FC<{
         ) : (
           ''
         )}
+         { show && IdcatalogoEstatusRegistroDocentesPorcentajes == 1 ? (
+          <Chip
+            onClick={handleMessage}
+            target="_blank"
+            label="Generar constancia participación"
+            component="a"
+            clickable
+            size="small"
+            variant="outlined"
+            color="info"
+          ></Chip>
+        ) : (
+          ''
+        )}
       </>
     );
-
+   
     return {
       id: IdProfesores,
       nombre: `${Nombre.Nombre_s_} ${Nombre.ApellidoPaterno}`,

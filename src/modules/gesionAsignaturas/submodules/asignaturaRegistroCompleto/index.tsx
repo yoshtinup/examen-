@@ -19,11 +19,14 @@ import { useRecoilValue } from 'recoil';
 import { useGetInformacionCompletaAsignatura } from '../../queries/hasura';
 import { format } from 'date-fns';
 import { TableEstudiantesProgramaWithoutFetch } from '@modules/gesionAsignaturas/submodules/asignaturaRegistroCompleto/components/tablaEstudiantePrograma';
-
+import { useState } from 'react';
+import { differenceInDays, parse } from 'date-fns';
 import TableProfessors from './components/tableProfessors';
 import MessageGenerarConstanciasDocentes from './components/messageGenerarConstanciasDocentes';
 import { TableEstudiantesProgramaBajasWithoutFetch } from './components/tablaEstudianteProgramaBajas';
 import { TableEstudiantesProgramaDirectorWithoutFetch } from './components/tablaEstudianteProgramaDirector';
+import { CoPresentOutlined } from '@mui/icons-material';
+import { flexbox, margin } from '@mui/system';
 
 const style = {
   padding: '30px',
@@ -49,6 +52,10 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
   if (isLoading) {
     return <CircularProgress />;
   }
+  const currentDate = new Date();
+  const selectedDate = new Date(data.Datos.Fechas.FechaFinAsignatura);
+  const daysDifference = differenceInDays(currentDate, selectedDate);
+  const hasPassed40Days = daysDifference <= 40;
 
   if (isSuccess && data) {
     let EsSeminario =
@@ -85,20 +92,22 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
               : 'No definida'}
           </p>
 
-          {data.CursoCancelado && data.FechaCancelacionCurso!=null? (
+          {data.CursoCancelado && data.FechaCancelacionCurso != null ? (
             <>
               <Alert severity="error">
                 Asignatura cancelada - Fecha de cancelación:{' '}
                 {format(new Date(data.FechaCancelacionCurso), 'dd/MM/yyyy')}
               </Alert>
             </>
-          ) : data.FechaCancelacionCurso==null?(
+          ) : data.CursoCancelado && data.FechaCancelacionCurso == null ? (
             <>
-            <Alert severity="error">
-              Asignatura cancelada - Sin Fecha de cancelación registrada
-            </Alert>
-          </>
-          ): ''}
+              <Alert severity="error">
+                Asignatura cancelada - Sin Fecha de cancelación registrada
+              </Alert>
+            </>
+          ) : (
+            ''
+          )}
         </Typography>
       </Grid>
     );
@@ -265,7 +274,8 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                               : data.EstatusRegistroDocentes.Descripcion}
                           </TableCell>
                           <TableCell>
-                            {data.EstatusRegistroDocentes != null &&
+                            {hasPassed40Days &&
+                            data.EstatusRegistroDocentes != null &&
                             data.EstatusRegistroDocentes
                               .IdcatalogoEstatusRegistroDocentesPorcentajes ==
                               2 ? (
@@ -283,7 +293,8 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                               : data.EvaluacionDocente.Estatus.Nombre}
                           </TableCell>
                           <TableCell>
-                            {data.EvaluacionDocente != null &&
+                            {hasPassed40Days &&
+                            data.EvaluacionDocente != null &&
                             [1, 3].includes(
                               data.EvaluacionDocente.Estatus.Id
                             ) ? (
@@ -301,7 +312,8 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                               : data.EstatusAsignacionCalificacion.Nombre}
                           </TableCell>
                           <TableCell>
-                            {data.EstatusAsignacionCalificacion != null &&
+                            {hasPassed40Days &&
+                            data.EstatusAsignacionCalificacion != null &&
                             [1, 2].includes(
                               data.EstatusAsignacionCalificacion.Id
                             ) ? (
@@ -316,6 +328,24 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                   </Box>
                 </Grid>
               )}
+             {!hasPassed40Days && <Grid item xs={12} style={{textAlign: 'right',}}>
+                <Box display={'flex'} justifyContent={'right'}>
+                  <span style={{
+                    textAlign: 'center',
+                    color: 'rgb(220, 53, 69)',
+                    fontWeight: 'bold',
+                    // border: '1px solid rgb(220, 53, 69)',
+                    padding:'23px 0px',
+                    margin:'10px 10px',
+                    
+                  }}>
+                  NOTA: Puede generar documentos (Acta de seminario, boletas de
+                  calificaciones, etc.) hasta máximo 40 días después de la fecha
+                  fin de la asignatura.
+                  </span>
+                </Box>
+              </Grid>
+              }
               {data.Asignatura.Datos.CategoriaMateria === 'Curso' && (
                 <Grid item xs={12}>
                   <h4 style={{ color: '#c56b16' }}>
@@ -328,7 +358,8 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                       minHeight: '200px',
                     }}
                   >
-                    {data.EstatusAsignacionCalificacion.Id === 3 ? (
+                    {hasPassed40Days &&
+                    data.EstatusAsignacionCalificacion.Id === 3 ? (
                       <MessageGenerarConstanciasDocentes idMOA={idMOA} />
                     ) : (
                       ''
@@ -340,6 +371,7 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                         data.EstatusRegistroDocentes
                           .IdcatalogoEstatusRegistroDocentesPorcentajes
                       }
+                      show={hasPassed40Days}
                     />
                   </Box>
                 </Grid>
@@ -359,7 +391,10 @@ const AsignaturaRegistroCompleto = ({ idMOA }: { idMOA: number }) => {
                     urlboleta={data.ConcentradoCalificacionesAlumnos}
                     categoriaMateria={data.Asignatura.Datos.CategoriaMateria}
                     concentradoCalAlumno={data.ConcentradoCalificacionesAlumnos}
-                    estatusAsignacionCalificacion={data.EstatusAsignacionCalificacion.Id}
+                    estatusAsignacionCalificacion={
+                      data.EstatusAsignacionCalificacion.Id
+                    }
+                    show={hasPassed40Days}
                   />
                 </Box>
               </Grid>
