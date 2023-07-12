@@ -14,7 +14,7 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material';
-
+import { CustomFooter, CustomToolbar } from '../../asignaturaRegistroCompleto/components/programa/extraComponents';
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'Id Materia' },
   { field: 'nombre', headerName: 'Nombre', width: 480 },
@@ -87,6 +87,10 @@ const TablaAsignaturas = (props: any) => {
           rows={rows}
           columns={columns}
           disableColumnMenu
+          components={{
+              Toolbar: CustomToolbar,
+              Footer: CustomFooter,
+            }}
           componentsProps={{
             footer: { counter: rows.length, label: 'Asignaturas:' },
           }}

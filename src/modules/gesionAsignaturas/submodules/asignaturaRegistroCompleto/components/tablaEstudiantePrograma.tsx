@@ -250,18 +250,7 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
                   color="info"
                 ></Chip>
               ) : (
-                // <Link aria-disabled={true} href={'#'}>
-                //   <a
-                //     style={{
-                //       cursor: 'pointer',
-                //       textDecoration: 'none',
-                //       color: '#00BFA5',
-                //     }}
-                //   >
-                //     <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-                //     Enviar recordatorio de evaluación
-                //   </a>
-                // </Link>
+               
                 <></>
               )}
               {params.row.boletainscripcion != undefined ? (
@@ -295,18 +284,7 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
                   color="info"
                 ></Chip>
               ) : (
-                // <Link aria-disabled={true} href={'#'}>
-                //   <a
-                //     style={{
-                //       cursor: 'pointer',
-                //       textDecoration: 'none',
-                //       color: '#00BFA5',
-                //     }}
-                //   >
-                //     <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-                //     Generar acta de evaluación
-                //   </a>
-                // </Link>
+                
                 <></>
               )}
               { show && params.row.numero > 0 && params.row.letra != undefined ? (
@@ -323,18 +301,7 @@ export const TableEstudiantesProgramaWithoutFetch: React.FC<{
               ) : (
                 <></>
               )}
-              {/* <Link aria-disabled={true} href={'#'}>
-                <a
-                  style={{
-                    cursor: 'pointer',
-                    textDecoration: 'none',
-                    color: '#00BFA5',
-                  }}
-                >
-                  <LinkIcon style={{ marginLeft: '5px', height: 15 }} />
-                  Generar boleta de calificación
-                </a>
-              </Link> */}
+              
             </div>
           </>
         );

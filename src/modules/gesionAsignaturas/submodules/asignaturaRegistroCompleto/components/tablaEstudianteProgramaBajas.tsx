@@ -22,7 +22,7 @@ import { FiltroEstudiante } from '../../../../estudiantes/types';
 import { ListadoAlumnos } from '@shared/types/asignaturaRegistroTypes';
 import { ListaEstudiantes } from '@modules/estudiantes';
 import LinkIcon from '@mui/icons-material/Link';
-
+import { CustomFooter, CustomToolbar } from './programa/extraComponents';
 export const TableEstudiantesProgramaBajasWithoutFetch: React.FC<{
   estudiantes: ListadoAlumnos[];
   urlboleta?: string;
@@ -82,11 +82,10 @@ export const TableEstudiantesProgramaBajasWithoutFetch: React.FC<{
           rows={rows}
           columns={columnsGrid}
           disableColumnMenu
-          // components={{
-          //   Toolbar: CustomToolbar,
-          //   Footer: CustomFooter,
-          //   NoRowsOverlay: CustomNoRowsOverlay,
-          // }}
+          components={{
+            Toolbar: CustomToolbar,
+            Footer: CustomFooter,
+          }}
           componentsProps={{
             footer: { counter: rows.length, label: 'Estudiantes:' },
           }}

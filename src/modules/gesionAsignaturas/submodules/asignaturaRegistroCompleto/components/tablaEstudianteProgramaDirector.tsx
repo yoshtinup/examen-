@@ -22,7 +22,7 @@ import { FiltroEstudiante } from '../../../../estudiantes/types';
 import { ListadoAlumnos } from '@shared/types/asignaturaRegistroTypes';
 import { ListaEstudiantes } from '@modules/estudiantes';
 import LinkIcon from '@mui/icons-material/Link';
-
+import { CustomFooter, CustomToolbar } from './programa/extraComponents';
 export const TableEstudiantesProgramaDirectorWithoutFetch: React.FC<{
   estudiantes: ListadoAlumnos[];
   urlboleta?: string;
@@ -48,20 +48,6 @@ export const TableEstudiantesProgramaDirectorWithoutFetch: React.FC<{
     { field: 'matricula', headerName: 'Matricula', width: 130 },
     { field: 'tipocambio', headerName: 'Tipo de cambio', width: 130 },
   ];
-  // let opcionesFiltro;
-  // if (categoriaMateria == 'Seminario') {
-  //   opcionesFiltro = columnsGrid.filter(
-  //     column => column.field != 'evaldocente'
-  //   );
-  // } else if (categoriaMateria == 'Curso') {
-  //   opcionesFiltro = columnsGrid.filter(
-  //     column => column.field != 'evalseminario'
-  //   );
-  // } else {
-  //   opcionesFiltro = columnsGrid.filter(
-  //     column => column.field != 'evalseminario' && column.field != 'evaldocente'
-  //   );
-  // }
   let rows = [];
   let estudiantesList: ListadoAlumnos[] = estudiantes;
 
@@ -105,20 +91,17 @@ export const TableEstudiantesProgramaDirectorWithoutFetch: React.FC<{
 
   return (
     <>
-      {/* {send && idBoleta==null && <SendReminderAll onData={handletSucces}/>}
-        {send  && idBoleta!=null && <SendCancelInscription onData={handletSucces} IdBoletasIncripciones={idBoleta}/>}
-        {sendReminder  && idBoleta!=null && <SendReminder onData={handletSucces} IdBoletasIncripciones={idBoleta}/>} */}
+
       <Box sx={{ height: 400, width: '100%' }} id="tabla-gestion-estudiantes">
         <DataGrid
           sx={{ pb: 7 }}
           rows={rows}
           columns={columnsGrid}
           disableColumnMenu
-          // components={{
-          //   Toolbar: CustomToolbar,
-          //   Footer: CustomFooter,
-          //   NoRowsOverlay: CustomNoRowsOverlay,
-          // }}
+          components={{
+            Toolbar: CustomToolbar,
+            Footer: CustomFooter,
+          }}
           componentsProps={{
             footer: { counter: rows.length, label: 'Estudiantes:' },
           }}
