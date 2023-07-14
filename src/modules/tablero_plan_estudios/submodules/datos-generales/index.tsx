@@ -40,6 +40,7 @@ import { MessageSnackbar } from "@shared/components/layouts/messaAlert";
 import { WithRolCheck} from '@shared/hooks';
 import Roles from '@definitions/Roles';
 import { CheckCircle } from '@mui/icons-material';
+import { GenerarConstanciaEstudios } from "@modules/tablero_plan_estudios/hooks";
 
 function redirectPagPosgrado(ruta:string){
   return window.open(process.env.URL_PAGINA_POSGRADO + ruta);
@@ -138,14 +139,14 @@ const DatosGenerales = (props:any) => {
       <Grid item md={5} style={{padding:"1.1vw", margin:"auto"}}>
         {userInfo.Estatus == "Activo" &&
           <Stack direction="row" flexWrap="wrap">
-            <Button style={{margin:"3px"}} onClick={() => {}} variant="contained">Constancia de estudios</Button>
+            <Button style={{margin:"3px"}} onClick={async () => await GenerarConstanciaEstudios(registrationUser)} variant="contained">Constancia de estudios</Button>
             <Button style={{margin:"3px"}} onClick={() => redirectPagPosgrado("posgrado/reglamentos-y-normas/")} variant="contained">Reglamento</Button>
             <Button style={{margin:"3px"}} onClick={() => redirectPagPosgrado("posgrado/convocatorias/")} variant="contained">Convocatorias</Button>
           </Stack>
         }
         {userInfo.Estatus == "Egresado" &&
           <>
-          <Link href="https://">
+          <Link href="https://" onClick={async () => await GenerarConstanciaEstudios(registrationUser)}>
             <InsertLinkIcon style={{margin:"0 0 -7px"}}/> Constancia de estudios
           </Link><br />
           <Link href="https://forms.office.com/Pages/ResponsePage.aspx?id=ueQ7jWW-mEWHw68xN_k1NX_jq7a_lFNEqZUSVzf_V9FUOUlFV1kzQ0pVMUdNU05VRjBRUzVVNjlPMC4u">
