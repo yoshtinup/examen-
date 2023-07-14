@@ -18,6 +18,7 @@ module.exports = {
     APPSMITH_URL: process.env.APPSMITH_URL,
     APP_POSGRADO_CEI: process.env.APP_POSGRADO_CEI,
     APP_SERVICIOS_ESCOLARES_CEI: process.env.APP_SERVICIOS_ESCOLARES_CEI,
+    APP_PRESIDENTE_CEI: process.env.APP_PRESIDENTE_CEI,
     API_URL: process.env.API_URL,
   },
 };
